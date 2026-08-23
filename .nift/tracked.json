@@ -81,6 +81,11 @@
       "template": "templates/docs.html"
     },
     {
+      "name": "docs/use-cases/mobile-development",
+      "title": "Mobile development",
+      "template": "templates/docs.html"
+    },
+    {
       "name": "examples",
       "title": "Examples",
       "template": "templates/template.html"

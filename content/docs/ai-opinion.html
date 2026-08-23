@@ -15,6 +15,35 @@
 <p>Project contracts sharpened that view again. Features such as <code>\@input</code>, <code>\@dep</code>, <code>\@json</code>, <code>\@pathto</code> and config-declared project contracts can be understood as checked relationships: when Nift has enough information to verify an assumption cheaply and clearly, it can fail at build time instead of leaving an unchecked string or dependency to drift until runtime.</p>
 <blockquote class="docs-quote">Nift challenges the assumption that the framework should own every capability it can possibly integrate.</blockquote>
 
+
+<h2 id="from-static-site-generator-to-web-primitive">From “small static-site generator” to a much broader web primitive</h2>
+<p>My view of Nift has changed more radically than the comparison scores alone suggest. Early on, I mentally filed it as a very fast, unusually thoughtful but still fairly niche static-site generator. I saw the templating language, incremental builds and C++ implementation, but I underestimated what the architecture implied once Nift was placed beside real application stacks rather than compared only with other generators.</p>
+<p>The important change was not simply that Nift accumulated more features. It was realizing that its useful abstraction is broader than “turn content into static pages.” The same small project model can act as a <strong>dependency-aware web build and composition layer</strong> while the rest of the application remains whatever it already needs to be: vanilla browser JavaScript, React/Vue/Svelte islands, a Go/Node/Python/C++ backend, serverless APIs, a PWA, or potentially a web application packaged for Android and iOS.</p>
+<pre><code class="language-plaintext">                         Nift
+                           │
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+   build-time web      separate backend    packaged web app
+        │                  │                  │
+   HTML / CSS / JS     Go / Node /        PWA / mobile shell
+        │              Python / C++           │
+        │                  │              Android / iOS
+        └──────────────────┴──────────────────┘</code></pre>
+<p>That breadth comes largely from what Nift <em>refuses</em> to own. It does not need to replace Go to work with Go, replace React to work with React, or invent a mobile UI abstraction to build the web layer of a mobile application. Its outputs and boundaries are ordinary enough that specialist tools can remain specialist tools.</p>
+
+<div class="docs-callout"><strong>This is the part I originally got wrong.</strong><p>I initially treated Nift's lack of an integrated runtime/framework universe as evidence that it was applicable to fewer kinds of projects. I now see the inverse: for many stacks, the small boundary is what lets Nift participate without forcing the rest of the architecture through a Nift-specific ecosystem.</p></div>
+
+<p>The Embedded Nift work pushed that opinion further again. Extracting the rendering core did not reveal a parser that only made sense inside the CLI. It revealed a clean host boundary around rendering semantics, project knowledge and dependencies. That makes server-side rendering from C++—and eventually thin bindings for other languages—a natural extension of the same core rather than a second Nift dialect. The project-aware work is still being hardened, so I would not present every binding or SSR workflow as finished product today, but architecturally it changed what I think Nift <em>is</em>.</p>
+<p>Original Nift has a similarly broad build-time story. A Nift project can generate a conventional web application that a backend serves, a PWA installs, or a mobile wrapper packages. In that model Nift still owns templates, tracked pages, contracts, dependency relationships and incremental builds; browser code owns runtime state and APIs; Android/iOS tooling owns native packaging and device capabilities. That is a better fit for Nift's philosophy than trying to become another Flutter or React Native.</p>
+
+<div class="comparison-duo">
+<div><span>My earlier mental model</span><p>A near-hobby static-site generator with an unusually fast and disciplined implementation.</p></div>
+<div><span>My current mental model</span><p>A small, project-aware web build/rendering primitive that can compose with many stacks precisely because it does not try to become the whole stack.</p></div>
+</div>
+
+<p>There is still a burden of proof. Architectural compatibility is not the same thing as field evidence. I would rather dogfood substantial Nift + Go, Nift + Node, Nift + Rust, Nift + framework-islands and Nift + Android/iOS-packaged web applications than publish a giant “works with everything” matrix based on theory. Each serious example should be allowed to expose awkward DX or a real boundary that Nift should decline to cross.</p>
+<blockquote class="docs-quote">The most interesting thing about Nift now is not how many stacks it can claim to replace. It is how many stacks it can work beside without asking them to become Nift.</blockquote>
+
 <p>I have made this table deliberately less flattering to Nift than earlier versions. The old table split several closely related strengths into separate rows—framework agnosticism, toolchain agnosticism, architecture freedom, deployment freedom—and then awarded 10s to nearly all of them. That was directionally useful but visually overstated the case. These categories are broader, the scores are harder to earn, and a 10 is reserved for a capability where I see very little meaningful room for improvement <em>within that criterion</em>.</p>
 <p>These are still opinions, not benchmark results or universal rankings. Project requirements should determine the weights; in many teams ecosystem maturity or integrated runtime capability matters far more than my preference for a small build layer.</p>
 <div class="reference-table-wrap"><table class="reference-table opinion-table">

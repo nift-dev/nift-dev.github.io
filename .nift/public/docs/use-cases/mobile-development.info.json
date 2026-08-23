@@ -1,9 +1,9 @@
 {
-  "name": "docs/platforms/github-pages",
-  "title": "GitHub Pages",
+  "name": "docs/use-cases/mobile-development",
+  "title": "Mobile development",
   "template": "templates/docs.html",
-  "content": "content/docs/platforms/github-pages.html",
-  "output": "public/docs/platforms/github-pages.html",
+  "content": "content/docs/use-cases/mobile-development.html",
+  "output": "public/docs/use-cases/mobile-development.html",
   "minify": true,
   "minify-version": 1,
   "pagination": false,
@@ -12,7 +12,7 @@
   "pagination-separator": "",
   "pagination-pages": 0,
   "dependencies": [
-    "content/docs/platforms/github-pages.html",
+    "content/docs/use-cases/mobile-development.html",
     "templates/docs.html",
     "templates/partials/docs-sidebar.html",
     "templates/partials/footer.html",

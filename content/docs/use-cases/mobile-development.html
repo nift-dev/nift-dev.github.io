@@ -1,0 +1,93 @@
+<article class="docs-article">
+  <p class="docs-kicker">Workflow &amp; pattern</p>
+  <h1>Mobile development with Nift.</h1>
+  <p class="docs-lead">Nift can build the web application that you later ship to the browser, install as a PWA, or package inside an Android/iOS shell. The useful boundary is the same one Nift uses elsewhere: Nift owns build-time composition and project relationships; your browser code and mobile wrapper own runtime behaviour and device integration.</p>
+
+  <div class="docs-callout"><strong>Nift is not trying to become a mobile UI framework.</strong><p>The promising pattern is to build a real web application with Nift and then deploy that application through ordinary mobile-web tooling. Native navigation, permissions, cameras, push notifications and other device APIs still belong to the platform or wrapper you choose.</p></div>
+
+  <h2 id="the-basic-shape">The basic shape</h2>
+  <pre><code class="language-plaintext">Nift project
+    │
+    ├─ content/ + templates/
+    ├─ JavaScript / TypeScript
+    ├─ CSS + assets
+    └─ contracts / JSON / tracked pages
+          │
+       nift build
+          │
+          ▼
+       public/
+          │
+     ┌────┼───────────────┐
+     │    │               │
+   web   PWA      mobile web shell
+                         │
+                  Android / iOS</code></pre>
+  <p>The generated application is ordinary web output. A mobile packaging layer can consume the same <code>public/</code> directory without Nift needing Android- or iOS-specific rendering semantics.</p>
+
+  <h2 id="nift-plus-a-mobile-web-wrapper">Nift + a mobile web wrapper</h2>
+  <p>A Capacitor-style workflow is a natural example. Nift builds the application; the wrapper packages those generated assets and provides bridges to native platform APIs when needed.</p>
+  <pre><code class="language-plaintext">content/             Nift-authored pages
+  index.html
+  account.html
+  settings.html
+
+templates/           layouts + partials
+public/              generated web application
+frontend/            optional JS/TS/Vite source
+mobile/              optional Android/iOS wrapper project
+.nift/</code></pre>
+  <pre><code class="language-bash"># optional frontend bundle first
+npm run build:client
+
+# build Nift pages/assets
+nift build-all
+
+# then let your chosen mobile wrapper sync/package public/
+# e.g. its normal Android/iOS build commands</code></pre>
+  <p>No dedicated Nift mobile target is required for this architecture. A future scaffold could make the workflow nicer, but the fundamental integration is already just generated web assets plus the mobile tool's normal packaging step.</p>
+
+  <h2 id="what-nift-owns">What Nift owns</h2>
+  <div class="advanced-doc-grid">
+    <div><h2 id="application-shell">Application shell</h2><p>Document structure, shared templates, navigation, page composition and repeated fragments can stay in Nift.</p></div>
+    <div><h2 id="checked-project-relationships">Checked project relationships</h2><p>Tracked pages, <code>\@pathto</code>, dependencies, JSON data and project contracts can keep build-time relationships explicit rather than scattering unchecked strings throughout the app.</p></div>
+    <div><h2 id="build-time-data">Build-time data</h2><p>JSON, loops, conditions, schemas and collection transforms can generate structured screens and bundles before the application ships.</p></div>
+    <div><h2 id="incremental-development">Incremental development</h2><p>Nift's dependency-aware rebuild model can keep repeated edit/build/package loops small while the rest of the mobile toolchain remains unchanged.</p></div>
+  </div>
+
+  <h2 id="what-the-runtime-owns">What the runtime owns</h2>
+  <pre><code class="language-plaintext">Nift                            Browser / mobile runtime
+----                            ------------------------
+templates + composition         user interaction
+tracked routes/pages            API calls
+build-time JSON/contracts       application state
+asset/path relationships        offline runtime logic
+incremental builds              native-device bridges
+                                notifications / camera / sensors
+                                app-store packaging</code></pre>
+  <p>This is the same separation used in a Nift + Go/Node/Python web application: Nift remains the small project-aware build layer rather than absorbing runtime responsibilities merely because the deployment target is a phone.</p>
+
+  <h2 id="pwa-first">PWA first can be a useful path</h2>
+  <p>For applications that do not need deep native integration, a Progressive Web App may already be enough. Nift can generate the application pages, manifest-related text assets, offline fallback pages and service-worker source just like any other text output; your JavaScript owns the actual runtime caching and install behaviour.</p>
+  <p>If the same application later needs app-store distribution or native APIs, a wrapper can package the existing web application rather than requiring a frontend rewrite.</p>
+
+  <h2 id="frameworks-are-still-optional">React, Vue, Svelte and TypeScript are still optional</h2>
+  <p>A mobile-targeted webapp does not force Nift into a particular client framework. You can keep the runtime as small or as sophisticated as the application needs:</p>
+  <pre><code class="language-plaintext">Nift + vanilla JS              small application / content UI
+Nift + TypeScript/Vite         larger browser runtime
+Nift + React/Vue/Svelte        state-heavy interactive regions
+Nift + PWA                     installable web application
+Nift + mobile wrapper          Android/iOS packaging + native bridges</code></pre>
+  <p>The important point is that those choices remain orthogonal to the Nift project model.</p>
+
+  <h2 id="why-this-fits-nifts-philosophy">Why this fits Nift's philosophy</h2>
+  <p>It would be easy to turn “mobile support” into a reason to invent Nift-specific widgets, navigation, state, layout and native abstractions. That would put Nift in competition with SwiftUI, Jetpack Compose, Flutter, React Native and the mobile platforms themselves.</p>
+  <blockquote class="docs-quote">Build the web application well; let the mobile platform own the mobile platform.</blockquote>
+  <p>The more interesting proposition is portability through ordinary web output. The same Nift-built frontend can potentially serve a website, install as a PWA and become the web layer inside Android/iOS packaging without changing Nift into a cross-platform UI framework.</p>
+
+  <h2 id="dogfooding-before-claims">Dogfood before making strong claims</h2>
+  <p>This workflow is architecturally plausible, but it should earn stronger website claims through a real application rather than diagrams alone. A useful future Nift dogfooding project is a substantial application built with Nift, packaged for both Android and iOS, with enough navigation, API use, offline behaviour and native integration to expose where the rough edges really are.</p>
+  <div class="docs-callout"><strong>Current status.</strong><p>Treat mobile development as a promising Nift workflow, not a bespoke supported platform target. The next step is practical dogfooding: build something non-trivial, measure the developer experience, then improve only the integration points that prove worth owning.</p></div>
+
+  <div class="docs-next"><span>Related</span><a href="@pathto('docs/use-cases/web-apps')">Full web applications →</a></div>
+</article>
