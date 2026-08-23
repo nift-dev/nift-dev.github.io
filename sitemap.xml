@@ -6,7 +6,7 @@
   </url>
   <url>
     <loc>https://nift.dev/docs.html</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-08-24</lastmod>
   </url>
   <url>
     <loc>https://nift.dev/docs/advanced.html</loc>
@@ -62,7 +62,11 @@
   </url>
   <url>
     <loc>https://nift.dev/docs/use-cases/web-apps.html</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-24</lastmod>
+  </url>
+  <url>
+    <loc>https://nift.dev/docs/use-cases/mobile-development.html</loc>
+    <lastmod>2026-08-24</lastmod>
   </url>
   <url>
     <loc>https://nift.dev/examples.html</loc>
@@ -178,7 +182,7 @@
   </url>
   <url>
     <loc>https://nift.dev/docs/ai-opinion.html</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-08-24</lastmod>
   </url>
   <url>
     <loc>https://nift.dev/docs/ai-development.html</loc>
