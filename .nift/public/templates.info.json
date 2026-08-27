@@ -21,6 +21,7 @@
   "reqs": [
     "public/about.html",
     "public/assets/css/style.css",
+    "public/assets/images/favicon.png",
     "public/assets/images/nift-logo.webp",
     "public/assets/images/templates/codex-01.webp",
     "public/assets/images/templates/orbit-01.webp",

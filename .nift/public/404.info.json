@@ -17,6 +17,7 @@
   ],
   "reqs": [
     "public/assets/css/style.css",
+    "public/assets/images/favicon.png",
     "public/assets/js/script.js",
     "public/docs.html",
     "public/index.html",

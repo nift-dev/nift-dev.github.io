@@ -22,6 +22,7 @@
   "reqs": [
     "public/about.html",
     "public/assets/css/style.css",
+    "public/assets/images/favicon.png",
     "public/assets/images/nift-logo.webp",
     "public/assets/js/script.js",
     "public/contact.html",
