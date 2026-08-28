@@ -39,30 +39,28 @@ nift minify -i generated/site.css</code></pre>
   <p><code>-i</code> / <code>--in-place</code> is the explicit destructive form. Paths may be relative or absolute and do not need to live inside a Nift project. Supported extensions are HTML/HTM, CSS, JS/MJS/CJS, JSX, JSON, XML and SVG. At least one file is required. Unsupported, missing, malformed or unwritable files produce a non-zero status; other valid arguments in the same invocation are still processed. <a class="text-link" href="@pathto('docs/minification')">Minification details →</a></p>
 
   <h2 id="build">Build</h2>
-  <h3 id="nift-build-nift-build-updated"><code>nift build</code> / <code>nift build-updated</code></h3>
-  <p>The everyday incremental build. Nift analyses tracked pages in parallel, explains rebuild causes when requested, and only builds pages affected by the current dependency state.</p>
+  <h3 id="nift-build"><code>nift build [names...]</code></h3>
+  <p>The everyday incremental build. Nift analyses tracked pages in parallel, explains rebuild causes when requested, and only builds pages affected by the current dependency state. Supplying tracked names builds only those pages.</p>
   <pre><code class="language-bash">nift build
-nift build-updated
-nift build-updated -p</code></pre>
+nift build about docs/getting-started
+nift build -p</code></pre>
   <p><code>-p</code> asks for fuller per-page detail when the normal output would otherwise summarise a large change set.</p>
 
-  <h3 id="nift-build-all-p"><code>nift build-all [-p]</code></h3>
+  <h3 id="nift-build --all"><code>nift build --all</code></h3>
   <p>Builds every tracked page regardless of incremental state.</p>
 
-  <h3 id="nift-build-names-p-name"><code>nift build-names [-p] name...</code></h3>
-  <p>Builds only the explicitly supplied tracked names. At least one name is required.</p>
-  <pre><code class="language-bash">nift build-names about docs/getting-started</code></pre>
+  <h3 id="nift-build-repair"><code>nift build --repair</code></h3>
+  <p>Repairs or reconstructs derived build state, for example after an interrupted build has left an <code>.unfinished</code> marker. It refuses to take over a build owned by a live process.</p>
+
   <h3 id="build-and-status-options">Build and status options</h3>
   <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Option</th><th>Where useful</th><th>Effect</th></tr></thead><tbody>
-  <tr><td><code>-p</code></td><td><code>build-all</code>, <code>build-updated</code>, named builds, <code>status</code></td><td>Requests full per-page detail instead of compact summaries where applicable.</td></tr>
-  <tr><td><code>-n</code></td><td>Legacy compatibility only</td><td>Accepted by the shared option parser but currently has no behavioural effect.</td></tr>
-  <tr><td><code>-s</code></td><td>Legacy compatibility only</td><td>Accepted by the shared option parser but currently has no behavioural effect.</td></tr>
+  <tr><td><code>-p</code></td><td><code>build</code>, <code>build --all</code>, named builds, <code>status</code></td><td>Requests full per-page detail instead of compact summaries where applicable.</td></tr>
   </tbody></table></div>
-  <p>There is no hidden build mode behind <code>-n</code> or <code>-s</code> in the current rewrite. They remain accepted so older invocations do not fail solely because those flags are present. New scripts should omit them.</p>
+  <p>The historical <code>-n</code> and <code>-s</code> display flags were removed by the CLI unification; they are rejected as unknown options. The build modes are mutually exclusive: positional names, <code>--all</code>, <code>--auto</code> and <code>--repair</code> cannot be combined in one invocation.</p>
 
-  <h3 id="nift-build-auto-options"><code>nift build-auto [options]</code></h3>
+  <h3 id="nift-build-auto"><code>nift build --auto</code></h3>
   <p>Continuously runs the incremental build check every 200 ms. In an interactive terminal, press <code>q</code> to stop immediately.</p>
-  <pre><code class="language-plaintext">Nift build-auto
+  <pre><code class="language-plaintext">Nift build --auto
 watching for changes every 200 ms
 build output: .nift/build-auto.log
 press q to stop</code></pre>
@@ -72,15 +70,15 @@ press q to stop</code></pre>
   <h3 id="nift-status-p"><code>nift status [-p]</code></h3>
   <p>A dry-run incremental build: it shows which pages need rebuilding and why, but does not modify generated output or page build metadata. Small change sets show each reason; large fan-out changes are summarised. Use <code>-p</code> for full detail.</p>
 
-  <h3 id="nift-info-names"><code>nift info [names...]</code></h3>
+  <h3 id="nift-info"><code>nift info [names...]</code></h3>
   <p>Shows resolved metadata for requested tracked names. If no names are supplied, it shows all tracked entries.</p>
-  <h3 id="nift-info-all"><code>nift info-all</code></h3>
-  <p>Shows complete tracked metadata.</p>
-  <h3 id="nift-info-names-2"><code>nift info-names</code></h3>
+  <h3 id="nift-info-all"><code>nift info --all</code></h3>
+  <p>Shows complete tracked metadata for every page.</p>
+  <h3 id="nift-info-names"><code>nift info --names</code></h3>
   <p>Shows the tracked-name list.</p>
-  <h3 id="nift-info-tracking"><code>nift info-tracking</code></h3>
+  <h3 id="nift-info-tracking"><code>nift info --tracking</code></h3>
   <p>Shows tracking state, including the tracking file and resolved paths.</p>
-  <h3 id="nift-info-watching"><code>nift info-watching</code></h3>
+  <h3 id="nift-info-watching"><code>nift info --watching</code></h3>
   <p>Shows watched directories and their extension/template rules.</p>
   <div class="docs-callout"><strong>The <code>info*</code> commands are script-friendly.</strong><p>Interactive terminals get headings and syntax colouring. Redirected/piped output is plain valid JSON, so commands can be consumed by tools such as <code>jq</code>.</p></div>
 
@@ -104,12 +102,11 @@ press q to stop</code></pre>
   <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Canonical command</th><th>Accepted aliases / forms</th></tr></thead><tbody>
   <tr><td><code>version</code></td><td><code>--version</code>, <code>-v</code></td></tr>
   <tr><td><code>commands</code></td><td><code>cmds</code>, <code>--help</code>, <code>-h</code></td></tr>
-  <tr><td><code>build-updated</code></td><td><code>build</code> with no additional arguments</td></tr>
-  <tr><td><code>build-names</code></td><td><code>build name...</code> when tracked names are supplied</td></tr>
   <tr><td><code>rm</code></td><td><code>del</code></td></tr>
   <tr><td><code>cp</code></td><td><code>copy</code></td></tr>
   <tr><td><code>mv</code></td><td><code>move</code></td></tr>
   </tbody></table></div>
+  <p>The historical spellings <code>build-all</code>, <code>build-updated</code>, <code>build-names</code>, <code>build-auto</code>, <code>info-all</code>, <code>info-watching</code>, <code>info-tracking</code> and <code>info-names</code> were removed by the CLI unification. They are not aliases: invoking one fails with a non-zero status and a hint pointing at the replacement (for example <code>use 'nift build --all' instead</code>).</p>
 
   <h2 id="minify-options">Minify options</h2>
   <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Option</th><th>Effect</th></tr></thead><tbody>

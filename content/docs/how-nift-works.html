@@ -33,7 +33,7 @@
           page build metadata
                   │
                   ▼
-       status / build-updated
+       status / build
                   │
           compare current state
                   │
@@ -279,7 +279,7 @@ What hashes/state were recorded for dependencies?</code></pre>
 <p>This metadata is internal build state rather than content you should edit manually. Its purpose is to make the next invocation cheap and explainable.</p>
 
 <h2 id="8-incremental-builds-ask-why-before-doing-work">8. Incremental builds ask “why?” before doing work</h2>
-<p><code>nift build-updated</code> does not begin by parsing every page. It first computes build reasons for tracked items. <code>nift status</code> uses the same idea but stops before writing anything.</p>
+<p><code>nift build</code> does not begin by parsing every page. It first computes build reasons for tracked items. <code>nift status</code> uses the same idea but stops before writing anything.</p>
 
 <pre><code class="language-bash">$ nift status
 
@@ -349,7 +349,7 @@ hash says changed ───────────────┘</code></pre>
 <p>This makes directory dependencies useful for generated asset trees and data pipelines without requiring the dependency list to enumerate every child.</p>
 
 <h2 id="11-nift-parallelises-at-the-page-level">11. Nift parallelises at the page level</h2>
-<p>Tracked pages are naturally independent build jobs once project state has been loaded. Nift uses a worker pool for page builds and also parallelises the incremental build-reason analysis used by <code>build-updated</code> and <code>status</code>.</p>
+<p>Tracked pages are naturally independent build jobs once project state has been loaded. Nift uses a worker pool for page builds and also parallelises the incremental build-reason analysis used by <code>build</code> and <code>status</code>.</p>
 
 <pre><code class="language-plaintext">                  tracked pages
                        │
@@ -380,8 +380,8 @@ hash says changed ───────────────┘</code></pre>
 
 <p>Successful build output is also bounded. A handful of rebuilt pages can be explained individually; a huge dependency fan-out is summarised rather than dumping thousands of nearly identical lines. Use <code>-p</code> when full per-page detail is genuinely useful.</p>
 
-<h2 id="13-build-auto-separates-watching-from-terminal-spam">13. <code>build-auto</code> separates watching from terminal spam</h2>
-<p><code>nift build-auto</code> repeatedly runs the incremental workflow. In an interactive terminal, <code>q</code> stops it. Instead of continuously printing unchanged status, the latest meaningful build output is kept in:</p>
+<h2 id="13-build-auto-separates-watching-from-terminal-spam">13. <code>build --auto</code> separates watching from terminal spam</h2>
+<p><code>nift build --auto</code> repeatedly runs the incremental workflow. In an interactive terminal, <code>q</code> stops it. Instead of continuously printing unchanged status, the latest meaningful build output is kept in:</p>
 
 <pre><code class="language-plaintext">.nift/build-auto.log</code></pre>
 
@@ -410,25 +410,25 @@ hash says changed ───────────────┘</code></pre>
 <p>Commands are not separate mini-applications with independent interpretations of the project.</p>
 
 <pre><code class="language-plaintext">nift status ─────────────┐
-nift build-updated ──────┤
-nift build-all ──────────┤
-nift build-names ────────┼──► ProjectInfo / tracked state
+nift build ──────────────┤
+nift build --all ────────┤
+nift build <names> ──────┼──► ProjectInfo / tracked state
 nift info* ──────────────┤       │
 nift track/untrack ──────┤       ├── parser
 nift watch/unwatch ──────┘       ├── dependencies
                                  ├── filesystem
                                  └── build metadata</code></pre>
 
-<p>That shared model is why <code>status</code> can agree with <code>build-updated</code>, why inspection commands can expose the same resolved paths the builder uses, and why fixes to dependency semantics do not need to be independently recreated in every command.</p>
+<p>That shared model is why <code>status</code> can agree with <code>build</code>, why inspection commands can expose the same resolved paths the builder uses, and why fixes to dependency semantics do not need to be independently recreated in every command.</p>
 
 <h2 id="17-inspection-is-designed-for-humans-and-tools">17. Inspection is designed for humans <em>and</em> tools</h2>
 <p>Interactive <code>info*</code> output can use headings and syntax colouring. Redirect it or pipe it, and Nift emits plain JSON instead.</p>
 
 <pre><code class="language-bash">nift info docs/getting-started
 
-nift info-all | jq '.tracked[] | .name'
+nift info --all | jq '.tracked[] | .name'
 
-nift info-watching > watching.json</code></pre>
+nift info --watching > watching.json</code></pre>
 
 <p>This small detail matters for interoperability. Nift does not need a bespoke API server for another tool to inspect project state.</p>
 
@@ -456,7 +456,7 @@ nift info-watching > watching.json</code></pre>
 
 <p>The incremental analysis checks the recorded dependency sets in parallel and discovers that thousands of pages depend on the changed sidebar. Instead of flooding the terminal with thousands of copies of the same reason, Nift can summarise the fan-out. Then:</p>
 
-<pre><code class="language-bash">nift build-updated</code></pre>
+<pre><code class="language-bash">nift build</code></pre>
 
 <p>creates page build jobs only for the affected set, workers render those pages concurrently, and the final output reports the successful page count and elapsed build time.</p>
 

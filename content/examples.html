@@ -108,7 +108,7 @@ app.listen(3000);</code></pre>
   <p class="eyebrow">09 · Bun</p><h2>Nift + Bun + TypeScript</h2>
   <p>Bun can manage packages, bundle browser code or run your server while Nift remains the document build layer.</p>
   <pre><code class="language-bash">bun run build:frontend
-nift build-all
+nift build --all
 bun run server</code></pre>
 </article>
 
@@ -134,7 +134,7 @@ socket.addEventListener('message', ({ data }) =&gt; {
   <p>Put Nift wherever it belongs in a larger build pipeline rather than teaching Nift to reproduce every specialist tool.</p>
   <pre><code class="language-bash">npm run build:frontend
 npm run optimize:images
-nift build-all
+nift build --all
 npm run minify:html</code></pre>
 </article>
 
@@ -174,7 +174,7 @@ the existing Nift architecture.</code></pre>
   <p>The final output is just files, so deployment can remain boring.</p>
   <pre><code class="language-bash">npm ci
 npm run build
-nift build-all
+nift build --all
 # deploy public/ using your hosting platform</code></pre>
 </article>
 </section>

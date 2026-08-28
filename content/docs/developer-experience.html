@@ -46,7 +46,7 @@ incremental builds       +   Sharp / ImageMagick
   <h2 id="build-scripts-are-part-of-the-dx-not-a-workaround">Build scripts are part of the DX, not a workaround</h2>
   <p>Nift intentionally does not need shell-command hooks in the template language or project configuration. External orchestration is often more capable because it can coordinate the whole project rather than forcing the whole project through Nift.</p>
   <pre><code class="language-bash">npm run build
-nift build-updated
+nift build
 npm test</code></pre>
   <p>Or use Make, npm scripts, a task runner, CI, a shell script or whatever the repository already uses. That layer can coordinate frontend compilation, image processing, tests, backend generation and deployment without Nift having to own subprocess execution, shell quoting, platform differences or another lifecycle abstraction.</p>
   <blockquote class="docs-quote">Nift should be easy to orchestrate, not become the orchestrator.</blockquote>

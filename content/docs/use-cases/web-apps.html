@@ -101,7 +101,7 @@ app.get('/api/health', (req, res) =&gt; {
 app.listen(3000);</code></pre>
   <pre><code class="language-json">{
   "scripts": {
-    "build:site": "nift build-all",
+    "build:site": "nift build --all",
     "build:client": "vite build",
     "build": "npm run build:client &amp;&amp; npm run build:site",
     "start": "node server.js"
@@ -165,19 +165,19 @@ nift build</code></pre>
   <p>For a larger repository, let a Makefile, task runner, package script or CI system define the order of operations.</p>
   <pre><code class="language-makefile">build:
 \tnpm run build:frontend
-\tnift build-all
+\tnift build --all
 \tgo build -o bin/server ./server</code></pre>
   <p>Nift does not need a plugin system merely to participate in a build graph.</p>
 
   <h2 id="development-workflow">Development workflow</h2>
-  <pre><code class="language-plaintext">terminal 1:  nift build-auto 0.5
+  <pre><code class="language-plaintext">terminal 1:  nift build --auto
 terminal 2:  npm run dev        # if using Vite/etc.
 terminal 3:  go run ./server    # or node/python/bun/etc.</code></pre>
   <p>You can keep each tool's normal development workflow. If you prefer one command, wrap them in your existing task runner.</p>
 
   <h2 id="production-workflow">Production workflow</h2>
   <pre><code class="language-bash">npm run build:frontend   # optional
-nift build-all
+nift build --all
 go build ./server        # or node/python/bun build/deploy steps</code></pre>
   <p>Then deploy <code>public/</code> with the backend, upload it to a CDN/object store, or serve it independently—whatever fits the architecture.</p>
 

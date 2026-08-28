@@ -57,7 +57,7 @@ $[data.settings.navigation.mobile.enabled]</code></pre>
 <h2 id="the-json-file-is-automatically-a-dependency">The JSON file is automatically a dependency</h2>
 <p>Loading:</p>
 <pre><code class="language-nift">\@json('data/navigation.json', nav)</code></pre>
-<p>also tells Nift that the current page depends on <code>data/navigation.json</code>. A change to that data can therefore trigger <code>build-updated</code> in modified, hash or hybrid mode just like a template/input dependency.</p>
+<p>also tells Nift that the current page depends on <code>data/navigation.json</code>. A change to that data can therefore trigger <code>build</code> in modified, hash or hybrid mode just like a template/input dependency.</p>
 
 <h2 id="parsed-documents-are-shared-per-build">Parsed documents are shared per build</h2>
 <p>If thousands of pages load the same JSON file, Nift does not need to parse the document thousands of times. Parsed documents are cached as immutable build-wide data, while the binding name remains local to each page parser.</p>

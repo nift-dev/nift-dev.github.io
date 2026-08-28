@@ -94,7 +94,7 @@ Browser: ordinary HTTP between them</code></pre>
   <p>Tools such as esbuild, Rollup, SWC, terser, lightningcss, PostCSS, Sass, image optimisers and custom scripts can run before or after Nift depending on what they transform.</p>
   <pre><code class="language-bash"># One possible production pipeline
 npm run build:frontend
-nift build-all
+nift build --all
 npm run minify:html</code></pre>
   <p>There is no requirement for a “Nift plugin” merely to use a tool. If it can read and write files, it can usually compose with Nift.</p>
 
@@ -117,7 +117,7 @@ npm run minify:html</code></pre>
   <pre><code class="language-json">{
   "scripts": {
     "build:frontend": "vite build",
-    "build:nift": "nift build-all",
+    "build:nift": "nift build --all",
     "build": "npm run build:frontend &amp;&amp; npm run build:nift"
   }
 }</code></pre>
@@ -125,7 +125,7 @@ npm run minify:html</code></pre>
   <p>A Makefile can express the same boundary without involving npm:</p>
   <pre><code class="language-makefile">site:
 \t$(MAKE) -C frontend build
-\tnift build-all
+\tnift build --all
 
 serve: site
 \t./server</code></pre>

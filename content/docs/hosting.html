@@ -10,7 +10,7 @@
 npm run build:frontend
 
 # generate the Nift-managed outputs
-nift build-all
+nift build --all
 
 # deploy public/
 </code></pre>
@@ -69,7 +69,7 @@ const { data } = await supabase
 
 <h2 id="nginx-apache-caddy">nginx / Apache / Caddy</h2>
 <p>For a traditional server, copy <code>public/</code> to the directory your web server serves.</p>
-<pre><code class="language-bash">nift build-all
+<pre><code class="language-bash">nift build --all
 rsync -av --delete public/ user\@example.com:/var/www/example/</code></pre>
 <p>Nift does not need to run on the production server if you build before deployment.</p>
 
@@ -97,7 +97,7 @@ app.listen(3000);</code></pre>
 FROM your-nift-build-image AS build
 WORKDIR /site
 COPY . .
-RUN nift build-all
+RUN nift build --all
 
 # serving stage
 FROM nginx:alpine
@@ -114,7 +114,7 @@ database/auth/etc.   → your chosen services</code></pre>
 <p>Whatever platform you use, a production pipeline commonly becomes:</p>
 <pre><code class="language-bash">npm ci                  # if the project uses npm
 npm run build:frontend  # TypeScript/Vite/Tailwind/etc.
-nift build-all
+nift build --all
 npm test                # or your own checks
 # deploy public/</code></pre>
 
