@@ -174,9 +174,10 @@ may say another tool is better for a project shape.
 ## Build and publication
 
 The Nift project configuration is `.nift/config.json`; the normal local product
-command is `nift build-all` or `nift build-updated` using the intended binary on
-`PATH`. For candidate validation, invoke the exact candidate executable from this
-repository rather than relying on an unrelated installed version.
+command is `nift build` for an incremental build or `nift build --all` for an
+explicit full rebuild, using the intended binary on `PATH`. For candidate
+validation, invoke the exact candidate executable from the Nift repository rather
+than relying on an unrelated installed version.
 
 The exact public deployment/push sequence is not encoded here because repository
 history alone does not establish an approved publication procedure. Determine it
@@ -193,7 +194,26 @@ benchmark evidence, testing claims, AI guidance, or downloads, reconcile this
 source before considering the product checkpoint complete. Internal refactors
 with no public effect normally require only a compatibility self-build.
 
-Current project status is **hardening plateau reached** after the deliberate Nift Checkpoints 0–10, with the bounded v4.0.3 contract-first language/pagination programme subsequently completed through its dedicated reconciliation checkpoints. The bounded 4.0.2 initializer/platform-target feature is implemented and its Linux/macOS/Windows Actions contract is green. Current living priorities are release/publication reconciliation, keeping behavior/version-sensitive docs current, reconciling package/distribution instructions as public builds propagate, dogfooding the site and target integrations, collecting field evidence, and reviewing responsive/accessibility/publication readiness. End-to-end provider deployment is useful field evidence, not a prerequisite for publishing the documented target presets. Continue reviewing Battle Tested when protected behavior or evidence changes, but do not invent new hardening checkpoints merely to keep the sequence going.
+Current project status is **Nift v4.0.7 released, with v4.0.8 in development**. The deliberate Checkpoints 0–10 hardening campaign remains the maintained baseline, while later CLI, language, pagination, project-contract, initializer and platform-target work has its own focused and cross-platform evidence. Current living priorities are keeping command/version-sensitive documentation aligned with the executable, verifying public distribution channels as they propagate, dogfooding this site and the documented integrations, collecting field evidence, and reviewing responsive/accessibility/publication readiness. End-to-end provider deployment is useful field evidence, not a prerequisite for documenting the target presets. Continue reviewing Battle Tested when protected behavior or evidence changes, but do not invent new hardening checkpoints merely to keep the sequence going.
+
+## Current page-improvement queue
+
+The following pages are accurate but noticeably thinner than the strongest parts
+of the documentation. Improve them through real examples rather than padding:
+
+- `docs/use-cases/documentation`: add a complete navigation/search/versioning
+  example and show the dependency impact of changing shared documentation UI;
+- `docs/use-cases/dashboards`: replace the collection of small snippets with one
+  coherent shell/API/realtime example and its build/runtime ownership boundary;
+- `docs/use-cases/text-assets`: add a realistic multi-output project and explain
+  when a serializer or schema-aware generator is the safer choice;
+- `docs/use-cases/react-islands`: add a complete external-bundler example,
+  including output placement, manifest/hash handling and development commands;
+- the short platform-target pages: audit them as one family for prerequisites,
+  generated files, deployment steps, custom domains, cache/header behavior and
+  focused troubleshooting. Keep pages concise when a preset is genuinely small.
+
+This is a quality queue, not an invitation to broaden Nift's product scope.
 
 ## Maintaining this handover
 

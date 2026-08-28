@@ -1,33 +1,105 @@
 <article class="docs-article">
   <p class="docs-kicker">CLI reference · source audited</p>
-  <h1>Commands.</h1>
-  <p class="docs-lead">Nift keeps its command surface deliberately small. This reference is cross-checked against the current command dispatcher, including the options and aliases the executable actually accepts.</p>
+  <h1>CLI commands.</h1>
+  <p class="docs-lead">Nift has a deliberately compact command surface. Start with the complete map below, then use the grouped tables to compare modes and options without hunting through separate descriptions.</p>
 
-  <h2 id="general">General</h2>
-  <h3 id="nift-about"><code>nift about</code></h3>
-  <p>Shows a brief description of Nift, the installed version, license and <code>https://nift.dev</code>.</p>
-  <h3 id="nift-version"><code>nift version</code></h3>
-  <p>Prints the installed Nift version. <code>--version</code> and <code>-v</code> are also accepted.</p>
-  <h3 id="nift-commands"><code>nift commands</code></h3>
-  <p>Prints the built-in command reference. <code>cmds</code>, <code>--help</code> and <code>-h</code> are aliases.</p>
+  <h2 id="complete-command-map">Complete command map</h2>
+  <pre><code class="language-bash"># Build
+nift build [names...] [-p]
+nift build --all [-p]
+nift build --auto
+nift build --repair [-p]
+
+# Inspect
+nift status [-p]
+nift info [names...]
+nift info --all
+nift info --names
+nift info --tracking
+nift info --watching
+
+# Track and manage pages
+nift track name [title] [template]
+nift untrack name...
+nift rm name...
+nift cp source destination
+nift mv source destination
+nift watch directory [content-ext] [template] [output-ext]
+nift unwatch directory
+
+# Create a project
+nift init [--target=platform] [--ext=.ext] [--handover]
+
+# Minify files, with or without a Nift project
+nift minify [-i|--in-place] file...
+
+# General
+nift about
+nift version
+nift commands</code></pre>
+
+  <h2 id="build">Build</h2>
+  <p>These are four mutually exclusive build modes. Positional names, <code>--all</code>, <code>--auto</code> and <code>--repair</code> cannot be combined in one invocation.</p>
+  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Command</th><th>Use it when</th><th>What it does</th></tr></thead><tbody>
+  <tr><td><code>nift build</code></td><td>Normal development</td><td>Checks every tracked page and rebuilds only pages affected by the current dependency state.</td></tr>
+  <tr><td><code>nift build name...</code></td><td>You explicitly want particular pages</td><td>Builds the named tracked pages, whether or not the ordinary incremental check considers them current.</td></tr>
+  <tr><td><code>nift build --all</code></td><td>You need a full rebuild</td><td>Builds every tracked page regardless of incremental state.</td></tr>
+  <tr><td><code>nift build --auto</code></td><td>You want continuous rebuilding</td><td>Runs the incremental check every 200 ms. Press <code>q</code> to stop in an interactive terminal.</td></tr>
+  <tr><td><code>nift build --repair</code></td><td>A build was interrupted or derived state is suspect</td><td>Reconstructs derived build state and clears a stale <code>.unfinished</code> condition. It refuses to take over a build owned by a live process.</td></tr>
+  </tbody></table></div>
+  <pre><code class="language-bash">nift build
+nift build about docs/getting-started
+nift build --all
+nift build --repair
+nift build --auto</code></pre>
+  <p><code>-p</code> can be added to ordinary, named, <code>--all</code> and <code>--repair</code> builds for full per-page detail instead of compact summaries. It is also accepted by <code>status</code>.</p>
+  <div class="docs-callout"><strong><code>build --auto</code> keeps the terminal quiet.</strong><p>The latest meaningful build output is stored in <code>.nift/build-auto.log</code> without terminal colour codes. The file is rewritten only when that output changes. In non-interactive use, stop the process from the surrounding shell or service.</p></div>
+
+  <h2 id="inspect-project-state">Inspect project state</h2>
+  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Command</th><th>Result</th></tr></thead><tbody>
+  <tr><td><code>nift status [-p]</code></td><td>Dry-runs the incremental analysis and reports which pages need rebuilding and why, without changing output or page metadata.</td></tr>
+  <tr><td><code>nift info</code></td><td>Shows resolved metadata for all tracked entries.</td></tr>
+  <tr><td><code>nift info name...</code></td><td>Shows resolved metadata for the requested tracked names.</td></tr>
+  <tr><td><code>nift info --all</code></td><td>Explicit spelling of the default all-entry metadata view.</td></tr>
+  <tr><td><code>nift info --names</code></td><td>Lists tracked names.</td></tr>
+  <tr><td><code>nift info --tracking</code></td><td>Shows tracking state, including the tracking file and resolved paths.</td></tr>
+  <tr><td><code>nift info --watching</code></td><td>Shows watched directories and their content-extension, template and output-extension rules.</td></tr>
+  </tbody></table></div>
+  <div class="docs-callout"><strong>The <code>info</code> commands are script-friendly.</strong><p>Interactive terminals receive headings and syntax colouring. Redirected or piped output is plain valid JSON suitable for tools such as <code>jq</code>.</p></div>
+
+  <h2 id="track-and-manage-pages">Track and manage pages</h2>
+  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Command</th><th>What it changes</th></tr></thead><tbody>
+  <tr><td><code>nift track name [title] [template]</code></td><td>Adds a tracked item. The title defaults to the final name component and the template defaults to <code>default-template</code>.</td></tr>
+  <tr><td><code>nift untrack name...</code></td><td>Stops tracking items without deleting their content files.</td></tr>
+  <tr><td><code>nift rm name...</code></td><td>Removes tracking plus the corresponding content and generated output.</td></tr>
+  <tr><td><code>nift cp source destination</code></td><td>Copies a tracked item.</td></tr>
+  <tr><td><code>nift mv source destination</code></td><td>Moves a tracked item.</td></tr>
+  </tbody></table></div>
+  <p>Tracked and destination names cannot escape through a <code>..</code> path component. <code>del</code>, <code>copy</code> and <code>move</code> are accepted aliases for <code>rm</code>, <code>cp</code> and <code>mv</code>.</p>
+
+  <h2 id="watch-directories">Watch directories</h2>
+  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody>
+  <tr><td><code>nift watch directory [content-ext] [template] [output-ext]</code></td><td>Adds a watched directory, using supplied rules or project defaults.</td></tr>
+  <tr><td><code>nift unwatch directory</code></td><td>Removes one watched directory.</td></tr>
+  </tbody></table></div>
 
   <h2 id="initialise-a-project">Initialise a project</h2>
-  <h3 id="nift-init-target-platform-ext-ext-handover"><code>nift init [--target=platform] [--ext=.ext] [--handover]</code></h3>
-  <p>Initialise a new Nift project. With no options, Nift creates the standard HTML starter. <code>--ext</code> changes the default content/output extension; <code>--target</code> prepares a static HTML project for a supported hosting platform. <code>--handover</code> also writes a canonical <code>HANDOVER.md</code> in the project root (never under the output directory) so the project is ready for AI-assisted and human-directed work. All compatible named options are order-independent.</p>
+  <p><code>nift init [--target=platform] [--ext=.ext] [--handover]</code> creates a project. With no options, it creates the standard HTML starter. Compatible named options are order-independent.</p>
+  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Option</th><th>Effect</th></tr></thead><tbody>
+  <tr><td><code>--ext=.ext</code></td><td>Changes the default content/output extension, for example <code>--ext=.php</code> or <code>--ext=.txt</code>.</td></tr>
+  <tr><td><code>--target=platform</code></td><td>Creates the small provider-specific files needed by a supported static-hosting target.</td></tr>
+  <tr><td><code>--handover</code></td><td>Writes the canonical <code>HANDOVER.md</code> in the project root for human- and AI-directed development.</td></tr>
+  </tbody></table></div>
   <pre><code class="language-bash">nift init
 nift init --ext=.php
-nift init --ext=.txt
 nift init --target=vercel
-nift init --target=cloudflare
-nift init --target=vercel --ext=.htm
+nift init --target=cloudflare --ext=.htm
 nift init --handover</code></pre>
-  <p>Supported targets are <code>vercel</code>, <code>netlify</code>, <code>amplify</code>, <code>azure</code>, <code>firebase</code>, <code>render</code>, <code>cloudflare</code>, <code>github-pages</code> and <code>supabase</code>. Target presets currently accept <code>.html</code> and <code>.htm</code>; runtime extensions such as <code>.php</code> are rejected. Supabase is the deliberate integration-only exception: it keeps Nift's ordinary <code>public/</code> output because Supabase supplies backend services rather than a special static frontend artifact.</p>
-  <p>The old positional extension form (for example <code>nift init .html</code>) and <code>init-html</code> command have been removed. Use <code>--ext=.html</code> when you want to spell the default explicitly.</p>
-  <p>The target list is not a hosting allow-list. Platforms without a named preset can still host Nift output; initialise a normal project and configure that provider manually. See <a href="@pathto('docs/platforms')">Platform targets</a> for the exact files and output layout generated by the convenience presets.</p>
+  <p>Supported targets are <code>vercel</code>, <code>netlify</code>, <code>amplify</code>, <code>azure</code>, <code>firebase</code>, <code>render</code>, <code>cloudflare</code>, <code>github-pages</code> and <code>supabase</code>. Target presets accept <code>.html</code> and <code>.htm</code>; runtime extensions such as <code>.php</code> are rejected. Supabase keeps the ordinary <code>public/</code> output because it provides backend services rather than a special frontend artifact.</p>
+  <p>The target list is not a hosting allow-list. For another platform, initialise a normal project and configure the provider manually. The removed positional form <code>nift init .html</code> is not accepted; use <code>--ext=.html</code>. See <a href="@pathto('docs/platforms')">Platform targets</a> for generated files and output layouts.</p>
 
-  <h2 id="minify-arbitrary-files">Minify arbitrary files</h2>
-  <h3 id="nift-minify-i-in-place-file"><code>nift minify [-i|--in-place] file...</code></h3>
-  <p>Minifies one or more supported files without requiring a Nift project. The safe default writes a sibling <code>.min</code> file and leaves the source untouched.</p>
+  <h2 id="minify-files">Minify arbitrary files</h2>
+  <p><code>nift minify [-i|--in-place] file...</code> works inside or outside a Nift project. By default it leaves each source untouched and writes a sibling <code>name.min.ext</code> file.</p>
   <pre><code class="language-bash">nift minify public/index.html
 # public/index.html -> public/index.min.html
 
@@ -36,91 +108,25 @@ nift minify assets/app.js assets/site.css
 
 nift minify --in-place generated/app.js
 nift minify -i generated/site.css</code></pre>
-  <p><code>-i</code> / <code>--in-place</code> is the explicit destructive form. Paths may be relative or absolute and do not need to live inside a Nift project. Supported extensions are HTML/HTM, CSS, JS/MJS/CJS, JSX, JSON, XML and SVG. At least one file is required. Unsupported, missing, malformed or unwritable files produce a non-zero status; other valid arguments in the same invocation are still processed. <a class="text-link" href="@pathto('docs/minification')">Minification details →</a></p>
-
-  <h2 id="build">Build</h2>
-  <h3 id="nift-build"><code>nift build [names...]</code></h3>
-  <p>The everyday incremental build. Nift analyses tracked pages in parallel, explains rebuild causes when requested, and only builds pages affected by the current dependency state. Supplying tracked names builds only those pages.</p>
-  <pre><code class="language-bash">nift build
-nift build about docs/getting-started
-nift build -p</code></pre>
-  <p><code>-p</code> asks for fuller per-page detail when the normal output would otherwise summarise a large change set.</p>
-
-  <h3 id="nift-build --all"><code>nift build --all</code></h3>
-  <p>Builds every tracked page regardless of incremental state.</p>
-
-  <h3 id="nift-build-repair"><code>nift build --repair</code></h3>
-  <p>Repairs or reconstructs derived build state, for example after an interrupted build has left an <code>.unfinished</code> marker. It refuses to take over a build owned by a live process.</p>
-
-  <h3 id="build-and-status-options">Build and status options</h3>
-  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Option</th><th>Where useful</th><th>Effect</th></tr></thead><tbody>
-  <tr><td><code>-p</code></td><td><code>build</code>, <code>build --all</code>, named builds, <code>status</code></td><td>Requests full per-page detail instead of compact summaries where applicable.</td></tr>
-  </tbody></table></div>
-  <p>The historical <code>-n</code> and <code>-s</code> display flags were removed by the CLI unification; they are rejected as unknown options. The build modes are mutually exclusive: positional names, <code>--all</code>, <code>--auto</code> and <code>--repair</code> cannot be combined in one invocation.</p>
-
-  <h3 id="nift-build-auto"><code>nift build --auto</code></h3>
-  <p>Continuously runs the incremental build check every 200 ms. In an interactive terminal, press <code>q</code> to stop immediately.</p>
-  <pre><code class="language-plaintext">Nift build --auto
-watching for changes every 200 ms
-build output: .nift/build-auto.log
-press q to stop</code></pre>
-  <p>The terminal stays intentionally quiet. The latest meaningful build output is written to <code>.nift/build-auto.log</code>, without terminal colour codes, and the file is only rewritten when that output actually changes. In non-interactive use, stop the process normally from the surrounding shell/service.</p>
-
-  <h2 id="inspect-project-state">Inspect project state</h2>
-  <h3 id="nift-status-p"><code>nift status [-p]</code></h3>
-  <p>A dry-run incremental build: it shows which pages need rebuilding and why, but does not modify generated output or page build metadata. Small change sets show each reason; large fan-out changes are summarised. Use <code>-p</code> for full detail.</p>
-
-  <h3 id="nift-info"><code>nift info [names...]</code></h3>
-  <p>Shows resolved metadata for requested tracked names. If no names are supplied, it shows all tracked entries.</p>
-  <h3 id="nift-info-all"><code>nift info --all</code></h3>
-  <p>Shows complete tracked metadata for every page.</p>
-  <h3 id="nift-info-names"><code>nift info --names</code></h3>
-  <p>Shows the tracked-name list.</p>
-  <h3 id="nift-info-tracking"><code>nift info --tracking</code></h3>
-  <p>Shows tracking state, including the tracking file and resolved paths.</p>
-  <h3 id="nift-info-watching"><code>nift info --watching</code></h3>
-  <p>Shows watched directories and their extension/template rules.</p>
-  <div class="docs-callout"><strong>The <code>info*</code> commands are script-friendly.</strong><p>Interactive terminals get headings and syntax colouring. Redirected/piped output is plain valid JSON, so commands can be consumed by tools such as <code>jq</code>.</p></div>
-
-  <h2 id="track-and-manage-items">Track and manage items</h2>
-  <h3 id="nift-track-name-title-template"><code>nift track name [title] [template]</code></h3>
-  <p>Adds a tracked item. The title defaults to the final component of the name and the template defaults to <code>default-template</code>. Tracked names cannot contain a <code>..</code> path component.</p>
-  <h3 id="nift-untrack-name"><code>nift untrack name...</code></h3>
-  <p>Stops tracking items without deleting their content files.</p>
-  <h3 id="nift-rm-name"><code>nift rm name...</code></h3>
-  <p>Removes tracking plus the corresponding content and generated output. <code>del</code> is an alias.</p>
-  <h3 id="nift-cp-source-destination-nift-mv-source-destination"><code>nift cp source destination</code> / <code>nift mv source destination</code></h3>
-  <p>Copies or moves a tracked item. <code>copy</code> and <code>move</code> are aliases. Destination names cannot escape through a <code>..</code> path component.</p>
-
-  <h2 id="watch-directories">Watch directories</h2>
-  <h3 id="nift-watch-directory-content-ext-template-output-ext"><code>nift watch directory [content-ext] [template] [output-ext]</code></h3>
-  <p>Adds a watched directory using the supplied rules or the project defaults.</p>
-  <h3 id="nift-unwatch-directory"><code>nift unwatch directory</code></h3>
-  <p>Removes a watched directory.</p>
-
-  <h2 id="aliases-and-accepted-spellings">Aliases and accepted spellings</h2>
-  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Canonical command</th><th>Accepted aliases / forms</th></tr></thead><tbody>
-  <tr><td><code>version</code></td><td><code>--version</code>, <code>-v</code></td></tr>
-  <tr><td><code>commands</code></td><td><code>cmds</code>, <code>--help</code>, <code>-h</code></td></tr>
-  <tr><td><code>rm</code></td><td><code>del</code></td></tr>
-  <tr><td><code>cp</code></td><td><code>copy</code></td></tr>
-  <tr><td><code>mv</code></td><td><code>move</code></td></tr>
-  </tbody></table></div>
-  <p>The historical spellings <code>build-all</code>, <code>build-updated</code>, <code>build-names</code>, <code>build-auto</code>, <code>info-all</code>, <code>info-watching</code>, <code>info-tracking</code> and <code>info-names</code> were removed by the CLI unification. They are not aliases: invoking one fails with a non-zero status and a hint pointing at the replacement (for example <code>use 'nift build --all' instead</code>).</p>
-
-  <h2 id="minify-options">Minify options</h2>
   <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Option</th><th>Effect</th></tr></thead><tbody>
-  <tr><td><code>-i</code>, <code>--in-place</code></td><td>Overwrite each source file instead of writing the default sibling <code>name.min.ext</code> output.</td></tr>
+  <tr><td>none</td><td>Writes the safe sibling output <code>name.min.ext</code>.</td></tr>
+  <tr><td><code>-i</code>, <code>--in-place</code></td><td>Explicitly overwrites each source file.</td></tr>
   </tbody></table></div>
-  <p>There is intentionally no implicit destructive mode: overwrite must be requested on the command line.</p>
+  <p>Supported extensions are HTML/HTM, CSS, JS/MJS/CJS, JSX, JSON, XML and SVG. At least one file is required. Unsupported, missing, malformed or unwritable files produce a non-zero status; other valid arguments in the invocation are still processed. <a class="text-link" href="@pathto('docs/minification')">Minification details →</a></p>
 
-  <h2 id="argument-and-option-contract">Argument and option contract</h2>
-  <p>Commands that do not show optional arguments above reject extras rather than silently ignoring them. <code>track</code> accepts at most a name, title and template; <code>watch</code> accepts a directory plus optional content extension, template and output extension; <code>cp</code>/<code>mv</code> require exactly two names; <code>untrack</code>/<code>rm</code> accept one or more names.</p>
-  <p>The <code>info*</code> commands emit coloured human-readable headings on an interactive terminal and plain JSON when redirected or piped. The shared parser also tolerates the legacy <code>-n</code>/<code>-s</code> flags on several inspect commands, but they have no effect and are not part of recommended usage.</p>
+  <h2 id="general">General and aliases</h2>
+  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Canonical command</th><th>Purpose</th><th>Aliases</th></tr></thead><tbody>
+  <tr><td><code>nift about</code></td><td>Shows a short project description, installed version, license and website.</td><td>—</td></tr>
+  <tr><td><code>nift version</code></td><td>Prints the installed version.</td><td><code>--version</code>, <code>-v</code></td></tr>
+  <tr><td><code>nift commands</code></td><td>Prints the executable's built-in command map.</td><td><code>cmds</code>, <code>--help</code>, <code>-h</code></td></tr>
+  <tr><td><code>nift rm</code></td><td>Removes tracked items and their owned files.</td><td><code>del</code></td></tr>
+  <tr><td><code>nift cp</code></td><td>Copies a tracked item.</td><td><code>copy</code></td></tr>
+  <tr><td><code>nift mv</code></td><td>Moves a tracked item.</td><td><code>move</code></td></tr>
+  </tbody></table></div>
 
-  <h2 id="built-in-summary">Built-in summary</h2>
-  <p>The executable is also the quickest authoritative reminder:</p>
-  <pre><code class="language-bash">nift commands</code></pre>
+  <h2 id="removed-spellings">Removed spellings</h2>
+  <p><code>build-all</code>, <code>build-updated</code>, <code>build-names</code>, <code>build-auto</code>, <code>info-all</code>, <code>info-watching</code>, <code>info-tracking</code> and <code>info-names</code> are not aliases. They fail with a non-zero status and point to the unified replacement, such as <code>nift build --all</code>.</p>
+  <p>Commands reject unexpected arguments and unknown options instead of silently ignoring them. Run <code>nift commands</code> for the executable's concise built-in reminder.</p>
 
   <div class="docs-next"><span>Related</span><a href="@pathto('docs/incremental-builds')">Incremental builds →</a></div>
 </article>

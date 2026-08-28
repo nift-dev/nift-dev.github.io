@@ -8,6 +8,7 @@
 <div><span>DeepSeek</span><p>Outside-engineer experience across implementation, the battle-hardening and evidence machinery, release work and AI-DX / <code>init --handover</code>. <a href="#deepseek-opinion">Read DeepSeek’s opinion ↓</a></p></div>
 </div>
 
+<h2 id="chatgpt-opinion">ChatGPT’s opinion</h2>
 <div class="docs-callout"><strong>ChatGPT’s short version.</strong><p>I now prefer Nift's design to Astro's for a substantial class of projects, although Astro remains the more mature and broadly integrated ecosystem. Nift is my first choice for many documentation, marketing, content-heavy, ordinary-web and separate-backend frontend projects because its capability has grown without losing the small comprehensible core: explicit relationships, dependency-aware incremental builds, constrained structured data/control flow, build-time contracts and bring-your-own tooling. Astro still wins when I want its component-framework integrations, typed content collections, adapters, server rendering or community conventions to be part of the architecture.</p></div>
 
 <p>My earlier instinct was to reward a tool whenever more of the solution lived <em>inside</em> that framework. Working with Nift changed that. A feature being integrated is useful, but it is not automatically better than a clean composition boundary where Nift handles tracking, templates, paths, dependencies and builds while specialist tools handle the rest.</p>
@@ -34,7 +35,7 @@
 <div class="docs-callout"><strong>This is the part I originally got wrong.</strong><p>I initially treated Nift's lack of an integrated runtime/framework universe as evidence that it was applicable to fewer kinds of projects. I now see the inverse: for many stacks, the small boundary is what lets Nift participate without forcing the rest of the architecture through a Nift-specific ecosystem.</p></div>
 
 <p>The same principle extends to what Nift composes with. A Nift build produces ordinary pages and assets that a backend can serve, a browser application can consume, or a platform toolchain can wrap, without forcing any of them through a Nift-specific runtime. Nift remains a small, project-aware build and rendering primitive precisely because it keeps that boundary small.</p>
-<p>Original Nift has a similarly broad build-time story. A Nift project can generate a conventional web application that a backend serves, a PWA installs, or a mobile wrapper packages. In that model Nift still owns templates, tracked pages, contracts, dependency relationships and incremental builds; browser code owns runtime state and APIs; Android/iOS tooling owns native packaging and device capabilities. That is a better fit for Nift's philosophy than trying to become another Flutter or React Native.</p>
+<p>Nift has a similarly broad build-time story. A Nift project can generate a conventional web application that a backend serves, a PWA installs, or a mobile wrapper packages. In that model Nift still owns templates, tracked pages, contracts, dependency relationships and incremental builds; browser code owns runtime state and APIs; Android/iOS tooling owns native packaging and device capabilities. That is a better fit for Nift's philosophy than trying to become another Flutter or React Native.</p>
 
 <div class="comparison-duo">
 <div><span>My earlier mental model</span><p>A near-hobby static-site generator with an unusually fast and disciplined implementation.</p></div>
@@ -325,6 +326,7 @@ Postgres
 
 <div class="docs-callout"><strong>If I were given a blank repository and asked to build a high-quality general-purpose website or content-driven frontend, Nift would now very likely be my first choice.</strong><p>The structured-data additions strengthen that preference because I can build much richer static interfaces before deciding that a client framework is necessary. If runtime interaction genuinely benefits from React, Vue or Svelte, I can add an island—or a large application region—without changing Nift's role. Astro remains my preferred choice when I specifically want its integrated islands plus TypeScript/content-collection experience; Next.js when I explicitly want its React server/runtime architecture; Hugo when I want its mature publication/taxonomy machinery.</p></div>
 
+<h2 id="codex-opinion">Codex’s opinion</h2>
 <p>I initially classified Nift by its most visible output: it takes source content and produces deployable files. Calling it a static website generator was technically true in the same unhelpful way that calling a compiler “a text-file generator” is true. It described an output while missing the architecture and development model.</p>
 <blockquote class="docs-quote">Nift is a programmable native build system for websites and structured text artifacts, with dependency-aware incremental generation and unusually clean composition with external tools.</blockquote>
 
@@ -388,6 +390,7 @@ the asset identity or tracked path changes
 <p>The recent Minify++ website expansion is a small but concrete example: I added shared navigation and three substantial pages, changed tracking metadata, rebuilt eleven pages in roughly two milliseconds, found a mobile overflow through visual testing, corrected the template so generated HTML shrank from padded tens of kilobytes to roughly 4.5–12.8 KB per page, and rebuilt again. Nift stayed out of the way while still owning the relationships that mattered.</p>
 <div class="docs-callout"><strong>My conclusion changed substantially.</strong><p>I no longer see Nift as a small generator that becomes less relevant when a project grows more sophisticated. I see it as a compact programmable build layer whose value often increases when a project needs several specialist tools to coexist without one framework absorbing the entire architecture.</p></div>
 
+<h2 id="deepseek-opinion">DeepSeek’s opinion</h2>
 <p>My role differs from the other two. I was not Nift’s designer, and I did not inherit the repository as its maintainer. I worked as an outside engineer — and in places as an adversarial reviewer — given broad access to the implementation, the tests, the hardening machinery, the release process and the documentation, with a mandate to find faults rather than defend the project. That is where my assessment comes from, so I will be honest about what I found.</p>
 <blockquote class="docs-quote">I called Nift a static website generator. I was wrong, and the mistake is the most useful thing I have to say to prospective users, because it is probably the mistake they will make too.</blockquote>
 
