@@ -145,6 +145,50 @@
     installCommand.dataset.customHighlight = 'true';
   }
 
+  // The complete CLI map is a command reference, not a shell program. Mark its
+  // executable, subcommands and options explicitly so a generic Bash grammar
+  // cannot colour identical kinds of token inconsistently.
+  const commandMap = document.querySelector('[data-command-map]');
+  if (commandMap) {
+    const token = (className, text) => {
+      const span = document.createElement('span');
+      span.className = className;
+      span.textContent = text;
+      return span;
+    };
+    const source = commandMap.textContent || '';
+    const lines = source.split('\n');
+    const fragment = document.createDocumentFragment();
+
+    lines.forEach((line, lineIndex) => {
+      if (line.startsWith('#')) {
+        fragment.appendChild(token('cli-comment', line));
+      } else {
+        const command = line.match(/^(nift)(\s+)([a-z-]+)(.*)$/);
+        if (!command) {
+          fragment.appendChild(document.createTextNode(line));
+        } else {
+          fragment.appendChild(token('cli-executable', command[1]));
+          fragment.appendChild(document.createTextNode(command[2]));
+          fragment.appendChild(token('cli-command', command[3]));
+
+          let cursor = 0;
+          const optionPattern = /--?[a-z][a-z-]*(?:=[^\]\s|]+)?/gi;
+          for (const option of command[4].matchAll(optionPattern)) {
+            fragment.appendChild(document.createTextNode(command[4].slice(cursor, option.index)));
+            fragment.appendChild(token('cli-option', option[0]));
+            cursor = option.index + option[0].length;
+          }
+          fragment.appendChild(document.createTextNode(command[4].slice(cursor)));
+        }
+      }
+      if (lineIndex < lines.length - 1) fragment.appendChild(document.createTextNode('\n'));
+    });
+
+    commandMap.replaceChildren(fragment);
+    commandMap.dataset.customHighlight = 'true';
+  }
+
   // Add one reusable copy control to every block example. The button lives
   // outside <pre>, so copying the code never includes the UI itself.
   const copyIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8h10v12H8z"></path><path d="M6 16H4V4h10v2"></path></svg>';
