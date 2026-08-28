@@ -173,10 +173,11 @@
           fragment.appendChild(token('cli-command', command[3]));
 
           let cursor = 0;
-          const optionPattern = /--?[a-z][a-z-]*(?:=[^\]\s|]+)?/gi;
+          const optionPattern = /(^|[\s[|])(--?[a-z][a-z-]*(?:=[^\]\s|]+)?)/gi;
           for (const option of command[4].matchAll(optionPattern)) {
-            fragment.appendChild(document.createTextNode(command[4].slice(cursor, option.index)));
-            fragment.appendChild(token('cli-option', option[0]));
+            const optionStart = option.index + option[1].length;
+            fragment.appendChild(document.createTextNode(command[4].slice(cursor, optionStart)));
+            fragment.appendChild(token('cli-option', option[2]));
             cursor = option.index + option[0].length;
           }
           fragment.appendChild(document.createTextNode(command[4].slice(cursor)));
