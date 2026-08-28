@@ -9,7 +9,7 @@
 npm run build:frontend
 
 # generate the Nift-managed outputs
-nift build-all
+nift build --all
 
 # deploy public/
 </code></pre> <h2 id="supported-platform-targets">Supported platform targets</h2> <p>For common static hosts, start with the same CLI shape and let Nift prepare the provider-specific plumbing:</p> <pre><code class="language-bash">nift init --target=vercel
@@ -45,7 +45,7 @@ const supabase = createClient(
 
 const { data } = await supabase
   .from('projects')
-  .select('*');</code></pre> <p>Supabase Storage public buckets can also serve public assets through its CDN-backed object URLs. For a whole static website, however, a normal web/static host is usually the clearer division of responsibility.</p> <h2 id="nginx-apache-caddy">nginx / Apache / Caddy</h2> <p>For a traditional server, copy <code>public/</code> to the directory your web server serves.</p> <pre><code class="language-bash">nift build-all
+  .select('*');</code></pre> <p>Supabase Storage public buckets can also serve public assets through its CDN-backed object URLs. For a whole static website, however, a normal web/static host is usually the clearer division of responsibility.</p> <h2 id="nginx-apache-caddy">nginx / Apache / Caddy</h2> <p>For a traditional server, copy <code>public/</code> to the directory your web server serves.</p> <pre><code class="language-bash">nift build --all
 rsync -av --delete public/ user@example.com:/var/www/example/</code></pre> <p>Nift does not need to run on the production server if you build before deployment.</p> <h2 id="go-application">Go application</h2> <p>A Go backend can serve the generated directory directly or embed/copy it into the application image.</p> <pre><code class="language-go">mux := http.NewServeMux()
 mux.Handle("/", http.FileServer(http.Dir("public")))
 
@@ -58,7 +58,7 @@ app.listen(3000);</code></pre> <h2 id="python">Python</h2> <p>Flask, FastAPI, Dj
 FROM your-nift-build-image AS build
 WORKDIR /site
 COPY . .
-RUN nift build-all
+RUN nift build --all
 
 # serving stage
 FROM nginx:alpine
@@ -66,6 +66,6 @@ COPY --from=build /site/public /usr/share/nginx/html</code></pre> <h2 id="static
 api.example.com      → Go / Node / Python / serverless backend
 database/auth/etc.   → your chosen services</code></pre> <p>Nift does not need to know how those runtime services are deployed. The frontend can call them with ordinary HTTP/WebSockets.</p> <h2 id="ci-pipelines">CI pipelines</h2> <p>Whatever platform you use, a production pipeline commonly becomes:</p> <pre><code class="language-bash">npm ci                  # if the project uses npm
 npm run build:frontend  # TypeScript/Vite/Tailwind/etc.
-nift build-all
+nift build --all
 npm test                # or your own checks
 # deploy public/</code></pre> <div class="docs-callout"><strong>Deployment is intentionally boring.</strong><p>The useful property is that Nift's output is ordinary files. You can host them with a static platform, put them behind your own server, include them in a container, or make them one piece of a much larger application deployment.</p></div> <div class="docs-next"><span>Related</span><a href="use-cases/web-apps.html">Full web applications →</a></div> </article> </main> </div> <footer class="site-footer"> <div class="footer-inner"> <div> <strong>Nift</strong> <p>Build the web without letting your build tool own it.</p> </div> <div class="footer-links"> <a href="../docs.html">Documentation</a> <a href="../templates.html">Templates</a> <a href="../examples.html">Examples</a> <a href="../developers.html">Developers</a> <a href="../about.html">About</a> <a href="https://github.com/nift-dev/nift" target="_blank" rel="noreferrer">GitHub</a> </div> </div> <div class="footer-bottom"> <span>Open source · MIT licensed · <a href="../privacy.html">Privacy</a> · <a href="../contact.html">Contact</a></span> <span>© <span data-current-year></span></span> </div> </footer> <script>document.querySelectorAll("[data-current-year]").forEach(function(el){el.textContent=String(new Date().getFullYear());});</script> <script defer src="../assets/js/script.js"></script> </body> </html>

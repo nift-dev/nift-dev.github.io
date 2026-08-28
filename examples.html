@@ -46,7 +46,7 @@ const app = express();
 app.use(express.static('public'));
 app.get('/api/health', (_, res) =&gt; res.json({ ok: true }));
 app.listen(3000);</code></pre> </article> <article class="example-stack"> <p class="eyebrow">09 · Bun</p><h2>Nift + Bun + TypeScript</h2> <p>Bun can manage packages, bundle browser code or run your server while Nift remains the document build layer.</p> <pre><code class="language-bash">bun run build:frontend
-nift build-all
+nift build --all
 bun run server</code></pre> </article> <article class="example-stack"> <p class="eyebrow">10 · Python</p><h2>Nift + FastAPI / Flask / Django</h2> <p>Python owns application runtime concerns; Nift can own the static/generated frontend.</p> <pre><code class="language-plaintext">Nift:   pages + templates + frontend shell
 Python: APIs + auth + business logic + database
 HTTP:   the boundary between them</code></pre> </article> <article class="example-stack"> <p class="eyebrow">11 · Realtime</p><h2>Nift + WebSockets</h2> <p>A generated shell is perfectly compatible with a live application once browser JavaScript connects to a realtime backend.</p> <pre><code class="language-javascript">const socket = new WebSocket('wss://example.com/ws');
@@ -54,7 +54,7 @@ socket.addEventListener('message', ({ data }) =&gt; {
   updateDashboard(JSON.parse(data));
 });</code></pre> </article> <article class="example-stack"> <p class="eyebrow">12 · Production pipeline</p><h2>Bundlers + minifiers + image tools</h2> <p>Put Nift wherever it belongs in a larger build pipeline rather than teaching Nift to reproduce every specialist tool.</p> <pre><code class="language-bash">npm run build:frontend
 npm run optimize:images
-nift build-all
+nift build --all
 npm run minify:html</code></pre> </article> <article class="example-stack"> <p class="eyebrow">13 · Existing site</p><h2>Add Nift without rewriting</h2> <p>Take repeated structure out of a site you already have.</p> <pre><code class="language-plaintext">Before                After
 ------                -----
 index.html            content/index.html
@@ -70,5 +70,5 @@ Build a polished documentation site. Reuse templates and
 partials, use @pathto for local project links/assets, and keep
 the existing Nift architecture.</code></pre> </article> <article class="example-stack"> <p class="eyebrow">16 · CI</p><h2>Nift in an ordinary deployment pipeline</h2> <p>The final output is just files, so deployment can remain boring.</p> <pre><code class="language-bash">npm ci
 npm run build
-nift build-all
+nift build --all
 # deploy public/ using your hosting platform</code></pre> </article> </section> <section class="examples-closer"> <p class="eyebrow">The point</p> <h2>You do not need to choose “the Nift stack.”</h2> <p>Choose the stack that suits the application. Use Nift when a tiny, fast, dependency-aware templating and build layer makes that stack simpler.</p> <div class="hero-actions"><a class="button button-primary" href="docs/advanced.html">Using the wider ecosystem →</a><a class="button button-secondary" href="docs/use-cases/web-apps.html">Full web application patterns →</a></div> </section> </main> <footer class="site-footer"> <div class="footer-inner"> <div> <strong>Nift</strong> <p>Build the web without letting your build tool own it.</p> </div> <div class="footer-links"> <a href="./docs.html">Documentation</a> <a href="./templates.html">Templates</a> <a href="./examples.html">Examples</a> <a href="./developers.html">Developers</a> <a href="./about.html">About</a> <a href="https://github.com/nift-dev/nift" target="_blank" rel="noreferrer">GitHub</a> </div> </div> <div class="footer-bottom"> <span>Open source · MIT licensed · <a href="./privacy.html">Privacy</a> · <a href="./contact.html">Contact</a></span> <span>© <span data-current-year></span></span> </div> </footer> <script>document.querySelectorAll("[data-current-year]").forEach(function(el){el.textContent=String(new Date().getFullYear());});</script> <script defer src="assets/js/demo.js"></script> <script defer src="assets/js/script.js"></script> </body> </html>

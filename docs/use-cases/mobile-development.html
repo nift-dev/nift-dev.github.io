@@ -34,7 +34,7 @@ mobile/              optional Android/iOS wrapper project
 npm run build:client
 
 # build Nift pages/assets
-nift build-all
+nift build --all
 
 # then let your chosen mobile wrapper sync/package public/
 # e.g. its normal Android/iOS build commands</code></pre> <p>No dedicated Nift mobile target is required for this architecture. A future scaffold could make the workflow nicer, but the fundamental integration is already just generated web assets plus the mobile tool's normal packaging step.</p> <h2 id="what-nift-owns">What Nift owns</h2> <div class="advanced-doc-grid"> <div><h2 id="application-shell">Application shell</h2><p>Document structure, shared templates, navigation, page composition and repeated fragments can stay in Nift.</p></div> <div><h2 id="checked-project-relationships">Checked project relationships</h2><p>Tracked pages, <code>@pathto</code>, dependencies, JSON data and project contracts can keep build-time relationships explicit rather than scattering unchecked strings throughout the app.</p></div> <div><h2 id="build-time-data">Build-time data</h2><p>JSON, loops, conditions, schemas and collection transforms can generate structured screens and bundles before the application ships.</p></div> <div><h2 id="incremental-development">Incremental development</h2><p>Nift's dependency-aware rebuild model can keep repeated edit/build/package loops small while the rest of the mobile toolchain remains unchanged.</p></div> </div> <h2 id="what-the-runtime-owns">What the runtime owns</h2> <pre><code class="language-plaintext">Nift                            Browser / mobile runtime
