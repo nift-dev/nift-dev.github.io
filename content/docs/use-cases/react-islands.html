@@ -1,35 +1,139 @@
 <article class="docs-article">
   <p class="docs-kicker">Pattern</p><h1>UI islands.</h1>
-  <p class="docs-lead">React, Vue and Svelte do not need special status inside Nift. They can simply be tools that produce JavaScript for interactive regions of an otherwise generated page.</p>
+  <p class="docs-lead">React, Vue and Svelte can own interactive regions without owning the whole document. Nift generates the stable page and checked asset relationship; a normal frontend toolchain compiles the island.</p>
 
-  <h2 id="nift-provides-the-document-and-mount-point">Nift provides the document and mount point</h2>
-  <pre><code class="language-html">&lt;article&gt;
-  &lt;h1&gt;Product configurator&lt;/h1&gt;
-  &lt;p&gt;Most of this page is ordinary generated HTML.&lt;/p&gt;
-  &lt;div id="configurator"&gt;&lt;/div&gt;
+  <h2 id="a-complete-project-shape">A complete project shape</h2>
+  <pre><code class="language-plaintext">content/
+  products/configure.html
+templates/
+  product.html
+frontend/
+  vite.config.js
+  src/
+    configurator.jsx
+public/
+  assets/
+    configurator.js
+.nift/
+package.json</code></pre>
+  <p>This example uses React and Vite, but the boundary is the same with Vue, Svelte, esbuild, Rollup or another browser build.</p>
+
+  <h2 id="nift-provides-useful-html-and-the-mount-point">Nift provides useful HTML and the mount point</h2>
+  <pre><code class="language-html">&lt;article class="product-page"&gt;
+  &lt;h1&gt;Configure your workstation&lt;/h1&gt;
+  &lt;p&gt;Choose memory and storage, then review the estimated total.&lt;/p&gt;
+
+  &lt;div id="configurator" data-currency="AUD"&gt;
+    &lt;form&gt;
+      &lt;label&gt;Memory &lt;select disabled&gt;&lt;option&gt;16 GB&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;
+      &lt;label&gt;Storage &lt;select disabled&gt;&lt;option&gt;512 GB&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;
+      &lt;p&gt;Enable JavaScript to configure this product interactively.&lt;/p&gt;
+    &lt;/form&gt;
+  &lt;/div&gt;
 &lt;/article&gt;
 
 &lt;script type="module" src="\@pathto('public/assets/configurator.js')"&gt;&lt;/script&gt;</code></pre>
+  <p>The fallback can remain useful before hydration or when JavaScript fails. The page title, explanation, navigation and non-interactive content do not need a client framework.</p>
 
-  <h2 id="your-frontend-toolchain-produces-the-island">Your frontend toolchain produces the island</h2>
-  <pre><code class="language-bash"># Examples only — use the toolchain you prefer
-npm run build
-# or
-bun run build
+  <h2 id="vite-builds-a-stable-entry-file">Vite builds a stable entry file</h2>
+  <pre><code class="language-javascript">// frontend/vite.config.js
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { resolve } from 'node:path';
 
-nift build</code></pre>
+export default defineConfig({
+  plugins: [react()],
+  build: {
+    outDir: resolve(import.meta.dirname, '../public/assets'),
+    emptyOutDir: false,
+    rollupOptions: {
+      input: resolve(import.meta.dirname, 'src/configurator.jsx'),
+      output: {
+        entryFileNames: 'configurator.js',
+        chunkFileNames: 'chunks/[name]-[hash].js',
+        assetFileNames: 'chunks/[name]-[hash][extname]'
+      }
+    }
+  }
+});</code></pre>
+  <p><code>emptyOutDir: false</code> matters when the bundler writes into a directory that also contains Nift-managed or manually maintained assets. A stable entry filename gives Nift a concrete path to verify while still allowing internal chunks to use content hashes.</p>
 
-  <p>Vite, esbuild, Rollup or another bundler can compile a React/Vue/Svelte entry point into <code>public/assets/configurator.js</code>. Nift does not need to understand the component framework to reference its output.</p>
+  <h2 id="mount-the-island-normally">Mount the island normally</h2>
+  <pre><code class="language-javascript">// frontend/src/configurator.jsx
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { Configurator } from './Configurator.jsx';
 
-  <h2 id="why-use-this-pattern">Why use this pattern?</h2>
-  <p>You can reserve client-framework complexity for the regions that need rich state and interaction while keeping the rest of the site as direct HTML. It is an architectural option, not a Nift requirement.</p>
-<h2 id="several-islands-on-one-page">Several islands on one page</h2><pre><code class="language-html">&lt;div id="search"&gt;&lt;/div&gt;
-&lt;div id="cart"&gt;&lt;/div&gt;
-&lt;script type="module" src="\\@pathto('public/assets/search.js')"&gt;&lt;/script&gt;
-&lt;script type="module" src="\\@pathto('public/assets/cart.js')"&gt;&lt;/script&gt;</code></pre><p>The islands do not even have to use the same framework if there is a genuine reason for them not to; from Nift's perspective they are simply browser assets referenced by the generated page.</p><h2 id="progressive-enhancement">Progressive enhancement</h2><p>You can put useful HTML inside the mount region first, then let the client component enhance or replace it. Nift does not require interactivity to erase the server/generated document model.</p><h2 id="example-repository">Example repository</h2><pre><code class="language-plaintext">content/
-templates/
-frontend/
-  src/configurator.tsx
-  vite.config.ts
-public/
-  assets/configurator.js</code></pre><p>The frontend directory can use the framework's normal conventions. Nift only references the browser artifact it produces.</p><h2 id="multiple-pages-selective-interactivity">Multiple pages, selective interactivity</h2><p>A marketing page might have no island at all, a pricing page might mount one calculator, and an account page might mount a larger application. They can still share the same Nift template and navigation.</p></article>
+const mount = document.querySelector('#configurator');
+
+if (mount) {
+  createRoot(mount).render(
+    &lt;Configurator currency={mount.dataset.currency} /&gt;
+  );
+}</code></pre>
+  <p>Nift does not participate in React rendering, state or hydration. It owns the generated document and the checked relationship to the bundle.</p>
+
+  <h2 id="make-build-order-explicit">Make build order explicit</h2>
+  <pre><code class="language-json">{
+  "scripts": {
+    "dev:islands": "vite build --watch --config frontend/vite.config.js",
+    "build:islands": "vite build --config frontend/vite.config.js",
+    "build:nift": "nift build",
+    "build": "npm run build:islands &amp;&amp; npm run build:nift",
+    "build:release": "npm run build:islands &amp;&amp; nift build --all"
+  }
+}</code></pre>
+  <p>The bundle must exist before Nift evaluates <code>\@pathto</code>. If the frontend build fails, stop; do not let Nift package a stale bundle from an earlier run.</p>
+
+  <h2 id="development-loop">Development loop</h2>
+  <p>The simplest reliable development loop runs the Vite watcher and Nift watcher as sibling processes:</p>
+  <pre><code class="language-bash"># terminal 1
+npm run dev:islands
+
+# terminal 2
+nift build --auto</code></pre>
+  <p>Configure Vite's development build to write the artifact Nift references, or use a small process runner that starts both commands and stops both when one fails. Nift deliberately does not become the parent process for the frontend toolchain.</p>
+
+  <h2 id="hashed-entry-manifests">When the entry filename must be hashed</h2>
+  <p>A fixed entry is the simplest relationship. If deployment policy requires every entry filename to be content-hashed, have the frontend build write a small Nift-facing manifest after it reads the bundler's native manifest. Build it first, then load the simple bridge file and interpolate its selected entry into the checked path:</p>
+  <pre><code class="language-json">// public/islands-manifest.json
+{
+  "entry": "assets/configurator-CQ3eJ5.js"
+}</code></pre>
+  <pre><code class="language-nift">\@json('public/islands-manifest.json', islands)
+
+&lt;script type="module"
+  src="\@pathto('public/$[islands.entry]')"&gt;&lt;/script&gt;</code></pre>
+  <p>Generate the bridge file; do not maintain the hash by hand. This avoids coupling the Nift template to a bundler-specific nested manifest shape. Both the bridge manifest and selected asset must exist before Nift builds, keeping cache-busting in the bundler and path verification in Nift.</p>
+
+  <h2 id="several-islands">Several islands and shared runtime</h2>
+  <pre><code class="language-html">&lt;div id="product-search"&gt;&lt;/div&gt;
+&lt;div id="mini-cart"&gt;&lt;/div&gt;
+&lt;script type="module" src="\@pathto('public/assets/product-search.js')"&gt;&lt;/script&gt;
+&lt;script type="module" src="\@pathto('public/assets/mini-cart.js')"&gt;&lt;/script&gt;</code></pre>
+  <p>Multiple islands may share chunks through the bundler. They can even use different frameworks, but that adds dependency and mental-model cost; do it because the repository genuinely needs it, not because Nift permits it.</p>
+
+  <h2 id="passing-data">Pass only the data the browser needs</h2>
+  <p>Small scalar configuration can use data attributes. Larger public configuration can use a JSON script element. Never serialize server secrets into the document:</p>
+  <pre><code class="language-html">&lt;script type="application/json" id="configurator-data"&gt;
+{
+  "currency": "AUD",
+  "apiBase": "/api/catalog"
+}
+&lt;/script&gt;</code></pre>
+
+  <h2 id="when-an-island-stops-being-an-island">When an island stops being an island</h2>
+  <p>If one region grows into the entire authenticated route—with runtime routing, most content, data loading and state owned by the client application—letting Vite or an application framework own that route directly may be clearer. Keep Nift around the regions where its document composition and dependency model still earn their place.</p>
+
+  <h2 id="verification-checklist">Verification checklist</h2>
+  <ol>
+    <li>Delete old frontend artifacts and prove the bundler recreates them.</li>
+    <li>Run the frontend build before <code>nift build --all</code>.</li>
+    <li>Confirm every <code>\@pathto</code> target and manifest-selected asset exists.</li>
+    <li>Load the page with JavaScript disabled and inspect fallback/accessibility behavior.</li>
+    <li>Load it normally and check the browser console, network paths and chunk requests.</li>
+    <li>Verify a failed frontend build cannot silently deploy a stale previous bundle.</li>
+  </ol>
+
+  <div class="docs-callout"><strong>An island is a boundary, not a branded feature.</strong><p>Nift does not need framework-specific hydration directives to support selective interactivity. It needs an honest build order, a checked browser asset and a clear decision about what remains generated versus runtime-owned.</p></div>
+</article>

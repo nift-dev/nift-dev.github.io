@@ -1,18 +1,77 @@
 <article class="docs-article">
 <p class="docs-kicker">Platform target</p><h1>Netlify</h1>
-<p class="docs-lead">Netlify can deploy Nift's normal <code>public/</code> tree, so the target keeps Nift's standard output layout and adds the project-level build configuration Netlify understands.</p>
-<pre><code class="language-bash">nift init --target=netlify</code></pre>
+<p class="docs-lead">Netlify can deploy Nift's normal <code>public/</code> tree. The target keeps that standard output layout and creates the project-level build configuration Netlify understands.</p>
+
+<h2 id="create-and-build">Create and build</h2>
+<pre><code class="language-bash">nift init --target=netlify
+nift build --all
+nift status</code></pre>
+<p>Commit authored source, templates, <code>.nift/</code> project configuration and <code>netlify.toml</code>. Whether generated <code>public/</code> is committed is a repository policy; Netlify only needs it as the publish artifact produced by the build.</p>
+
 <h2 id="what-nift-creates">What Nift creates</h2>
 <pre><code class="language-toml">[build]
   command = "nift build"
   publish = "public"</code></pre>
-<p><code>netlify.toml</code> is user-owned after initialization. Netlify's file-based configuration overrides conflicting UI build settings, so keep it as the source of truth if you adopt it.</p>
-<h2 id="build-environment">Build environment</h2>
-<p>The generated command assumes <code>nift</code> is available on the Netlify build image. Choose and document the installation method for your project rather than having Nift silently inject one.</p>
-<h2 id="functions-and-edge-logic">Functions and edge logic</h2>
-<p>Netlify Functions live outside the publish directory (the default functions directory is <code>netlify/functions</code>), while Edge Functions default to <code>netlify/edge-functions</code>. They can sit beside a Nift site without changing the template/build model.</p>
-<h2 id="routing-and-headers">Routing and headers</h2>
-<p>Netlify supports redirects, rewrites/proxies and custom headers through its static routing/configuration mechanisms. These can route requests to static files or serverless functions while Nift continues generating ordinary files.</p>
-<p>Official references: <a href="https://docs.netlify.com/build/configure-builds/file-based-configuration/">file-based configuration</a>, <a href="https://docs.netlify.com/build/configure-builds/overview/">build configuration</a>, <a href="https://docs.netlify.com/manage/routing/overview/">routing</a>, and <a href="https://docs.netlify.com/build/edge-functions/get-started/">Edge Functions</a>.</p>
+<p><code>netlify.toml</code> is user-owned after initialization. File-based configuration overrides conflicting UI build settings, so treat the committed file as the source of truth if you adopt it.</p>
+
+<h2 id="make-nift-available-to-the-build">Make Nift available to the build</h2>
+<p>The generated command assumes <code>nift</code> is on the build image's <code>PATH</code>. Choose a reproducible installation policy: pin a release archive/checksum in a repository script, use an approved package channel, or build the reviewed Nift source. Do not rely silently on whichever “latest” version happens to exist when the deploy runs.</p>
+<pre><code class="language-toml">[build]
+  command = "./scripts/install-nift 4.0.7 &amp;&amp; nift build --all"
+  publish = "public"</code></pre>
+<p>The example names a project-owned installer contract; implement it according to your repository's trust and platform policy. Confirm the build log reports the intended <code>nift version</code>.</p>
+
+<h2 id="deploy-preview-and-production-flow">Deploy Preview and production flow</h2>
+<ol>
+  <li>Connect the Git repository and let Netlify read <code>netlify.toml</code>.</li>
+  <li>Open a pull request and inspect its Deploy Preview, including nested links and generated assets.</li>
+  <li>Verify the log used the pinned Nift version and published <code>public/</code>.</li>
+  <li>Merge through the branch configured for production deployment.</li>
+  <li>Fresh-load the production URL and inspect response headers for HTML and hashed assets.</li>
+</ol>
+
+<h2 id="redirects-rewrites-and-proxies">Redirects, rewrites and proxies</h2>
+<p>Define routing in <code>netlify.toml</code> or a published <code>_redirects</code> file. A rewrite can proxy an API while the Nift site remains static:</p>
+<pre><code class="language-toml">[[redirects]]
+  from = "/api/*"
+  to = "https://api.example.com/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/old-docs/*"
+  to = "/docs/:splat"
+  status = 301</code></pre>
+<p>Do not add an SPA catch-all to an ordinary multi-page Nift site: it can conceal missing files and turn useful 404s into the wrong page. Add one only when a client router genuinely owns that route space.</p>
+
+<h2 id="headers-and-caching">Headers and caching</h2>
+<pre><code class="language-toml">[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+    X-Content-Type-Options = "nosniff"</code></pre>
+<p>Use long immutable caching only for filenames that change with their content. Stable names such as <code>app.js</code> need revalidation or a shorter lifetime. Add security headers deliberately and test the composed application; a strict Content Security Policy can break inline scripts or third-party resources.</p>
+
+<h2 id="functions-and-edge-functions">Functions and Edge Functions</h2>
+<p>Netlify Functions normally live under <code>netlify/functions</code>, and Edge Functions under <code>netlify/edge-functions</code>. They sit beside the publish directory. Nift builds the frontend files; the Netlify runtimes own requests, secrets and server-side behavior.</p>
+
+<h2 id="custom-domains-and-https">Custom domains and HTTPS</h2>
+<p>Add the domain through Netlify's domain management, apply the DNS records it provides, choose the canonical apex/<code>www</code> behavior, and wait for DNS and certificate provisioning. If HTTPS remains pending, inspect stale DNS records and TTL propagation before changing application code.</p>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody>
+<tr><td><code>nift: command not found</code></td><td>The build-image installation step and resulting <code>PATH</code>; print <code>nift version</code> before building.</td></tr>
+<tr><td>Deploy succeeds but site is empty</td><td><code>publish = "public"</code>, repository base directory and whether Nift actually generated files there.</td></tr>
+<tr><td>Nested page/assets 404</td><td>Use <code>\@pathto</code> for project-local links and inspect accidental absolute-root URLs.</td></tr>
+<tr><td>Every unknown URL shows the homepage</td><td>Remove an inappropriate SPA rewrite.</td></tr>
+<tr><td>Old JavaScript persists</td><td>Cache policy versus filename strategy; do not mark stable filenames immutable.</td></tr>
+<tr><td>Custom domain/certificate pending</td><td>DNS target, conflicting records and TTL propagation.</td></tr>
+</tbody></table></div>
+
+<p>Official references: <a href="https://docs.netlify.com/build/configure-builds/file-based-configuration/">file-based configuration</a>, <a href="https://docs.netlify.com/manage/routing/overview/">routing</a>, <a href="https://docs.netlify.com/manage/routing/headers/">headers</a>, and <a href="https://docs.netlify.com/manage/domains/get-started-with-domains/">domains</a>.</p>
 <div class="docs-next"><span>Next platform</span><a href="@pathto('docs/platforms/amplify')">AWS Amplify →</a></div>
 </article>

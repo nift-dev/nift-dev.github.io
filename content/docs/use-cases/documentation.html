@@ -1,41 +1,117 @@
 <article class="docs-article">
   <p class="docs-kicker">Pattern</p><h1>Documentation sites.</h1>
-  <p class="docs-lead">Documentation is a natural fit for Nift: many pages share the same navigation and layout, while each page's actual content remains simple and readable.</p>
+  <p class="docs-lead">Documentation is a natural fit for Nift: many pages share navigation, layout and browser helpers, while each page remains an ordinary readable source file. The useful part is not merely templating—it is knowing exactly which pages a shared change affects.</p>
 
-  <h2 id="structure">Structure</h2>
+  <h2 id="a-complete-documentation-project">A complete documentation project</h2>
   <pre><code class="language-plaintext">content/docs/
+  index.html
   getting-started.html
   configuration.html
-  api.html
+  commands.html
 templates/
   docs.html
   partials/
     docs-sidebar.html
+    docs-search.html
     header.html
-    footer.html</code></pre>
+    footer.html
+public/assets/
+  docs.js
+  docs.css
+.nift/
+  config.json
+  tracked.json</code></pre>
+  <p>Track each document by its stable public identity:</p>
+  <pre><code class="language-bash">nift track docs/index "Documentation" templates/docs.html
+nift track docs/getting-started "Getting started" templates/docs.html
+nift track docs/configuration "Configuration" templates/docs.html
+nift track docs/commands "CLI commands" templates/docs.html
+nift build --all</code></pre>
 
-  <h2 id="documentation-template">Documentation template</h2>
-  <pre><code class="language-html">&lt;body&gt;
+  <h2 id="one-template-owns-the-document-shell">One template owns the document shell</h2>
+  <pre><code class="language-html">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;\$[title] · Product docs&lt;/title&gt;
+  &lt;link rel="stylesheet" href="\@pathto('public/assets/docs.css')"&gt;
+&lt;/head&gt;
+&lt;body&gt;
   \@input('templates/partials/header.html')
   &lt;div class="docs-layout"&gt;
     \@input('templates/partials/docs-sidebar.html')
-    &lt;main class="docs-content"&gt;\@content&lt;/main&gt;
+    &lt;main id="main" class="docs-content"&gt;\@content&lt;/main&gt;
   &lt;/div&gt;
   \@input('templates/partials/footer.html')
-&lt;/body&gt;</code></pre>
+  &lt;script src="\@pathto('public/assets/docs.js')" defer&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+  <p>The template owns global document structure. Individual content files start at their page heading and remain free of repeated navigation, metadata and asset tags.</p>
 
-  <h2 id="links-survive-nesting">Links survive nesting</h2>
-  <pre><code class="language-html">&lt;a href="\@pathto('docs/getting-started')"&gt;Getting started&lt;/a&gt;
-&lt;a href="\@pathto('docs/api')"&gt;API&lt;/a&gt;</code></pre>
-  <p>The same partial can be used by pages at different output depths because <code>\@pathto</code> resolves from the current output page.</p>
+  <h2 id="navigation-is-a-real-checked-relationship">Navigation is a real checked relationship</h2>
+  <pre><code class="language-html">&lt;nav aria-label="Documentation"&gt;
+  &lt;a href="\@pathto('docs/index')"&gt;Overview&lt;/a&gt;
+  &lt;a href="\@pathto('docs/getting-started')"&gt;Getting started&lt;/a&gt;
+  &lt;a href="\@pathto('docs/configuration')"&gt;Configuration&lt;/a&gt;
+  &lt;a href="\@pathto('docs/commands')"&gt;CLI commands&lt;/a&gt;
+&lt;/nav&gt;</code></pre>
+  <p>The same sidebar works from every nesting depth. <code>\@pathto</code> calculates the correct output-relative URL and fails the build if a named destination disappears instead of shipping a known broken local link.</p>
 
-  <h2 id="shared-docs-ui-becomes-a-dependency">Shared docs UI becomes a dependency</h2>
-  <p>When every documentation page inputs the same sidebar, changing that sidebar marks the pages that use it as affected. That makes a large docs site a good demonstration of Nift's dependency-aware incremental builds.</p>
+  <h2 id="see-the-impact-of-a-change-before-building">See the impact of a change before building</h2>
+  <pre><code class="language-bash"># Change one page
+$ nift status
+docs/configuration
+  content changed
 
-  <div class="docs-callout"><strong>Keep authoring simple.</strong><p>You can layer Markdown conversion or another content tool beside Nift if you want it, but Nift does not require a special documentation content format.</p></div>
-<h2 id="versioned-documentation">Versioned documentation</h2><pre><code class="language-plaintext">content/docs/
+# Change templates/partials/docs-sidebar.html
+$ nift status
+docs/index
+  dependency changed: templates/partials/docs-sidebar.html
+docs/getting-started
+  dependency changed: templates/partials/docs-sidebar.html
+# ...every page that actually uses the sidebar</code></pre>
+  <p>An edit to one content file stays local. An edit to shared documentation UI correctly invalidates its consumers. Use <code>nift status -p</code> when a large fan-out is summarized and you need every affected name.</p>
+
+  <h2 id="search-copy-buttons-and-playgrounds-remain-browser-features">Search, copy buttons and playgrounds remain browser features</h2>
+  <p>Nift can generate the search form, result container, code blocks and playground mount points. Ordinary JavaScript or a specialist search indexer owns the interactive behaviour:</p>
+  <pre><code class="language-html">&lt;form role="search" data-docs-search&gt;
+  &lt;label for="docs-query"&gt;Search documentation&lt;/label&gt;
+  &lt;input id="docs-query" type="search" autocomplete="off"&gt;
+  &lt;div data-docs-results aria-live="polite"&gt;&lt;/div&gt;
+&lt;/form&gt;</code></pre>
+  <p>A TypeScript/Vite build may write <code>public/assets/docs.js</code> before Nift runs. Nift does not need to become a search engine or browser-component framework to place and check that asset.</p>
+
+  <h2 id="versioned-documentation">Versioned documentation</h2>
+  <pre><code class="language-plaintext">content/docs/
   v4/
     getting-started.html
     commands.html
+  v3/
+    commands.html
   migration/
-    v3-to-v4.html</code></pre><p>Tracked names keep internal links explicit while shared templates can give current and historical docs the same overall design.</p><h2 id="documentation-with-interactive-examples">Documentation with interactive examples</h2><p>A docs page can still load TypeScript-generated playgrounds, search UI or copy buttons from <code>public/assets/</code>. Static/generated documentation and interactive browser features are not mutually exclusive.</p></article>
+    v3-to-v4.html</code></pre>
+  <p>Give every maintained version a distinct tracked name such as <code>docs/v4/commands</code>. A shared template can display a version selector, while <code>\@pathto</code> keeps cross-version and migration links explicit. Do not overwrite historical documentation with current semantics if users still operate an older release.</p>
+
+  <h2 id="markdown-is-an-optional-authoring-layer">Markdown is an optional authoring layer</h2>
+  <p>If a team prefers Markdown, run a Markdown converter before Nift and make its output an explicit input to the Nift build. Keep the ordering visible in a Makefile or package script:</p>
+  <pre><code class="language-makefile">docs:
+	./scripts/render-markdown
+	nift build
+
+docs-clean:
+	./scripts/render-markdown
+	nift build --all</code></pre>
+  <p>Nift does not require a special documentation content format. The important contract is that the preprocessing step finishes successfully before Nift consumes its output.</p>
+
+  <h2 id="build-and-verification-checklist">Build and verification checklist</h2>
+  <ol>
+    <li>Run any asset, Markdown, search-index or playground build first.</li>
+    <li>Run <code>nift build</code> during development and <code>nift build --all</code> for a clean release check.</li>
+    <li>Inspect <code>nift status</code>; it should be clean immediately after the build.</li>
+    <li>Crawl generated local links and fragments, including nested and versioned pages.</li>
+    <li>Exercise keyboard navigation, narrow layouts, code overflow, search and copy controls.</li>
+    <li>Deploy the generated directory—not source content or <code>.nift/</code> build state.</li>
+  </ol>
+
+  <div class="docs-callout"><strong>Keep authoring simple; make relationships explicit.</strong><p>The strongest Nift documentation project is not the one with the most generator features. It is the one where shared UI, paths, preprocessing and interactive assets have obvious owners and can be verified independently.</p></div>
+</article>

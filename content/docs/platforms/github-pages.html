@@ -1,27 +1,105 @@
 <article class="docs-article">
 <p class="docs-kicker">Platform target</p><h1>GitHub Pages</h1>
-<p class="docs-lead">GitHub Pages needs no special Nift output format, so this target deliberately keeps the ordinary <code>public/</code> artifact. The value is consistent initialization and a dedicated deployment guide, not invented provider metadata.</p>
-<pre><code class="language-bash">nift init --target=github-pages
-nift build</code></pre>
-<h2 id="what-nift-creates">What Nift creates</h2>
-<p>The project layout is the normal Nift HTML starter with <code>public/</code> as its output directory. No provider file is created because Pages can deploy an arbitrary static artifact from a custom GitHub Actions workflow.</p>
-<h2 id="actions-deployment">Actions deployment</h2>
-<p>A Pages workflow normally checks out the repository, makes Nift available, runs the build, uploads <code>public/</code> with <code>actions/upload-pages-artifact</code>, then deploys it with <code>actions/deploy-pages</code>.</p>
-<pre><code class="language-yaml">permissions:
-  contents: read
-  pages: write
-  id-token: write
+<p class="docs-lead">GitHub Pages needs no special Nift output format. The target deliberately keeps the ordinary <code>public/</code> artifact; a GitHub Actions workflow builds and deploys that directory.</p>
 
-# ... checkout + install Nift ...
-# run: nift build
-# uses: actions/upload-pages-artifact@v4
-#   with: { path: public }
-# uses: actions/deploy-pages@v4</code></pre>
-<p>Nift does not generate the complete workflow because the correct Nift installation step depends on the distribution/version policy you choose for that repository.</p>
-<h2 id="dynamic-behaviour">Dynamic behaviour</h2>
-<p>GitHub Pages is static hosting. If the frontend needs runtime APIs, host them elsewhere—serverless functions, a conventional backend, Supabase, or another service—and call them over HTTPS.</p>
-<h2 id="project-site-paths">Project-site paths</h2>
-<p>Repository project sites are normally served under <code>/repository-name/</code>, unlike account/organization Pages sites at the domain root. Keep that base-path difference in mind for absolute URLs and application routing.</p>
-<p>Official references: <a href="https://docs.github.com/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages">custom workflows</a>, <a href="https://docs.github.com/pages/getting-started-with-github-pages/what-is-github-pages">Pages overview</a>, and <a href="https://docs.github.com/pages/getting-started-with-github-pages/github-pages-limits">limits</a>.</p>
+<h2 id="create-and-build">Create and build</h2>
+<pre><code class="language-bash">nift init --target=github-pages
+nift build --all
+nift status</code></pre>
+
+<h2 id="what-nift-creates">What Nift creates</h2>
+<p>The project is the normal HTML starter with <code>public/</code> as its output directory. No provider file is invented because Pages can deploy an arbitrary static artifact from a custom Actions workflow.</p>
+
+<h2 id="deployment-workflow">Deployment workflow</h2>
+<p>A complete workflow has four responsibilities: obtain the intended Nift version, build the site, upload exactly <code>public/</code>, and deploy the Pages artifact.</p>
+<pre><code class="language-yaml">name: Deploy Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install the reviewed Nift release
+        shell: bash
+        run: |
+          curl -fsSL https://nift.dev/install |
+            NIFT_VERSION=4.0.7 NIFT_INSTALL_DIR="$RUNNER_TEMP/nift-bin" sh
+          echo "$RUNNER_TEMP/nift-bin" &gt;&gt; "$GITHUB_PATH"
+
+      - name: Build
+        run: |
+          nift version
+          nift build --all
+          nift status
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4</code></pre>
+<p>The example pins the Nift product version but uses readable action major tags. For a protected production workflow, replace third-party action tags with reviewed full commit SHAs and use your dependency-update process to advance them deliberately.</p>
+
+<h2 id="enable-pages">Enable Pages</h2>
+<ol>
+  <li>In repository settings, choose GitHub Actions as the Pages source.</li>
+  <li>Push the workflow and inspect the build job before approving any protected environment.</li>
+  <li>Confirm the deployment URL and open nested pages/assets, not only the homepage.</li>
+  <li>Keep the workflow's Nift version aligned with the version expected by the repository.</li>
+</ol>
+
+<h2 id="account-sites-project-sites-and-paths">Account sites, project sites and paths</h2>
+<div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Site type</th><th>Default URL shape</th><th>Path implication</th></tr></thead><tbody>
+<tr><td>User/organization site</td><td><code>https://owner.github.io/</code></td><td>Served from the domain root.</td></tr>
+<tr><td>Project site</td><td><code>https://owner.github.io/repository/</code></td><td>Root-relative URLs such as <code>/assets/app.js</code> point outside the repository prefix.</td></tr>
+<tr><td>Custom domain</td><td>Your configured domain</td><td>Usually served from the custom-domain root.</td></tr>
+</tbody></table></div>
+<p>Use <code>\@pathto</code> for Nift-managed local pages and assets so links remain output-relative. Audit handwritten root-relative URLs, client-router base paths, web manifests and runtime fetch calls separately.</p>
+
+<h2 id="custom-domains-and-https">Custom domains and HTTPS</h2>
+<p>Add the domain in Pages settings, configure the DNS records GitHub provides, then enable HTTPS after the certificate is ready. Preserve the generated deployment's domain association according to the Pages workflow/settings model; if your process requires a <code>CNAME</code> file in the artifact, ensure it reaches the root of <code>public/</code> on every build rather than editing a generated copy once.</p>
+
+<h2 id="runtime-and-header-boundaries">Runtime and header boundaries</h2>
+<p>GitHub Pages is static hosting. It does not run your backend and does not provide the same repository-defined response-header controls as platforms with a headers configuration file. Host runtime APIs elsewhere and call them over HTTPS. If the project requires strict custom response headers, edge middleware or server routing, choose a host that explicitly provides those controls.</p>
+
+<h2 id="caching">Caching</h2>
+<p>Use content-hashed filenames for browser assets that need aggressive long-lived caching, and update the checked reference when the filename changes. You cannot rely on application-server cache logic on Pages, so verify the response behavior delivered by the platform and design stable filenames conservatively.</p>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody>
+<tr><td>Workflow cannot run <code>nift</code></td><td>Installer result, <code>GITHUB_PATH</code>, runner architecture and requested release version.</td></tr>
+<tr><td>Deploy job is skipped</td><td>Build/upload failure, <code>needs: build</code>, Pages environment and permissions.</td></tr>
+<tr><td>Site works locally but assets 404</td><td>Project-site repository prefix and root-relative URLs; use <code>\@pathto</code> where Nift owns the relationship.</td></tr>
+<tr><td>Only the homepage works</td><td>Generated nested files, case-sensitive paths and client-router assumptions.</td></tr>
+<tr><td>Custom domain remains unverified</td><td>DNS records, conflicting records and propagation time.</td></tr>
+<tr><td>Old asset remains cached</td><td>Use a content-hashed filename or change the asset URL rather than expecting server cache control.</td></tr>
+</tbody></table></div>
+
+<p>Official references: <a href="https://docs.github.com/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages">custom workflows</a>, <a href="https://docs.github.com/pages/getting-started-with-github-pages/what-is-github-pages">Pages overview</a>, <a href="https://docs.github.com/pages/configuring-a-custom-domain-for-your-github-pages-site">custom domains</a>, and <a href="https://docs.github.com/pages/getting-started-with-github-pages/github-pages-limits">limits</a>.</p>
 <div class="docs-next"><span>Back to</span><a href="@pathto('docs/platforms')">Platform targets →</a></div>
 </article>

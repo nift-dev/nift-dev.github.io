@@ -1,7 +1,12 @@
 <article class="docs-article">
 <p class="docs-kicker">Platform target</p><h1>Render</h1>
-<p class="docs-lead">Render static sites use a build command plus a publish directory. Nift keeps <code>public/</code> and writes the equivalent Blueprint configuration.</p>
-<pre><code class="language-bash">nift init --target=render</code></pre>
+<p class="docs-lead">Render static sites use a build command and publish directory. Nift keeps its normal <code>public/</code> output and creates equivalent Blueprint configuration.</p>
+
+<h2 id="create-and-build">Create and build</h2>
+<pre><code class="language-bash">nift init --target=render
+nift build --all
+nift status</code></pre>
+
 <h2 id="what-nift-creates">What Nift creates</h2>
 <pre><code class="language-yaml">services:
   - type: web
@@ -9,13 +14,61 @@
     runtime: static
     buildCommand: nift build
     staticPublishPath: ./public</code></pre>
-<p>Change <code>name</code> to the service name you want. The Blueprint is user-owned after initialization.</p>
-<h2 id="build-environment">Build environment</h2>
-<p>The generated build command expects Nift on Render's build path. Choose an installation mechanism appropriate to the project before connecting the Blueprint.</p>
-<h2 id="routing-and-headers">Routing and headers</h2>
-<p>Render static sites support redirect/rewrite rules and custom response headers. Those rules can be represented in the Blueprint or managed through the Render UI depending on your preferred source of truth.</p>
+<p>Change <code>name</code> before creating the service. <code>render.yaml</code> is user-owned after initialization and should remain the source of truth if the service is managed as a Blueprint.</p>
+
+<h2 id="make-the-build-reproducible">Make the build reproducible</h2>
+<p>The generated command assumes <code>nift</code> is on Render's build <code>PATH</code>. Add an explicit, pinned installation step appropriate to the repository, then print the selected version before building:</p>
+<pre><code class="language-yaml">services:
+  - type: web
+    name: nift-site
+    runtime: static
+    buildCommand: ./scripts/install-nift 4.0.7 &amp;&amp; nift version &amp;&amp; nift build --all
+    staticPublishPath: ./public</code></pre>
+<p>A project-owned script may install a checksum-verified release archive, use an approved package channel or build reviewed source. Avoid an unrecorded “latest” dependency in production deploys.</p>
+
+<h2 id="first-deployment">First deployment</h2>
+<ol>
+  <li>Push the repository with <code>render.yaml</code> and the installation script.</li>
+  <li>Create a Blueprint from the repository and review the proposed static service.</li>
+  <li>Confirm the build log reports the expected Nift version and a successful full build.</li>
+  <li>Inspect the generated <code>onrender.com</code> URL before attaching a custom domain.</li>
+  <li>Verify nested pages, a deliberate 404, response headers and browser assets.</li>
+</ol>
+<p>Render can automatically deploy repository changes or accept manually triggered deploys. Decide which branch is production and protect that branch according to the repository's release process.</p>
+
+<h2 id="redirects-rewrites-and-headers">Redirects, rewrites and headers</h2>
+<p>Render static sites support redirects/rewrites and custom response headers through the service configuration and dashboard. Use redirects for moved public URLs, rewrites only when another resource genuinely owns the request, and response headers for security or cache policy.</p>
+<p>Keep one source of truth. If rules live in the Blueprint, avoid maintaining conflicting dashboard-only copies. If the team intentionally manages them in the dashboard, document that operational state because it is not visible in the repository.</p>
+<div class="docs-callout"><strong>Do not hide multi-page mistakes with an SPA rewrite.</strong><p>A catch-all rewrite to <code>index.html</code> is appropriate only for a client router that owns those routes. It can otherwise conceal missing Nift output and broken paths.</p></div>
+
+<h2 id="cache-policy">Cache policy</h2>
+<p>HTML with stable URLs should normally revalidate so a deployment becomes visible promptly. Content-hashed assets can use a long immutable lifetime; stable names such as <code>dashboard.js</code> should not. Inspect actual response headers after deployment rather than assuming the configured rule matched.</p>
+
+<h2 id="custom-domains-and-tls">Custom domains and TLS</h2>
+<p>Add the domain to the static service, configure the DNS records Render requests, then verify the domain in the dashboard. Render manages certificate creation/renewal and redirects HTTP to HTTPS for verified custom domains. DNS propagation can delay verification; avoid repeatedly changing valid records while caches expire.</p>
+
 <h2 id="when-the-site-needs-a-backend">When the site needs a backend</h2>
-<p>Render's dynamic web services are separate resources rather than code executed inside a static site. Keep Nift as the static frontend and connect it to a Render web service/database when the application requires runtime behaviour.</p>
-<p>Official references: <a href="https://render.com/docs/blueprint-spec">Blueprint specification</a>, <a href="https://render.com/docs/static-sites">static sites</a>, and <a href="https://render.com/docs/redirects-rewrites">redirects/rewrites</a>.</p>
+<p>Render web services, private services, workers and databases are separate resources rather than code executed inside a static site. A common architecture is:</p>
+<pre><code class="language-plaintext">Render static site
+  └─ Nift-generated public/
+          │
+          └─ HTTPS /api
+                  ▼
+             Render web service
+                  │
+                  └─ database / background workers</code></pre>
+<p>The static frontend and backend can share a Blueprint while retaining separate build/runtime ownership. Configure CORS, cookies and authentication for the actual domains involved.</p>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody>
+<tr><td><code>nift: command not found</code></td><td>Installation step, executable location and build <code>PATH</code>.</td></tr>
+<tr><td>Successful build, empty deployment</td><td><code>staticPublishPath</code>, repository root/base directory and the files under <code>public/</code>.</td></tr>
+<tr><td>Routes unexpectedly show the homepage</td><td>Remove or narrow an SPA-style rewrite.</td></tr>
+<tr><td>Nested assets 404</td><td>Use <code>\@pathto</code> and inspect case-sensitive generated paths.</td></tr>
+<tr><td>Headers do not appear</td><td>Rule path matching, service configuration versus dashboard state, and a fresh response inspection.</td></tr>
+<tr><td>Custom domain cannot verify</td><td>DNS target, conflicting records and propagation time.</td></tr>
+</tbody></table></div>
+
+<p>Official references: <a href="https://render.com/docs/blueprint-spec">Blueprint specification</a>, <a href="https://render.com/docs/static-sites">static sites</a>, <a href="https://render.com/docs/static-site-headers">static-site headers</a>, <a href="https://render.com/docs/custom-domains">custom domains</a>, and <a href="https://render.com/docs/troubleshooting-deploys">deployment troubleshooting</a>.</p>
 <div class="docs-next"><span>Next platform</span><a href="@pathto('docs/platforms/cloudflare')">Cloudflare →</a></div>
 </article>

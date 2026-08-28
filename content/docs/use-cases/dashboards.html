@@ -1,35 +1,147 @@
 <article class="docs-article">
   <p class="docs-kicker">Pattern</p><h1>Dashboards.</h1>
-  <p class="docs-lead">A dashboard often has a large amount of shared document/navigation structure plus a smaller set of genuinely dynamic regions. Nift can generate the stable shell while ordinary browser code owns live state.</p>
+  <p class="docs-lead">A dashboard mixes stable document structure with live authenticated state. Nift can own the shell, navigation, checked assets and build-time configuration; browser code and the backend own requests, authorization and changing data.</p>
 
-  <h2 id="shared-shell">Shared shell</h2>
-  <pre><code class="language-html">&lt;body&gt;
+  <h2 id="the-ownership-boundary">The ownership boundary</h2>
+  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Concern</th><th>Owner</th></tr></thead><tbody>
+    <tr><td>Document shell, navigation, metadata, initial accessible markup</td><td>Nift templates and content</td></tr>
+    <tr><td>Browser bundle, event handling, local UI state</td><td>Vanilla JavaScript or React/Vue/Svelte</td></tr>
+    <tr><td>Authentication, authorization, validation and business rules</td><td>Backend</td></tr>
+    <tr><td>Live records, events and persistence</td><td>Backend/database</td></tr>
+    <tr><td>TLS, headers, caching and request routing</td><td>Web server/deployment platform</td></tr>
+  </tbody></table></div>
+
+  <h2 id="a-coherent-project-shape">A coherent project shape</h2>
+  <pre><code class="language-plaintext">content/dashboard/
+  index.html
+  events.html
+  settings.html
+templates/
+  dashboard.html
+  partials/dashboard-nav.html
+frontend/
+  src/dashboard.js
+backend/
+  main.go                 # or Node/Python/C++/another runtime
+public/
+  assets/dashboard.js
+.nift/</code></pre>
+  <p>The top-level build script makes the ordering clear:</p>
+  <pre><code class="language-makefile">frontend:
+	npm --prefix frontend run build
+
+site: frontend
+	nift build
+
+release: frontend
+	nift build --all
+
+serve: site
+	go run ./backend</code></pre>
+
+  <h2 id="nift-generates-the-shared-shell">Nift generates the shared shell</h2>
+  <pre><code class="language-html">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;\$[title] · Operations&lt;/title&gt;
+  &lt;link rel="stylesheet" href="\@pathto('public/assets/dashboard.css')"&gt;
+&lt;/head&gt;
+&lt;body&gt;
   \@input('templates/partials/dashboard-nav.html')
-  &lt;main class="dashboard"&gt;
-    \@content
-  &lt;/main&gt;
+  &lt;main id="main" class="dashboard"&gt;\@content&lt;/main&gt;
   &lt;script type="module" src="\@pathto('public/assets/dashboard.js')"&gt;&lt;/script&gt;
-&lt;/body&gt;</code></pre>
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+  <p>Navigation remains ordinary checked markup:</p>
+  <pre><code class="language-html">&lt;nav aria-label="Dashboard"&gt;
+  &lt;a href="\@pathto('dashboard/index')"&gt;Overview&lt;/a&gt;
+  &lt;a href="\@pathto('dashboard/events')"&gt;Events&lt;/a&gt;
+  &lt;a href="\@pathto('dashboard/settings')"&gt;Settings&lt;/a&gt;
+&lt;/nav&gt;</code></pre>
 
-  <h2 id="page-content-can-define-mount-points">Page content can define mount points</h2>
+  <h2 id="content-provides-useful-initial-markup">Content provides useful initial markup</h2>
   <pre><code class="language-html">&lt;h1&gt;System status&lt;/h1&gt;
-&lt;section id="service-health"&gt;&lt;/section&gt;
-&lt;section id="recent-events"&gt;&lt;/section&gt;</code></pre>
+&lt;p id="dashboard-status" role="status" aria-live="polite"&gt;
+  Loading current status…
+&lt;/p&gt;
 
-  <h2 id="vanilla-js-react-vue-or-svelte-can-own-the-live-ui">Vanilla JS, React, Vue or Svelte can own the live UI</h2>
-  <pre><code class="language-javascript">const response = await fetch('/api/status');
-const data = await response.json();
+&lt;section aria-labelledby="service-health-heading"&gt;
+  &lt;h2 id="service-health-heading"&gt;Services&lt;/h2&gt;
+  &lt;div id="service-health"&gt;
+    &lt;p&gt;Live service data is unavailable until the dashboard connects.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
 
-document.querySelector('#service-health').textContent =
-  data.ok ? 'Operational' : 'Degraded';</code></pre>
+&lt;section aria-labelledby="recent-events-heading"&gt;
+  &lt;h2 id="recent-events-heading"&gt;Recent events&lt;/h2&gt;
+  &lt;ol id="recent-events"&gt;&lt;/ol&gt;
+&lt;/section&gt;</code></pre>
+  <p>This is progressive enhancement, not an empty page that exists only after JavaScript succeeds. Loading, empty, error and disconnected states should be designed deliberately.</p>
 
-  <p>If the interaction grows complex, replace that browser module with a bundled framework entry point without changing Nift's role in the surrounding page.</p>
-<h2 id="realtime-updates">Realtime updates</h2><pre><code class="language-javascript">const socket = new WebSocket('/ws');
-socket.addEventListener('message', ({ data }) =&gt; {
-  const event = JSON.parse(data);
-  renderEvent(event);
-});</code></pre><p>The Nift-generated shell does not care whether runtime data arrives through fetch, Server-Sent Events or WebSockets.</p><h2 id="framework-backed-dashboard">Framework-backed dashboard</h2><p>If dashboard state becomes sophisticated, compile a React/Vue/Svelte application into <code>public/assets/dashboard.js</code> and keep the same Nift shell. The architectural boundary can evolve without rewriting the surrounding site.</p><h2 id="dashboard-navigation-as-a-partial">Dashboard navigation as a partial</h2><pre><code class="language-html">&lt;aside class="dashboard-nav"&gt;
-  &lt;a href="\\@pathto('dashboard')"&gt;Overview&lt;/a&gt;
-  &lt;a href="\\@pathto('dashboard/logs')"&gt;Logs&lt;/a&gt;
-  &lt;a href="\\@pathto('dashboard/settings')"&gt;Settings&lt;/a&gt;
-&lt;/aside&gt;</code></pre><p>Shared navigation stays generated and reusable even when the panels themselves are driven by runtime API data.</p><h2 id="backend-freedom">Backend freedom</h2><p>The API can be Go, Express, Bun, FastAPI, C++, serverless functions or something else entirely. Nift does not participate in the runtime request after it has produced the frontend files.</p></article>
+  <h2 id="browser-code-loads-current-state">Browser code loads current state</h2>
+  <pre><code class="language-javascript">const status = document.querySelector('#dashboard-status');
+const services = document.querySelector('#service-health');
+
+async function loadSnapshot() {
+  status.textContent = 'Loading current status…';
+
+  const response = await fetch('/api/status', {
+    credentials: 'same-origin',
+    headers: { Accept: 'application/json' }
+  });
+
+  if (!response.ok) throw new Error(`status request failed: ${response.status}`);
+  const snapshot = await response.json();
+
+  services.replaceChildren(...snapshot.services.map(renderService));
+  status.textContent = `Updated ${new Date(snapshot.observedAt).toLocaleTimeString()}`;
+}
+
+loadSnapshot().catch((error) =&gt; {
+  console.error(error);
+  status.textContent = 'Current status is unavailable. Retry shortly.';
+});</code></pre>
+  <p>The backend must validate access and return only data the current user may see. Hiding a panel in generated HTML or JavaScript is not authorization.</p>
+
+  <h2 id="realtime-is-an-enhancement">Realtime is an enhancement</h2>
+  <pre><code class="language-javascript">function connectEvents() {
+  const stream = new EventSource('/api/events/stream');
+
+  stream.addEventListener('message', ({ data }) =&gt; {
+    prependEvent(JSON.parse(data));
+  });
+
+  stream.addEventListener('error', () =&gt; {
+    status.textContent = 'Live updates disconnected; showing the last snapshot.';
+  });
+}
+
+connectEvents();</code></pre>
+  <p>Fetch plus polling may be enough. Server-Sent Events fit one-way event streams; WebSockets fit genuinely bidirectional sessions. Nift's role does not change with that runtime choice.</p>
+
+  <h2 id="build-time-configuration-versus-secrets">Build-time configuration versus secrets</h2>
+  <p>Public values such as an API base path or feature label may be emitted into markup or a JSON script block. Secrets must not be placed in Nift source, generated HTML or browser bundles: anything delivered to the browser is public to that user.</p>
+  <pre><code class="language-html">&lt;script type="application/json" id="dashboard-config"&gt;
+{
+  "apiBase": "/api",
+  "eventsEnabled": true
+}
+&lt;/script&gt;</code></pre>
+
+  <h2 id="when-a-framework-earns-its-place">When a framework earns its place</h2>
+  <p>Replace the browser module with a React, Vue or Svelte entry when the dashboard develops complex shared client state, optimistic mutations, reusable interactive components or substantial client-side routing. Keep the surrounding document in Nift if that separation remains useful; let the application own the whole route when the runtime UI genuinely becomes the whole page.</p>
+
+  <h2 id="security-and-deployment-checklist">Security and deployment checklist</h2>
+  <ul>
+    <li>Require authorization in every backend endpoint; never rely on hidden frontend controls.</li>
+    <li>Use same-site secure cookies or another deliberately reviewed authentication scheme.</li>
+    <li>Protect state-changing requests against CSRF where the authentication model requires it.</li>
+    <li>Apply a Content Security Policy and avoid inline secrets or executable configuration.</li>
+    <li>Give loading, empty, error, stale and disconnected states accessible text.</li>
+    <li>Build browser assets before Nift, then run <code>nift build --all</code>.</li>
+    <li>Test the generated shell without JavaScript and the composed application with the real backend.</li>
+  </ul>
+
+  <div class="docs-callout"><strong>Nift builds the dashboard; it is not the dashboard server.</strong><p>The clean boundary is the point: Nift makes the stable frontend structure reusable and checked, while runtime code remains responsible for live data and security.</p></div>
+</article>

@@ -1,7 +1,12 @@
 <article class="docs-article">
 <p class="docs-kicker">Platform target</p><h1>Firebase Hosting</h1>
-<p class="docs-lead">Firebase Hosting naturally consumes Nift's normal <code>public/</code> directory. The target adds a minimal <code>firebase.json</code> that declares that deployment root.</p>
-<pre><code class="language-bash">nift init --target=firebase</code></pre>
+<p class="docs-lead">Firebase Hosting deploys Nift's normal <code>public/</code> directory to its CDN. The target creates a minimal <code>firebase.json</code>; Firebase project selection and credentials remain explicit Firebase CLI concerns.</p>
+
+<h2 id="create-and-build">Create and build</h2>
+<pre><code class="language-bash">nift init --target=firebase
+nift build --all
+nift status</code></pre>
+
 <h2 id="what-nift-creates">What Nift creates</h2>
 <pre><code class="language-json">{
   "hosting": {
@@ -9,12 +14,77 @@
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   }
 }</code></pre>
-<p>The <code>public</code> property is Firebase Hosting's required deployment-directory setting. The file is user-owned after initialization.</p>
-<h2 id="routing-headers-and-caching">Routing, headers and caching</h2>
-<p>Firebase Hosting configuration can define redirects, rewrites and custom headers, including cache-control policy. A custom <code>404.html</code> in the deployed directory is also supported.</p>
+<p><code>public</code> is Firebase Hosting's deployment-directory setting. The file is user-owned after initialization; extend it for routing, headers and multi-site behavior rather than editing generated output.</p>
+
+<h2 id="associate-a-firebase-project">Associate a Firebase project</h2>
+<pre><code class="language-bash">firebase login
+firebase use --add
+firebase projects:list</code></pre>
+<p>The Firebase CLI normally records project aliases in <code>.firebaserc</code>. Review that file before committing it, especially in repositories that deploy staging and production projects.</p>
+
+<h2 id="preview-before-production">Preview before production</h2>
+<pre><code class="language-bash">nift build --all
+
+# Local Hosting emulator
+firebase emulators:start --only hosting
+
+# Shareable preview channel
+firebase hosting:channel:deploy docs-review
+
+# Live deployment after review
+firebase deploy --only hosting</code></pre>
+<p>Preview-channel URLs use real Firebase project resources unless separately emulated or isolated. A preview frontend can still call production APIs if its configuration points there, so treat backend/environment selection as a separate safety decision.</p>
+
+<h2 id="routing-and-404s">Routing and 404s</h2>
+<p>Firebase Hosting supports redirects, rewrites and a custom <code>404.html</code> in the deployed directory. An ordinary multi-page Nift site usually needs no catch-all rewrite. If a particular route is a client-side application, scope the rewrite to that route rather than hiding every missing file behind <code>index.html</code>.</p>
+<pre><code class="language-json">{
+  "hosting": {
+    "public": "public",
+    "redirects": [
+      { "source": "/old-docs/**", "destination": "/docs/index.html", "type": 301 }
+    ]
+  }
+}</code></pre>
+
+<h2 id="headers-and-cache-policy">Headers and cache policy</h2>
+<pre><code class="language-json">{
+  "hosting": {
+    "public": "public",
+    "headers": [
+      {
+        "source": "**/*.html",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        ]
+      },
+      {
+        "source": "/assets/**",
+        "headers": [
+          { "key": "X-Content-Type-Options", "value": "nosniff" }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+<p>Add a long immutable cache lifetime only when asset filenames are content-hashed. Stable filenames require revalidation or a bounded lifetime. Dynamic rewrites have different default cache behavior from static files; set policy only after deciding which responses may safely be shared.</p>
+
 <h2 id="dynamic-endpoints">Dynamic endpoints</h2>
-<p>Hosting rewrites can send matching requests to Cloud Functions or Cloud Run. That gives a Nift site dynamic endpoints without turning the whole frontend into a runtime-rendered application.</p>
-<div class="docs-callout"><strong>Hosting, not App Hosting.</strong><p>This Nift target uses Firebase Hosting's static deployment model. Firebase App Hosting is a separate Cloud Run-oriented product with a different framework/runtime bundle.</p></div>
-<p>Official references: <a href="https://firebase.google.com/docs/hosting/full-config">Hosting configuration</a>, <a href="https://firebase.google.com/docs/hosting/functions">dynamic rewrites</a>, and <a href="https://firebase.google.com/docs/hosting/manage-cache">cache behaviour</a>.</p>
+<p>Hosting rewrites can send matching requests to Cloud Functions or Cloud Run. That creates dynamic endpoints beside the Nift frontend without turning Nift templates into runtime code. Authentication, secrets and request validation belong to the target service.</p>
+<div class="docs-callout"><strong>Hosting, not App Hosting.</strong><p>This target uses Firebase Hosting's static deployment model. Firebase App Hosting is a separate Cloud Run-oriented product with a framework/runtime deployment model.</p></div>
+
+<h2 id="custom-domains-and-tls">Custom domains and TLS</h2>
+<p>Add the domain from the selected Hosting site's console, prove ownership, apply the requested DNS records and wait for certificate provisioning. Remove conflicting legacy A, AAAA or CNAME records when Firebase identifies them. Use the advanced setup path for a domain already serving production traffic when you need to establish ownership and TLS before directing traffic.</p>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+<div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody>
+<tr><td>Wrong Firebase project receives the deploy</td><td><code>firebase use</code>, CLI project flags and committed aliases in <code>.firebaserc</code>.</td></tr>
+<tr><td>Deploy contains old files</td><td>Run <code>nift build --all</code>; confirm <code>firebase.json</code> points at the intended output directory.</td></tr>
+<tr><td>Preview calls production data</td><td>Frontend API configuration and the project resources used by preview URLs.</td></tr>
+<tr><td>Nested assets 404</td><td>Generated paths and use of <code>\@pathto</code>; inspect the deployed file in <code>public/</code>.</td></tr>
+<tr><td>Custom-domain certificate remains pending</td><td>Ownership record, requested A/AAAA records, conflicting records and DNS propagation.</td></tr>
+<tr><td>New asset is not visible</td><td>Response <code>Cache-Control</code> versus whether the filename is stable or hashed.</td></tr>
+</tbody></table></div>
+
+<p>Official references: <a href="https://firebase.google.com/docs/hosting/full-config">Hosting configuration</a>, <a href="https://firebase.google.com/docs/hosting/test-preview-deploy">preview and deployment</a>, <a href="https://firebase.google.com/docs/hosting/manage-cache">cache behavior</a>, and <a href="https://firebase.google.com/docs/hosting/custom-domain">custom domains</a>.</p>
 <div class="docs-next"><span>Next platform</span><a href="@pathto('docs/platforms/render')">Render →</a></div>
 </article>
