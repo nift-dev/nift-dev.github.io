@@ -347,6 +347,13 @@ html[data-theme="light"] .hero-subcopy{color:rgba(255,255,255,.82)}
 /* Syntax highlighting inherits the site's code-block surfaces. */
 pre code.hljs{background:transparent;padding:0;overflow:visible}
 
+/* The complete CLI map uses stable semantic colours rather than asking a
+   generic shell grammar to guess which word is Nift's subcommand. */
+.command-map .cli-executable{color:#82e6a7;font-weight:800}
+.command-map .cli-command{color:#76c7ff;font-weight:700}
+.command-map .cli-option{color:#ffd479}
+.command-map .cli-comment{color:#91a5af;font-style:italic}
+
 /* Expanded homepage + examples */
 .feature-card:last-child{grid-column:auto}
 .ai-home-section{background:var(--surface)}
