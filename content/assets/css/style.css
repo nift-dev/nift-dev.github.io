@@ -595,7 +595,7 @@ pre code.hljs{background:transparent;padding:0;overflow:visible}
 .showcase-principle{width:calc(100% - 64px);max-width:1080px;margin:0 auto 90px;padding:65px;border:1px solid var(--border);border-radius:18px;background:var(--surface-raised);text-align:center}.showcase-principle h2{font-size:clamp(38px,5vw,60px);letter-spacing:-.05em;max-width:900px;margin:10px auto 18px}.showcase-principle>p:not(.eyebrow){max-width:800px;margin:0 auto;color:var(--text-muted)}.showcase-principle .hero-actions{justify-content:center;margin-top:34px}
 
 @media(max-width:1020px){.desktop-nav{gap:12px;font-size:12px}.getting-model{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:850px){.showcase-project{grid-template-columns:1fr}.showcase-visual{min-height:380px}.showcase-principle{width:calc(100% - 36px);margin-left:auto;margin-right:auto;padding:40px 25px}}
+@media(max-width:850px){.showcase-project{grid-template-columns:1fr}.showcase-visual{min-height:380px}.showcase-code-lines,.showcase-json-card,.showcase-minify-lines,.showcase-tscc-code,.showcase-scroll-curve,.showcase-warden-panel,.showcase-trestle-records,.showcase-cortex-terminal,.showcase-watchpost-monitor{position:relative;left:auto;right:auto;bottom:auto;margin-top:22px}.showcase-visual>strong{margin-bottom:22px}.showcase-principle{width:calc(100% - 36px);margin-left:auto;margin-right:auto;padding:40px 25px}}
 @media(max-width:760px){.getting-paths,.getting-model{grid-template-columns:1fr}.getting-paths>a{min-height:0}.showcase-copy{padding:28px}.showcase-visual{padding:28px}.showcase-code-lines{left:28px;right:28px}}
 
 /* Mobile performance: avoid fixed-header backdrop filtering/compositing. */
@@ -1079,7 +1079,7 @@ html[data-theme="dark"] .docs-nav-group summary:hover{color:#b8f0a1}
   .showcase-actions{align-items:flex-start;gap:12px}
   .showcase-actions .button,.showcase-actions .text-link{max-width:100%;white-space:normal;text-align:left}
   .showcase-code-lines{position:static;left:auto;right:auto;bottom:auto;margin-top:24px}
-  .showcase-json-card,.showcase-minify-lines,.showcase-tscc-code,.showcase-scroll-curve,.showcase-warden-panel{position:relative;left:auto;right:auto;bottom:auto;margin-top:24px}
+  .showcase-json-card,.showcase-minify-lines,.showcase-tscc-code,.showcase-scroll-curve,.showcase-warden-panel,.showcase-trestle-records,.showcase-cortex-terminal,.showcase-watchpost-monitor{position:relative;left:auto;right:auto;bottom:auto;margin-top:24px}
   .showcase-jsonic .showcase-visual>strong{font-size:clamp(30px,9vw,42px);max-width:100%;margin:54px 0 22px}
   .showcase-jsonic .jsonic-mark{right:20px;top:22px;font-size:64px}
   .showcase-json-card{min-height:0}
