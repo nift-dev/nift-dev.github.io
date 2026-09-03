@@ -26,7 +26,7 @@ Visual direction:
 
 Project constraints:
 - preserve the existing Go backend
-- keep assets under content/assets/
+- keep ordinary assets directly under public/assets/
 - do not replace the vanilla JavaScript
 - use @pathto for new internal links</code></pre> <h2 id="then-describe-the-result-you-actually-want">Then describe the result you actually want</h2> <pre><code class="language-plaintext">Read HANDOVER.md and inspect this project before making changes.
 
@@ -34,7 +34,7 @@ Turn the existing Nift project into a polished website for an independent archit
 studio. Create the pages, shared templates/partials, CSS and JavaScript you think are
 appropriate. Keep the site responsive and accessible, preserve the existing project
 architecture, and verify the result with the project's real build and tests.</code></pre> <p>The same workflow works for documentation, product sites, portfolios, application frontends and larger repositories where Nift is only one build-time layer among several tools.</p> <h2 id="human-directed-agentic-engineering">Human-directed agentic engineering</h2> <p>For substantial work, treat the agent as an implementation and verification partner rather than the product authority. Humans define intent and boundaries; agents inspect, implement, build, test and return evidence; humans review the result and decide the next direction.</p> <p>Nift suits that workflow because its project state is inspectable and its feedback loop is fast. Checked paths, dependencies, contracts and build failures can turn assumptions into evidence instead of leaving them as prompt instructions alone. <a class="text-link" href="./ai-development.html">Read how Nift itself is developed with this approach →</a></p> <h2 id="the-canonical-handover-md">The canonical HANDOVER.md</h2> <p>The full file is available here for reference and is mechanically checked against the downloadable <code>/HANDOVER.md</code>; the two copies are required to remain byte-identical.</p> <details class="handover-details"> <summary>Read the full HANDOVER.md</summary> <h3 id="the-canonical-handover-md-2">The canonical HANDOVER.md</h3> <pre><code class="language-plaintext"># HANDOVER.md
-v0.0.5
+v0.0.6
 
 This is a living handover for working effectively in a Nift project.
 
@@ -228,6 +228,16 @@ Using `@pathto` lets Nift resolve the correct output-relative path and check the
 
 `.nift/tracked.json` describes tracked pages and their metadata, including things such as their content, template, and output relationships.
 
+By default, ordinary CSS, JavaScript, images, fonts and other static assets live
+directly in the configured output tree (normally `public/`) and do not have
+entries in `.nift/tracked.json`. Edit those files in place. This keeps Nift's
+tracked graph focused on content that Nift actually renders and avoids duplicate
+source/output copies for files that need no build-time transformation.
+
+Track an asset only when Nift genuinely needs to generate it from content,
+templates or build-time data. Template-less tracked entries remain available for
+that advanced case; they are not the default asset workflow.
+
 These files are part of the project and should evolve with its structure.
 
 If you add, remove, or reorganise pages, templates, outputs, deployment settings, or other Nift-managed structure, inspect the relevant `.nift` configuration and update it where necessary.
@@ -247,7 +257,9 @@ A normal Nift project may use `public/`, but deployment targets can use a differ
 
 Inspect `.nift/config.json` before making assumptions about output paths.
 
-Edit source files rather than generated output unless the project explicitly documents otherwise.
+Edit Nift-managed page sources rather than their generated output. Edit untracked
+static assets directly in the configured output tree, unless the project
+documents another tool or source directory as their owner.
 
 ## Pagination
 
@@ -312,4 +324,5 @@ Then read feature documentation only when the task requires it, for example:
 - deployment targets;
 - integration with other application stacks.
 
-Prefer documented Nift behaviour and the existing project structure over guessing based on another website generator or framework.</code></pre> </details> <div class="docs-callout"><strong>AI-friendly without an AI subsystem.</strong><p>Nift does not need an MCP server or agent-specific project format to be useful with agents. The useful properties are the same ones humans benefit from: a small mental model, ordinary files, inspectable state, fast feedback and dependable checked relationships.</p></div> </article> </main> </div> <footer class="site-footer"> <div class="footer-inner"> <div> <strong>Nift</strong> <p>Build the web without letting your build tool own it.</p> </div> <div class="footer-links"> <a href="../docs.html">Documentation</a> <a href="../templates.html">Templates</a> <a href="../examples.html">Examples</a> <a href="../developers.html">Developers</a> <a href="../about.html">About</a> <a href="https://github.com/nift-dev/nift" target="_blank" rel="noreferrer">GitHub</a> </div> </div> <div class="footer-bottom"> <span>Open source · MIT licensed · <a href="../privacy.html">Privacy</a> · <a href="../contact.html">Contact</a></span> <span>© <span data-current-year></span></span> </div> </footer> <script>document.querySelectorAll("[data-current-year]").forEach(function(el){el.textContent=String(new Date().getFullYear());});</script> <script defer src="../assets/js/script.js"></script> </body> </html>
+Prefer documented Nift behaviour and the existing project structure over guessing based on another website generator or framework.
+</code></pre> </details> <div class="docs-callout"><strong>AI-friendly without an AI subsystem.</strong><p>Nift does not need an MCP server or agent-specific project format to be useful with agents. The useful properties are the same ones humans benefit from: a small mental model, ordinary files, inspectable state, fast feedback and dependable checked relationships.</p></div> </article> </main> </div> <footer class="site-footer"> <div class="footer-inner"> <div> <strong>Nift</strong> <p>Build the web without letting your build tool own it.</p> </div> <div class="footer-links"> <a href="../docs.html">Documentation</a> <a href="../templates.html">Templates</a> <a href="../examples.html">Examples</a> <a href="../developers.html">Developers</a> <a href="../about.html">About</a> <a href="https://github.com/nift-dev/nift" target="_blank" rel="noreferrer">GitHub</a> </div> </div> <div class="footer-bottom"> <span>Open source · MIT licensed · <a href="../privacy.html">Privacy</a> · <a href="../contact.html">Contact</a></span> <span>© <span data-current-year></span></span> </div> </footer> <script>document.querySelectorAll("[data-current-year]").forEach(function(el){el.textContent=String(new Date().getFullYear());});</script> <script defer src="../assets/js/script.js"></script> </body> </html>
