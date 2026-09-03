@@ -271,13 +271,6 @@
       "template": "templates/info.html"
     },
     {
-      "name": "assets/css/style",
-      "title": "Website styles",
-      "template": "templates/asset.txt",
-      "content-ext": ".css",
-      "output-ext": ".css"
-    },
-    {
       "name": "docs/platforms",
       "title": "Platform targets",
       "template": "templates/docs.html"

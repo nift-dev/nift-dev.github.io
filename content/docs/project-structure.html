@@ -23,7 +23,8 @@ public/
 .nift/
   config.json
   tracked.json</code></pre>
-<p><code>content/</code> contains page-specific material. <code>templates/</code> contains shared structure. <code>public/</code> is the web-facing build/output tree in these examples. <code>.nift/</code> records how Nift manages the project.</p>
+<p><code>content/</code> contains Nift-managed page material. <code>templates/</code> contains shared structure. <code>public/</code> is the web-facing build/output tree in these examples and directly owns ordinary static assets. <code>.nift/</code> records how Nift manages the project.</p>
+<div class="docs-callout"><strong>Why assets default to <code>public/</code>.</strong><p>Most CSS, JavaScript, images and fonts are already complete browser assets. Keeping them directly in <code>public/</code> gives each file one obvious source of truth and lets Nift focus its tracked graph on pages and files it actually generates. Track an asset only when it needs Nift's build-time processing.</p></div>
 <h2 id="a-typescript-vite-frontend-beside-nift">A TypeScript/Vite frontend beside Nift</h2>
 <pre><code class="language-plaintext">my-site/
   content/

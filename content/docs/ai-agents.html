@@ -70,7 +70,7 @@ Visual direction:
 
 Project constraints:
 - preserve the existing Go backend
-- keep assets under content/assets/
+- keep ordinary assets directly under public/assets/
 - do not replace the vanilla JavaScript
 - use @pathto for new internal links</code></pre>
 
@@ -92,8 +92,8 @@ architecture, and verify the result with the project's real build and tests.</co
   <details class="handover-details">
     <summary>Read the full HANDOVER.md</summary>
     <h3 id="the-canonical-handover-md-2">The canonical HANDOVER.md</h3>
-    <pre><code class="language-plaintext">\# HANDOVER.md
-v0.0.5
+    <pre><code class="language-plaintext"># HANDOVER.md
+v0.0.6
 
 This is a living handover for working effectively in a Nift project.
 
@@ -122,7 +122,7 @@ Keep the existing project architecture and use the project's normal HTML, CSS, J
 
 Do not introduce Nift-specific machinery where ordinary web tooling is the clearer solution.
 
-\#\# Start here
+## Start here
 
 Before making substantial changes:
 
@@ -163,7 +163,7 @@ failures are reported as errors and cause the build to fail.
 
 Do not delete or recreate `.nift/`.
 
-\#\# Nift's core template model
+## Nift's core template model
 
 Most Nift websites need very little Nift-specific syntax.
 
@@ -224,7 +224,7 @@ When writing expressions inside constructs such as `\@if(...)`, refer to values 
 
 Use `\$[...]` when resolving or rendering a value into output, for example `\$[title]`. Consult the expressions and control-flow documentation when using more advanced expression syntax.
 
-\#\# Internal links: use `\@pathto`
+## Internal links: use `\@pathto`
 
 Use `\@pathto(...)` for internal links.
 
@@ -281,11 +281,21 @@ Do not calculate relative paths such as:
 
 Using `\@pathto` lets Nift resolve the correct output-relative path and check the project relationship during the build.
 
-\#\# Project configuration
+## Project configuration
 
 `.nift/config.json` contains project-level Nift configuration.
 
 `.nift/tracked.json` describes tracked pages and their metadata, including things such as their content, template, and output relationships.
+
+By default, ordinary CSS, JavaScript, images, fonts and other static assets live
+directly in the configured output tree (normally `public/`) and do not have
+entries in `.nift/tracked.json`. Edit those files in place. This keeps Nift's
+tracked graph focused on content that Nift actually renders and avoids duplicate
+source/output copies for files that need no build-time transformation.
+
+Track an asset only when Nift genuinely needs to generate it from content,
+templates or build-time data. Template-less tracked entries remain available for
+that advanced case; they are not the default asset workflow.
 
 These files are part of the project and should evolve with its structure.
 
@@ -298,7 +308,7 @@ Do not invent `.nift/tracked.json` fields or assume arbitrary fields become
 already demonstrated by the project, consult the tracked-files and metadata
 documentation rather than guessing.
 
-\#\# Output directory
+## Output directory
 
 Do not assume the generated website always lives in `public/`.
 
@@ -306,9 +316,11 @@ A normal Nift project may use `public/`, but deployment targets can use a differ
 
 Inspect `.nift/config.json` before making assumptions about output paths.
 
-Edit source files rather than generated output unless the project explicitly documents otherwise.
+Edit Nift-managed page sources rather than their generated output. Edit untracked
+static assets directly in the configured output tree, unless the project
+documents another tool or source directory as their owner.
 
-\#\# Pagination
+## Pagination
 
 Pagination has several related pieces across `.nift/tracked.json`, page
 content, pagination templates, and generated page links. Do not infer its full
@@ -321,7 +333,7 @@ https://nift.dev/docs/pagination.html
 Preserve the project's existing pagination structure unless the task actually
 requires changing it, and run `nift build` frequently while doing so.
 
-\#\# Other stacks and tools
+## Other stacks and tools
 
 Nift does not need to own the whole application.
 
@@ -334,7 +346,7 @@ Keep responsibilities separated:
 
 Do not replace an existing stack with Nift-specific code simply to make more of the project use Nift.
 
-\#\# Before finishing
+## Before finishing
 
 Run:
 
@@ -347,7 +359,7 @@ The build should succeed and `nift status` should report the project up to date.
 Spot-check generated output when changes affect paths, templates, tracked
 relationships, or deployment structure.
 
-\#\# Documentation
+## Documentation
 
 Nift documentation:
 
@@ -371,7 +383,8 @@ Then read feature documentation only when the task requires it, for example:
 - deployment targets;
 - integration with other application stacks.
 
-Prefer documented Nift behaviour and the existing project structure over guessing based on another website generator or framework.</code></pre>
+Prefer documented Nift behaviour and the existing project structure over guessing based on another website generator or framework.
+</code></pre>
   </details>
 
   <div class="docs-callout"><strong>AI-friendly without an AI subsystem.</strong><p>Nift does not need an MCP server or agent-specific project format to be useful with agents. The useful properties are the same ones humans benefit from: a small mental model, ordinary files, inspectable state, fast feedback and dependable checked relationships.</p></div>

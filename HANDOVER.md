@@ -20,11 +20,11 @@ publishing, or deploying either branch requires explicit approval.
 
 The repository-root `install` file is the canonical source for the extensionless installer served at `https://nift.dev/install`. Nift cannot directly derive an extensionless tracked output under the current extension contract, so publication copies this source file byte-for-byte to `public/install` after the candidate site build and validates shell syntax plus byte identity. Do not hand-edit the generated `public/install` copy.
 
-The canonical website stylesheet is `content/assets/css/style.css`. It is tracked
-as the `assets/css/style` Nift output through the content-only
-`templates/asset.txt` template, so CSS changes follow the same source/build
-boundary as pages. Do not restore `public/assets/css/style.css` as an independently
-hand-maintained deployment file.
+The canonical website stylesheet is `public/assets/css/style.css`. It is an
+ordinary deployment asset maintained directly in the output tree, not a tracked
+Nift output. The site deliberately dogfoods the default asset ownership model:
+there is no `content/assets/` copy and no CSS/JavaScript entry in
+`.nift/tracked.json`. Nift builds must preserve these direct assets.
 
 Downloadable template archives remain under `public/assets/templates/`. Their
 already-built `public/` directories are also published as case-sensitive demo
