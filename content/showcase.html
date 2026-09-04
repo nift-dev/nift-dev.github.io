@@ -1,3 +1,6 @@
+<style>
+.showcase-webfleet .showcase-visual{background:radial-gradient(circle at 65% 15%,#29372e,#171c19 56%,#101311);color:#f2f5f3}.showcase-webfleet em{color:#8fdb87;font-style:normal}.showcase-webfleet-services{position:absolute;right:42px;bottom:38px;left:42px;display:grid;gap:1px;overflow:hidden;background:#3b5142;border:1px solid #3b5142;border-radius:10px;box-shadow:0 20px 45px #0007}.showcase-webfleet-row{display:grid;grid-template-columns:minmax(0,1fr) auto 66px;gap:12px;align-items:center;padding:13px 16px;background:#172019;font:12px/1.4 ui-monospace,monospace}.showcase-webfleet-row span{overflow:hidden;color:#dce6df;text-overflow:ellipsis;white-space:nowrap}.showcase-webfleet-row b{color:#8fdb87}.showcase-webfleet-row i{color:#829188;font-style:normal;text-align:right}.showcase-webfleet-row.deploying b{color:#e6b35d}@media(max-width:760px){.showcase-webfleet-services{position:relative;right:auto;bottom:auto;left:auto;margin-top:24px}}@media(max-width:400px){.showcase-webfleet-row{grid-template-columns:minmax(0,1fr) auto}.showcase-webfleet-row i{display:none}}
+</style>
 <main class="simple-page showcase-page">
 <section class="page-hero">
   <p class="eyebrow">Showcase</p>
@@ -29,7 +32,7 @@
 ├─ ordinary generated web assets
 └─ docs shell for the backend platform</code></pre>
       <p>Trestle is a scale test for Nift: a large documentation site with many pages stays plain HTML/CSS/JS, while the backend platform keeps its own runtime entirely outside the build layer.</p>
-      <div class="showcase-actions"><a class="button button-primary" href="https://trestle-dev.github.io/">Visit Trestle</a><a class="text-link" href="https://github.com/trestle-dev/trestle">Source</a></div>
+      <div class="showcase-actions"><a class="button button-primary" href="https://trestle.cv">Visit Trestle</a><a class="text-link" href="https://github.com/trestle-dev/trestle">Source</a></div>
     </div>
   </article>
 
@@ -53,7 +56,7 @@ Warden application
 ├─ Nift-built frontend
 └─ Go backend + live APIs / PTY</code></pre>
       <p>Warden demonstrates the distinction between build-time and runtime particularly clearly: Nift can build the web layer of a genuinely dynamic application while Go owns authentication, APIs, WebSockets and server authority.</p>
-      <div class="showcase-actions"><a class="button button-primary" href="https://warden-deck.github.io/">Visit Warden</a><a class="text-link" href="https://github.com/warden-deck/warden">Source</a></div>
+      <div class="showcase-actions"><a class="button button-primary" href="https://warden.cv">Visit Warden</a><a class="text-link" href="https://github.com/warden-deck/warden">Source</a></div>
     </div>
   </article>
 
@@ -80,7 +83,7 @@ Cortex application
 ├─ Nift-built frontend
 └─ Go backend + OpenCode agent engine</code></pre>
       <p>Like Warden, Cortex is a genuine application where Nift is only the build-time web layer: the frontend is plain generated HTML/CSS/JS served by a small Go binary that owns sessions, settings, files and the coding-agent APIs.</p>
-      <div class="showcase-actions"><a class="button button-primary" href="https://cortex-go.github.io/">Visit Cortex</a><a class="text-link" href="https://github.com/cortex-go/cortex">Source</a></div>
+      <div class="showcase-actions"><a class="button button-primary" href="https://crtx.dev">Visit Cortex</a><a class="text-link" href="https://github.com/cortex-go/cortex">Source</a></div>
     </div>
   </article>
 
@@ -108,7 +111,35 @@ Watchpost application
 ├─ Nift-built frontend
 └─ Go backend + monitoring agent</code></pre>
       <p>Watchpost pairs a Nift-built static site with a Go-backed application whose web layer is equally Nift-built — the same small boundary, applied to a monitoring product with an agent inside.</p>
-      <div class="showcase-actions"><a class="button button-primary" href="https://watchpost-ops.github.io/">Visit Watchpost</a><a class="text-link" href="https://github.com/watchpost-ops/watchpost">Source</a></div>
+      <div class="showcase-actions"><a class="button button-primary" href="https://watchpost.cv">Visit Watchpost</a><a class="text-link" href="https://github.com/watchpost-ops/watchpost">Source</a></div>
+    </div>
+  </article>
+
+  <article class="showcase-project showcase-webfleet">
+    <div class="showcase-visual">
+      <span>WEB FLEET</span>
+      <strong>Deploy with confidence.<br><em>Operate with evidence.</em></strong>
+      <div class="showcase-webfleet-services">
+        <div class="showcase-webfleet-row"><span>api.gantry.dev</span><b>healthy</b><i>v1.8.2</i></div>
+        <div class="showcase-webfleet-row"><span>docs.gantry.dev</span><b>healthy</b><i>v4.0.10</i></div>
+        <div class="showcase-webfleet-row deploying"><span>worker.gantry.dev</span><b>deploying</b><i>2 / 3</i></div>
+      </div>
+    </div>
+    <div class="showcase-copy">
+      <p class="eyebrow">05 · Deployment &amp; operations</p>
+      <h2>Web Fleet</h2>
+      <p>A self-hosted deployment and service-management platform for running a fleet of web applications with explicit health, lifecycle, update, recovery and rollback behavior.</p>
+      <h3>Nift's role</h3>
+      <pre><code class="language-plaintext">Nift website
+├─ product + documentation pages
+├─ operational guidance
+└─ generated static assets
+
+Web Fleet application
+├─ Nift-built frontend
+└─ Go backend + managed services</code></pre>
+      <p>Web Fleet uses Nift for both its public documentation and application frontend while its Go service owns deployments, process supervision, health checks and transactional rollback.</p>
+      <div class="showcase-actions"><a class="button button-primary" href="https://webfleet.cv">Visit Web Fleet</a></div>
     </div>
   </article>
 
@@ -119,7 +150,7 @@ Watchpost application
       <div class="showcase-code-lines"><i></i><i></i><i></i><i></i></div>
     </div>
     <div class="showcase-copy">
-      <p class="eyebrow">05 · Nift itself</p>
+      <p class="eyebrow">06 · Nift itself</p>
       <h2>nift.dev</h2>
       <p>The main Nift product and documentation site: installation, examples, deployment guidance, AI-agent onboarding, evidence pages and a large documentation tree built with the tool it documents.</p>
       <h3>Nift's role</h3>
@@ -145,7 +176,7 @@ Watchpost application
       </div>
     </div>
     <div class="showcase-copy">
-      <p class="eyebrow">06 · C++ library</p>
+      <p class="eyebrow">07 · C++ library</p>
       <h2>Jsonic++</h2>
       <p>A tiny embeddable JSON parser for C++, extracted from real use inside Nift and Minify++. Its site has API guidance, architecture notes, correctness evidence, memory/resource testing and production-readiness documentation.</p>
       <h3>Nift's role</h3>
@@ -167,7 +198,7 @@ Watchpost application
       <div class="showcase-minify-lines"><i></i><i></i><i></i><b></b></div>
     </div>
     <div class="showcase-copy">
-      <p class="eyebrow">07 · Native minifier</p>
+      <p class="eyebrow">08 · Native minifier</p>
       <h2>Minify++</h2>
       <p>A compact C++17 minifier for JavaScript, JSX, HTML, CSS, JSON, XML and SVG. The website documents its CLI and C++ API alongside benchmarks, adversarial testing, memory/resource evidence and production-readiness boundaries.</p>
       <h3>Nift's role</h3>
@@ -189,7 +220,7 @@ Watchpost application
       <div class="showcase-tscc-code"><i>// accepted and emitted</i><b>const answer: number = 42;</b><i>// bounded semantic checking</i><b class="error">error TSCC2001</b></div>
     </div>
     <div class="showcase-copy">
-      <p class="eyebrow">08 · TypeScript compiler</p>
+      <p class="eyebrow">09 · TypeScript compiler</p>
       <h2>tscc</h2>
       <p>A native TypeScript-to-JavaScript compiler with substantial transpilation, project, CommonJS and TSX machinery, now growing a deliberately bounded semantic type checker.</p>
       <h3>Nift's role</h3>
@@ -211,7 +242,7 @@ Watchpost application
       <div class="showcase-scroll-curve"><i></i><b></b><span>precision</span><span>fast spin</span></div>
     </div>
     <div class="showcase-copy">
-      <p class="eyebrow">09 · Linux desktop utility</p>
+      <p class="eyebrow">10 · Linux desktop utility</p>
       <h2>ScrollShift</h2>
       <p>A native Linux daemon that keeps deliberate wheel movement precise while allowing rapid spins to travel farther. Its documentation covers setup, device selection, configuration, troubleshooting and the behavior established through real-hardware dogfooding.</p>
       <h3>Nift's role</h3>
@@ -222,7 +253,7 @@ Watchpost application
 ├─ ordinary CSS + JavaScript
 └─ no relationship to daemon runtime</code></pre>
       <p>ScrollShift is a good example of Nift being boring in the best way: a Linux system utility gets a polished web presence without acquiring a frontend toolchain just to publish documentation.</p>
-      <div class="showcase-actions"><a class="button button-primary" href="https://scrollshift-dev.github.io/">Visit ScrollShift</a><a class="text-link" href="https://github.com/scrollshift-dev/ScrollShift">Source</a></div>
+      <div class="showcase-actions"><a class="button button-primary" href="https://scrollshift.dev">Visit ScrollShift</a><a class="text-link" href="https://github.com/scrollshift-dev/ScrollShift">Source</a></div>
     </div>
   </article>
 </section>
