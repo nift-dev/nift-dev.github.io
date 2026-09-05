@@ -38,7 +38,7 @@
 <p>Objects use <code>.member</code>; arrays use zero-based <code>[index]</code>. Strings, numbers, booleans and <code>null</code> render directly. Select a member or element before rendering an object or array.</p>
 
 <h2 id="schemas">Validate before rendering</h2>
-<p>A schema path is loaded as project data. A schema name refers to an earlier JSON binding, which is useful for reusable inline schemas. Invalid data fails the build before the new binding becomes visible.</p>
+<p>A schema path is loaded as project data. A schema name refers to an earlier JSON binding, which is useful for reusable inline schemas. In the schema position a bare identifier is a schema binding name and must already exist; a quoted string is a schema path. A missing bare schema name is a build error and never falls back to a same-named file. Invalid data fails the build before the new binding becomes visible.</p>
 <div class="docs-callout"><strong>Learn JSON Schema →</strong><p><a href="@pathto('docs/json-schema')">JSON Schema validation</a> documents the supported Draft 2020-12-compatible subset, local <code>$ref</code>, errors and incremental behavior.</p></div>
 
 <h2 id="dependencies">Files are dependencies</h2>
