@@ -199,10 +199,9 @@ esbuild repository/release history: https://github.com/evanw/esbuild
 <h3 id="test-comments-comment-parsing-and-dependency-suppression"><code>test-comments</code> — comment parsing and dependency suppression</h3>
 <p><code>tests/comments_smoke.sh</code> isolates the comment grammar. It verifies that:</p>
 <ul>
-<li>block Nift comments using <code>&lt;#-- ... --#&gt;</code> are removed;</li>
-<li>single-line <code>\@//</code> comments are removed while literal <code>\@#</code> text passes through;</li>
+<li>block Nift comments using <code>\@/* ... */</code> are removed without parsing their contents;</li>
+<li>single-line <code>\@//</code> and multiline <code>\@/* ... */</code> comments are removed without parsing their contents;</li>
 <li>Nift syntax inside an ordinary HTML comment is still parsed according to HTML-comment semantics—for example metadata interpolation remains visible in the generated HTML comment;</li>
-<li>the removed <code>\@#</code> alias remains ordinary output text, including inside <code>&lt;pre&gt;</code>, so embedded foreign source cannot silently become a Nift comment;</li>
 <li>a fake <code>\@dep</code> inside a Nift comment does not leak into recorded dependency metadata.</li>
 </ul>
 <p>That last check is important for incremental correctness: ignored source must not secretly affect the dependency graph.</p>

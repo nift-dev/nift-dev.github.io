@@ -6,9 +6,9 @@
 <div class="docs-callout"><strong>Comments never run Nift code.</strong><p>A Nift comment can safely contain <code>\@input(...)</code>, <code>\@dep(...)</code>, <code>\$[...]</code> or any other Nift-looking text. It is ignored completely.</p></div>
 
 <h2 id="multiline-nift-comments">Multiline Nift comments</h2>
-<p>Use <code>&lt;#--</code> and <code>--#&gt;</code> for a multiline source comment:</p>
+<p>Use <code>\@/*</code> and <code>*/</code> for a multiline source comment:</p>
 
-<pre><code class="language-plaintext">&lt;#--
+<pre><code class="language-plaintext">\@/*
 
     This is a Nift source comment.
 
@@ -16,13 +16,13 @@
     \$[title]
     \@dep('data/example.json')
 
---#&gt;</code></pre>
+*/</code></pre>
 
 <p>Nothing inside the block is parsed or emitted. The input is not loaded, the metadata expression is not evaluated, and the dependency is not added.</p>
 
 <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Nift source</th><th>Generated output</th></tr></thead><tbody>
-<tr><td><code>before &lt;#-- ignored --#&gt; after</code></td><td><code>before after</code></td></tr>
-<tr><td><code>&lt;#-- \$[title] --#&gt;</code></td><td><em>nothing</em></td></tr>
+<tr><td><code>before \@/* ignored */ after</code></td><td><code>before after</code></td></tr>
+<tr><td><code>\@/* \$[title] */</code></td><td><em>nothing</em></td></tr>
 </tbody></table></div>
 
 <h3 id="when-multiline-comments-are-useful">When multiline comments are useful</h3>
@@ -35,7 +35,7 @@
 
 &lt;p&gt;This remains.&lt;/p&gt;</code></pre>
 
-<p>The comment is removed from the generated output and its contents are not parsed. The older <code>\@#</code> form was removed because it could collide invisibly with ordinary embedded text such as CSS test data.</p>
+<p>The comment is removed from the generated output and its contents are not parsed.</p>
 
 <h2 id="html-comments-are-different">HTML comments are different</h2>
 <p>A normal HTML comment is part of the document you are generating:</p>
@@ -50,7 +50,7 @@
 
 <p>The first example outputs the current page title inside the HTML comment. The second outputs the literal text <code>\$[title]</code>.</p>
 
-<div class="docs-callout"><strong>Choose based on where the comment belongs.</strong><p>Use <code>&lt;#-- ... --#&gt;</code> or <code>\@//</code> for comments that exist only in Nift source. Use <code>&lt;!-- ... --&gt;</code> when the comment should be present in the generated HTML.</p></div>
+<div class="docs-callout"><strong>Choose based on where the comment belongs.</strong><p>Use <code>\@/* ... */</code> or <code>\@//</code> for comments that exist only in Nift source. Use <code>&lt;!-- ... --&gt;</code> when the comment should be present in the generated HTML.</p></div>
 
 <h2 id="comments-work-everywhere-nift-parses-source">Comments work everywhere Nift parses source</h2>
 <p>The same comment forms work in tracked content, templates and files included with <code>\@input(...)</code>.</p>
@@ -59,25 +59,25 @@
   \@input('partials/navigation.html')
 &lt;/header&gt;
 
-&lt;#--
+\@/*
 
     Temporary source-only note:
     the old navigation lived in partials/navigation-v1.html.
 
---#&gt;</code></pre>
+*/</code></pre>
 
 <p>This follows from Nift's composition model: both <code>\@content</code> and <code>\@input</code> parse their source as Nift rather than inserting raw text.</p>
 
 <h2 id="unclosed-multiline-comments-are-build-errors">Unclosed multiline comments are build errors</h2>
-<p>A multiline comment must have its closing <code>--#&gt;</code>. If it does not, Nift reports the source location instead of silently discarding the rest of the file:</p>
+<p>A multiline comment must have its closing <code>*/</code>. If it does not, Nift reports the source location instead of silently discarding the rest of the file:</p>
 
 <pre><code class="language-plaintext">error: while building docs/example
   content/docs/example.html:12
-  open comment '&lt;#--' has no close '--#&gt;'</code></pre>
+  open comment '\@/*' has no close '*/'</code></pre>
 
 <h2 id="quick-reference">Quick reference</h2>
 <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Syntax</th><th>Meaning</th><th>Emitted?</th><th>Body parsed?</th></tr></thead><tbody>
-<tr><td><code>&lt;#-- ... --#&gt;</code></td><td>Multiline Nift comment</td><td>No</td><td>No</td></tr>
+<tr><td><code>\@/* ... */</code></td><td>Multiline Nift comment</td><td>No</td><td>No</td></tr>
 <tr><td><code>\@// ...</code></td><td>Single-line Nift comment</td><td>No</td><td>No</td></tr>
 <tr><td><code>&lt;!-- ... --&gt;</code></td><td>HTML comment</td><td>Yes</td><td>Yes</td></tr>
 </tbody></table></div>
