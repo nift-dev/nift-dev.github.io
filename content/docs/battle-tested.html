@@ -168,7 +168,7 @@ esbuild repository/release history: https://github.com/evanw/esbuild
 <p>Behavioral differential testing executes representative JavaScript before and after minification and compares exit status/stdout/stderr. This supplements lexical assertions with a direct semantic check and makes “looks minified” insufficient evidence of correctness.</p>
 
 <h3 id="test-json-schema-integration-schema-behavior-through-real-builds"><code>test-json-schema-integration</code> — schema behavior through real builds</h3>
-<p>This focused harness complements the direct validator test by proving the public <code>\@json(data, binding, schema)</code> contract end to end. It covers data and schema dependency recording, data edits, schema edits, nested instance-path errors, lazy skipped branches, schema use through nested inputs and project-bound traversal rejection.</p>
+<p>This focused harness complements the direct validator test by proving the public <code>\@json(binding, schema, data)</code> contract end to end. It covers data and schema dependency recording, data edits, schema edits, nested instance-path errors, lazy skipped branches, schema use through nested inputs and project-bound traversal rejection.</p>
 
 <h3 id="test-requirements-internal-reqs-lifecycle"><code>test-requirements</code> — internal <code>reqs</code> lifecycle</h3>
 <p>This suite isolates the requirement state recorded under the hood by <code>\@pathto</code>. It checks deduplication, skipped branches, “modified but still exists” behavior, concrete-path disappearance as a rebuild reason, repair-on-rebuild, malformed metadata, and tracked-output ownership semantics: an absent/failed tracked producer does not transitively stale or fail referring pages.</p>
@@ -210,7 +210,7 @@ esbuild repository/release history: https://github.com/evanw/esbuild
 <h3 id="test-json-binding-json-bindings-and-json-path-rendering"><code>test-json-binding</code> — <code>\@json</code> bindings and JSON-path rendering</h3>
 <p><code>tests/json_binding_smoke.sh</code> exercises the JSON feature through a real build rather than calling the JSON parser directly. Its happy path and failure probes cover:</p>
 <ul>
-<li>binding a JSON document with <code>\@json(path, name)</code> and optionally validating it with <code>\@json(path, name, schema)</code>;</li>
+<li>binding a JSON document with <code>\@json(name, path)</code> and optionally validating it with <code>\@json(name, schema, path)</code>;</li>
 <li>schema files being project-bound and recorded as dependencies alongside the data they validate;</li>
 <li>schema validation failures identifying the data/schema relationship and nested instance path;</li>
 <li>rendering strings, numbers, booleans, null and empty strings through <code>\$[...]</code>;</li>
@@ -297,7 +297,7 @@ esbuild repository/release history: https://github.com/evanw/esbuild
 </ul>
 
 <h2 id="structured-json-coverage">Structured JSON coverage</h2>
-<p><code>\@json(path, name)</code> and <code>\$[name.path[0]]</code> are tested as both a data feature and a dependency feature:</p>
+<p><code>\@json(name, path)</code> and <code>\$[name.path[0]]</code> are tested as both a data feature and a dependency feature:</p>
 <ul>
 <li>strings, numbers, booleans, null and empty strings;</li>
 <li>arbitrarily chained object-member and array-index access;</li>

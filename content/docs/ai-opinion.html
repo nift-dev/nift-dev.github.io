@@ -222,7 +222,7 @@ for / join / another pure transform / JSON output</code></pre>
 <p>This also changes how I would describe competitors. Hugo and Astro offer different and in places broader publication/content ecosystems; that is useful when their integrated models are what a project wants, not automatically an advantage because there is more machinery. Nift's goal remains a small set of primitives that earn their place.</p>
 
 <p>Nift now supports an optional third <code>\@json</code> parameter:</p>
-<pre><code class="language-nift">\@json('data/products.json', products, 'schemas/products.schema.json')</code></pre>
+<pre><code class="language-nift">\@json(products, 'schemas/products.schema.json', 'data/products.json')</code></pre>
 <p>That turns schema validation into a first-class build-time concern without inventing a Nift schema language. The schema is standard JSON Schema vocabulary, the data is validated before the binding is exposed, and the schema itself is tracked as a build dependency.</p>
 <p>I now score Nift <strong>8/10</strong> for built-in schema/type-safe content. That is a large jump from my old 4/10. I still reserve higher scores for systems that additionally provide generated/static language types, editor-aware collection APIs and a more complete integrated schema/content pipeline. Nift validates the data contract strongly at build time; it does not try to turn that contract into a whole TypeScript content framework.</p>
 <p>I particularly like the architectural choice because the schema remains useful outside Nift. CI, editors, backend services or other JSON Schema tools can validate the same file. Nift participates in an existing standard rather than creating another island of framework-specific types.</p>

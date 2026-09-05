@@ -1,0 +1,39 @@
+<article class="docs-article">
+<p class="docs-kicker">Markup conversion · Core reference</p>
+<h1>Markdown, AsciiDoc and reStructuredText.</h1>
+<p class="docs-lead"><code>\@markup</code> converts authored markup to an HTML fragment through embedded Markup++. Use an inline block for a short passage or a project-relative file for a document.</p>
+
+<h2 id="syntax">Two source forms, three formats</h2>
+<pre><code class="language-nift">\@markup("md"){
+  ## Hello \$[page.title]
+}
+
+\@markup("md", "content/guide.md")
+\@markup("adoc", "content/guide.adoc")
+\@markup("rst", "content/guide.rst")</code></pre>
+<p>The accepted short names are <code>md</code>, <code>adoc</code> and <code>rst</code>; <code>markdown</code>, <code>asciidoc</code> and <code>restructuredtext</code> are equivalent long names. Conversion returns a fragment, not a second complete HTML document.</p>
+
+<div class="docs-callout"><strong>Template first, conversion second.</strong><p>Nift evaluates the markup source with the current template scope before Markup++ converts it. The resulting HTML is appended directly and is never parsed as Nift syntax again.</p></div>
+
+<h2 id="evaluation-order">The evaluation boundary</h2>
+<pre><code class="language-plaintext">resolve source → record dependency → evaluate Nift template language
+               → convert once with Markup++ → append HTML directly</code></pre>
+<p>This means metadata, JSON bindings, loop values and ordinary Nift directives can produce markup input. It also means literal <code>\@...</code> or <code>\$[...]</code> text produced by conversion cannot unexpectedly execute as a second template pass.</p>
+
+<h2 id="dependencies">Files and includes are tracked</h2>
+<p>A file-form source is automatically a dependency. AsciiDoc <code>include::</code> targets and reStructuredText include resources are resolved by Nift, restricted to the project root, evaluated as templates, and recorded too. Editing any of those files can rebuild the affected output.</p>
+
+<h2 id="profiles">Conversion profiles</h2>
+<div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Format</th><th>Embedded profile</th><th>Important boundary</th></tr></thead><tbody>
+<tr><td>Markdown</td><td>CommonMark 0.31.2</td><td>Raw HTML follows Markup++'s normal Markdown default.</td></tr>
+<tr><td>AsciiDoc</td><td>Documented AD0–AD11 / Asciidoctor-core 2.0.26 profile</td><td>Not every Asciidoctor extension or application feature.</td></tr>
+<tr><td>reStructuredText</td><td>Documented RST0–RST14 / Docutils 0.23 core profile</td><td>Not Sphinx or arbitrary directives/extensions.</td></tr>
+</tbody></table></div>
+
+<p>Markup++ is embedded as a standalone library boundary: it converts strings and performs no ambient file IO. Nift owns project paths, dependency tracking and template evaluation.</p>
+
+<h2 id="errors">Failures stay build failures</h2>
+<p>Unknown formats, missing or escaping paths, include failures and converter diagnostics are reported with Nift source context. A failed conversion does not silently emit a partial replacement.</p>
+
+<div class="docs-next"><span>Next</span><a href="@pathto('docs/partials')">Partials and input →</a></div>
+</article>

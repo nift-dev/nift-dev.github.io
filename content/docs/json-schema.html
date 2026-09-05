@@ -28,7 +28,7 @@
 }</code></pre>
 
 <p>Then load and validate the data in one operation:</p>
-<pre><code class="language-nift">\@json('data/product.json', product, 'schemas/product.schema.json')</code></pre>
+<pre><code class="language-nift">\@json(product, 'schemas/product.schema.json', 'data/product.json')</code></pre>
 
 <p>Nift parses the JSON, parses the schema, validates the document, and only creates the <code>product</code> binding if validation succeeds.</p>
 
@@ -98,7 +98,7 @@
 }</code></pre>
 
 <p>Once validation succeeds, the template can use the same ordinary Nift data features:</p>
-<pre><code class="language-html">\@json('data/products.json', data, 'schemas/products.schema.json')
+<pre><code class="language-html">\@json(data, 'schemas/products.schema.json', 'data/products.json')
 
 &lt;div class="products"&gt;
     \@for(product : data.products by product.price asc) {
@@ -231,7 +231,7 @@
 <p><code>allOf</code> requires every child schema to match; <code>anyOf</code> requires at least one; <code>oneOf</code> requires exactly one; <code>not</code> requires its child schema not to match.</p>
 
 <h2 id="the-schema-is-part-of-the-dependency-graph">The schema is part of the dependency graph</h2>
-<pre><code class="language-nift">\@json('data/products.json', products, 'schemas/products.schema.json')</code></pre>
+<pre><code class="language-nift">\@json(products, 'schemas/products.schema.json', 'data/products.json')</code></pre>
 <p>records <strong>both</strong> files as dependencies. If the data changes, Nift can rebuild and revalidate the page. If the schema changes, Nift can also rebuild and revalidate the page. A stricter contract therefore cannot quietly leave old generated output behind.</p>
 
 <pre><code class="language-plaintext">data/products.json ──────────┐
@@ -242,9 +242,9 @@ schemas/products.schema.json ┘
 
 <h2 id="schema-validation-is-optional">Schema validation is optional</h2>
 <p>The two-parameter form remains valid:</p>
-<pre><code class="language-nift">\@json('data/site.json', site)</code></pre>
+<pre><code class="language-nift">\@json(site, 'data/site.json')</code></pre>
 <p>Use the three-parameter form when the data has a contract worth enforcing:</p>
-<pre><code class="language-nift">\@json('data/site.json', site, 'schemas/site.schema.json')</code></pre>
+<pre><code class="language-nift">\@json(site, 'schemas/site.schema.json', 'data/site.json')</code></pre>
 <p>This makes schemas opt-in rather than imposing ceremony on tiny files where it would add little value.</p>
 
 <h2 id="what-nift-currently-supports">What Nift currently supports</h2>

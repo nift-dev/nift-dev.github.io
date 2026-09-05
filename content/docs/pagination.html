@@ -25,7 +25,7 @@
 <p>An explicit path wins over the conventional sibling. When <code>separator</code> is omitted, Nift uses <code>&lt;content-stem&gt;.separator.html</code> if that file exists; otherwise items are concatenated without an inserted separator. Pagination templates and separators are ordinary rendered Nift source, so they may use metadata, <code>\@input</code>, checked paths and other supported template features.</p>
 
 <h2 id="collect-items-and-place-the-result">Collect items and place the result</h2>
-<pre><code class="language-nift">\@json('data/posts.json', posts)
+<pre><code class="language-nift">\@json(posts, 'data/posts.json')
 
 \@for(post : posts by post.date desc){
     \@item{

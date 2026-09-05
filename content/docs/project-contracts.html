@@ -37,7 +37,7 @@
 
 <h2 id="contract-namespaces-cannot-be-shadowed">Contract namespaces cannot be shadowed</h2>
 <p>Once a contract name is declared, that name has one meaning project-wide. Nift rejects attempts to reuse it as a local JSON binding or loop binding:</p>
-<pre><code class="language-nift">\@json('data/other.json', routes)      // error if routes is a contract
+<pre><code class="language-nift">\@json(routes, 'data/other.json')      // error if routes is a contract
 \@for(routes : data.items){ ... }      // error if routes is a contract</code></pre>
 <p>Nift also rejects contract names that collide with built-in metadata or reserved bindings. There are no precedence rules to memorize.</p>
 

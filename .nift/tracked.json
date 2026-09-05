@@ -31,6 +31,11 @@
       "template": "templates/docs.html"
     },
     {
+      "name": "docs/markup",
+      "title": "Markup conversion",
+      "template": "templates/docs.html"
+    },
+    {
       "name": "docs/paths",
       "title": "Paths and tracked files",
       "template": "templates/docs.html"

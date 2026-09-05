@@ -48,6 +48,13 @@ integration fixture. It is part of the product rather than disposable marketing.
 A significant Nift candidate should build this entire site with the exact
 candidate binary. Synthetic tests and dogfooding are complementary.
 
+The documentation must describe the name-first six-form `@json` surface and
+the embedded Markup++ `@markup(format){...}` / `@markup(format, path)`
+boundary. Preserve the evaluation order: Nift templates the source, Markup++
+converts it once, and generated HTML is not reparsed. Keep the markup page,
+docs overview/sidebar, canonical public `HANDOVER.md`, and generated pages
+synchronized.
+
 ## Product truth and terminology
 
 Describe Nift publicly as a **dependency-aware website templating and build

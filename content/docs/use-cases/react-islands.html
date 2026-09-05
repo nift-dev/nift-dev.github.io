@@ -100,7 +100,7 @@ nift build --auto</code></pre>
 {
   "entry": "assets/configurator-CQ3eJ5.js"
 }</code></pre>
-  <pre><code class="language-nift">\@json('public/islands-manifest.json', islands)
+  <pre><code class="language-nift">\@json(islands, 'public/islands-manifest.json')
 
 &lt;script type="module"
   src="\@pathto('public/$[islands.entry]')"&gt;&lt;/script&gt;</code></pre>

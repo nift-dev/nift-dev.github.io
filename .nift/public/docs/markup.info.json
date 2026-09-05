@@ -1,9 +1,9 @@
 {
-  "name": "docs/ai-development",
-  "title": "AI-assisted development",
+  "name": "docs/markup",
+  "title": "Markup conversion",
   "template": "templates/docs.html",
-  "content": "content/docs/ai-development.html",
-  "output": "public/docs/ai-development.html",
+  "content": "content/docs/markup.html",
+  "output": "public/docs/markup.html",
   "minify": true,
   "minify-version": 1,
   "pagination": false,
@@ -12,7 +12,7 @@
   "pagination-separator": "",
   "pagination-pages": 0,
   "dependencies": [
-    "content/docs/ai-development.html",
+    "content/docs/markup.html",
     "templates/docs.html",
     "templates/partials/docs-sidebar.html",
     "templates/partials/footer.html",
