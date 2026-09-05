@@ -29,14 +29,13 @@
 <p>They are useful for source-only notes, temporarily disabling a section of Nift source, or commenting out syntax that may not currently be valid. Because the body is skipped entirely, it is safe for the comment to contain incomplete or otherwise meaningful Nift expressions.</p>
 
 <h2 id="single-line-nift-comments">Single-line Nift comments</h2>
-<p>For a comment that runs to the end of the line, Nift accepts either <code>\@#</code> or <code>\@//</code>:</p>
+<p>For a comment that runs to the end of the line, use <code>\@//</code>:</p>
 
-<pre><code class="language-plaintext">\@# this is a Nift comment
-\@// this is also a Nift comment
+<pre><code class="language-plaintext">\@// this is a Nift comment
 
 &lt;p&gt;This remains.&lt;/p&gt;</code></pre>
 
-<p>Both forms are removed from the generated output and their contents are not parsed.</p>
+<p>The comment is removed from the generated output and its contents are not parsed. The older <code>\@#</code> form was removed because it could collide invisibly with ordinary embedded text such as CSS test data.</p>
 
 <h2 id="html-comments-are-different">HTML comments are different</h2>
 <p>A normal HTML comment is part of the document you are generating:</p>
@@ -51,7 +50,7 @@
 
 <p>The first example outputs the current page title inside the HTML comment. The second outputs the literal text <code>\$[title]</code>.</p>
 
-<div class="docs-callout"><strong>Choose based on where the comment belongs.</strong><p>Use <code>&lt;#-- ... --#&gt;</code>, <code>\@#</code> or <code>\@//</code> for comments that exist only in Nift source. Use <code>&lt;!-- ... --&gt;</code> when the comment should be present in the generated HTML.</p></div>
+<div class="docs-callout"><strong>Choose based on where the comment belongs.</strong><p>Use <code>&lt;#-- ... --#&gt;</code> or <code>\@//</code> for comments that exist only in Nift source. Use <code>&lt;!-- ... --&gt;</code> when the comment should be present in the generated HTML.</p></div>
 
 <h2 id="comments-work-everywhere-nift-parses-source">Comments work everywhere Nift parses source</h2>
 <p>The same comment forms work in tracked content, templates and files included with <code>\@input(...)</code>.</p>
@@ -79,7 +78,6 @@
 <h2 id="quick-reference">Quick reference</h2>
 <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Syntax</th><th>Meaning</th><th>Emitted?</th><th>Body parsed?</th></tr></thead><tbody>
 <tr><td><code>&lt;#-- ... --#&gt;</code></td><td>Multiline Nift comment</td><td>No</td><td>No</td></tr>
-<tr><td><code>\@# ...</code></td><td>Single-line Nift comment</td><td>No</td><td>No</td></tr>
 <tr><td><code>\@// ...</code></td><td>Single-line Nift comment</td><td>No</td><td>No</td></tr>
 <tr><td><code>&lt;!-- ... --&gt;</code></td><td>HTML comment</td><td>Yes</td><td>Yes</td></tr>
 </tbody></table></div>
