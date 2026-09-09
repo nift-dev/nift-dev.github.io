@@ -88,7 +88,7 @@ specialist compiler/bundler
           ▼
 optional Nift minification</code></pre>
 <p>This keeps Nift from accumulating a second frontend compiler stack merely to shorten source files that are normally compiled anyway.</p>
-<p>This boundary is part of Nift's explicit <a class="text-link" href="@pathto('docs/architectural-rules')">architectural rules</a>: optional final-output optimisation may be embedded, while source-language compilation remains an external toolchain responsibility.</p>
+<p>This boundary is part of Nift's explicit <a class="text-link" href="@path('docs/architectural-rules')">architectural rules</a>: optional final-output optimisation may be embedded, while source-language compilation remains an external toolchain responsibility.</p>
 
 <h2 id="reliability">Reliability</h2>
 <p>The minifier is continuously stress-tested with executable before/after JavaScript cases, while the public behavior remains intentionally simple.</p>
@@ -99,5 +99,5 @@ optional Nift minification</code></pre>
 <p>Its test corpus continues to grow around new JavaScript syntax and ambiguity boundaries even when a checkpoint finds no new bug.</p>
 <p>The minifier format remains <strong>1.0</strong> while this feature is being hardened. Nift keeps the transformation engine independently testable even though it is integrated into normal builds, so fixes can be stress-tested directly without changing the public configuration.</p>
 
-<div class="docs-next"><span>Related</span><a href="@pathto('docs/configuration')"><code>config.json</code> →</a></div>
+<div class="docs-next"><span>Related</span><a href="@path('docs/configuration')"><code>config.json</code> →</a></div>
 </article>

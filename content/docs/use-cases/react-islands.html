@@ -32,7 +32,7 @@ package.json</code></pre>
   &lt;/div&gt;
 &lt;/article&gt;
 
-&lt;script type="module" src="\@pathto('public/assets/configurator.js')"&gt;&lt;/script&gt;</code></pre>
+&lt;script type="module" src="\@path('public/assets/configurator.js')"&gt;&lt;/script&gt;</code></pre>
   <p>The fallback can remain useful before hydration or when JavaScript fails. The page title, explanation, navigation and non-interactive content do not need a client framework.</p>
 
   <h2 id="vite-builds-a-stable-entry-file">Vite builds a stable entry file</h2>
@@ -83,7 +83,7 @@ if (mount) {
     "build:release": "npm run build:islands &amp;&amp; nift build --all"
   }
 }</code></pre>
-  <p>The bundle must exist before Nift evaluates <code>\@pathto</code>. If the frontend build fails, stop; do not let Nift package a stale bundle from an earlier run.</p>
+  <p>The bundle must exist before Nift evaluates <code>\@path</code>. If the frontend build fails, stop; do not let Nift package a stale bundle from an earlier run.</p>
 
   <h2 id="development-loop">Development loop</h2>
   <p>The simplest reliable development loop runs the Vite watcher and Nift watcher as sibling processes:</p>
@@ -103,14 +103,14 @@ nift build --auto</code></pre>
   <pre><code class="language-nift">\@json(islands, 'public/islands-manifest.json')
 
 &lt;script type="module"
-  src="\@pathto('public/$[islands.entry]')"&gt;&lt;/script&gt;</code></pre>
+  src="\@path('public/$[islands.entry]')"&gt;&lt;/script&gt;</code></pre>
   <p>Generate the bridge file; do not maintain the hash by hand. This avoids coupling the Nift template to a bundler-specific nested manifest shape. Both the bridge manifest and selected asset must exist before Nift builds, keeping cache-busting in the bundler and path verification in Nift.</p>
 
   <h2 id="several-islands">Several islands and shared runtime</h2>
   <pre><code class="language-html">&lt;div id="product-search"&gt;&lt;/div&gt;
 &lt;div id="mini-cart"&gt;&lt;/div&gt;
-&lt;script type="module" src="\@pathto('public/assets/product-search.js')"&gt;&lt;/script&gt;
-&lt;script type="module" src="\@pathto('public/assets/mini-cart.js')"&gt;&lt;/script&gt;</code></pre>
+&lt;script type="module" src="\@path('public/assets/product-search.js')"&gt;&lt;/script&gt;
+&lt;script type="module" src="\@path('public/assets/mini-cart.js')"&gt;&lt;/script&gt;</code></pre>
   <p>Multiple islands may share chunks through the bundler. They can even use different frameworks, but that adds dependency and mental-model cost; do it because the repository genuinely needs it, not because Nift permits it.</p>
 
   <h2 id="passing-data">Pass only the data the browser needs</h2>
@@ -129,7 +129,7 @@ nift build --auto</code></pre>
   <ol>
     <li>Delete old frontend artifacts and prove the bundler recreates them.</li>
     <li>Run the frontend build before <code>nift build --all</code>.</li>
-    <li>Confirm every <code>\@pathto</code> target and manifest-selected asset exists.</li>
+    <li>Confirm every <code>\@path</code> target and manifest-selected asset exists.</li>
     <li>Load the page with JavaScript disabled and inspect fallback/accessibility behavior.</li>
     <li>Load it normally and check the browser console, network paths and chunk requests.</li>
     <li>Verify a failed frontend build cannot silently deploy a stale previous bundle.</li>

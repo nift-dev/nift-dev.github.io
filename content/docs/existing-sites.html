@@ -58,7 +58,7 @@ Every page repeats:
     &lt;title&gt;\$[title]&lt;/title&gt;
     &lt;link
       rel="stylesheet"
-      href="\@pathto('public/assets/css/site.css')"&gt;
+      href="\@path('public/assets/css/site.css')"&gt;
   &lt;/head&gt;
   &lt;body&gt;
     \@input('templates/partials/header.html')
@@ -70,15 +70,15 @@ Every page repeats:
     \@input('templates/partials/footer.html')
 
     &lt;script
-      src="\@pathto('public/assets/js/app.js')"&gt;&lt;/script&gt;
+      src="\@path('public/assets/js/app.js')"&gt;&lt;/script&gt;
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 
   <h2 id="the-repeated-navigation-becomes-a-partial">The repeated navigation becomes a partial</h2>
   <pre><code class="language-html">&lt;header&gt;
-  &lt;a href="\@pathto('/')"&gt;Home&lt;/a&gt;
-  &lt;a href="\@pathto('about')"&gt;About&lt;/a&gt;
-  &lt;a href="\@pathto('contact')"&gt;Contact&lt;/a&gt;
+  &lt;a href="\@path('/')"&gt;Home&lt;/a&gt;
+  &lt;a href="\@path('about')"&gt;About&lt;/a&gt;
+  &lt;a href="\@path('contact')"&gt;Contact&lt;/a&gt;
 &lt;/header&gt;</code></pre>
   <p>The result is not a new frontend architecture. It is the same frontend with the duplicated structure factored out.</p>
 
@@ -91,7 +91,7 @@ Every page repeats:
     <div><span>05</span><h3 id="extract-the-template-shell">Extract the template shell</h3><p>Move shared document structure into the template and replace the unique page region with <code>\@content</code>.</p></div>
     <div><span>06</span><h3 id="extract-obvious-partials">Extract obvious partials</h3><p>Header, navigation, footer and repeated page furniture can move behind <code>\@input</code>.</p></div>
     <div><span>07</span><h3 id="track-the-remaining-pages">Track the remaining pages</h3><p>Move each page's unique markup into its content file and add the tracked names Nift should manage.</p></div>
-    <div><span>08</span><h3 id="replace-fragile-local-paths">Replace fragile local paths</h3><p>Use <code>\@pathto</code> where shared partials link to tracked pages or concrete local assets.</p></div>
+    <div><span>08</span><h3 id="replace-fragile-local-paths">Replace fragile local paths</h3><p>Use <code>\@path</code> where shared partials link to tracked pages or concrete local assets.</p></div>
     <div><span>09</span><h3 id="build-and-compare">Build and compare</h3><p>Run <code>nift build --all</code>, compare the generated site to the original and correct any deliberate path/layout differences.</p></div>
     <div><span>10</span><h3 id="then-stop-thinking-about-migration">Then stop thinking about migration</h3><p>Once the output matches, develop normally. New pages can use the shared template from the start.</p></div>
   </div>
@@ -131,8 +131,8 @@ after:
 Convert the repeated document structure into Nift templates and
 partials while preserving the existing HTML/CSS/JS architecture
 and visual output. Keep page-specific markup in content files.
-Use \@pathto for project-owned page and asset references.</code></pre>
+Use \@path for project-owned page and asset references.</code></pre>
 
   <div class="docs-callout"><strong>The migration succeeds when the site becomes easier to maintain—not when it looks more like a framework.</strong><p>Nift should remove duplication, improve path/dependency awareness and speed up the edit/build loop while leaving the architecture you deliberately chose intact.</p></div>
-  <div class="docs-next"><span>Related</span><a href="@pathto('docs/paths')">Project-aware paths →</a></div>
+  <div class="docs-next"><span>Related</span><a href="@path('docs/paths')">Project-aware paths →</a></div>
 </article>

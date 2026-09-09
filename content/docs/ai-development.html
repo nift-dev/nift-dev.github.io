@@ -88,7 +88,7 @@ update docs, handovers, roadmap and website claims
         ↓
 commit source and generated publication separately</code></pre>
   <p>Checkpoints make the state reviewable. A checkpoint is not automatically a release, push, version bump or production declaration. Those remain explicit actions after evidence and diffs are understood.</p>
-<p>For Nift itself, a substantial checkpoint is incomplete until the relevant handovers and public reliability claims have been reconciled with the work. In practice that includes reviewing <a href="@pathto('docs/battle-tested')">Battle Tested</a> whenever new behavior or regression evidence changes what Nift can honestly claim.</p>
+<p>For Nift itself, a substantial checkpoint is incomplete until the relevant handovers and public reliability claims have been reconciled with the work. In practice that includes reviewing <a href="@path('docs/battle-tested')">Battle Tested</a> whenever new behavior or regression evidence changes what Nift can honestly claim.</p>
 
   <h2 id="independent-regression-suites-matter">Independent regression suites matter</h2>
   <p>Nift and tscc have standalone regression repositories that describe behavior without depending on implementation internals. Minify++ has its own independent validation boundary as well as reconciliation between the standalone project and Nift's embedded copy. This separation makes it harder for a patch and its tests to share the same mistaken assumption.</p>
@@ -107,7 +107,7 @@ then outputs, diagnostics, metadata, dependencies,
       <thead><tr><th>Surface</th><th>Observable contract</th></tr></thead>
       <tbody>
         <tr><td>Template composition</td><td><code>\@input</code> inserts the resolved source, records the dependency and reports controlled errors for invalid paths or recursion.</td></tr>
-        <tr><td>Checked paths</td><td><code>\@pathto</code> emits the correct relative path and records a requirement whose later absence makes the page eligible for rebuild.</td></tr>
+        <tr><td>Checked paths</td><td><code>\@path</code> emits the correct relative path and records a requirement whose later absence makes the page eligible for rebuild.</td></tr>
         <tr><td>Project contracts</td><td>A configured contract namespace resolves through <code>\$[...]</code>, cannot be shadowed, and records both its declaration and source as dependencies of outputs that use it.</td></tr>
         <tr><td>Incremental builds</td><td>Changed dependencies rebuild affected outputs; unrelated outputs remain untouched; <code>status</code> explains the same decision without writing.</td></tr>
         <tr><td>Minification</td><td>Selected final-output extensions are minified after rendering; failure does not overwrite the last successful output or metadata.</td></tr>
@@ -150,7 +150,7 @@ commit source + matching Git-link pointer on stage</code></pre>
   <p>This makes the deployed branch simple without pretending generated HTML is the development source. Ordinary CSS and JavaScript are maintained directly in <code>public/</code>, matching the default initializer; assets only enter Nift's tracked graph when they genuinely need build-time generation, dependency tracking or minification.</p>
 
   <h2 id="human-first-design-that-also-produces-strong-ai-dx">Human-first design that also produces strong AI-DX</h2>
-  <p>Nift is first and foremost designed for humans building websites. Its compact model, explicit configuration, deterministic behavior, fast feedback and checked relationships are human developer-experience choices. Those same properties happen to make it unusually legible to coding agents: tracked outputs, templates, <code>\@content</code>, <code>\@input</code>, <code>\@pathto</code>, metadata and incremental dependencies explain most projects. Fast builds make repeated edit/build/inspect cycles cheap, while <code>nift status</code> explains why a page would rebuild before changing output.</p>
+  <p>Nift is first and foremost designed for humans building websites. Its compact model, explicit configuration, deterministic behavior, fast feedback and checked relationships are human developer-experience choices. Those same properties happen to make it unusually legible to coding agents: tracked outputs, templates, <code>\@content</code>, <code>\@input</code>, <code>\@path</code>, metadata and incremental dependencies explain most projects. Fast builds make repeated edit/build/inspect cycles cheap, while <code>nift status</code> explains why a page would rebuild before changing output.</p>
   <p>The small mental model does not eliminate responsibility. An AI assistant still needs to read the project's handover, inspect current Git state, preserve unrelated user work, distinguish source from generated output and validate links/assets rather than assuming a successful command means a correct site.</p>
 
   <h2 id="what-ai-should-not-decide-silently">What AI should not decide silently</h2>
@@ -165,5 +165,5 @@ commit source + matching Git-link pointer on stage</code></pre>
 
   <div class="docs-callout"><strong>The goal is not “AI writes the project.”</strong><p>The goal is a development system in which context survives, hypotheses are cheap, contracts are executable, claims stay honest and either a human or a future agent can resume without reconstructing the project from folklore.</p></div>
 
-  <div class="docs-next"><span>Related</span><a href="@pathto('docs/ai-opinion')">AI opinion: Nift vs other tools →</a></div>
+  <div class="docs-next"><span>Related</span><a href="@path('docs/ai-opinion')">AI opinion: Nift vs other tools →</a></div>
 </article>

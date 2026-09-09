@@ -76,7 +76,7 @@
 <pre><code class="language-nift">\@if(post.published){ ... }
 \@if(!site.disabled){ ... }
 \@if(loop.index % 2 == 0){ ... }</code></pre>
-<p>See <a class="text-link" href="@pathto('docs/control-flow')">Loops &amp; conditions →</a> for the complete truthiness table and branch syntax.</p>
+<p>See <a class="text-link" href="@path('docs/control-flow')">Loops &amp; conditions →</a> for the complete truthiness table and branch syntax.</p>
 
 <h2 id="lazy-ternary-rendering">Lazy ternary rendering</h2>
 <p><code>\$[condition ? true-branch : false-branch]</code> uses the same expression evaluator for its condition. The shorthand <code>\$[condition ? true-branch]</code> is equivalent to an empty false branch.</p>
@@ -99,5 +99,5 @@
 \@pathtopage(+\$[offset * 2])</code></pre>
 <p><code>\@pathtopage(n)</code> ultimately requires an <strong>integer page number or integer offset</strong>; expression support does not make fractional page numbers valid.</p>
 
-<div class="docs-next"><span>Related</span><a href="@pathto('docs/control-flow')">Loops &amp; conditions →</a></div>
+<div class="docs-next"><span>Related</span><a href="@path('docs/control-flow')">Loops &amp; conditions →</a></div>
 </article>

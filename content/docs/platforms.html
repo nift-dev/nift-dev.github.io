@@ -28,15 +28,15 @@ nift init --ext=.txt      # format-neutral project</code></pre>
 
 <h2 id="what-each-target-changes">What each target changes</h2>
 <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Target</th><th>Nift output</th><th>Initial provider files</th><th>Natural dynamic/runtime path</th></tr></thead><tbody>
-<tr><td><a href="@pathto('docs/platforms/vercel')">Vercel</a></td><td><code>.vercel/output/static/</code></td><td><code>.vercel/output/config.json</code></td><td>Vercel Functions and platform routing/config</td></tr>
-<tr><td><a href="@pathto('docs/platforms/amplify')">AWS Amplify</a></td><td><code>.amplify-hosting/static/</code></td><td><code>deploy-manifest.json</code></td><td>Amplify compute and routing primitives</td></tr>
-<tr><td><a href="@pathto('docs/platforms/netlify')">Netlify</a></td><td><code>public/</code></td><td><code>netlify.toml</code></td><td>Functions and Edge Functions</td></tr>
-<tr><td><a href="@pathto('docs/platforms/azure')">Azure Static Web Apps</a></td><td><code>public/</code></td><td>tracked <code>staticwebapp.config.json</code></td><td>Azure Functions APIs, auth and roles</td></tr>
-<tr><td><a href="@pathto('docs/platforms/firebase')">Firebase Hosting</a></td><td><code>public/</code></td><td><code>firebase.json</code></td><td>Cloud Functions / Cloud Run rewrites</td></tr>
-<tr><td><a href="@pathto('docs/platforms/render')">Render</a></td><td><code>public/</code></td><td><code>render.yaml</code></td><td>Separate Render web services/databases</td></tr>
-<tr><td><a href="@pathto('docs/platforms/cloudflare')">Cloudflare Pages</a></td><td><code>public/</code></td><td><code>wrangler.toml</code></td><td>Pages Functions / Workers + bindings</td></tr>
-<tr><td><a href="@pathto('docs/platforms/github-pages')">GitHub Pages</a></td><td><code>public/</code></td><td>none required</td><td>Static only; use an external API/runtime</td></tr>
-<tr><td><a href="@pathto('docs/platforms/supabase')">Supabase</a></td><td><code>public/</code></td><td>none required</td><td>Postgres, Auth, Storage, Realtime and Edge Functions; host the frontend separately</td></tr>
+<tr><td><a href="@path('docs/platforms/vercel')">Vercel</a></td><td><code>.vercel/output/static/</code></td><td><code>.vercel/output/config.json</code></td><td>Vercel Functions and platform routing/config</td></tr>
+<tr><td><a href="@path('docs/platforms/amplify')">AWS Amplify</a></td><td><code>.amplify-hosting/static/</code></td><td><code>deploy-manifest.json</code></td><td>Amplify compute and routing primitives</td></tr>
+<tr><td><a href="@path('docs/platforms/netlify')">Netlify</a></td><td><code>public/</code></td><td><code>netlify.toml</code></td><td>Functions and Edge Functions</td></tr>
+<tr><td><a href="@path('docs/platforms/azure')">Azure Static Web Apps</a></td><td><code>public/</code></td><td>tracked <code>staticwebapp.config.json</code></td><td>Azure Functions APIs, auth and roles</td></tr>
+<tr><td><a href="@path('docs/platforms/firebase')">Firebase Hosting</a></td><td><code>public/</code></td><td><code>firebase.json</code></td><td>Cloud Functions / Cloud Run rewrites</td></tr>
+<tr><td><a href="@path('docs/platforms/render')">Render</a></td><td><code>public/</code></td><td><code>render.yaml</code></td><td>Separate Render web services/databases</td></tr>
+<tr><td><a href="@path('docs/platforms/cloudflare')">Cloudflare Pages</a></td><td><code>public/</code></td><td><code>wrangler.toml</code></td><td>Pages Functions / Workers + bindings</td></tr>
+<tr><td><a href="@path('docs/platforms/github-pages')">GitHub Pages</a></td><td><code>public/</code></td><td>none required</td><td>Static only; use an external API/runtime</td></tr>
+<tr><td><a href="@path('docs/platforms/supabase')">Supabase</a></td><td><code>public/</code></td><td>none required</td><td>Postgres, Auth, Storage, Realtime and Edge Functions; host the frontend separately</td></tr>
 </tbody></table></div>
 
 <h2 id="build-environments-are-separate">Build environments are separate</h2>
@@ -50,5 +50,5 @@ nift init --ext=.txt      # format-neutral project</code></pre>
 </code></pre>
 <p>The individual platform guides show where that boundary sits.</p>
 
-<div class="docs-next"><span>Start with</span><a href="@pathto('docs/platforms/vercel')">Vercel →</a></div>
+<div class="docs-next"><span>Start with</span><a href="@path('docs/platforms/vercel')">Vercel →</a></div>
 </article>

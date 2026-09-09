@@ -14,9 +14,9 @@
 <article class="example-stack">
   <p class="eyebrow">01 · Plain web</p><h2>HTML + CSS + JavaScript</h2>
   <p>Use Nift for templates, partials and tracked pages while keeping the frontend completely framework-free.</p>
-  <pre><code class="language-html">&lt;link rel="stylesheet" href="\@pathto('public/assets/site.css')"&gt;
+  <pre><code class="language-html">&lt;link rel="stylesheet" href="\@path('public/assets/site.css')"&gt;
 &lt;main&gt;\@content&lt;/main&gt;
-&lt;script src="\@pathto('public/assets/app.js')"&gt;&lt;/script&gt;</code></pre>
+&lt;script src="\@path('public/assets/app.js')"&gt;&lt;/script&gt;</code></pre>
   <pre><code class="language-plaintext">Nift → HTML
 CSS  ─┐
 JS   ─┴→ public/ → CDN / web server</code></pre>
@@ -32,7 +32,7 @@ JS   ─┴→ public/ → CDN / web server</code></pre>
     "build": "npm run build:js &amp;&amp; npm run build:site"
   }
 }</code></pre>
-  <pre><code class="language-html">&lt;script type="module" src="\@pathto('public/assets/app.js')"&gt;&lt;/script&gt;</code></pre>
+  <pre><code class="language-html">&lt;script type="module" src="\@path('public/assets/app.js')"&gt;&lt;/script&gt;</code></pre>
 </article>
 
 <article class="example-stack">
@@ -53,7 +53,7 @@ nift build</code></pre>
   -i ./assets/input.css \
   -o ./public/assets/site.css
 nift build</code></pre>
-  <pre><code class="language-html">&lt;link rel="stylesheet" href="\@pathto('public/assets/site.css')"&gt;</code></pre>
+  <pre><code class="language-html">&lt;link rel="stylesheet" href="\@path('public/assets/site.css')"&gt;</code></pre>
 </article>
 
 <article class="example-stack">
@@ -64,7 +64,7 @@ nift build</code></pre>
   &lt;div id="configurator"&gt;&lt;/div&gt;
 &lt;/article&gt;
 &lt;script type="module"
-  src="\@pathto('public/assets/configurator.js')"&gt;&lt;/script&gt;</code></pre>
+  src="\@path('public/assets/configurator.js')"&gt;&lt;/script&gt;</code></pre>
 </article>
 
 <article class="example-stack">
@@ -165,7 +165,7 @@ repeated footer       templates/footer.html</code></pre>
   <pre><code class="language-plaintext">Read HANDOVER.md and inspect this Nift project.
 
 Build a polished documentation site. Reuse templates and
-partials, use \@pathto for local project links/assets, and keep
+partials, use \@path for local project links/assets, and keep
 the existing Nift architecture.</code></pre>
 </article>
 
@@ -183,6 +183,6 @@ nift build --all
   <p class="eyebrow">The point</p>
   <h2>You do not need to choose “the Nift stack.”</h2>
   <p>Choose the stack that suits the application. Use Nift when a tiny, fast, dependency-aware templating and build layer makes that stack simpler.</p>
-  <div class="hero-actions"><a class="button button-primary" href="@pathto('docs/advanced')">Using the wider ecosystem →</a><a class="button button-secondary" href="@pathto('docs/use-cases/web-apps')">Full web application patterns →</a></div>
+  <div class="hero-actions"><a class="button button-primary" href="@path('docs/advanced')">Using the wider ecosystem →</a><a class="button button-secondary" href="@path('docs/use-cases/web-apps')">Full web application patterns →</a></div>
 </section>
 </main>

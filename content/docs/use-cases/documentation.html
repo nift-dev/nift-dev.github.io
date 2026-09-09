@@ -34,7 +34,7 @@ nift build --all</code></pre>
 &lt;head&gt;
   &lt;meta charset="utf-8"&gt;
   &lt;title&gt;\$[title] · Product docs&lt;/title&gt;
-  &lt;link rel="stylesheet" href="\@pathto('public/assets/docs.css')"&gt;
+  &lt;link rel="stylesheet" href="\@path('public/assets/docs.css')"&gt;
 &lt;/head&gt;
 &lt;body&gt;
   \@input('templates/partials/header.html')
@@ -43,19 +43,19 @@ nift build --all</code></pre>
     &lt;main id="main" class="docs-content"&gt;\@content&lt;/main&gt;
   &lt;/div&gt;
   \@input('templates/partials/footer.html')
-  &lt;script src="\@pathto('public/assets/docs.js')" defer&gt;&lt;/script&gt;
+  &lt;script src="\@path('public/assets/docs.js')" defer&gt;&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
   <p>The template owns global document structure. Individual content files start at their page heading and remain free of repeated navigation, metadata and asset tags.</p>
 
   <h2 id="navigation-is-a-real-checked-relationship">Navigation is a real checked relationship</h2>
   <pre><code class="language-html">&lt;nav aria-label="Documentation"&gt;
-  &lt;a href="\@pathto('docs/index')"&gt;Overview&lt;/a&gt;
-  &lt;a href="\@pathto('docs/getting-started')"&gt;Getting started&lt;/a&gt;
-  &lt;a href="\@pathto('docs/configuration')"&gt;Configuration&lt;/a&gt;
-  &lt;a href="\@pathto('docs/commands')"&gt;CLI commands&lt;/a&gt;
+  &lt;a href="\@path('docs/index')"&gt;Overview&lt;/a&gt;
+  &lt;a href="\@path('docs/getting-started')"&gt;Getting started&lt;/a&gt;
+  &lt;a href="\@path('docs/configuration')"&gt;Configuration&lt;/a&gt;
+  &lt;a href="\@path('docs/commands')"&gt;CLI commands&lt;/a&gt;
 &lt;/nav&gt;</code></pre>
-  <p>The same sidebar works from every nesting depth. <code>\@pathto</code> calculates the correct output-relative URL and fails the build if a named destination disappears instead of shipping a known broken local link.</p>
+  <p>The same sidebar works from every nesting depth. <code>\@path</code> calculates the correct output-relative URL and fails the build if a named destination disappears instead of shipping a known broken local link.</p>
 
   <h2 id="see-the-impact-of-a-change-before-building">See the impact of a change before building</h2>
   <pre><code class="language-bash"># Change one page
@@ -90,7 +90,7 @@ docs/getting-started
     commands.html
   migration/
     v3-to-v4.html</code></pre>
-  <p>Give every maintained version a distinct tracked name such as <code>docs/v4/commands</code>. A shared template can display a version selector, while <code>\@pathto</code> keeps cross-version and migration links explicit. Do not overwrite historical documentation with current semantics if users still operate an older release.</p>
+  <p>Give every maintained version a distinct tracked name such as <code>docs/v4/commands</code>. A shared template can display a version selector, while <code>\@path</code> keeps cross-version and migration links explicit. Do not overwrite historical documentation with current semantics if users still operate an older release.</p>
 
   <h2 id="markdown-is-an-optional-authoring-layer">Markdown is an optional authoring layer</h2>
   <p>If a team prefers Markdown, run a Markdown converter before Nift and make its output an explicit input to the Nift build. Keep the ordering visible in a Makefile or package script:</p>

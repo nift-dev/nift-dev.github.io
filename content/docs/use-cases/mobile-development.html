@@ -50,7 +50,7 @@ nift build --all
   <h2 id="what-nift-owns">What Nift owns</h2>
   <div class="advanced-doc-grid">
     <div><h2 id="application-shell">Application shell</h2><p>Document structure, shared templates, navigation, page composition and repeated fragments can stay in Nift.</p></div>
-    <div><h2 id="checked-project-relationships">Checked project relationships</h2><p>Tracked pages, <code>\@pathto</code>, dependencies, JSON data and project contracts can keep build-time relationships explicit rather than scattering unchecked strings throughout the app.</p></div>
+    <div><h2 id="checked-project-relationships">Checked project relationships</h2><p>Tracked pages, <code>\@path</code>, dependencies, JSON data and project contracts can keep build-time relationships explicit rather than scattering unchecked strings throughout the app.</p></div>
     <div><h2 id="build-time-data">Build-time data</h2><p>JSON, loops, conditions, schemas and collection transforms can generate structured screens and bundles before the application ships.</p></div>
     <div><h2 id="incremental-development">Incremental development</h2><p>Nift's dependency-aware rebuild model can keep repeated edit/build/package loops small while the rest of the mobile toolchain remains unchanged.</p></div>
   </div>
@@ -89,5 +89,5 @@ Nift + mobile wrapper          Android/iOS packaging + native bridges</code></pr
   <p>This workflow is architecturally plausible, but it should earn stronger website claims through a real application rather than diagrams alone. A useful future Nift dogfooding project is a substantial application built with Nift, packaged for both Android and iOS, with enough navigation, API use, offline behaviour and native integration to expose where the rough edges really are.</p>
   <div class="docs-callout"><strong>Current status.</strong><p>Treat mobile development as a promising Nift workflow, not a bespoke supported platform target. The next step is practical dogfooding: build something non-trivial, measure the developer experience, then improve only the integration points that prove worth owning.</p></div>
 
-  <div class="docs-next"><span>Related</span><a href="@pathto('docs/use-cases/web-apps')">Full web applications →</a></div>
+  <div class="docs-next"><span>Related</span><a href="@path('docs/use-cases/web-apps')">Full web applications →</a></div>
 </article>

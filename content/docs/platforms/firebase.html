@@ -80,11 +80,11 @@ firebase deploy --only hosting</code></pre>
 <tr><td>Wrong Firebase project receives the deploy</td><td><code>firebase use</code>, CLI project flags and committed aliases in <code>.firebaserc</code>.</td></tr>
 <tr><td>Deploy contains old files</td><td>Run <code>nift build --all</code>; confirm <code>firebase.json</code> points at the intended output directory.</td></tr>
 <tr><td>Preview calls production data</td><td>Frontend API configuration and the project resources used by preview URLs.</td></tr>
-<tr><td>Nested assets 404</td><td>Generated paths and use of <code>\@pathto</code>; inspect the deployed file in <code>public/</code>.</td></tr>
+<tr><td>Nested assets 404</td><td>Generated paths and use of <code>\@path</code>; inspect the deployed file in <code>public/</code>.</td></tr>
 <tr><td>Custom-domain certificate remains pending</td><td>Ownership record, requested A/AAAA records, conflicting records and DNS propagation.</td></tr>
 <tr><td>New asset is not visible</td><td>Response <code>Cache-Control</code> versus whether the filename is stable or hashed.</td></tr>
 </tbody></table></div>
 
 <p>Official references: <a href="https://firebase.google.com/docs/hosting/full-config">Hosting configuration</a>, <a href="https://firebase.google.com/docs/hosting/test-preview-deploy">preview and deployment</a>, <a href="https://firebase.google.com/docs/hosting/manage-cache">cache behavior</a>, and <a href="https://firebase.google.com/docs/hosting/custom-domain">custom domains</a>.</p>
-<div class="docs-next"><span>Next platform</span><a href="@pathto('docs/platforms/render')">Render →</a></div>
+<div class="docs-next"><span>Next platform</span><a href="@path('docs/platforms/render')">Render →</a></div>
 </article>

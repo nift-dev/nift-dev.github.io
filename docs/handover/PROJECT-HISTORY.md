@@ -97,7 +97,7 @@ Historically, a surprisingly large amount could be built using essentially:
 ```text
 @content
 @input(...)
-@pathto(...)
+@path(...)
 $[...]
 ```
 
@@ -133,7 +133,7 @@ Someone reading a feature list can see:
 ```text
 @content
 @input
-@pathto
+@path
 $[...]
 ```
 
@@ -205,7 +205,7 @@ It demonstrated that Nift and React need not compete for ownership of the whole 
 
 ---
 
-# 7. `@pathto` and React asset integration
+# 7. `@path` and React asset integration
 
 The experiment also clarified a subtle but important build-graph property.
 
@@ -213,7 +213,7 @@ Given something conceptually like:
 
 ```html
 <script type="module"
-        src="@pathto('public/assets/app.js')">
+        src="@path('public/assets/app.js')">
 </script>
 ```
 
@@ -270,7 +270,7 @@ Historically the documentation covered things including:
 ```text
 @content
 @input(...)
-@pathto(...)
+@path(...)
 @dep(...)
 @getenv(...)
 @ent(...)
@@ -309,7 +309,7 @@ operations:
     @input(...)
     @dep(...)
     @json(...)
-    @pathto(...)
+    @path(...)
 
 values:
     $[...]
@@ -341,7 +341,7 @@ It is also an escape hatch compared with the more obvious relationships expresse
 
 ---
 
-# 11. `@pathto`
+# 11. `@path`
 
 Historically this was one of the easiest features for documentation—including our own drafts—to explain incorrectly.
 
@@ -791,7 +791,7 @@ Add explicitly to website handover:
 call Nift only a static site generator
 restore scripting-era messaging
 teach stale syntax
-teach incorrect @pathto behavior
+teach incorrect @path behavior
 publish old benchmark numbers as current
 edit generated deployment output as canonical source
 let examples diverge from current Nift
@@ -819,7 +819,7 @@ forget candidate-Nift dogfooding
 - Reframed `Advanced Nift` as the practical wider-web-toolchain integration guide instead of another copy of the design philosophy; updated its tracked title accordingly.
 - Updated Developer Experience to include config-declared project contracts alongside JSON Schema as machine-readable guarantees.
 - Reconciled Production Readiness with the current 24 focused Makefile targets and current project-contract checkpoint evidence, and documented template-less tracked entries among protected production behaviors.
-- Replaced remaining authored relative docs-navigation `.html` links with `@pathto(...)`, leaving literal links only where a migration example intentionally demonstrates ordinary HTML.
+- Replaced remaining authored relative docs-navigation `.html` links with `@path(...)`, leaving literal links only where a migration example intentionally demonstrates ordinary HTML.
 - Updated the site-wide meta description to describe current Nift as a website generator/build system with checked paths, contracts and incremental rebuilding.
 - Validation: exact candidate rebuilt all 46 pages, immediate incremental pass reported 46/46 up to date, focused project-contract/template-less/path-safety tests passed, and 4,343 generated local references resolved with zero missing targets.
 

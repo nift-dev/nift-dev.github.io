@@ -47,12 +47,12 @@
 	  ]
 	}
 	</script>
-	<link rel="preload" as="image" href="@pathto('public/assets/images/nift-logo.webp')" type="image/webp" fetchpriority="high">
+	<link rel="preload" as="image" href="@path('public/assets/images/nift-logo.webp')" type="image/webp" fetchpriority="high">
 </head>
 <body>
 	@input("templates/partials/header.html")
 	@content
 	@input("templates/partials/footer.html")
-	<script defer src="@pathto('public/assets/js/script.js')"></script>
+	<script defer src="@path('public/assets/js/script.js')"></script>
 </body>
 </html>

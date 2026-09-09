@@ -79,7 +79,7 @@ jobs:
 <tr><td>Project site</td><td><code>https://owner.github.io/repository/</code></td><td>Root-relative URLs such as <code>/assets/app.js</code> point outside the repository prefix.</td></tr>
 <tr><td>Custom domain</td><td>Your configured domain</td><td>Usually served from the custom-domain root.</td></tr>
 </tbody></table></div>
-<p>Use <code>\@pathto</code> for Nift-managed local pages and assets so links remain output-relative. Audit handwritten root-relative URLs, client-router base paths, web manifests and runtime fetch calls separately.</p>
+<p>Use <code>\@path</code> for Nift-managed local pages and assets so links remain output-relative. Audit handwritten root-relative URLs, client-router base paths, web manifests and runtime fetch calls separately.</p>
 
 <h2 id="custom-domains-and-https">Custom domains and HTTPS</h2>
 <p>Add the domain in Pages settings, configure the DNS records GitHub provides, then enable HTTPS after the certificate is ready. Preserve the generated deployment's domain association according to the Pages workflow/settings model; if your process requires a <code>CNAME</code> file in the artifact, ensure it reaches the root of <code>public/</code> on every build rather than editing a generated copy once.</p>
@@ -94,12 +94,12 @@ jobs:
 <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody>
 <tr><td>Workflow cannot run <code>nift</code></td><td>Installer result, <code>GITHUB_PATH</code>, runner architecture and requested release version.</td></tr>
 <tr><td>Deploy job is skipped</td><td>Build/upload failure, <code>needs: build</code>, Pages environment and permissions.</td></tr>
-<tr><td>Site works locally but assets 404</td><td>Project-site repository prefix and root-relative URLs; use <code>\@pathto</code> where Nift owns the relationship.</td></tr>
+<tr><td>Site works locally but assets 404</td><td>Project-site repository prefix and root-relative URLs; use <code>\@path</code> where Nift owns the relationship.</td></tr>
 <tr><td>Only the homepage works</td><td>Generated nested files, case-sensitive paths and client-router assumptions.</td></tr>
 <tr><td>Custom domain remains unverified</td><td>DNS records, conflicting records and propagation time.</td></tr>
 <tr><td>Old asset remains cached</td><td>Use a content-hashed filename or change the asset URL rather than expecting server cache control.</td></tr>
 </tbody></table></div>
 
 <p>Official references: <a href="https://docs.github.com/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages">custom workflows</a>, <a href="https://docs.github.com/pages/getting-started-with-github-pages/what-is-github-pages">Pages overview</a>, <a href="https://docs.github.com/pages/configuring-a-custom-domain-for-your-github-pages-site">custom domains</a>, and <a href="https://docs.github.com/pages/getting-started-with-github-pages/github-pages-limits">limits</a>.</p>
-<div class="docs-next"><span>Back to</span><a href="@pathto('docs/platforms')">Platform targets →</a></div>
+<div class="docs-next"><span>Back to</span><a href="@path('docs/platforms')">Platform targets →</a></div>
 </article>

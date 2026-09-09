@@ -11,7 +11,7 @@
   <h2 id="before-you-start">Before you start</h2>
   <p>Make sure Nift is installed and visible in your terminal:</p>
   <pre><code class="language-bash">nift version</code></pre>
-  <p>If that command is not available yet, start with the <a class="text-link" href="@pathto('docs/installing')">installation guide →</a>.</p>
+  <p>If that command is not available yet, start with the <a class="text-link" href="@path('docs/installing')">installation guide →</a>.</p>
 
   <h2 id="your-first-project-in-about-a-minute">Your first project in about a minute</h2>
   <pre><code class="language-bash">nift init</code></pre>
@@ -21,7 +21,7 @@
     <strong>Using a coding agent? Make the handover part of initialization.</strong>
     <pre><code class="language-bash">nift init --handover</code></pre>
     <p>This creates the same Nift project plus a root-level <code>HANDOVER.md</code>. Open that directory in your coding agent, have it read the handover, then describe what you want to build. You do not need a special prompt: <em>“Build me a small personal site with Home, About and Projects pages. Use Nift properly and follow HANDOVER.md.”</em> is enough for a useful first experiment.</p>
-    <p><a class="text-link" href="@pathto('docs/ai-agents')">See the full agent-first workflow →</a></p>
+    <p><a class="text-link" href="@path('docs/ai-agents')">See the full agent-first workflow →</a></p>
   </div>
 
   <h3 id="what-nift-creates">What Nift creates</h3>
@@ -79,7 +79,7 @@ public/
 
   <div class="docs-callout">
     <strong>You can stop here for quite a while.</strong>
-    <p>Add <code>\@pathto(...)</code> and these three primitives already cover a surprisingly powerful site architecture. <a class="text-link" href="@pathto('docs/three-primitives')">See how far the three-primitives model goes →</a></p>
+    <p>Add <code>\@path(...)</code> and these three primitives already cover a surprisingly powerful site architecture. <a class="text-link" href="@path('docs/three-primitives')">See how far the three-primitives model goes →</a></p>
   </div>
 
   <h2 id="track-another-page">Track another page</h2>
@@ -88,15 +88,15 @@ public/
   <pre><code class="language-bash">nift build</code></pre>
   <p>With no names supplied, <code>nift build</code> dispatches to the updated-build workflow. During normal development this is usually the command you want: Nift checks what changed and builds affected tracked outputs rather than requiring you to deliberately rebuild everything.</p>
 
-  <h2 id="link-pages-and-local-assets-with-pathto">Link pages and local assets with <code>\@pathto</code></h2>
-  <pre><code class="language-html">&lt;a href="\@pathto('about')"&gt;About&lt;/a&gt;
+  <h2 id="link-pages-and-local-assets-with-path">Link pages and local assets with <code>\@path</code></h2>
+  <pre><code class="language-html">&lt;a href="\@path('about')"&gt;About&lt;/a&gt;
 
 &lt;link
   rel="stylesheet"
-  href="\@pathto('public/assets/css/site.css')"&gt;
+  href="\@path('public/assets/css/site.css')"&gt;
 
 &lt;img
-  src="\@pathto('public/assets/images/logo.svg')"
+  src="\@path('public/assets/images/logo.svg')"
   alt="Site logo"&gt;</code></pre>
   <p>For tracked names, Nift calculates the correct relative URL from the page being built. For concrete local paths, the target must exist—so a typo can become a build error instead of a broken link or image after deployment.</p>
 
@@ -107,19 +107,19 @@ public/
 <h2 id="choose-your-starting-path">Choose your starting path</h2>
   <p>Once Nift is installed, there are three especially easy ways to begin a real project.</p>
   <div class="getting-paths">
-    <a href="@pathto('docs/three-primitives')">
+    <a href="@path('docs/three-primitives')">
       <span>Path 01 · Barebones</span>
       <h3 id="build-it-yourself">Build it yourself</h3>
       <p>Start with <code>nift init</code>, keep the starter tiny, and add pages/templates/tooling only as the project needs them.</p>
       <strong>Learn the three-primitives core →</strong>
     </a>
-    <a href="@pathto('templates')">
+    <a href="@path('templates')">
       <span>Path 02 · Template</span>
       <h3 id="start-from-a-polished-design">Start from a polished design</h3>
       <p>Download one of the complete Nift starters, build it immediately and turn it into your own site without adopting another framework.</p>
       <strong>Browse templates →</strong>
     </a>
-    <a href="@pathto('docs/ai-agents')">
+    <a href="@path('docs/ai-agents')">
       <span>Path 03 · AI-assisted</span>
       <h3 id="describe-the-website-you-want">Describe the website you want</h3>
       <p>Initialize with <code>nift init --handover</code>, let your coding agent read <code>HANDOVER.md</code>, then describe the website you want it to build.</p>
@@ -132,18 +132,18 @@ public/
     <strong>Do not rewrite it just to adopt Nift.</strong>
     <p>Keep the HTML/CSS/JS you already have. Extract repeated headers, navigation, footers and document structure into templates/partials, keep page-specific markup as content, and preserve the rest of your stack.</p>
   </div>
-  <p><a class="text-link" href="@pathto('docs/existing-sites')">See the existing-site migration workflow →</a></p>
+  <p><a class="text-link" href="@path('docs/existing-sites')">See the existing-site migration workflow →</a></p>
 
   <h2 id="what-to-learn-next">What to learn next</h2>
   <div class="docs-step-grid getting-next-grid">
-    <a href="@pathto('docs/templating')"><span>Core</span><h2 id="template-language">Template language</h2><p>The deliberately small set of v4 primitives.</p></a>
-    <a href="@pathto('docs/paths')"><span>Core</span><h2 id="project-aware-paths">Project-aware paths</h2><p>Checked internal links and assets without manual <code>../</code> counting.</p></a>
-    <a href="@pathto('docs/incremental-builds')"><span>Workflow</span><h2 id="incremental-builds">Incremental builds</h2><p>Understand why normal edits can stay proportional to the dependency impact.</p></a>
-    <a href="@pathto('docs/commands')"><span>Reference</span><h2 id="cli-commands">CLI commands</h2><p>The complete command surface accepted by the current v4 dispatcher.</p></a>
-    <a href="@pathto('docs/advanced')"><span>Ecosystem</span><h2 id="bring-your-tooling">Bring your tooling</h2><p>TypeScript, Vite, React, Vue, Svelte, Tailwind, Go, Node, Python and more.</p></a>
-    <a href="@pathto('docs/hosting')"><span>Ship</span><h2 id="deploy-it">Deploy it</h2><p>Build files and deploy them wherever your stack normally deploys them.</p></a>
+    <a href="@path('docs/templating')"><span>Core</span><h2 id="template-language">Template language</h2><p>The deliberately small set of v4 primitives.</p></a>
+    <a href="@path('docs/paths')"><span>Core</span><h2 id="project-aware-paths">Project-aware paths</h2><p>Checked internal links and assets without manual <code>../</code> counting.</p></a>
+    <a href="@path('docs/incremental-builds')"><span>Workflow</span><h2 id="incremental-builds">Incremental builds</h2><p>Understand why normal edits can stay proportional to the dependency impact.</p></a>
+    <a href="@path('docs/commands')"><span>Reference</span><h2 id="cli-commands">CLI commands</h2><p>The complete command surface accepted by the current v4 dispatcher.</p></a>
+    <a href="@path('docs/advanced')"><span>Ecosystem</span><h2 id="bring-your-tooling">Bring your tooling</h2><p>TypeScript, Vite, React, Vue, Svelte, Tailwind, Go, Node, Python and more.</p></a>
+    <a href="@path('docs/hosting')"><span>Ship</span><h2 id="deploy-it">Deploy it</h2><p>Build files and deploy them wherever your stack normally deploys them.</p></a>
   </div>
 
   <div class="docs-callout"><strong>You already know most of what is required.</strong><p>If you understand HTML files, reusable includes and a build command, the Nift-specific part is intentionally small. Learn additional features when you encounter the problem they solve.</p></div>
-  <div class="docs-next"><span>Next</span><a href="@pathto('docs/templating')">Template language essentials →</a></div>
+  <div class="docs-next"><span>Next</span><a href="@path('docs/templating')">Template language essentials →</a></div>
 </article>

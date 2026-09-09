@@ -30,7 +30,7 @@ Downloadable template archives remain under `public/assets/templates/`. Their
 already-built `public/` directories are also published as case-sensitive demo
 directories under `public/templates/<Template>/` (for example
 `public/templates/Aurora/`). The templates page links to those concrete deployment
-paths with `@pathto`. When an archive is replaced, refresh its corresponding demo
+paths with `@path`. When an archive is replaced, refresh its corresponding demo
 directory and validate the demo's relative CSS/JavaScript requests as well as the
 download itself. Only the ten templates represented by showcase cards are
 published as demos; the older Barebones archive remains download-only.
@@ -120,7 +120,7 @@ When Nift changes:
 9. Review `Battle Tested` whenever behavior, regression coverage, test families, or checkpoint evidence changed.
 10. Reconcile this handover and the website roadmap before declaring the Nift work complete.
 
-`@pathto` examples require special care: tracked names and concrete paths are
+`@path` examples require special care: tracked names and concrete paths are
 different semantic categories. `@dep` should generally remain advanced material.
 Backticks are not Nift quotes. Modern output convention is `public/`. Unknown CSS
 at-rules should not need Nift workarounds.
@@ -232,7 +232,7 @@ entry point.
 - Reworked the homepage around distinct jobs rather than repeated positioning: product/demo, core capabilities, incremental/dependency behavior, human-first AI assistance, migration, ecosystem composition, use cases, templates, and one closing boundary statement.
 - Reduced homepage copy substantially; avoid reintroducing separate sections that all restate “small layer / keep your stack / glue not universe.” Put deeper philosophy on `docs/why-nift`, ecosystem recipes on `docs/advanced`, and AI methodology on the dedicated AI pages.
 - Surface current differentiators such as checked relationships/project contracts where they add information; do not let older speed/simplicity messaging crowd out newer architectural strengths.
-- The website should practice its own contract philosophy: use `@pathto` for authored internal navigation instead of unchecked relative `.html` links unless a literal path is intentionally being demonstrated.
+- The website should practice its own contract philosophy: use `@path` for authored internal navigation instead of unchecked relative `.html` links unless a literal path is intentionally being demonstrated.
 - Keep `docs/production-readiness` and other evaluation pages synchronized with the current focused-test inventory and Battle Tested evidence; avoid copying old checkpoint counts forward.
 - Keep the Battle Tested introduction framed around behavioral contracts and executable guarantees, with the broad Contracts philosophy distinguished from the concrete Project Contracts feature; do not reduce the page to raw test-count marketing.
 - `docs/advanced` is now the practical wider-toolchain integration guide. Keep philosophical rationale primarily in `docs/why-nift` / `docs/contracts` rather than duplicating it there.
@@ -419,6 +419,6 @@ entry point.
 - The homepage now uses `templates/home.html` so homepage-only performance hints do not leak into every documentation page. In particular, it preloads the hero logo from `<head>` while the shared template remains unchanged for pages that never render that asset.
 - The homepage carries a real semantic `<h1>` and useful raw HTML; keep the primary product description readable without JavaScript.
 - `llms.txt`, `agents.md`, `robots.txt`, `sitemap.xml`, and `404.html` are intentional agent/discovery surfaces. Do not invent OpenAPI, MCP, OAuth, or other interfaces merely to satisfy an external readiness rubric when nift.dev does not actually provide them.
-- `content/agents.md` is still Nift content: literal Nift directives such as `@content`, `@input(...)`, and `@pathto(...)` must be escaped in source so they render literally.
+- `content/agents.md` is still Nift content: literal Nift directives such as `@content`, `@input(...)`, and `@path(...)` must be escaped in source so they render literally.
 - The global frontend script deliberately relies on the `(min-width: 761px)` media-query change event for mobile-menu cleanup; do not reintroduce a resize handler that reads layout state such as `window.innerWidth` after DOM mutations, because Lighthouse identified that path as a forced reflow.
 - Regenerate the site with the released Nift binary appropriate to the live website and keep the normal publication order: generated `public/` commit first, then source/stage including the submodule bump.

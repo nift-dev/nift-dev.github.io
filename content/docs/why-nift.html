@@ -36,13 +36,13 @@
 <p>A small surface is easier to remember, document, debug and teach. The important abstractions remain visible: this page uses this template; this template inputs this partial; this link points to this tracked output.</p>
 
 <h2 id="human-first-simplicity-also-produces-strong-ai-dx">Human-first simplicity also produces strong AI-DX.</h2>
-<p>Nift is designed first for people: ordinary source files, explicit relationships, fast feedback and a small language. Those same properties happen to make projects easier for coding assistants to understand and validate without replacing the human-oriented model. <a class="text-link" href="@pathto('docs/ai-agents')">See the AI-assisted workflow →</a></p>
+<p>Nift is designed first for people: ordinary source files, explicit relationships, fast feedback and a small language. Those same properties happen to make projects easier for coding assistants to understand and validate without replacing the human-oriented model. <a class="text-link" href="@path('docs/ai-agents')">See the AI-assisted workflow →</a></p>
 
 
 <h2 id="prefer-checked-relationships-over-unchecked-strings">Prefer checked relationships over unchecked strings.</h2>
-<p>Nift is increasingly useful not because it knows more about every technology in your stack, but because it can make the relationships it <em>does</em> know about explicit. <code>\@input</code> establishes an input/dependency relationship, <code>\@pathto</code> checks project-local references, JSON and schemas validate structured data, and project contracts can make shared application values such as route names fail at build time when they drift.</p>
+<p>Nift is increasingly useful not because it knows more about every technology in your stack, but because it can make the relationships it <em>does</em> know about explicit. <code>\@input</code> establishes an input/dependency relationship, <code>\@path</code> checks project-local references, JSON and schemas validate structured data, and project contracts can make shared application values such as route names fail at build time when they drift.</p>
 <p>This is the broader contract philosophy: if an important assumption is known at build time and Nift can check it simply and clearly, prefer the checked relationship to an unchecked string. The feature still has to justify its complexity; a theoretically verifiable guarantee is not automatically worth adding.</p>
-  <p><a class="text-link" href="@pathto('docs/contracts')">Read the contracts philosophy →</a></p>
+  <p><a class="text-link" href="@path('docs/contracts')">Read the contracts philosophy →</a></p>
 
 <h2 id="built-to-be-dependable">Built to be dependable.</h2>
 <p>Dependability is one of Nift's engineering values, and it is not the claim that software never fails. For Nift it means something narrower and more inspectable: the behaviour users are expected to rely on has explicit scope, known boundaries, and evidence behind it.</p>
@@ -113,5 +113,5 @@ Need deployment?      deploy public/ where it belongs.</code></pre>
 <blockquote class="docs-quote">Nift provides the glue without trying to become the universe.</blockquote>
 <p>That is not an excuse for missing features. It is the boundary: Nift should be excellent at the small set of project-aware build problems it owns, and easy to compose with specialist tools for everything else.</p>
 
-<div class="docs-next"><span>Next</span><a href="@pathto('docs/three-primitives')">Start with three primitives →</a></div>
+<div class="docs-next"><span>Next</span><a href="@path('docs/three-primitives')">Start with three primitives →</a></div>
 </article>

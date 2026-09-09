@@ -1,7 +1,7 @@
 <article class="docs-article">
 <p class="docs-kicker">Project contracts · Frontend/backend boundaries</p>
 <h1>Route contracts.</h1>
-<p class="docs-lead">A route contract gives a Nift project one checked source of truth for named application/API paths. It is a concrete use of <a href="@pathto('docs/project-contracts')">project contracts</a>: Nift verifies that the named relationship exists and tracks its source, while the backend or deployment platform still owns what happens when a request arrives.</p>
+<p class="docs-lead">A route contract gives a Nift project one checked source of truth for named application/API paths. It is a concrete use of <a href="@path('docs/project-contracts')">project contracts</a>: Nift verifies that the named relationship exists and tracks its source, while the backend or deployment platform still owns what happens when a request arrives.</p>
 
 <h2 id="declare-a-routes-contract">Declare a routes contract</h2>
 <pre><code class="language-json">// .nift/config.json
@@ -58,5 +58,5 @@ handles the request according to its own routing model</code></pre>
 <h2 id="keep-the-first-contract-small">Keep the first contract small</h2>
 <p>For many projects, mapping names to path strings is enough. Do not add methods, request schemas, authentication rules or deployment behavior merely because they could theoretically live in the same JSON. Add richer guarantees only when the project has a concrete need and a simple way to validate them.</p>
 
-<div class="docs-next"><span>Related</span><a href="@pathto('docs/contracts')">Contract philosophy →</a></div>
+<div class="docs-next"><span>Related</span><a href="@path('docs/contracts')">Contract philosophy →</a></div>
 </article>

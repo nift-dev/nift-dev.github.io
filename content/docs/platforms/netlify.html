@@ -66,12 +66,12 @@ nift status</code></pre>
 <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Symptom</th><th>Check</th></tr></thead><tbody>
 <tr><td><code>nift: command not found</code></td><td>The build-image installation step and resulting <code>PATH</code>; print <code>nift version</code> before building.</td></tr>
 <tr><td>Deploy succeeds but site is empty</td><td><code>publish = "public"</code>, repository base directory and whether Nift actually generated files there.</td></tr>
-<tr><td>Nested page/assets 404</td><td>Use <code>\@pathto</code> for project-local links and inspect accidental absolute-root URLs.</td></tr>
+<tr><td>Nested page/assets 404</td><td>Use <code>\@path</code> for project-local links and inspect accidental absolute-root URLs.</td></tr>
 <tr><td>Every unknown URL shows the homepage</td><td>Remove an inappropriate SPA rewrite.</td></tr>
 <tr><td>Old JavaScript persists</td><td>Cache policy versus filename strategy; do not mark stable filenames immutable.</td></tr>
 <tr><td>Custom domain/certificate pending</td><td>DNS target, conflicting records and TTL propagation.</td></tr>
 </tbody></table></div>
 
 <p>Official references: <a href="https://docs.netlify.com/build/configure-builds/file-based-configuration/">file-based configuration</a>, <a href="https://docs.netlify.com/manage/routing/overview/">routing</a>, <a href="https://docs.netlify.com/manage/routing/headers/">headers</a>, and <a href="https://docs.netlify.com/manage/domains/get-started-with-domains/">domains</a>.</p>
-<div class="docs-next"><span>Next platform</span><a href="@pathto('docs/platforms/amplify')">AWS Amplify →</a></div>
+<div class="docs-next"><span>Next platform</span><a href="@path('docs/platforms/amplify')">AWS Amplify →</a></div>
 </article>

@@ -33,10 +33,10 @@
     main.go
     api/
   .nift/</code></pre>
-  <pre><code class="language-html">&lt;link rel="stylesheet" href="\@pathto('public/assets/site.css')"&gt;
+  <pre><code class="language-html">&lt;link rel="stylesheet" href="\@path('public/assets/site.css')"&gt;
 \@input('templates/partials/nav.html')
 &lt;main&gt;\@content&lt;/main&gt;
-&lt;script type="module" src="\@pathto('public/assets/app.js')"&gt;&lt;/script&gt;</code></pre>
+&lt;script type="module" src="\@path('public/assets/app.js')"&gt;&lt;/script&gt;</code></pre>
   <pre><code class="language-javascript">const res = await fetch('/api/status');
 const status = await res.json();
 document.querySelector('#status').textContent = status.message;</code></pre>
@@ -75,7 +75,7 @@ nift build
   &lt;p&gt;Static/helpful surrounding content stays plain HTML.&lt;/p&gt;
 &lt;/section&gt;
 &lt;div id="account-app"&gt;&lt;/div&gt;
-&lt;script type="module" src="\@pathto('public/assets/account.js')"&gt;&lt;/script&gt;</code></pre>
+&lt;script type="module" src="\@path('public/assets/account.js')"&gt;&lt;/script&gt;</code></pre>
   <pre><code class="language-javascript">// React entry point produced by your normal bundler
 createRoot(document.getElementById('account-app')).render(&lt;AccountApp /&gt;);</code></pre>
   <p>This avoids requiring React to own every page just because one region benefits from it.</p>
@@ -83,7 +83,7 @@ createRoot(document.getElementById('account-app')).render(&lt;AccountApp /&gt;);
   <h2 id="nift-vue-or-svelte">Nift + Vue or Svelte</h2>
   <p>The pattern is identical. Vite produces a browser entry point, and a Nift-generated page provides the mount point.</p>
   <pre><code class="language-html">&lt;div id="pricing-calculator"&gt;&lt;/div&gt;
-&lt;script type="module" src="\@pathto('public/assets/pricing-calculator.js')"&gt;&lt;/script&gt;</code></pre>
+&lt;script type="module" src="\@path('public/assets/pricing-calculator.js')"&gt;&lt;/script&gt;</code></pre>
   <p>Whether that bundle was produced by Vue, Svelte, React or vanilla TypeScript is deliberately outside Nift's concern.</p>
 
   <h2 id="nift-node-express">Nift + Node + Express</h2>
@@ -159,7 +159,7 @@ socket.addEventListener('message', event =&gt; {
   <p>Tailwind can scan the HTML/templates and generate CSS into <code>public/assets/</code>. Nift simply references that file.</p>
   <pre><code class="language-bash">npx @tailwindcss/cli -i ./frontend/styles.css -o ./public/assets/site.css
 nift build</code></pre>
-  <pre><code class="language-html">&lt;link rel="stylesheet" href="\@pathto('public/assets/site.css')"&gt;</code></pre>
+  <pre><code class="language-html">&lt;link rel="stylesheet" href="\@path('public/assets/site.css')"&gt;</code></pre>
 
   <h2 id="nift-an-external-build-orchestrator">Nift + an external build orchestrator</h2>
   <p>For a larger repository, let a Makefile, task runner, package script or CI system define the order of operations.</p>
@@ -191,5 +191,5 @@ go build ./server        # or node/python/bun build/deploy steps</code></pre>
 
   <div class="docs-callout"><strong>Nift provides the glue without trying to become the universe.</strong><p>A full application can be sophisticated without Nift itself becoming complicated. The point is to let Nift's small build/template model compose cleanly with whatever architecture the application actually needs.</p></div>
 
-  <div class="docs-next"><span>Next pattern</span><a href="@pathto('docs/use-cases/mobile-development')">Mobile development →</a></div>
+  <div class="docs-next"><span>Next pattern</span><a href="@path('docs/use-cases/mobile-development')">Mobile development →</a></div>
 </article>

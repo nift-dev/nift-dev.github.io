@@ -96,7 +96,7 @@ nift init --target=vercel
 nift init --target=cloudflare --ext=.htm
 nift init --handover</code></pre>
   <p>Supported targets are <code>vercel</code>, <code>netlify</code>, <code>amplify</code>, <code>azure</code>, <code>firebase</code>, <code>render</code>, <code>cloudflare</code>, <code>github-pages</code> and <code>supabase</code>. Target presets accept <code>.html</code> and <code>.htm</code>; runtime extensions such as <code>.php</code> are rejected. Supabase keeps the ordinary <code>public/</code> output because it provides backend services rather than a special frontend artifact.</p>
-  <p>The target list is not a hosting allow-list. For another platform, initialise a normal project and configure the provider manually. The removed positional form <code>nift init .html</code> is not accepted; use <code>--ext=.html</code>. See <a href="@pathto('docs/platforms')">Platform targets</a> for generated files and output layouts.</p>
+  <p>The target list is not a hosting allow-list. For another platform, initialise a normal project and configure the provider manually. The removed positional form <code>nift init .html</code> is not accepted; use <code>--ext=.html</code>. See <a href="@path('docs/platforms')">Platform targets</a> for generated files and output layouts.</p>
 
   <h2 id="minify-files">Minify arbitrary files</h2>
   <p><code>nift minify [-i|--in-place] file...</code> works inside or outside a Nift project. By default it leaves each source untouched and writes a sibling <code>name.min.ext</code> file.</p>
@@ -112,7 +112,7 @@ nift minify -i generated/site.css</code></pre>
   <tr><td>none</td><td>Writes the safe sibling output <code>name.min.ext</code>.</td></tr>
   <tr><td><code>-i</code>, <code>--in-place</code></td><td>Explicitly overwrites each source file.</td></tr>
   </tbody></table></div>
-  <p>Supported extensions are HTML/HTM, CSS, JS/MJS/CJS, JSX, JSON, XML and SVG. At least one file is required. Unsupported, missing, malformed or unwritable files produce a non-zero status; other valid arguments in the invocation are still processed. <a class="text-link" href="@pathto('docs/minification')">Minification details →</a></p>
+  <p>Supported extensions are HTML/HTM, CSS, JS/MJS/CJS, JSX, JSON, XML and SVG. At least one file is required. Unsupported, missing, malformed or unwritable files produce a non-zero status; other valid arguments in the invocation are still processed. <a class="text-link" href="@path('docs/minification')">Minification details →</a></p>
 
   <h2 id="general">General and aliases</h2>
   <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Canonical command</th><th>Purpose</th><th>Aliases</th></tr></thead><tbody>
@@ -128,5 +128,5 @@ nift minify -i generated/site.css</code></pre>
   <p><code>build-all</code>, <code>build-updated</code>, <code>build-names</code>, <code>build-auto</code>, <code>info-all</code>, <code>info-watching</code>, <code>info-tracking</code> and <code>info-names</code> are not aliases. They fail with a non-zero status and point to the unified replacement, such as <code>nift build --all</code>.</p>
   <p>Commands reject unexpected arguments and unknown options instead of silently ignoring them. Run <code>nift commands</code> for the executable's concise built-in reminder.</p>
 
-  <div class="docs-next"><span>Related</span><a href="@pathto('docs/incremental-builds')">Incremental builds →</a></div>
+  <div class="docs-next"><span>Related</span><a href="@path('docs/incremental-builds')">Incremental builds →</a></div>
 </article>

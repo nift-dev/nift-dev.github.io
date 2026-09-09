@@ -12,11 +12,11 @@
   <p>Nift deliberately optimises that second set of properties.</p>
 
   <div class="advanced-doc-grid">
-    <div><h2 id="a-small-mental-model">A small mental model</h2><p>A newcomer can start with <code>\@content</code>, <code>\@input</code> and <code>\@pathto</code>. JSON, schemas, loops, conditions and explicit dependencies are progressive capabilities rather than prerequisites for a basic page.</p></div>
+    <div><h2 id="a-small-mental-model">A small mental model</h2><p>A newcomer can start with <code>\@content</code>, <code>\@input</code> and <code>\@path</code>. JSON, schemas, loops, conditions and explicit dependencies are progressive capabilities rather than prerequisites for a basic page.</p></div>
     <div><h2 id="ordinary-files-stay-ordinary">Ordinary files stay ordinary</h2><p>HTML remains HTML. CSS remains CSS. JSON uses JSON and JSON Schema. Browser JavaScript remains browser JavaScript. Nift adds composition and project knowledge without requiring every file type to acquire a Nift-specific equivalent.</p></div>
     <div><h2 id="a-short-feedback-loop">A short feedback loop</h2><p>Fast startup, multithreaded builds and dependency-aware incremental rebuilding are DX features. A tool used hundreds of times during development should make “change → rebuild → inspect” feel nearly immediate.</p></div>
     <div><h2 id="errors-before-deployment">Errors before deployment</h2><p>Missing path targets, malformed JSON, schema violations, invalid control flow, bad sort keys and dependency problems can be reported during the build rather than becoming mysterious broken output later.</p></div>
-    <div><h2 id="local-reasoning">Local reasoning</h2><p><code>\@pathto(...)</code> is a good example: the reference itself says Nift should resolve and verify a project-local target. Nift then remembers that target as a requirement, so future status checks can catch deletion without pretending every asset edit changes the HTML.</p></div>
+    <div><h2 id="local-reasoning">Local reasoning</h2><p><code>\@path(...)</code> is a good example: the reference itself says Nift should resolve and verify a project-local target. Nift then remembers that target as a requirement, so future status checks can catch deletion without pretending every asset edit changes the HTML.</p></div>
     <div><h2 id="progressive-complexity">Progressive complexity</h2><p>A five-page site does not pay the conceptual cost of a data layer. A large documentation or catalogue frontend can opt into schema-validated JSON, nested loops, conditions and sorting without changing the basic model.</p></div>
   </div>
 
@@ -56,7 +56,7 @@ npm test</code></pre>
   <p>Those are genuine advantages. Nift's countervailing advantage is that fewer decisions have to become framework decisions.</p>
   <pre><code class="language-html">&lt;script
   type="module"
-  src="\@pathto('public/assets/app.js')"&gt;&lt;/script&gt;</code></pre>
+  src="\@path('public/assets/app.js')"&gt;&lt;/script&gt;</code></pre>
   <p>Nift can resolve that URL, verify the target and remember that it must continue to exist. It does not need to know whether <code>app.js</code> was handwritten JavaScript, compiled TypeScript, a React bundle, a Svelte application or something produced by a future tool. That ignorance is useful: the boundary remains stable while the surrounding ecosystem evolves.</p>
 
   <h2 id="ai-dx">AI-DX</h2>
@@ -82,7 +82,7 @@ normal ecosystem tools
       =
 more of the agent's context available for
 the actual application and its requirements</code></pre>
-  <p>This does not mean AI will never make Nift-specific mistakes. It can still confuse <code>\@pathto</code> semantics, invent syntax from another template language or misunderstand project structure. The important DX question is how cheaply those mistakes can be detected and corrected. A small language, explicit docs and strong regression behaviour make that recovery loop much easier.</p>
+  <p>This does not mean AI will never make Nift-specific mistakes. It can still confuse <code>\@path</code> semantics, invent syntax from another template language or misunderstand project structure. The important DX question is how cheaply those mistakes can be detected and corrected. A small language, explicit docs and strong regression behaviour make that recovery loop much easier.</p>
 
   <h3 id="ai-does-not-eliminate-the-value-of-simplicity">AI does not eliminate the value of simplicity</h3>
   <p>There is a tempting argument that coding agents make complexity cheap because they can generate boilerplate for us. In one sense that is true: an AI can happily write hundreds of lines a human might find tedious. But that makes <em>accidental abstraction</em> less valuable, not more. If ordinary code is cheap to produce, there is less reason to introduce another framework concept merely to save typing.</p>
@@ -93,7 +93,7 @@ the actual application and its requirements</code></pre>
 
   <h2 id="testing-is-developer-experience-too">Testing is developer experience too</h2>
   <p>The focused C++/parser smoke tests, broad black-box regression suite and ruthless adversarial tests primarily protect Nift itself, but their user-facing effect is DX: behaviour is less likely to shift unexpectedly as the implementation changes. A small language is only pleasant when its small set of rules is dependable — and dependable here means explicit, checked, bounded, and backed by retained evidence, not merely "usually works."</p>
-  <p><a class="text-link" href="@pathto('docs/battle-tested')">See exactly what Nift's testing layers cover →</a></p>
+  <p><a class="text-link" href="@path('docs/battle-tested')">See exactly what Nift's testing layers cover →</a></p>
 
   <h2 id="the-trade-off-in-one-sentence">The trade-off in one sentence</h2>
   <blockquote class="docs-quote">Nift isn't trying to minimise the number of tools in your project. It's trying to minimise the unnecessary machinery between you and the thing you're building.</blockquote>

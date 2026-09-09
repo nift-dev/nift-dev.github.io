@@ -1,7 +1,7 @@
 <main>
 
 <section class="hero"><div class="hero-grid"></div><div class="hero-glow hero-glow-a"></div><div class="hero-glow hero-glow-b"></div><div class="hero-inner">
-<img class="hero-logo" src="@pathto('public/assets/images/nift-logo.webp')" alt="Nift — nifty-site-manager" width="420" height="162" loading="eager" fetchpriority="high">
+<img class="hero-logo" src="@path('public/assets/images/nift-logo.webp')" alt="Nift — nifty-site-manager" width="420" height="162" loading="eager" fetchpriority="high">
 <h1 class="hero-tagline">Keep your HTML. Keep your tools. Stop repeating yourself.</h1>
 <p class="hero-subcopy">A fast, dependency-aware build layer for websites that stays out of the rest of your stack.</p>
 
@@ -10,11 +10,11 @@
   <span><svg class="hero-pill-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="5" cy="10" r="2.3"/><circle cx="15" cy="5" r="2.3"/><circle cx="15" cy="15" r="2.3"/><path d="m7.2 9 5.6-2.8M7.2 11l5.6 2.8"/></svg>Dependency aware</span>
   <span><svg class="hero-pill-icon" viewBox="0 0 20 20" aria-hidden="true"><rect x="3.3" y="4" width="13.4" height="12" rx="3"/><path d="M6.5 8h7M6.5 12h4.8"/></svg>Tiny mental model</span>
 </div>
-<div class="hero-actions"><a class="button button-primary" href="@pathto('docs/getting-started')">Get started</a><a class="button button-secondary" href="@pathto('docs/installing')">Install</a><a class="button button-secondary" href="@pathto('docs/ai-agents')">AI agents</a></div>
+<div class="hero-actions"><a class="button button-primary" href="@path('docs/getting-started')">Get started</a><a class="button button-secondary" href="@path('docs/installing')">Install</a><a class="button button-secondary" href="@path('docs/ai-agents')">AI agents</a></div>
 
 <div class="hero-install" aria-label="Install Nift">
   <pre><code data-install-command>curl -fsSL https://nift.dev/install | sh</code></pre>
-  <a class="hero-install-more" href="@pathto('docs/installing')">Windows and other installation methods available →</a>
+  <a class="hero-install-more" href="@path('docs/installing')">Windows and other installation methods available →</a>
 </div>
 </div></section>
 
@@ -25,9 +25,9 @@
 		<h2>Serious enough to build with.</h2>
     <p>Native builds, dependency-aware incremental rebuilding, checked project relationships and ordinary HTML, CSS and JavaScript output. Nift adds build-time structure without taking over the rest of your stack.</p>
     <div class="hero-actions home-closing-links">
-      <a class="btn btn-secondary" href="@pathto('docs/why-nift')">Why Nift?</a>
-      <a href="@pathto('docs/battle-tested')">Battle Tested</a>
-      <a href="@pathto('docs')">Documentation</a>
+      <a class="btn btn-secondary" href="@path('docs/why-nift')">Why Nift?</a>
+      <a href="@path('docs/battle-tested')">Battle Tested</a>
+      <a href="@path('docs')">Documentation</a>
     </div>
   </div>
 </section>

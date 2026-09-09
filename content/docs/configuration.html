@@ -66,12 +66,12 @@ public/docs/getting-started.html</code></pre>
   "services": "data/services.json"
 }</code></pre>
   <p>A declared namespace can then be read anywhere through the normal value syntax, for example <code>\$[routes.users.list]</code>. Contract namespaces are reserved project-wide, cannot be shadowed by <code>\@json</code> or loop bindings, and are loaded only when referenced. Nift records both the contract source and <code>.nift/config.json</code> as dependencies of outputs that use them.</p>
-  <p><a class="text-link" href="@pathto('docs/project-contracts')">Read the project contracts reference →</a></p>
+  <p><a class="text-link" href="@path('docs/project-contracts')">Read the project contracts reference →</a></p>
 
   <h2 id="automatic-minification">Automatic minification</h2>
   <p><code>minify-exts</code> is an optional array. A tracked output is minified after rendering when its final extension is listed:</p>
   <pre><code class="language-json">"minify-exts": [".html", ".css", ".js", ".json", ".svg"]</code></pre>
-  <p>Individual tracked entries can override the project decision with <code>"minify": true</code> or <code>false</code>. Changing the effective setting invalidates the previous incremental build metadata. <a class="text-link" href="@pathto('docs/minification')">See the minification guide →</a></p>
+  <p>Individual tracked entries can override the project decision with <code>"minify": true</code> or <code>false</code>. Changing the effective setting invalidates the previous incremental build metadata. <a class="text-link" href="@path('docs/minification')">See the minification guide →</a></p>
 
   <h2 id="incremental-modes">Incremental modes</h2>
   <div class="advanced-doc-grid">
@@ -84,5 +84,5 @@ public/docs/getting-started.html</code></pre>
   <p>Yes, when you want to change project-wide defaults such as moving generated files to <code>public/</code>, changing the default template, or choosing an incremental mode. It is deliberately ordinary JSON so the project setup is inspectable and easy for humans, scripts and AI assistants to understand.</p>
 
   <div class="docs-callout"><strong><code>config.json</code> describes the project-wide rules.</strong><p><code>tracked.json</code> describes the individual things Nift manages within those rules.</p></div>
-  <div class="docs-next"><span>Next</span><a href="@pathto('docs/tracked-json')"><code>tracked.json</code> →</a></div>
+  <div class="docs-next"><span>Next</span><a href="@path('docs/tracked-json')"><code>tracked.json</code> →</a></div>
 </article>

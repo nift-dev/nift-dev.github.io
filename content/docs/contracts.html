@@ -23,8 +23,8 @@ a successful build becomes evidence that the checked contract held</code></pre>
 <tr><td><code>\@input(...)</code></td><td>The input exists, can be safely resolved, is incorporated into this output and therefore becomes a dependency.</td></tr>
 <tr><td><code>\@dep(...)</code></td><td>This output depends on a project resource even though that resource does not directly render content.</td></tr>
 <tr><td><code>\@json(...)</code></td><td>The data source exists, parses as JSON, optionally satisfies its schema and becomes a dependency.</td></tr>
-<tr><td><code>\@pathto(...)</code></td><td>The referenced tracked/project destination resolves and remains a checked requirement. Concrete-path disappearance stales the referrer; tracked producers own their own build result without transitive failure.</td></tr>
-<tr><td><a href="@pathto('docs/project-contracts')">Project contracts</a></td><td>A named project-level JSON source exists, referenced members resolve and outputs using it depend on both the declaration and source.</td></tr>
+<tr><td><code>\@path(...)</code></td><td>The referenced tracked/project destination resolves and remains a checked requirement. Concrete-path disappearance stales the referrer; tracked producers own their own build result without transitive failure.</td></tr>
+<tr><td><a href="@path('docs/project-contracts')">Project contracts</a></td><td>A named project-level JSON source exists, referenced members resolve and outputs using it depend on both the declaration and source.</td></tr>
 </tbody></table></div>
 
 <h2 id="design-guarantees-before-designing-features">Design guarantees before designing features</h2>
@@ -42,7 +42,7 @@ a successful build becomes evidence that the checked contract held</code></pre>
 
 <h2 id="contracts-and-dependency-tracking-belong-together">Contracts and dependency tracking belong together</h2>
 <p>A contract is most useful when the build graph remembers it. If an output depends on a contract source, changing that source should make the output eligible for rebuild. If the declaration itself changes, dependent outputs should also be reconsidered.</p>
-<p>That is why <a href="@pathto('docs/project-contracts')">project contracts</a> record both their configured source and <code>.nift/config.json</code> as dependencies when referenced.</p>
+<p>That is why <a href="@path('docs/project-contracts')">project contracts</a> record both their configured source and <code>.nift/config.json</code> as dependencies when referenced.</p>
 
 <h2 id="contracts-should-fail-clearly">Contracts should fail clearly</h2>
 <p>Good contract errors explain the violated guarantee rather than leaking implementation details. Missing inputs, unknown members, namespace collisions, malformed contract data and unsafe paths are errors because the build can no longer establish the promised relationship.</p>
@@ -51,5 +51,5 @@ a successful build becomes evidence that the checked contract held</code></pre>
 <p>Nift's own contract features are protected by focused and implementation-independent regression tests. The tests cover successful behavior, failure behavior, incremental transitions, shadowing/collision rules and adversarial neighbors. A feature is not considered complete merely because its happy path renders the expected bytes. The tests are executable evidence that the stated guarantees are actually met.</p>
 <p>This same idea scales to serious Nift projects: define the guarantees that matter, encode what can be checked, and make validation part of the development checkpoint rather than an afterthought.</p>
 
-<div class="docs-next"><span>See it in practice</span><a href="@pathto('docs/routes')">Route contracts →</a></div>
+<div class="docs-next"><span>See it in practice</span><a href="@path('docs/routes')">Route contracts →</a></div>
 </article>
