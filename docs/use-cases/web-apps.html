@@ -26,10 +26,10 @@
   server/
     main.go
     api/
-  .nift/</code></pre> <pre><code class="language-html">&lt;link rel="stylesheet" href="@pathto('public/assets/site.css')"&gt;
+  .nift/</code></pre> <pre><code class="language-html">&lt;link rel="stylesheet" href="@path('public/assets/site.css')"&gt;
 @input('templates/partials/nav.html')
 &lt;main&gt;@content&lt;/main&gt;
-&lt;script type="module" src="@pathto('public/assets/app.js')"&gt;&lt;/script&gt;</code></pre> <pre><code class="language-javascript">const res = await fetch('/api/status');
+&lt;script type="module" src="@path('public/assets/app.js')"&gt;&lt;/script&gt;</code></pre> <pre><code class="language-javascript">const res = await fetch('/api/status');
 const status = await res.json();
 document.querySelector('#status').textContent = status.message;</code></pre> <pre><code class="language-go">http.Handle("/", http.FileServer(http.Dir("public")))
 http.HandleFunc("/api/status", func(w http.ResponseWriter, r *http.Request) {
@@ -55,9 +55,9 @@ nift build
   &lt;p&gt;Static/helpful surrounding content stays plain HTML.&lt;/p&gt;
 &lt;/section&gt;
 &lt;div id="account-app"&gt;&lt;/div&gt;
-&lt;script type="module" src="@pathto('public/assets/account.js')"&gt;&lt;/script&gt;</code></pre> <pre><code class="language-javascript">// React entry point produced by your normal bundler
+&lt;script type="module" src="@path('public/assets/account.js')"&gt;&lt;/script&gt;</code></pre> <pre><code class="language-javascript">// React entry point produced by your normal bundler
 createRoot(document.getElementById('account-app')).render(&lt;AccountApp /&gt;);</code></pre> <p>This avoids requiring React to own every page just because one region benefits from it.</p> <h2 id="nift-vue-or-svelte">Nift + Vue or Svelte</h2> <p>The pattern is identical. Vite produces a browser entry point, and a Nift-generated page provides the mount point.</p> <pre><code class="language-html">&lt;div id="pricing-calculator"&gt;&lt;/div&gt;
-&lt;script type="module" src="@pathto('public/assets/pricing-calculator.js')"&gt;&lt;/script&gt;</code></pre> <p>Whether that bundle was produced by Vue, Svelte, React or vanilla TypeScript is deliberately outside Nift's concern.</p> <h2 id="nift-node-express">Nift + Node + Express</h2> <p>Express can serve the generated public directory and expose APIs beside it.</p> <pre><code class="language-javascript">import express from 'express';
+&lt;script type="module" src="@path('public/assets/pricing-calculator.js')"&gt;&lt;/script&gt;</code></pre> <p>Whether that bundle was produced by Vue, Svelte, React or vanilla TypeScript is deliberately outside Nift's concern.</p> <h2 id="nift-node-express">Nift + Node + Express</h2> <p>Express can serve the generated public directory and expose APIs beside it.</p> <pre><code class="language-javascript">import express from 'express';
 
 const app = express();
 app.use(express.json());
@@ -100,7 +100,7 @@ socket.addEventListener('message', event =&gt; {
   const data = JSON.parse(event.data);
   updateDashboard(data);
 });</code></pre> <p>This can back terminals, telemetry displays, live dashboards, collaborative tools or other realtime interfaces without changing Nift's role.</p> <h2 id="nift-tailwind">Nift + Tailwind</h2> <p>Tailwind can scan the HTML/templates and generate CSS into <code>public/assets/</code>. Nift simply references that file.</p> <pre><code class="language-bash">npx @tailwindcss/cli -i ./frontend/styles.css -o ./public/assets/site.css
-nift build</code></pre> <pre><code class="language-html">&lt;link rel="stylesheet" href="@pathto('public/assets/site.css')"&gt;</code></pre> <h2 id="nift-an-external-build-orchestrator">Nift + an external build orchestrator</h2> <p>For a larger repository, let a Makefile, task runner, package script or CI system define the order of operations.</p> <pre><code class="language-makefile">build:
+nift build</code></pre> <pre><code class="language-html">&lt;link rel="stylesheet" href="@path('public/assets/site.css')"&gt;</code></pre> <h2 id="nift-an-external-build-orchestrator">Nift + an external build orchestrator</h2> <p>For a larger repository, let a Makefile, task runner, package script or CI system define the order of operations.</p> <pre><code class="language-makefile">build:
 \tnpm run build:frontend
 \tnift build --all
 \tgo build -o bin/server ./server</code></pre> <p>Nift does not need a plugin system merely to participate in a build graph.</p> <h2 id="development-workflow">Development workflow</h2> <pre><code class="language-plaintext">terminal 1:  nift build --auto

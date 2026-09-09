@@ -270,7 +270,7 @@
       hljs.registerLanguage('nift', () => ({
         name: 'Nift',
         contains: [
-          { className: 'meta', begin: /\\?@(?:content\b|input(?=\()|pathto(?=\()|getenv(?=\()|ent(?=\()|dep(?=\()|json(?=\()|for(?=\()|if(?=\())/ },
+          { className: 'meta', begin: /\\?@(?:content\b|input(?=\()|path(?=\()|pathto(?=\()|getenv(?=\()|ent(?=\()|dep(?=\()|json(?=\()|for(?=\()|if(?=\())/ },
           { className: 'meta', begin: /\\?\$\[[^\]\n]+\]/ },
           { className: 'string', begin: /'/, end: /'/ },
           { className: 'string', begin: /"/, end: /"/ },

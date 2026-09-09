@@ -33,17 +33,17 @@ serve: site
 &lt;head&gt;
   &lt;meta charset="utf-8"&gt;
   &lt;title&gt;$[title] · Operations&lt;/title&gt;
-  &lt;link rel="stylesheet" href="@pathto('public/assets/dashboard.css')"&gt;
+  &lt;link rel="stylesheet" href="@path('public/assets/dashboard.css')"&gt;
 &lt;/head&gt;
 &lt;body&gt;
   @input('templates/partials/dashboard-nav.html')
   &lt;main id="main" class="dashboard"&gt;@content&lt;/main&gt;
-  &lt;script type="module" src="@pathto('public/assets/dashboard.js')"&gt;&lt;/script&gt;
+  &lt;script type="module" src="@path('public/assets/dashboard.js')"&gt;&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</code></pre> <p>Navigation remains ordinary checked markup:</p> <pre><code class="language-html">&lt;nav aria-label="Dashboard"&gt;
-  &lt;a href="@pathto('dashboard/index')"&gt;Overview&lt;/a&gt;
-  &lt;a href="@pathto('dashboard/events')"&gt;Events&lt;/a&gt;
-  &lt;a href="@pathto('dashboard/settings')"&gt;Settings&lt;/a&gt;
+  &lt;a href="@path('dashboard/index')"&gt;Overview&lt;/a&gt;
+  &lt;a href="@path('dashboard/events')"&gt;Events&lt;/a&gt;
+  &lt;a href="@path('dashboard/settings')"&gt;Settings&lt;/a&gt;
 &lt;/nav&gt;</code></pre> <h2 id="content-provides-useful-initial-markup">Content provides useful initial markup</h2> <pre><code class="language-html">&lt;h1&gt;System status&lt;/h1&gt;
 &lt;p id="dashboard-status" role="status" aria-live="polite"&gt;
   Loading current status…
