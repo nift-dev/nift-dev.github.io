@@ -427,3 +427,5 @@ entry point.
 ## Nift v4.1 documentation checkpoint
 
 The website now documents the v4.1 advanced template-language surface while keeping `@input`/`@content` as the beginner path. The independent regression suite owns black-box v4.1 language/operator/injection dependency modules. Keep these synchronized with `docs/handover/V4.1-TEMPLATE-LANGUAGE.md` in Nift.
+
+The independent v4.1 certification audit (2026-09-15) reconciled stale v4.0.x statements on the control-flow, templating and AI-opinion pages and verified every v4.1 syntax example against the actual v4.1 executable. One wording nuance remains: `immut` is described as a deeply read-only view, which is descriptive — no member-level mutation syntax exists in v4.1, so `immut` is observably a non-rebindable readonly binding.
