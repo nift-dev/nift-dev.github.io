@@ -22,15 +22,15 @@
 \$[products := inject("data/products.nift")]</code></pre>
 <p><code>inject(path)</code> parses the file contents as though that expression source appeared at the call site. It gets a child scope, can see bindings that existed before the call, and automatically participates in dependency tracking. The filename extension does not determine the value type.</p>
 <h2 id="validate-json">Validate while declaring</h2>
-<pre><code class="language-nift">\$[site := validate("schemas/site.schema.json", inject("data/site.nift"))]
+<pre><code class="language-nift">\$[site := validate(inject("schemas/site.schema.json"), inject("data/site.nift"))]
 
-\$[product := validate("schemas/product.schema.json", {
+\$[product := validate(inject("schemas/product.schema.json"), {
     "name": "Markup++ in Nift",
     "price": 19.95
 })]</code></pre>
 <p>For larger inline documents, the multiline declaration form keeps the JSON readable while still validating it as part of the declaration:</p>
 <pre><code class="language-nift">\@:=(product){
-    validate("schemas/product.schema.json", {
+    validate(inject("schemas/product.schema.json"), {
         "name": "Markup++ in Nift",
         "price": 19.95,
         "published": true,

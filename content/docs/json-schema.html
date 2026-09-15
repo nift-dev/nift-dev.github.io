@@ -28,11 +28,11 @@
 }</code></pre>
 
 <p>Then load and validate the data in one operation:</p>
-<pre><code class="language-nift">\$[product := validate("schemas/product.schema.json", inject("data/product.json"))]</code></pre>
+<pre><code class="language-nift">\$[product := validate(inject("schemas/product.schema.json"), inject("data/product.json"))]</code></pre>
 
 <p>Or keep the data directly in the template and use a multiline declaration:</p>
 <pre><code class="language-nift">\@:=(product){
-    validate("schemas/product.schema.json", {
+    validate(inject("schemas/product.schema.json"), {
         "name": "Markup++ in Nift",
         "price": 19.95,
         "published": true,
@@ -111,7 +111,7 @@
 }</code></pre>
 
 <p>Once validation succeeds, the template can use the same ordinary Nift data features:</p>
-<pre><code class="language-html">\$[data := validate("schemas/products.schema.json", inject("data/products.json"))]
+<pre><code class="language-html">\$[data := validate(inject("schemas/products.schema.json"), inject("data/products.json"))]
 
 &lt;div class="products"&gt;
     \@for(product : data.products by product.price asc) {
@@ -244,7 +244,7 @@
 <p><code>allOf</code> requires every child schema to match; <code>anyOf</code> requires at least one; <code>oneOf</code> requires exactly one; <code>not</code> requires its child schema not to match.</p>
 
 <h2 id="the-schema-is-part-of-the-dependency-graph">The schema is part of the dependency graph</h2>
-<pre><code class="language-nift">\$[products := validate("schemas/products.schema.json", inject("data/products.json"))]</code></pre>
+<pre><code class="language-nift">\$[products := validate(inject("schemas/products.schema.json"), inject("data/products.json"))]</code></pre>
 <p><code>inject()</code> records the data source and <code>validate()</code> records the schema, so the declaration records <strong>both</strong> files as dependencies. If the data changes, Nift can rebuild and revalidate the page. If the schema changes, Nift can also rebuild and revalidate the page. A stricter contract therefore cannot quietly leave old generated output behind.</p>
 
 <pre><code class="language-plaintext">data/products.json ──────────┐
@@ -257,7 +257,7 @@ schemas/products.schema.json ┘
 <p>For data that does not need a schema, inject it directly:</p>
 <pre><code class="language-nift">\$[site := inject("data/site.json")]</code></pre>
 <p>When the data has a contract worth enforcing, compose <code>validate()</code> around the injected value:</p>
-<pre><code class="language-nift">\$[site := validate("schemas/site.schema.json", inject("data/site.json"))]</code></pre>
+<pre><code class="language-nift">\$[site := validate(inject("schemas/site.schema.json"), inject("data/site.json"))]</code></pre>
 <p><code>validate(schema, value)</code> returns the original value unchanged on success, so validation remains opt-in and composes with inline values, injected files, function results and other expression values.</p>
 
 <h2 id="what-nift-currently-supports">What Nift currently supports</h2>
