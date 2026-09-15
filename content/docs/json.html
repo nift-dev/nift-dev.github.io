@@ -12,7 +12,7 @@
         "items": [1, 2, 3]
     }
 }</code></pre>
-<p>Objects, arrays, strings, numbers, booleans and <code>null</code> are expression values. The binding type is inferred when declared and remains stable.</p>
+<p>Objects, arrays, strings, numbers, booleans and <code>null</code> are expression values. The binding type is inferred when declared and remains stable. Numbers that arrive already parsed from a JSON document keep their established representation; Nift source literals are typed by their lexical form, so <code>0.0</code> is a floating-point literal while <code>0</code> is an integer (see <a href="@path('docs/declarations-assignments')">Declarations &amp; assignments</a>).</p>
 <h2 id="access-values">Access values</h2>
 <pre><code class="language-html">&lt;h1&gt;\$[site.name]&lt;/h1&gt;
 &lt;a href="\$[site.navigation[0].url]"&gt;\$[site.navigation[0].title]&lt;/a&gt;</code></pre>

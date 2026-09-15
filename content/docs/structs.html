@@ -162,7 +162,7 @@
 \$[independent := deepcopy(original)]</code></pre>
 <p><code>copy()</code> creates a distinct struct instance and shallow-copies its fields according to their normal value/reference semantics. <code>deepcopy()</code> recursively duplicates mutable aggregate state. Private fields participate because copying is runtime state duplication, not public serialization.</p>
 <h2 id="fixed-shape">Fixed shape and stable field types</h2>
-<p>Struct fields cannot be added or removed dynamically. Assigning a value of a different type to a field is an error, just as it is for ordinary stable inferred bindings.</p>
+<p>Struct fields cannot be added or removed dynamically. Assigning a value of a different type to a field is an error, just as it is for ordinary stable inferred bindings. Field typing is lexical like ordinary bindings: <code>count := 0</code> infers <code>int</code> while <code>total := 0.0</code> infers <code>double</code>, and arithmetic keeps a field <code>double</code> whenever any operand is <code>double</code> (see <a href="@path('docs/declarations-assignments')">Declarations &amp; assignments</a>).</p>
 <h2 id="scope">Scope</h2>
 <p>Struct definitions and method execution follow normal lexical scoping. Methods can see the surrounding bindings available through their definition/call context while instance members remain per-instance state.</p>
 <div class="docs-next"><span>Related</span><a href="@path('docs/functions-fragments')">Functions &amp; fragments →</a></div>

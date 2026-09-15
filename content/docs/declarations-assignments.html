@@ -18,6 +18,17 @@
 <pre><code class="language-nift">\$[count := 0]
 \$[count = 12]          @/* valid: integer → integer */
 \$[count = "twelve"]    @/* error: integer → string */</code></pre>
+<p>Numeric literal typing is lexical. An integer spelling (<code>0</code>, <code>8</code>) infers <code>int</code>; a fractional or exponent spelling (<code>0.0</code>, <code>8.0</code>, <code>8.5</code>, <code>1e3</code>) infers <code>double</code>, even when the value is integral. The inferred type then stays stable.</p>
+<pre><code class="language-nift">\$[n := 0]
+\$[n = 8]
+\$[f := 0.0]
+\$[f = 8.5]
+\$[f = 3]</code></pre>
+<p>The <code>.0</code> spelling makes <code>0.0</code> a floating-point literal, so <code>f</code> is <code>double</code>: reassigning <code>8.5</code> is valid while reassigning the integer <code>3</code> is an error.</p>
+<p>An arithmetic expression is <code>double</code> when any operand is <code>double</code>, so a <code>double</code> accumulator remains <code>double</code> even when it lands on an integral value:</p>
+<pre><code class="language-nift">\$[total := 0.0]
+\$[total = total + 8.5]
+\$[total = total + 9.0]</code></pre>
 <p>Arrays, objects and struct instances likewise retain their declared kind. Struct fields have the same stable inferred-type rule.</p>
 <h2 id="scope">Lexical scope</h2>
 <p>Nested constructs run in child scopes. They can read and update an existing outer mutable binding, while a declaration made inside the child disappears when that child exits.</p>
