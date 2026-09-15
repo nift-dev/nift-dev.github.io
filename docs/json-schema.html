@@ -19,7 +19,17 @@
     "published": { "type": "boolean" }
   },
   "additionalProperties": false
-}</code></pre> <p>Then load and validate the data in one operation:</p> <pre><code class="language-nift">$[product := validate("schemas/product.schema.json", inject("data/product.json"))]</code></pre> <p>Nift parses the JSON, parses the schema, validates the document, and only creates the <code>product</code> binding if validation succeeds.</p> <h2 id="what-a-failure-looks-like">What a failure looks like</h2> <p>If <code>price</code> is the string <code>"free"</code> instead of a number, the build fails rather than allowing a bad assumption to reach deeper into the template:</p> <pre><code class="language-plaintext">json: data/product.json does not satisfy schema schemas/product.schema.json
+}</code></pre> <p>Then load and validate the data in one operation:</p> <pre><code class="language-nift">$[product := validate("schemas/product.schema.json", inject("data/product.json"))]</code></pre> <p>Or keep the data directly in the template and use a multiline declaration:</p> <pre><code class="language-nift">@:=(product){
+    validate("schemas/product.schema.json", {
+        "name": "Markup++ in Nift",
+        "price": 19.95,
+        "published": true,
+        "tags": [
+            "nift",
+            "markup"
+        ]
+    })
+}</code></pre> <p>In either form, Nift validates the value before creating the <code>product</code> binding. <code>inject()</code> is useful when the expression lives in another file, but validation works just as naturally with inline multiline JSON.</p> <h2 id="what-a-failure-looks-like">What a failure looks like</h2> <p>If <code>price</code> is the string <code>"free"</code> instead of a number, the build fails rather than allowing a bad assumption to reach deeper into the template:</p> <pre><code class="language-plaintext">json: data/product.json does not satisfy schema schemas/product.schema.json
 (at $.price: expected number, received string)</code></pre> <p>The <code>$</code> means “the root of the JSON document.” Therefore <code>$.price</code> means the <code>price</code> property on the root object, while a path such as <code>$.products[3].price</code> points to an exact nested value.</p> <h2 id="a-realistic-collection-example">A realistic collection example</h2> <p>Suppose <code>data/products.json</code> contains:</p> <pre><code class="language-json">{
   "products": [
     {
