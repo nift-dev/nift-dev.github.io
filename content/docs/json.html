@@ -28,7 +28,19 @@
     "name": "Markup++ in Nift",
     "price": 19.95
 })]</code></pre>
-<p><code>validate(schema, value)</code> returns the original value unchanged when validation succeeds and fails the build otherwise.</p>
+<p>For larger inline documents, the multiline declaration form keeps the JSON readable while still validating it as part of the declaration:</p>
+<pre><code class="language-nift">\@:=(product){
+    validate("schemas/product.schema.json", {
+        "name": "Markup++ in Nift",
+        "price": 19.95,
+        "published": true,
+        "tags": [
+            "nift",
+            "markup"
+        ]
+    })
+}</code></pre>
+<p><code>validate(schema, value)</code> returns the original value unchanged when validation succeeds and fails the build otherwise. The value can be inline JSON like this; <code>inject()</code> is only needed when the expression comes from another file.</p>
 <div class="docs-callout"><strong>Learn JSON Schema →</strong><p><a href="@path('docs/json-schema')">JSON Schema validation</a> documents the supported schema subset, local <code>$ref</code>, errors and incremental behaviour.</p></div>
 <h2 id="dependencies">Injected files and schemas are dependencies</h2>
 <p>Nift records injected source and schema files in the dependency graph. Changes therefore invalidate affected outputs in modified, hash and hybrid modes.</p>
