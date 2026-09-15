@@ -1,9 +1,9 @@
 {
-  "name": "docs/platforms/vercel",
-  "title": "Vercel",
+  "name": "docs/declarations-assignments",
+  "title": "Declarations and assignments",
   "template": "templates/docs.html",
-  "content": "content/docs/platforms/vercel.html",
-  "output": "public/docs/platforms/vercel.html",
+  "content": "content/docs/declarations-assignments.html",
+  "output": "public/docs/declarations-assignments.html",
   "minify": true,
   "minify-version": 1,
   "pagination": false,
@@ -12,7 +12,7 @@
   "pagination-separator": "",
   "pagination-pages": 0,
   "dependencies": [
-    "content/docs/platforms/vercel.html",
+    "content/docs/declarations-assignments.html",
     "templates/docs.html",
     "templates/partials/docs-sidebar.html",
     "templates/partials/footer.html",

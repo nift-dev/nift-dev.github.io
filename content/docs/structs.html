@@ -37,6 +37,96 @@
     }
 }</code></pre>
 <p>Methods use the same statement grammar as functions, including <code>if</code>, <code>for</code>, <code>while</code>, <code>break</code>, <code>continue</code> and optional returns.</p>
+<h2 id="real-world-examples">Real-world examples</h2>
+<p>Structs are most useful when a build-time task has a small piece of state and the operations on that state belong together. They are not limited to modelling abstract data structures.</p>
+<h3 id="statistics-accumulator">Statistics accumulator</h3>
+<pre><code class="language-nift">\@struct(stats) {
+    private count := 0
+    private total := 0.0
+
+    fn(add(value)) {
+        count = count + 1
+        total = total + value
+    }
+
+    fn(count()) { return count }
+    fn(total()) { return total }
+
+    fn(average()) {
+        if(count == 0) { return 0.0 }
+        return total / count
+    }
+}
+
+\$[scores := stats()]
+\$[scores.add(8.5)]
+\$[scores.add(9.0)]
+\$[scores.add(7.5)]
+
+&lt;p&gt;Average: \$[scores.average()]&lt;/p&gt;</code></pre>
+<p>This keeps the count, total and averaging rule together instead of coordinating several unrelated outer bindings.</p>
+<h3 id="site-configuration">Site configuration abstraction</h3>
+<pre><code class="language-nift">\@struct(site_config) {
+    title := ""
+    base_url := ""
+    private production := false
+
+    fn(site_config(title_, base_url_, production_)) {
+        title = title_
+        base_url = base_url_
+        production = production_
+    }
+
+    fn(is_production()) {
+        return production
+    }
+}
+
+\$[site := site_config("Example", "https://example.com", true)]
+
+&lt;h1&gt;\$[site.title]&lt;/h1&gt;
+\@if(site.is_production()) {
+    &lt;p&gt;Production build&lt;/p&gt;
+}</code></pre>
+<p>A configuration struct can expose the values templates need while keeping implementation state private and attaching useful queries to the same instance.</p>
+<h3 id="shared-traversal-state">Shared traversal state</h3>
+<pre><code class="language-nift">\@struct(counter) {
+    private value := 0
+
+    fn(next()) {
+        value = value + 1
+        return value
+    }
+}
+
+\$[sequence := counter()]
+
+\@for(item : items) {
+    &lt;article id="item-\$[sequence.next()]"&gt;
+        &lt;h2&gt;\$[item.title]&lt;/h2&gt;
+    &lt;/article&gt;
+}</code></pre>
+<p>Because struct instances have reference semantics, the same counter can be passed through functions or fragments and still represent one shared traversal state without a global variable.</p>
+<h3 id="recursive-menu-state">Recursive fragment state</h3>
+<pre><code class="language-nift">\@struct(menu_state) {
+    private depth := 0
+
+    fn(enter()) { depth = depth + 1 }
+    fn(leave()) { depth = depth - 1 }
+    fn(depth()) { return depth }
+}
+
+\@fragment(menu(items, state)) {
+    \$[state.enter()]
+    &lt;ul data-depth="\$[state.depth()]"&gt;
+        \@for(item : items) {
+            &lt;li&gt;\$[item.title]&lt;/li&gt;
+        }
+    &lt;/ul&gt;
+    \$[state.leave()]
+}</code></pre>
+<p>This is useful when recursive rendering needs shared structured state: pass one instance rather than adding more scalar parameters at every recursion level.</p>
+<div class="docs-callout"><strong>Why no navigation-builder <code>push()</code> example?</strong><p>Nift arrays do not currently have in-place <code>push</code>/<code>pop</code>/<code>remove</code> methods. Struct methods can mutate their fields, but examples should not imply a container-mutation API that the language does not provide. Use collection operations for array transformations.</p></div>
 <h2 id="private-members">Private fields and methods</h2>
 <pre><code class="language-nift">\@struct(counter) {
     private count := 0

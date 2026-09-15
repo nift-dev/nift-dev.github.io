@@ -1,7 +1,7 @@
 <article class="docs-article">
-<p class="docs-kicker">Core reference · Values, bindings & calls</p>
+<p class="docs-kicker">Core reference · Values & operators</p>
 <h1>Expressions.</h1>
-<p class="docs-lead">Nift uses one expression model across <code>\$[...]</code>, conditions and advanced templating. Nift v4.2 adds scoped declarations, assignment, stable inferred types, constants, source injection and validation without changing the simple read-only expression style when you do not need mutable state.</p>
+<p class="docs-lead">Nift uses one expression model across <code>\$[...]</code>, conditions and advanced templating. Nift uses the same value and operator model across <code>\$[...]</code>, conditions and advanced templating. Declarations and assignment use this expression language too, but are documented separately so this page can stay focused on values, operators, precedence and evaluation.</p>
 
 <div class="docs-callout"><strong>One expression language, two common contexts.</strong><p><code>\$[...]</code> evaluates an expression and renders its scalar result. <code>\@if(...)</code> evaluates the same kind of expression and applies Nift truthiness to decide whether its branch renders. You do not need to learn a separate condition grammar.</p></div>
 
@@ -87,14 +87,6 @@
 \$[post.featured ? \@input('partials/featured-badge.html')]</code></pre>
 <p>Ternary branches are deliberately lazy and are rendered as ordinary Nift source. Only the selected branch is parsed; the unselected branch does not resolve values, execute directives, register dependencies/requirements or fail because of something that only exists in that branch.</p>
 
-<h2 id="bindings-and-assignment">Bindings and assignment</h2>
-<p>Nift v4.1 keeps mutation explicit: <code>:=</code> declares in the current lexical scope and <code>=</code> assigns the nearest existing mutable binding. Types are inferred at declaration and remain stable. A top-level declaration or assignment interpolation changes state but renders no text.</p>
-<pre><code class="language-nift">\$[count := 0]
-\$[count = count + 1]
-\$[const site_name := "Nift"]
-\$[immut config := {"items":[1,2,3]}]</code></pre>
-<p><code>const</code> prevents rebinding. <code>immut</code> establishes a recursively read-only binding/view contract: reads through it are safe, and an <code>immut</code> view never becomes writable by being aliased. Because v4.1 does not yet expose member/container mutation syntax, much of that distinction is currently latent rather than independently observable — and an <code>immut</code> view does not globally freeze storage reachable through a separate mutable binding. Child scopes can see and mutate existing outer mutable bindings, while declarations made inside the child disappear when it exits.</p>
-
 <h2 id="multiline-injection-validation">Multiline values, injection and validation</h2>
 <pre><code class="language-nift">\@:=(items){
     [1, 2, 3]
@@ -111,5 +103,5 @@
 \@pathtopage(+\$[offset * 2])</code></pre>
 <p><code>\@pathtopage(n)</code> ultimately requires an <strong>integer page number or integer offset</strong>; expression support does not make fractional page numbers valid.</p>
 
-<div class="docs-next"><span>Related</span><a href="@path('docs/control-flow')">Loops &amp; conditions →</a></div>
+<div class="docs-next"><span>Next</span><a href="@path('docs/declarations-assignments')">Declarations &amp; assignments →</a></div>
 </article>

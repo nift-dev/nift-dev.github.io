@@ -1,0 +1,75 @@
+<article class="docs-article">
+<p class="docs-kicker">Core language · State &amp; bindings</p>
+<h1>Declarations &amp; assignments.</h1>
+<p class="docs-lead">Nift v4.1 introduced explicit lexical declarations and assignment. Use <code>:=</code> to create a binding and <code>=</code> to update an existing mutable binding; the type inferred at declaration remains stable.</p>
+<div class="docs-callout"><strong><code>:=</code> declares; <code>=</code> assigns.</strong><p>They are deliberately different operations. Assignment never creates a missing name, which catches typos and makes the lifetime of state visible in the source.</p></div>
+<h2 id="declare-and-assign">Declare and assign</h2>
+<pre><code class="language-nift">\$[count := 0]
+\$[count = count + 1]
+\$[price := 19.95]
+\$[title := "Nift"]
+\$[published := true]</code></pre>
+<p>A top-level declaration or assignment inside <code>\$[...]</code> changes state and renders no text. Reading the binding later renders its value normally:</p>
+<pre><code class="language-html">\$[visits := 1]
+\$[visits = visits + 1]
+&lt;p&gt;Visits: \$[visits]&lt;/p&gt;</code></pre>
+<h2 id="stable-types">Stable inferred types</h2>
+<p>The declaration establishes the binding's type. Reassignment must preserve it.</p>
+<pre><code class="language-nift">\$[count := 0]
+\$[count = 12]          @/* valid: integer → integer */
+\$[count = "twelve"]    @/* error: integer → string */</code></pre>
+<p>Arrays, objects and struct instances likewise retain their declared kind. Struct fields have the same stable inferred-type rule.</p>
+<h2 id="scope">Lexical scope</h2>
+<p>Nested constructs run in child scopes. They can read and update an existing outer mutable binding, while a declaration made inside the child disappears when that child exits.</p>
+<pre><code class="language-nift">\$[visible := 0]
+
+\@if(show) {
+    \$[visible = visible + 1]
+    \$[temporary := "inside only"]
+}
+
+\$[visible]      @/* updated when the branch ran */
+@/* temporary is not visible here */</code></pre>
+<h2 id="const-and-immut"><code>const</code> and <code>immut</code></h2>
+<pre><code class="language-nift">\$[const site_name := "Nift"]
+\$[immut config := {"features":["docs","builds"]}]</code></pre>
+<p><code>const</code> prevents rebinding. <code>immut</code> establishes a recursively read-only binding/view contract. An <code>immut</code> view does not make separately reachable mutable storage globally immutable.</p>
+<h2 id="arrays">Arrays (lists)</h2>
+<p>Nift calls list-like values <strong>arrays</strong>, following JSON terminology. JSON arrays existed as data values before v4.1; v4.1 made array and object literals directly declarable in the expression language.</p>
+<pre><code class="language-nift">\$[names := ["Ada", "Grace", "Linus"]]
+\$[matrix := [[1, 2], [3, 4]]]
+\$[users := [{"name":"Ada"}, {"name":"Grace"}]]</code></pre>
+<p>Use zero-based indexing to read an item and <code>\@for</code> to iterate:</p>
+<pre><code class="language-html">&lt;p&gt;First: \$[names[0]]&lt;/p&gt;
+
+&lt;ul&gt;
+\@for(name : names) {
+    &lt;li&gt;\$[name]&lt;/li&gt;
+}
+&lt;/ul&gt;</code></pre>
+<p>Nift does <strong>not</strong> currently expose in-place list methods such as <code>push</code>, <code>pop</code>, <code>append</code> or <code>remove</code>. Collection operations are value-producing transforms: filter, map, sort, slice, reverse and distinct return new arrays rather than mutating their source. If you need a different literal array in mutable state, assign another array of the same type; for data transformation, use the collection operations page.</p>
+<pre><code class="language-nift">\$[names := ["Ada", "Grace"]]
+\$[names = ["Ada", "Grace", "Linus"]]</code></pre>
+<p>This distinction is intentional: lexical bindings can be mutable while Nift's collection transforms remain predictable and non-mutating.</p>
+<h2 id="objects">Objects</h2>
+<pre><code class="language-nift">\$[site := {"title":"Example", "draft":false}]
+\$[sites := [{"title":"One"}, {"title":"Two"}]]
+
+\$[site.title]
+\$[sites[1].title]</code></pre>
+<p>Objects and arrays can be nested freely. Ordinary JSON object/array values are not structs: use <a href="@path('docs/structs')">structs</a> when you need fixed-shape state with methods, privacy and reference semantics.</p>
+<h2 id="multiline">Multiline declarations</h2>
+<pre><code class="language-nift">\@:=(config){
+    {
+        "title": "Example",
+        "navigation": ["Home", "Docs", "About"]
+    }
+}</code></pre>
+<p><code>\@:=(name){...}</code> is the multiline spelling of <code>\$[name := expression]</code>. The outer braces frame one expression; they are not part of the value.</p>
+<h2 id="chaining">Chained declaration and assignment</h2>
+<p><code>:=</code> and <code>=</code> are right-associative, so related state can be initialized or updated in one expression when that improves clarity.</p>
+<pre><code class="language-nift">\$[a := b := 0]
+\$[a = b = 5]</code></pre>
+<p>Prefer separate lines when the chain would make scope or intent harder to read.</p>
+<div class="docs-next"><span>Related</span><a href="@path('docs/collections')">Collection operations →</a></div>
+</article>
