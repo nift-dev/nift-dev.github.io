@@ -1,0 +1,79 @@
+<article class="docs-article">
+<p class="docs-kicker">Core language · State & behaviour</p>
+<h1>Structs.</h1>
+<p class="docs-lead">Structs combine fixed, stably typed state with methods. Instances have reference semantics, members are public by default, and <code>private</code> can hide fields or methods.</p>
+<h2 id="define-and-construct">Define and construct a struct</h2>
+<pre><code class="language-nift">\@struct(point) {
+    x := 0
+    y := 0
+
+    fn(point(x_, y_)) {
+        x = x_
+        y = y_
+    }
+
+    fn(length_squared()) {
+        return x * x + y * y
+    }
+}
+
+\$[p := point(3, 4)]
+\$[p.x]
+\$[p.length_squared()]</code></pre>
+<p>Every field is declared with an initial value, which establishes its stable inferred type. A struct may have at most one constructor: a method whose name matches the struct name.</p>
+<h2 id="state-and-behaviour">State and behaviour</h2>
+<pre><code class="language-nift">\@struct(stats) {
+    private count := 0
+    private total := 0.0
+
+    fn(add(value)) {
+        count = count + 1
+        total = total + value
+    }
+
+    fn(average()) {
+        if(count == 0) { return 0.0 }
+        return total / count
+    }
+}</code></pre>
+<p>Methods use the same statement grammar as functions, including <code>if</code>, <code>for</code>, <code>while</code>, <code>break</code>, <code>continue</code> and optional returns.</p>
+<h2 id="private-members">Private fields and methods</h2>
+<pre><code class="language-nift">\@struct(counter) {
+    private count := 0
+    fn(counter(start)) { count = start }
+    private fn(step()) { count = count + 1 }
+
+    fn(add(n)) {
+        i := 0
+        while(i &lt; n) { step(); i = i + 1 }
+    }
+
+    fn(value()) { return count }
+}</code></pre>
+<p>Fields and methods are public unless marked <code>private</code>. Private members are available to methods of the struct but inaccessible through an instance from outside it.</p>
+<h2 id="this">Implicit members and <code>this</code></h2>
+<pre><code class="language-nift">\@struct(counter) {
+    value := 0
+    fn(set(value)) {
+        this.value = value
+    }
+}</code></pre>
+<p>Fields and methods are implicitly visible inside methods. Parameters and local bindings take precedence, so <code>this</code> explicitly names the receiver when a local name shadows a member.</p>
+<h2 id="reference-semantics">Reference semantics</h2>
+<pre><code class="language-nift">\$[a := counter(2)]
+\$[b := a]
+\$[b.add(3)]
+
+&lt;p&gt;\$[a.value()]&lt;/p&gt;  &lt;!-- 5: a and b refer to the same instance --&gt;</code></pre>
+<p>Assigning or passing a struct instance copies its reference, not the entire instance.</p>
+<h2 id="copying">Shallow and recursive copies</h2>
+<pre><code class="language-nift">\$[alias := original]
+\$[shallow := copy(original)]
+\$[independent := deepcopy(original)]</code></pre>
+<p><code>copy()</code> creates a distinct struct instance and shallow-copies its fields according to their normal value/reference semantics. <code>deepcopy()</code> recursively duplicates mutable aggregate state. Private fields participate because copying is runtime state duplication, not public serialization.</p>
+<h2 id="fixed-shape">Fixed shape and stable field types</h2>
+<p>Struct fields cannot be added or removed dynamically. Assigning a value of a different type to a field is an error, just as it is for ordinary stable inferred bindings.</p>
+<h2 id="scope">Scope</h2>
+<p>Struct definitions and method execution follow normal lexical scoping. Methods can see the surrounding bindings available through their definition/call context while instance members remain per-instance state.</p>
+<div class="docs-next"><span>Related</span><a href="@path('docs/functions-fragments')">Functions &amp; fragments →</a></div>
+</article>

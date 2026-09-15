@@ -131,6 +131,16 @@
       "template": "templates/docs.html"
     },
     {
+      "name": "docs/functions-fragments",
+      "title": "Functions and fragments",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/structs",
+      "title": "Structs",
+      "template": "templates/docs.html"
+    },
+    {
       "name": "docs/pagination",
       "title": "Pagination",
       "template": "templates/docs.html"

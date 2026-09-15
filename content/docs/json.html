@@ -1,59 +1,38 @@
 <article class="docs-article">
 <p class="docs-kicker">Structured data · Core reference</p>
 <h1>JSON data.</h1>
-<p class="docs-lead">Nift v4.1 can declare JSON directly in the expression language, inject expression-source files and compose schema validation. The established <code>\@json</code> forms remain supported for compatibility.</p>
-<div class="docs-callout"><strong>v4.1 composable form.</strong><p>Use <code>\$[j := {...}]</code>, <code>\@:=(j){ {...} }</code>, <code>\$[j := inject(path)]</code> or <code>\$[j := validate(schema, inject(path))]</code>. <code>validate()</code> also accepts inline values.</p></div>
+<p class="docs-lead">JSON values are ordinary Nift expression values. Declare them with <code>:=</code>, use <code>\@:=(name){...}</code> for a multiline value, load expression source with <code>inject()</code>, and compose validation with <code>validate()</code>.</p>
+<div class="docs-callout"><strong>Prefer the expression forms.</strong><p>The current language keeps JSON composable with declarations, injection and validation rather than requiring a separate JSON-binding directive.</p></div>
+<h2 id="inline-json">Declare JSON inline</h2>
+<pre><code class="language-nift">\$[site := {"name":"Example","navigation":[{"title":"Home","url":"/"}]}]
 
-<div class="docs-callout"><strong>Name first.</strong><p>The binding is always the first argument. This keeps all six forms visually consistent and makes inline JSON a natural extension of file-backed JSON.</p></div>
-
-<h2 id="six-forms">The six forms</h2>
-<div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Source</th><th>Without schema</th><th>Schema path</th><th>Named schema</th></tr></thead><tbody>
-<tr><td>File</td><td><code>\@json(name, path)</code></td><td><code>\@json(name, schema-path, path)</code></td><td><code>\@json(name, schema-name, path)</code></td></tr>
-<tr><td>Inline</td><td><code>\@json(name){...}</code></td><td><code>\@json(name, schema-path){...}</code></td><td><code>\@json(name, schema-name){...}</code></td></tr>
-</tbody></table></div>
-
-<pre><code class="language-nift">\@json(site, 'data/site.json')
-\@json(product, 'schemas/product.schema.json', 'data/product.json')
-
-\@json(product_schema){
-  {"type":"object","required":["name"]}
-}
-\@json(feature, product_schema){
-  {"name":"Markup++ in Nift"}
+\@:=(config){
+    {
+        "title": "Example",
+        "items": [1, 2, 3]
+    }
 }</code></pre>
-
-<p>Inline bodies are evaluated by Nift's template language before JSON parsing, so existing values can supply scalar content. File and schema paths also support single-pass <code>\$[...]</code> interpolation. Binding names and named-schema references remain static identifiers.</p>
-
-<pre><code class="language-nift">\@json(selector, 'data/selector.json')
-\@json(selected,
-      "schemas/\$[selector.schema].json",
-      "data/\$[selector.dataset].json")</code></pre>
-
+<p>Objects, arrays, strings, numbers, booleans and <code>null</code> are expression values. The binding type is inferred when declared and remains stable.</p>
 <h2 id="access-values">Access values</h2>
-<pre><code class="language-html">\@json(site, 'data/site.json')
+<pre><code class="language-html">&lt;h1&gt;\$[site.name]&lt;/h1&gt;
+&lt;a href="\$[site.navigation[0].url]"&gt;\$[site.navigation[0].title]&lt;/a&gt;</code></pre>
+<p>Objects use <code>.member</code>; arrays use zero-based <code>[index]</code>. Scalar values render directly.</p>
+<h2 id="inject-json">Load expression source from a file</h2>
+<pre><code class="language-nift">\$[site := inject("data/site.nift")]
+\$[products := inject("data/products.nift")]</code></pre>
+<p><code>inject(path)</code> parses the file contents as though that expression source appeared at the call site. It gets a child scope, can see bindings that existed before the call, and automatically participates in dependency tracking. The filename extension does not determine the value type.</p>
+<h2 id="validate-json">Validate while declaring</h2>
+<pre><code class="language-nift">\$[site := validate("schemas/site.schema.json", inject("data/site.nift"))]
 
-&lt;h1&gt;\$[site.name]&lt;/h1&gt;
-&lt;a href="\$[site.navigation[1].url]"&gt;
-  \$[site.navigation[1].title]
-&lt;/a&gt;</code></pre>
-<p>Objects use <code>.member</code>; arrays use zero-based <code>[index]</code>. Strings, numbers, booleans and <code>null</code> render directly. Select a member or element before rendering an object or array.</p>
-
-<h2 id="schemas">Validate before rendering</h2>
-<p>A schema path is loaded as project data. A schema name refers to an earlier JSON binding, which is useful for reusable inline schemas. In the schema position a bare identifier is a schema binding name and must already exist; a quoted string is a schema path. A missing bare schema name is a build error and never falls back to a same-named file. Invalid data fails the build before the new binding becomes visible.</p>
-<div class="docs-callout"><strong>Learn JSON Schema →</strong><p><a href="@path('docs/json-schema')">JSON Schema validation</a> documents the supported Draft 2020-12-compatible subset, local <code>$ref</code>, errors and incremental behavior.</p></div>
-
-<h2 id="dependencies">Files are dependencies</h2>
-<p>Nift records every loaded JSON data file and schema file automatically. Changes therefore invalidate affected outputs in modified, hash and hybrid modes. Parsed files are cached as immutable build-wide documents while each binding remains local to its page parser.</p>
-
+\$[product := validate("schemas/product.schema.json", {
+    "name": "Markup++ in Nift",
+    "price": 19.95
+})]</code></pre>
+<p><code>validate(schema, value)</code> returns the original value unchanged when validation succeeds and fails the build otherwise.</p>
+<div class="docs-callout"><strong>Learn JSON Schema →</strong><p><a href="@path('docs/json-schema')">JSON Schema validation</a> documents the supported schema subset, local <code>$ref</code>, errors and incremental behaviour.</p></div>
+<h2 id="dependencies">Injected files and schemas are dependencies</h2>
+<p>Nift records injected source and schema files in the dependency graph. Changes therefore invalidate affected outputs in modified, hash and hybrid modes.</p>
 <h2 id="scope-and-failures">Scope and failures</h2>
-<p>Names use identifier-style letters, digits and underscores, cannot collide with built-ins or project contracts, and cannot be rebound in the same scope. Malformed JSON, missing or escaping paths, schema failures, missing members and invalid indices produce source-located build errors.</p>
-
-<pre><code class="language-html">\@json(data, 'data/articles.json')
-\@for(article : data.articles){
-  \@if(article.published){
-    &lt;h2&gt;\$[article.title]&lt;/h2&gt;
-  }
-}</code></pre>
-
+<p>Bindings follow Nift's lexical scope rules. Malformed values, missing or escaping paths, schema failures, missing members and invalid indices produce source-located build errors.</p>
 <div class="docs-next"><span>Next</span><a href="@path('docs/json-schema')">JSON Schema validation →</a></div>
 </article>

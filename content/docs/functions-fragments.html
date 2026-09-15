@@ -1,0 +1,65 @@
+<article class="docs-article">
+<p class="docs-kicker">Core language · Reusable behaviour & rendering</p>
+<h1>Functions &amp; fragments.</h1>
+<p class="docs-lead">Functions run Nift's compact statement grammar and optionally return a value. Fragments remain template grammar for reusable rendered output. Both are lexically scoped callables.</p>
+<h2 id="functions">Functions</h2>
+<p>Define a function with <code>\@fn(name(args)){...}</code>. Inside its body, declarations, assignments, calls and control flow are statements: they do not need <code>\$[...]</code> or template-directive <code>@</code> prefixes.</p>
+<pre><code class="language-nift">\@fn(score_class(score)) {
+    if(score &gt;= 90) { return "excellent" }
+    if(score &gt;= 75) { return "good" }
+    if(score &gt;= 50) { return "pass" }
+    return "fail"
+}
+
+\$[score_class(result.score)]</code></pre>
+<p>Semicolons are optional, so compact forms such as <code>if(x) { y = 5; return y }</code> are valid.</p>
+<h2 id="state-and-loops">State, loops and early control flow</h2>
+<pre><code class="language-nift">\@fn(count_visible(items)) {
+    count := 0
+    for(item : items) {
+        if(!item.visible) { continue }
+        count = count + 1
+    }
+    return count
+}</code></pre>
+<pre><code class="language-nift">\@fn(find_featured(items)) {
+    for(item : items) {
+        if(!item.visible) { continue }
+        if(item.featured) { return item }
+    }
+    return null
+}</code></pre>
+<p><code>break</code> exits the innermost loop, <code>continue</code> advances it, and <code>return</code> exits the current function. Loop control cannot escape a callable and affect a caller's loop.</p>
+<h2 id="while">While loops inside functions</h2>
+<pre><code class="language-nift">\@fn(first_power_above(base, limit)) {
+    value := 1
+    while(value &lt;= limit) {
+        value = value * base
+    }
+    return value
+}</code></pre>
+<h2 id="optional-return">Returning a value is optional</h2>
+<p>A function may <code>return expression</code>, use bare <code>return</code>, or fall through the end. A value-less result is <code>null</code>, which can be tested with expressions such as <code>x != null</code>.</p>
+<h2 id="recursion">Recursion</h2>
+<pre><code class="language-nift">\@fn(factorial(n)) {
+    if(n &lt;= 1) { return 1 }
+    return n * factorial(n - 1)
+}</code></pre>
+<h2 id="fragments">Fragments</h2>
+<p>Fragments are for reusable rendered content, so their bodies keep normal template grammar: <code>\@if</code>, <code>\@for</code>, <code>\@while</code> and <code>\$[...]</code>.</p>
+<pre><code class="language-nift">\@fragment(card(item)) {
+    \@if(!item.visible) { return }
+    &lt;article class="card"&gt;
+        &lt;h2&gt;\$[item.title]&lt;/h2&gt;
+        \@if(item.stock &lt;= 0) {
+            &lt;p&gt;Out of stock&lt;/p&gt;
+            return
+        }
+        &lt;p&gt;\$[item.stock] available&lt;/p&gt;
+    &lt;/article&gt;
+}</code></pre>
+<p>Bare <code>return</code> stops the current fragment. It does not roll back content already rendered, and fragments cannot return an expression value.</p>
+<h2 id="scope">Scope</h2>
+<p>Functions and fragments receive their own child scope. Existing visible mutable bindings can be changed, while declarations created inside the callable disappear when it exits.</p>
+<div class="docs-next"><span>Next</span><a href="@path('docs/structs')">Structs →</a></div>
+</article>
