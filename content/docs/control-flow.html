@@ -1,10 +1,20 @@
 <article class="docs-article">
 <p class="docs-kicker">Structured data · Core reference</p>
 <h1>Loops &amp; conditions.</h1>
-<p class="docs-lead">Nift has deliberately constrained control flow for rendering structured JSON data: <code>\@for(...){...}</code> for arrays/objects and <code>\@if(...){...}</code> with ordinary <code>else if</code> / <code>else</code> branches.</p>
+<p class="docs-lead">Nift provides structured build-time control flow: <code>\@if</code>, <code>\@for</code> and v4.2 <code>\@while</code> in template grammar, with bare <code>break</code>/<code>continue</code> inside loops. Function bodies use the corresponding <code>if</code>, <code>for</code> and <code>while</code> statement grammar.</p>
 
 <div class="docs-callout"><strong>Scoped state is available, but optional.</strong><p>Nift v4.1 adds lexical declarations, assignment and callables for templates that need them. Each <code>\@if</code> and <code>\@for</code> body has a child scope: it can mutate an existing outer mutable binding, while bindings declared inside remain local. Templates that only select and repeat data can keep using the same read-only style as before.</p></div>
 
+
+<h2 id="while-break-continue">While, break and continue</h2>
+<pre><code class="language-nift">\$[i := 0]
+\@while(i &lt; items.length) {
+    \@if(items[i].hidden) { \$[i = i + 1]; continue }
+    \@if(items[i].stop) { break }
+    &lt;p&gt;\$[items[i].name]&lt;/p&gt;
+    \$[i = i + 1]
+}</code></pre>
+<p><code>break</code> exits the innermost loop and <code>continue</code> advances it. They are contextual statements: a function or fragment called from a loop cannot break or continue its caller's loop. Nift does not impose an arbitrary iteration budget on <code>\@while</code>; an intentionally non-terminating condition is an authoring error just as it is in ordinary programming languages.</p>
 <h2 id="loop-over-an-array">Loop over an array</h2>
 <pre><code class="language-json">{
   "articles": [

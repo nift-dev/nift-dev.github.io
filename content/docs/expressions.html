@@ -102,12 +102,42 @@
 <p><code>\@:=(name){...}</code> is the multiline form of declaration; its outer braces are framing, and its body is one expression. <code>inject(path)</code> parses another file as Nift expression source at that position, with its own child scope and automatic dependency tracking. <code>validate(schema, value)</code> returns the value unchanged when schema validation succeeds and fails the build otherwise.</p>
 
 <h2 id="functions-and-fragments">Functions and fragments</h2>
-<pre><code class="language-nift">\@fn(add(a,b)){\@return(a+b)}
-\@fragment(card(title)){&lt;strong&gt;\$[title]&lt;/strong&gt;}
+<p>Nift v4.2 gives function bodies a compact statement grammar. Inside <code>\@fn</code>, declarations, assignments, calls and control flow do not need <code>\$[...]</code> or template-directive <code>@</code> prefixes:</p>
+<pre><code class="language-nift">\@fn(find_featured(items)) {
+    for(item : items) {
+        if(!item.visible) { continue }
+        if(item.featured) { return item }
+    }
+    return null
+}
 
-\$[add(2,3)]
-\$[card("Hello")]</code></pre>
-<p>Both callable kinds are invoked inside <code>\$[...]</code>. This deliberately leaves foreign at-rules such as CSS <code>@media</code> easy to pass through. Functions return values; fragments return rendered template content.</p>
+\@fragment(card(item)) {
+    \@if(!item.visible) { return }
+    &lt;strong&gt;\$[item.title]&lt;/strong&gt;
+}
+
+\$[find_featured(items)]
+\$[card(item)]</code></pre>
+<p>Function statements accept optional semicolons, so compact forms such as <code>if(x) { y = 5; return y }</code> are valid. A function may return a value, use bare <code>return</code>, or fall through; the latter two produce <code>null</code>. Fragments remain template grammar and may use bare value-less <code>return</code> to stop rendering the current fragment.</p>
+
+<h2 id="structs">Structs: fixed state with behaviour</h2>
+<pre><code class="language-nift">\@struct(counter) {
+    private count := 0
+
+    fn(counter(start)) { count = start }
+    private fn(step()) { count = count + 1 }
+    fn(add(n)) {
+        i := 0
+        while(i &lt; n) { step(); i = i + 1 }
+    }
+    fn(value()) { return count }
+}
+
+\$[a := counter(2)]
+\$[b := a]          @/* reference alias */
+\$[c := copy(a)]    @/* shallow independent instance */
+\$[d := deepcopy(a)]</code></pre>
+<p>Struct fields have mandatory initializers, fixed shape and stable inferred types. Instances use reference semantics; fields and methods are public by default and may be marked <code>private</code>. A same-name method is the optional single constructor. Fields are implicitly visible in methods and <code>this</code> explicitly names the receiver. <code>copy()</code> is shallow; <code>deepcopy()</code> recursively duplicates mutable aggregate state.</p>
 
 <h2 id="expressions-inside-other-nift-features">Expressions inside other Nift features</h2>
 <p>Whenever an existing feature consumes a <code>\$[...]</code> scalar, that scalar can be derived by an expression. Pagination also has explicit relative page syntax:</p>
