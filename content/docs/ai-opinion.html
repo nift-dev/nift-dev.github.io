@@ -214,7 +214,7 @@ new immutable typed values
 sum / prod / min / max / reduce
         ↓
 for / join / another pure transform / JSON output</code></pre>
-<p>This undeniably has a functional-programming flavour: immutable data, transformations that return new values, composition, pure per-item expressions and a fold operation. I now regard that as a strength rather than a philosophical violation because Nift does not expose mutation or a user-programmable runtime around it.</p>
+<p>This undeniably has a functional-programming flavour: immutable data, transformations that return new values, composition, pure per-item expressions and a fold operation. I now regard that as a strength rather than a philosophical violation because the collection layer itself does not expose mutation or a user-programmable runtime around it; mutation, where v4.1 provides it, is confined to explicit scoped bindings rather than data transforms.</p>
 <pre><code class="language-nift">\@reduce(item : values &amp; acc = 0 =&gt; acc + item)
 
 \@sum((price, quantity) : pairs =&gt; price * quantity)</code></pre>

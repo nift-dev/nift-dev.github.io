@@ -84,7 +84,7 @@
 <p><a class="text-link" href="@path('docs/paths')">See the full paths guide with more real HTML examples →</a></p><div class="docs-callout"><strong>Legacy compatibility:</strong><p><code>\@pathtofile(...)</code> is still accepted as an alias of <code>\@path(...)</code> so older projects can continue to build. New projects should use <code>\@path</code>; the alias is intentionally not part of the recommended language surface.</p></div>
 
 <h2 id="values-and-expressions"><code>\$[...]</code> — values and expressions</h2>
-<p><code>\$[...]</code> is Nift's value-expression syntax. A plain path such as <code>\$[title]</code> or <code>\$[post.author.name]</code> resolves one value; the same brackets can also evaluate pure numeric, comparison, logical and ternary expressions without introducing assignment or mutable template state.</p>
+<p><code>\$[...]</code> is Nift's value-expression syntax. A plain path such as <code>\$[title]</code> or <code>\$[post.author.name]</code> resolves one value; the same brackets can also evaluate numeric, comparison, logical and ternary expressions without changing state. Only explicit v4.1 declarations and assignments (<code>\$[x := value]</code> / <code>\$[x = value]</code>) mutate bindings, and those interpolations render no text.</p>
 <pre><code class="language-nift">\$[loop.index + 1]
 \$[(price * quantity) / 100]
 \$[score &gt;= 50]

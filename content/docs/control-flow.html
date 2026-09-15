@@ -260,12 +260,10 @@ else{
 <p>It stays visually compact, avoids pretending Nift has a larger keyword-based programming language, and behaves more predictably in generic syntax highlighters.</p>
 
 <h2 id="what-conditions-intentionally-do-not-include">What conditions intentionally do not include</h2>
-<pre><code class="language-plaintext">No assignment
-Scoped mutable variables are available in v4.1
-Value functions and rendered fragments are available in v4.1
-No implicit string/number coercion
+<pre><code class="language-plaintext">No implicit string/number coercion
 No map/filter/reduce methods
-No arbitrary code execution</code></pre>
+No arbitrary code execution
+Scoped mutable variables and callables are available in v4.1</code></pre>
 
 <p>If data needs substantial transformation, do that in the tool that owns the data, write JSON, then let Nift render the result.</p>
 
