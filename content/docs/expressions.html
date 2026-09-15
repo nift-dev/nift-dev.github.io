@@ -91,7 +91,7 @@
 \$[count = count + 1]
 \$[const site_name := "Nift"]
 \$[immut config := {"items":[1,2,3]}]</code></pre>
-<p><code>const</code> prevents rebinding. <code>immut</code> is deeply read-only through that binding. Child scopes can see and mutate existing outer mutable bindings, while declarations made inside the child disappear when it exits.</p>
+<p><code>const</code> prevents rebinding. <code>immut</code> establishes a recursively read-only binding/view contract: reads through it are safe, and an <code>immut</code> view never becomes writable by being aliased. Because v4.1 does not yet expose member/container mutation syntax, much of that distinction is currently latent rather than independently observable — and an <code>immut</code> view does not globally freeze storage reachable through a separate mutable binding. Child scopes can see and mutate existing outer mutable bindings, while declarations made inside the child disappear when it exits.</p>
 
 <h2 id="multiline-injection-validation">Multiline values, injection and validation</h2>
 <pre><code class="language-nift">\@:=(items){
