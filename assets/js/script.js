@@ -270,10 +270,14 @@
       hljs.registerLanguage('nift', () => ({
         name: 'Nift',
         contains: [
-          { className: 'meta', begin: /\\?@(?:content\b|input(?=\()|path(?=\()|pathto(?=\()|pathtofile(?=\()|pathtopage(?=\()|getenv(?=\()|ent(?=\()|dep(?=\()|json(?=\()|for(?=\()|if(?=\())/ },
-          { className: 'meta', begin: /\\?\$\[[^\]\n]+\]/ },
+          { className: 'meta', begin: /\\?@(?:content\b|input(?=\()|inject(?=\()|path(?=\()|pathto(?=\()|pathtofile(?=\()|pathtopage(?=\()|getenv(?=\()|ent(?=\()|dep(?=\()|for(?=\()|while(?=\()|if(?=\()|fn(?=\()|fragment(?=\()|struct(?=\()|:=(?=\())/ },
+          { className: 'meta', begin: /\\?\$\[/, end: /(?=.)/, excludeEnd: true },
+          { className: 'keyword', begin: /\b(?:if|else|for|while|return|break|continue|fn|private|const|immut|null)\b/ },
+          { className: 'operator', begin: /:=|==|!=|<=|>=|&&|\|\||[+*\/%?:<>!=\-]/ },
+          { className: 'number', begin: /\b(?:\d+(?:\.\d+)?)\b/ },
           { className: 'string', begin: /'/, end: /'/ },
           { className: 'string', begin: /"/, end: /"/ },
+          { className: 'comment', begin: /\/\//, end: /$/ },
           { className: 'comment', begin: /#/, end: /$/ }
         ]
       }));
