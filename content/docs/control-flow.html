@@ -3,7 +3,7 @@
 <h1>Loops &amp; conditions.</h1>
 <p class="docs-lead">Nift has deliberately constrained control flow for rendering structured JSON data: <code>\@for(...){...}</code> for arrays/objects and <code>\@if(...){...}</code> with ordinary <code>else if</code> / <code>else</code> branches.</p>
 
-<div class="docs-callout"><strong>This is data-oriented control flow, not general scripting.</strong><p>Nift supports pure value expressions for arithmetic, comparisons, logic and lazy ternaries, but deliberately has no assignment, mutable variables, user-defined functions or arbitrary code execution. The purpose is still to select, derive and repeat structured data at build time rather than become a general scripting runtime.</p></div>
+<div class="docs-callout"><strong>Scoped state is available, but optional.</strong><p>Nift v4.1 adds lexical declarations, assignment and callables for templates that need them. Each <code>\@if</code> and <code>\@for</code> body has a child scope: it can mutate an existing outer mutable binding, while bindings declared inside remain local. Templates that only select and repeat data can keep using the same read-only style as before.</p></div>
 
 <h2 id="loop-over-an-array">Loop over an array</h2>
 <pre><code class="language-json">{
@@ -22,7 +22,7 @@
     &lt;/article&gt;
 }</code></pre>
 
-<p>The binding is scoped to the loop. It does not leak into the rest of the page.</p>
+<p>The binding is scoped to the loop. It does not leak into the rest of the page. Direct collection iteration is live: mutating the active collection may affect later iterations, while rebinding the source variable does not retarget an iterator already in progress.</p>
 
 <h2 id="loop-over-an-object">Loop over an object</h2>
 <pre><code class="language-json">{
@@ -261,8 +261,8 @@ else{
 
 <h2 id="what-conditions-intentionally-do-not-include">What conditions intentionally do not include</h2>
 <pre><code class="language-plaintext">No assignment
-No mutable variables
-No user-defined functions
+Scoped mutable variables are available in v4.1
+Value functions and rendered fragments are available in v4.1
 No implicit string/number coercion
 No map/filter/reduce methods
 No arbitrary code execution</code></pre>
@@ -270,7 +270,7 @@ No arbitrary code execution</code></pre>
 <p>If data needs substantial transformation, do that in the tool that owns the data, write JSON, then let Nift render the result.</p>
 
 <h2 id="why-there-is-no-general-query-pipeline">Why there is no general query pipeline</h2>
-<p><code>\@for</code> remains focused on iteration and optional stable ordering. When you need an immutable transformed array first, Nift also provides composable collection operations such as <code>\@filter</code>, <code>\@map</code>, <code>\@sort</code> and <code>\@slice</code>. They use the same pure expression model and can feed directly into <code>\@for</code>. <a class="text-link" href="@path('docs/collections')">See collection operations →</a></p>
+<p><code>\@for</code> remains focused on iteration and optional stable ordering. When you need an immutable transformed array first, Nift also provides composable collection operations such as <code>\@filter</code>, <code>\@map</code>, <code>\@sort</code> and <code>\@slice</code>. They use the same expression model and can feed directly into <code>\@for</code>. <a class="text-link" href="@path('docs/collections')">See collection operations →</a></p>
 <p>For substantial data transformation, use the tool that owns or prepares the data—TypeScript, Python, <code>jq</code>, a database query, an API/export step or another specialist tool—write the resulting JSON, then let Nift schema-check and render it. This keeps templates focused on <strong>data → output</strong> and keeps Nift's language small.</p>
 
 <h2 id="you-may-never-need-this-page">You may never need this page</h2>

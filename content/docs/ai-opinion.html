@@ -202,7 +202,7 @@ const featured = \@filter(post : posts =&gt; post.featured);
 const totals = \@map(product : products =&gt; product.price * product.quantity);
 const cartTotal = \@sum(product : products =&gt; product.price * product.quantity);
 &lt;/script&gt;</code></pre>
-<p>That JavaScript case changed my opinion substantially. These transforms are not Nift trying to replace JavaScript; they make Nift better glue for JavaScript and other text outputs. The predicate, projection, key and aggregation pieces reuse the same pure expression model as <code>\$[expression]</code> and <code>\@if(expression)</code>, while <code>=&gt;</code> makes the data flow explicit.</p>
+<p>That JavaScript case changed my opinion substantially. These transforms are not Nift trying to replace JavaScript; they make Nift better glue for JavaScript and other text outputs. The predicate, projection, key and aggregation pieces reuse the same expression model as <code>\$[expression]</code> and <code>\@if(expression)</code>, while <code>=&gt;</code> makes the data flow explicit.</p>
 
 <p>I previously argued too broadly that acquiring a collection/query language would itself be bad. The real risk is feature gravity turning Nift into a second general-purpose runtime. Pure immutable transforms are a different proposition.</p>
 <pre><code class="language-plaintext">existing immutable values
@@ -218,7 +218,7 @@ for / join / another pure transform / JSON output</code></pre>
 <pre><code class="language-nift">\@reduce(item : values &amp; acc = 0 =&gt; acc + item)
 
 \@sum((price, quantity) : pairs =&gt; price * quantity)</code></pre>
-<p>The boundary remains important. Nift still has no assignment statement, collection mutation, side-effecting callbacks, user-defined functions, arbitrary execution, or general SQL/LINQ-style query runtime. I would still resist adding operations simply because a general-purpose language happens to have them. But composition itself is not the enemy: <code>\@for(post : \@filter(...))</code> is straightforward and useful, and a pure <code>\@reduce</code> accumulator is not the same thing as mutable template state.</p>
+<p>The boundary remains important, but v4.1 deliberately moves it: Nift now has explicit lexical declarations and assignment, <code>const</code>/<code>immut</code>, expression-source <code>inject()</code>, schema-composable <code>validate()</code>, and small <code>\@fn</code>/<code>\@fragment</code> callables. These are scoped build-time tools rather than arbitrary execution: unknown foreign <code>@</code> syntax still passes through, dependencies remain tracked, inferred binding types stay stable, and there is still no shell/system execution or general SQL/LINQ-style runtime. The implementation campaign also rejected semantics that broke recovery, correctness or performance rather than treating language growth as automatically desirable.</p>
 <p>This also changes how I would describe competitors. Hugo and Astro offer different and in places broader publication/content ecosystems; that is useful when their integrated models are what a project wants, not automatically an advantage because there is more machinery. Nift's goal remains a small set of primitives that earn their place.</p>
 
 <p>Nift now supports an optional third <code>\@json</code> parameter:</p>

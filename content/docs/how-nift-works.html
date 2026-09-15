@@ -55,7 +55,7 @@
 </tbody></table></div>
 
 <h2 id="build-time-control-flow-is-intentionally-not-a-scripting-runtime">Build-time control flow is intentionally not a scripting runtime</h2>
-<p><code>\@json</code>, <code>\@for</code> and <code>\@if</code> add enough structure to render data-driven static output, but their architectural role is still parsing. JSON bindings are scoped data, loop variables are lexical bindings, and conditions select output. The model remains <strong>data + template → output</strong>; it does not require mutable program state, user-defined functions or a runtime shipped to the browser.</p>
+<p><code>\@json</code>, <code>\@for</code> and <code>\@if</code> add enough structure to render data-driven static output, but their architectural role is still parsing. JSON bindings are scoped data, loop variables are lexical bindings, and conditions select output. The model remains <strong>data + template → output</strong>. Nift v4.1 can optionally use scoped mutable bindings and small build-time callables, but none of that creates a browser runtime or arbitrary execution layer.</p>
 <pre><code class="language-plaintext">project JSON
      │
      ▼

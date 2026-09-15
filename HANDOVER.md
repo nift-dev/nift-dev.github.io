@@ -201,7 +201,7 @@ benchmark evidence, testing claims, AI guidance, or downloads, reconcile this
 source before considering the product checkpoint complete. Internal refactors
 with no public effect normally require only a compatibility self-build.
 
-Current project status is **Nift v4.0.7 released, with v4.0.8 in development**. The deliberate Checkpoints 0–10 hardening campaign remains the maintained baseline, while later CLI, language, pagination, project-contract, initializer and platform-target work has its own focused and cross-platform evidence. Current living priorities are keeping command/version-sensitive documentation aligned with the executable, verifying public distribution channels as they propagate, dogfooding this site and the documented integrations, collecting field evidence, and reviewing responsive/accessibility/publication readiness. End-to-end provider deployment is useful field evidence, not a prerequisite for documenting the target presets. Continue reviewing Battle Tested when protected behavior or evidence changes, but do not invent new hardening checkpoints merely to keep the sequence going.
+Current project status is **Nift v4.0.13 released, with v4.1.0 in development**. The v4.1 template-language campaign adds lexical bindings, `:=` declarations, `=` assignment, stable inferred types, `const`/`immut`, multiline declarations, `inject()`, `validate()`, `@fn` and `@fragment`, while retaining legacy `@json` compatibility. The deliberate Checkpoints 0–10 hardening campaign remains the maintained baseline, while later CLI, language, pagination, project-contract, initializer and platform-target work has its own focused and cross-platform evidence. Current living priorities are keeping command/version-sensitive documentation aligned with the executable, verifying public distribution channels as they propagate, dogfooding this site and the documented integrations, collecting field evidence, and reviewing responsive/accessibility/publication readiness. End-to-end provider deployment is useful field evidence, not a prerequisite for documenting the target presets. Continue reviewing Battle Tested when protected behavior or evidence changes, but do not invent new hardening checkpoints merely to keep the sequence going.
 
 ## Maintaining this handover
 
@@ -422,3 +422,8 @@ entry point.
 - `content/agents.md` is still Nift content: literal Nift directives such as `@content`, `@input(...)`, and `@path(...)` must be escaped in source so they render literally.
 - The global frontend script deliberately relies on the `(min-width: 761px)` media-query change event for mobile-menu cleanup; do not reintroduce a resize handler that reads layout state such as `window.innerWidth` after DOM mutations, because Lighthouse identified that path as a forced reflow.
 - Regenerate the site with the released Nift binary appropriate to the live website and keep the normal publication order: generated `public/` commit first, then source/stage including the submodule bump.
+
+
+## Nift v4.1 documentation checkpoint
+
+The website now documents the v4.1 advanced template-language surface while keeping `@input`/`@content` as the beginner path. The independent regression suite owns black-box v4.1 language/operator/injection dependency modules. Keep these synchronized with `docs/handover/V4.1-TEMPLATE-LANGUAGE.md` in Nift.

@@ -1,7 +1,7 @@
 <article class="docs-article">
-<p class="docs-kicker">Core reference · Pure value evaluation</p>
+<p class="docs-kicker">Core reference · Values, bindings & calls</p>
 <h1>Expressions.</h1>
-<p class="docs-lead">Nift uses one pure expression model in both <code>\$[expression]</code> and <code>\@if(expression)</code>. The operators, precedence, value lookup, type rules and short-circuit behaviour are the same; only the surrounding context decides what happens to the result.</p>
+<p class="docs-lead">Nift uses one expression model across <code>\$[...]</code>, conditions and advanced templating. Nift v4.1 adds scoped declarations, assignment, stable inferred types, constants, source injection, validation and user-defined callables without changing the simple read-only expression style when you do not need mutable state.</p>
 
 <div class="docs-callout"><strong>One expression language, two common contexts.</strong><p><code>\$[...]</code> evaluates an expression and renders its scalar result. <code>\@if(...)</code> evaluates the same kind of expression and applies Nift truthiness to decide whether its branch renders. You do not need to learn a separate condition grammar.</p></div>
 
@@ -26,7 +26,7 @@
 \$[posts[2].title]
 \$[loop.index]
 \$[paginate.current]</code></pre>
-<p>Expression values can come from built-in page/build metadata, JSON bindings, project contracts, loop bindings and pagination metadata. Existing namespace and scope rules still apply; expressions do not introduce assignment, mutable variables or new bindings.</p>
+<p>Expression values can come from built-in page/build metadata, JSON bindings, project contracts, loop bindings, pagination metadata and v4.1 lexical bindings.</p>
 
 <h2 id="arithmetic">Arithmetic</h2>
 <p>Numeric expressions support binary <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> and <code>%</code>, plus unary <code>+</code>/<code>-</code> and parentheses.</p>
@@ -85,11 +85,29 @@
 \$[post.featured ? \@input('partials/featured-badge.html')]</code></pre>
 <p>Ternary branches are deliberately lazy and are rendered as ordinary Nift source. Only the selected branch is parsed; the unselected branch does not resolve values, execute directives, register dependencies/requirements or fail because of something that only exists in that branch.</p>
 
-<h2 id="pure-means-no-mutation">Pure means no mutation</h2>
-<p>Expressions derive values from data Nift already knows. They do not turn the template language into a scripting runtime.</p>
-<div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Supported</th><th>Not part of expressions</th></tr></thead><tbody>
-<tr><td>Value lookup, arithmetic, comparisons, logic, parentheses, ternary selection</td><td>Assignment, mutable variables, <code>++</code>/<code>--</code>, user-defined functions, arbitrary system execution</td></tr>
-</tbody></table></div>
+<h2 id="bindings-and-assignment">Bindings and assignment</h2>
+<p>Nift v4.1 keeps mutation explicit: <code>:=</code> declares in the current lexical scope and <code>=</code> assigns the nearest existing mutable binding. Types are inferred at declaration and remain stable. A top-level declaration or assignment interpolation changes state but renders no text.</p>
+<pre><code class="language-nift">\$[count := 0]
+\$[count = count + 1]
+\$[const site_name := "Nift"]
+\$[immut config := {"items":[1,2,3]}]</code></pre>
+<p><code>const</code> prevents rebinding. <code>immut</code> is deeply read-only through that binding. Child scopes can see and mutate existing outer mutable bindings, while declarations made inside the child disappear when it exits.</p>
+
+<h2 id="multiline-injection-validation">Multiline values, injection and validation</h2>
+<pre><code class="language-nift">\@:=(items){
+    [1, 2, 3]
+}
+
+\$[config := validate(schema, inject("data/config.nift"))]</code></pre>
+<p><code>\@:=(name){...}</code> is the multiline form of declaration; its outer braces are framing, and its body is one expression. <code>inject(path)</code> parses another file as Nift expression source at that position, with its own child scope and automatic dependency tracking. <code>validate(schema, value)</code> returns the value unchanged when schema validation succeeds and fails the build otherwise.</p>
+
+<h2 id="functions-and-fragments">Functions and fragments</h2>
+<pre><code class="language-nift">\@fn(add(a,b)){\@return(a+b)}
+\@fragment(card(title)){&lt;strong&gt;\$[title]&lt;/strong&gt;}
+
+\$[add(2,3)]
+\$[card("Hello")]</code></pre>
+<p>Both callable kinds are invoked inside <code>\$[...]</code>. This deliberately leaves foreign at-rules such as CSS <code>@media</code> easy to pass through. Functions return values; fragments return rendered template content.</p>
 
 <h2 id="expressions-inside-other-nift-features">Expressions inside other Nift features</h2>
 <p>Whenever an existing feature consumes a <code>\$[...]</code> scalar, that scalar can be derived by an expression. Pagination also has explicit relative page syntax:</p>

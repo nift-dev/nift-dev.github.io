@@ -28,7 +28,7 @@
 \@max(scores)</code></pre>
 <p><code>\@sum</code> and <code>\@prod</code> require numeric values. <code>\@min</code> and <code>\@max</code> accept homogeneous numbers or homogeneous strings and use the same ordering rules as sorting.</p>
 <h2 id="binding-forms-use">Binding forms use <code>=&gt;</code></h2>
-<p>When an operation needs a per-item predicate, key or projection, <code>=&gt;</code> separates the binding/source from the expression. The expression uses exactly the same pure expression rules as <code>\$[expression]</code> and <code>\@if(expression)</code>.</p>
+<p>When an operation needs a per-item predicate, key or projection, <code>=&gt;</code> separates the binding/source from the expression. The expression uses exactly the same expression rules as <code>\$[expression]</code> and <code>\@if(expression)</code>.</p>
 <pre><code class="language-nift">\@filter(post : posts =&gt; post.published &amp;&amp; post.score &gt;= 80)
 \@map(product : products =&gt; product.price * product.quantity)
 \@sort(post : posts =&gt; post.date desc)
@@ -78,7 +78,7 @@ filter / map / sort / slice
 new immutable collection
     ↓
 sum / max / reduce / for / join / JSON output</code></pre>
-<p>That does <em>not</em> turn Nift into a general functional programming language. There is still no assignment statement, collection mutation, user-defined function system, side-effecting callbacks, arbitrary runtime execution or general SQL/LINQ-style query engine. The functional flavour is useful precisely because the operations remain pure and small.</p>
+<p>That does <em>not</em> turn Nift into a general functional programming language. The collection operators themselves retain their functional, value-returning model even though v4.1 now also offers scoped assignment and user-defined functions/fragments elsewhere in the template language. Nift still avoids arbitrary runtime execution and a general SQL/LINQ-style query engine.</p>
 <h2 id="rendering-typed-values">Rendering typed values</h2>
 <p>When a collection operation reaches output instead of another Nift consumer, Nift serializes the typed result as valid JSON. This makes the operations useful in generated JavaScript as well as HTML templates.</p>
 <pre><code class="language-nift">&lt;script&gt;
