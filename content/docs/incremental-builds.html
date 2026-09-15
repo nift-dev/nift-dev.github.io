@@ -37,7 +37,7 @@ public/contact.html left alone</code></pre>
     <table class="reference-table">
       <thead><tr><th>Mode</th><th>Change signal</th><th>Best fit</th></tr></thead>
       <tbody>
-        <tr><td><code>modified</code></td><td>A dependency's modification time is newer than the stored page-build metadata.</td><td>Persistent local working trees where mtimes are cheap and meaningful.</td></tr>
+        <tr><td><code>modified</code></td><td>A dependency's modification time is at or after the stored page-build metadata. Equal timestamps are treated as potentially stale and trigger a rebuild: coarse filesystem timestamp resolution can give an immediate edit the same mtime as the metadata write, and Nift must not report success while a source change went unnoticed.</td><td>Persistent local working trees where mtimes are cheap and meaningful.</td></tr>
         <tr><td><code>hash</code></td><td>The dependency's current content hash differs from Nift's stored successful-build hash.</td><td>Fresh checkouts, CI/deployment runners, containers, restored workspaces and copied trees.</td></tr>
         <tr><td><code>hybrid</code></td><td>Rebuild when either the mtime check or content-hash check reports a change.</td><td>Workflows that want both signals and accept the cost of hashing dependencies.</td></tr>
       </tbody>
