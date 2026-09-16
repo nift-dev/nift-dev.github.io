@@ -4,16 +4,13 @@
 <p class="docs-lead"><code>\@import(path)</code> executes an external Nift script in an isolated scope and imports only the bindings that script explicitly exports.</p>
 <pre><code class="language-nift">// scripts/math.nift
 factor := 2
-
-fn(double(x)) {
-    return x * factor
-}
+double := x => x * factor
 
 export(double)</code></pre>
 <pre><code class="language-nift">\@import("scripts/math.nift")
 
 &lt;p&gt;\$[double(21)]&lt;/p&gt;</code></pre>
-<p>The imported script cannot implicitly read bindings from its caller. <code>export(name)</code> exports the actual binding, not a value snapshot, so exported closures retain private state correctly.</p>
+<p>The imported script cannot implicitly read bindings from its caller. <code>export(name)</code> exports the actual binding, not a value snapshot, so exported closures retain private state correctly. Closures capture script locals (use a lambda such as <code>double := x =&gt; x * factor</code>); named <code>fn</code> declarations resolve free names in the calling scope, matching ordinary template <code>\@fn</code> semantics.</p>
 <pre><code class="language-nift">count := 0
 increment := () =&gt; ++count
 

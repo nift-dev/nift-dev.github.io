@@ -4,8 +4,8 @@
 <p class="docs-lead">The same native statement engine powers standalone files with <code>nift run path</code> and the persistent <code>nift sh</code> interpreter.</p>
 <h2 id="run">nift run</h2>
 <pre><code class="language-bash">nift run scripts/report.nift</code></pre>
-<pre><code class="language-nift">name := read()
-print("hello, \$[name]")
+<pre><code class="language-nift">who := read()
+print("hello, \$[who]")
 return 0</code></pre>
 <p>A script starts in a fresh root scope. Fallthrough and bare <code>return</code> exit successfully without return output; <code>return expression</code> renders the returned value to stdout. Parse, runtime and I/O errors use stderr and a non-zero status.</p>
 <h2 id="shell">nift sh</h2>
