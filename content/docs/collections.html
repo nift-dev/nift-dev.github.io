@@ -68,7 +68,7 @@
 <p>Collections participate directly in <code>\@for</code>; Nift keeps iterator machinery internal.</p>
 <pre><code class="language-nift">\@for(item : queue) { ... }
 \@for(value : set_values) { ... }
-\@for(key, value : mapping) { ... }</code></pre>
+\@for((key, value) : mapping) { ... }</code></pre>
 
 <h2 id="higher-order-transformations">Higher-order transformations</h2>
 <p>Arrays and collections can consume named functions or lambdas. Nift 4.3 provides <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>any</code>, <code>all</code>, <code>find</code> and <code>count</code>.</p>
@@ -94,8 +94,8 @@
 <p>Data values use structural equality. Arrays compare recursively, maps compare key/value contents, and sets compare their logical members. Struct instances and callables are identity-bearing. <code>same(a, b)</code> explicitly asks whether two identity-bearing references designate the same object.</p>
 <pre><code class="language-nift">\$[a := [1, 2, [3]]]
 \$[b := copy(a)]
-\$[a == b]          @/* true: structural equality */
-\$[same(a, b)]      @/* false: distinct array objects */</code></pre>
+\$[a == b]
+\$[same(a, b)]</code></pre>
 
 <div class="docs-next"><span>Next</span><a href="@path('docs/functions-fragments')">Functions &amp; lambdas →</a></div>
 </article>
