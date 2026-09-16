@@ -76,6 +76,8 @@
 <pre><code class="language-nift">\$[compact := items.stringify()]
 \$[pretty := items.prettify()]</code></pre>
 <p>The formatter supports ordinary data values and Nift collections while preserving collection kind and map key types. Struct formatting includes public fields. Opaque runtime values such as callables and file streams are not serializable; formatting them is an error rather than exposing an internal reference. <code>prettify()</code> never embeds terminal colour codes in its returned string.</p>
+<p><code>highlight()</code> returns the same safe compact serialized string, but when its result is inspected directly by <code>nift sh</code> on a colour-capable terminal the REPL syntax-highlights strings, numbers, booleans and <code>null</code>. ANSI colour is a REPL presentation concern and is not embedded in the value returned by <code>highlight()</code>.</p>
+<pre><code class="language-nift">$[shown := items.highlight()]</code></pre>
 
 <h2 id="iteration">Iteration</h2>
 <p>Collections participate directly in <code>\@for</code>; Nift keeps iterator machinery internal.</p>
