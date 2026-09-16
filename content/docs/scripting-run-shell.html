@@ -1,0 +1,22 @@
+<article class="docs-article">
+<p class="docs-kicker">Scripting · CLI hosts</p>
+<h1>Run scripts &amp; use the interactive shell.</h1>
+<p class="docs-lead">The same native statement engine powers standalone files with <code>nift run path</code> and the persistent <code>nift sh</code> interpreter.</p>
+<h2 id="run">nift run</h2>
+<pre><code class="language-bash">nift run scripts/report.nift</code></pre>
+<pre><code class="language-nift">name := read()
+print("hello, \$[name]")
+return 0</code></pre>
+<p>A script starts in a fresh root scope. Fallthrough and bare <code>return</code> exit successfully without return output; <code>return expression</code> renders the returned value to stdout. Parse, runtime and I/O errors use stderr and a non-zero status.</p>
+<h2 id="shell">nift sh</h2>
+<pre><code class="language-plaintext">$ nift sh
+/path/to/project:~? x := 10
+/path/to/project:~? x++
+/path/to/project:~? print(x)
+11
+/path/to/project:~? cd("/tmp")
+/tmp:~?</code></pre>
+<p>The shell retains one root lexical environment between commands. Its prompt shows the current working directory; on a colour-capable terminal the path is green and the <code>~</code> marker is blue. <code>cd(path)</code> changes both the process working directory and the next prompt.</p>
+<p>Ordinary errors are reported without destroying the persistent session. Multiline parser-state hardening remains part of the v4.3 certification work; the shell already supports the implemented native statement host and persistent state.</p>
+<div class="docs-next"><span>Next</span><a href="@path('docs/scripting-io')">Console I/O →</a></div>
+</article>

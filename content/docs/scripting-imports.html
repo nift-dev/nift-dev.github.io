@@ -1,0 +1,31 @@
+<article class="docs-article">
+<p class="docs-kicker">Scripting · Reusable code</p>
+<h1>Imports &amp; exports.</h1>
+<p class="docs-lead"><code>\@import(path)</code> executes an external Nift script in an isolated scope and imports only the bindings that script explicitly exports.</p>
+<pre><code class="language-nift">// scripts/math.nift
+factor := 2
+
+fn(double(x)) {
+    return x * factor
+}
+
+export(double)</code></pre>
+<pre><code class="language-nift">\@import("scripts/math.nift")
+
+&lt;p&gt;\$[double(21)]&lt;/p&gt;</code></pre>
+<p>The imported script cannot implicitly read bindings from its caller. <code>export(name)</code> exports the actual binding, not a value snapshot, so exported closures retain private state correctly.</p>
+<pre><code class="language-nift">count := 0
+increment := () =&gt; ++count
+
+export(count)
+export(increment)</code></pre>
+<p>Exports are validated and installed atomically. Exporting a missing name, exporting the same name twice, or colliding with an existing caller binding makes the import fail without partially changing the caller.</p>
+<h2 id="completion">Completion</h2>
+<div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Completion</th><th>Meaning under <code>\@import</code></th></tr></thead><tbody>
+<tr><td>Fall through</td><td>Successful import; commit valid exports.</td></tr>
+<tr><td><code>return</code></td><td>Early successful completion; commit valid exports.</td></tr>
+<tr><td><code>return value</code></td><td>Error. Imports communicate programmatically through <code>export()</code>.</td></tr>
+</tbody></table></div>
+<p>Imported scripts participate in Nift's path-security and tracked dependency model, including applicable transitive imports.</p>
+<div class="docs-next"><span>Next</span><a href="@path('docs/scripting-run-shell')">Run scripts &amp; use the shell →</a></div>
+</article>

@@ -399,6 +399,36 @@
       "name": "docs/markdown",
       "title": "Moved: Documentation projects",
       "template": "templates/legacy-markdown.html"
+    },
+    {
+      "name": "docs/scripting",
+      "title": "Native Nift scripting",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/scripting-imports",
+      "title": "Imports and exports",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/scripting-run-shell",
+      "title": "Run scripts and interactive shell",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/scripting-io",
+      "title": "Console input and output",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/scripting-filesystem",
+      "title": "Filesystem scripting",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/scripting-streams",
+      "title": "File streams",
+      "template": "templates/docs.html"
     }
   ]
 }

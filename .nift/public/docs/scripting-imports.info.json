@@ -1,9 +1,9 @@
 {
-  "name": "docs/use-cases/dashboards",
-  "title": "Dashboards",
+  "name": "docs/scripting-imports",
+  "title": "Imports and exports",
   "template": "templates/docs.html",
-  "content": "content/docs/use-cases/dashboards.html",
-  "output": "public/docs/use-cases/dashboards.html",
+  "content": "content/docs/scripting-imports.html",
+  "output": "public/docs/scripting-imports.html",
   "minify": true,
   "minify-version": 1,
   "pagination": false,
@@ -12,7 +12,7 @@
   "pagination-separator": "",
   "pagination-pages": 0,
   "dependencies": [
-    "content/docs/use-cases/dashboards.html",
+    "content/docs/scripting-imports.html",
     "templates/docs.html",
     "templates/partials/docs-sidebar.html",
     "templates/partials/footer.html",

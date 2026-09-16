@@ -1,9 +1,9 @@
 {
-  "name": "docs/use-cases/dashboards",
-  "title": "Dashboards",
+  "name": "docs/scripting-filesystem",
+  "title": "Filesystem scripting",
   "template": "templates/docs.html",
-  "content": "content/docs/use-cases/dashboards.html",
-  "output": "public/docs/use-cases/dashboards.html",
+  "content": "content/docs/scripting-filesystem.html",
+  "output": "public/docs/scripting-filesystem.html",
   "minify": true,
   "minify-version": 1,
   "pagination": false,
@@ -12,7 +12,7 @@
   "pagination-separator": "",
   "pagination-pages": 0,
   "dependencies": [
-    "content/docs/use-cases/dashboards.html",
+    "content/docs/scripting-filesystem.html",
     "templates/docs.html",
     "templates/partials/docs-sidebar.html",
     "templates/partials/footer.html",

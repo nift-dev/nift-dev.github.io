@@ -1,0 +1,29 @@
+<article class="docs-article">
+<p class="docs-kicker">Scripting · Filesystem</p>
+<h1>Filesystem operations.</h1>
+<p class="docs-lead">Script land includes a small readable filesystem API without exposing arbitrary shell execution.</p>
+<pre><code class="language-nift">print(pwd())
+
+if(!exists("work")) {
+    make_dir("work")
+}
+
+touch("work/input.txt")
+copy("work/input.txt", "work/copy.txt")
+move("work/copy.txt", "work/final.txt")
+text := open("work/final.txt")
+remove("work/final.txt")</code></pre>
+<div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Operation</th><th>Purpose</th></tr></thead><tbody>
+<tr><td><code>pwd()</code></td><td>Return the current script working directory.</td></tr>
+<tr><td><code>cd(path)</code></td><td>Change directory under standalone <code>run</code>/<code>sh</code> hosts.</td></tr>
+<tr><td><code>exists(path)</code></td><td>Test whether a path exists.</td></tr>
+<tr><td><code>make_dir(path)</code></td><td>Create the directory path, including missing parents.</td></tr>
+<tr><td><code>touch(path)</code></td><td>Create the file if needed or open it for append without replacing its contents.</td></tr>
+<tr><td><code>copy(from, to)</code></td><td>Copy a file, replacing an existing destination file.</td></tr>
+<tr><td><code>move(from, to)</code></td><td>Move/rename a path using the host filesystem operation.</td></tr>
+<tr><td><code>remove(path)</code></td><td>Remove a file. Directory removal is deliberately not recursive.</td></tr>
+<tr><td><code>open(path)</code></td><td>Load the entire file as a string.</td></tr>
+</tbody></table></div>
+<p>Build-hosted scripts remain confined by Nift's project/path rules. Standalone <code>nift run</code> and <code>nift sh</code> use the process working directory. <code>open(path)</code> is data access; it is intentionally distinct from template <code>\@input</code>, script <code>\@import</code> and source injection.</p>
+<div class="docs-next"><span>Next</span><a href="@path('docs/scripting-streams')">File streams →</a></div>
+</article>

@@ -1,0 +1,18 @@
+<article class="docs-article">
+<p class="docs-kicker">Scripting · Console I/O</p>
+<h1>Console input &amp; output.</h1>
+<p class="docs-lead"><code>print(value)</code> writes one complete line to the process console. <code>read()</code> reads one line of interactive input under <code>nift run</code> and <code>nift sh</code>.</p>
+<pre><code class="language-nift">name := "Nift"
+print("hello, \$[name]")
+print("hello, " + name)</code></pre>
+<p>Each <code>print()</code> invocation is a blocking atomic console write: Nift evaluates and renders the value first, then serializes the complete line so concurrent execution cannot interleave fragments of separate calls.</p>
+<pre><code class="language-nift">line := read()
+
+if(line == null) {
+    return
+}
+
+print("read: " + line)</code></pre>
+<p><code>read()</code> removes the line terminator, returns <code>null</code> at EOF and reports an I/O failure as a runtime error. It is deliberately unavailable during ordinary website builds so a build cannot unexpectedly block waiting for stdin.</p>
+<div class="docs-next"><span>Next</span><a href="@path('docs/scripting-filesystem')">Filesystem →</a></div>
+</article>

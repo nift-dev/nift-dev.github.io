@@ -1,0 +1,28 @@
+<article class="docs-article">
+<p class="docs-kicker">Scripting · Script land</p>
+<h1>Native Nift scripting.</h1>
+<p class="docs-lead">Nift 4.3 has two deliberately distinct contexts: <strong>template land</strong> for building websites, and <strong>script land</strong> for native statements, reusable script files and interactive automation. They share one Nift language/runtime rather than embedding another interpreter.</p>
+
+<h2 id="template-vs-script">Template land vs script land</h2>
+<div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Context</th><th>Purpose</th><th>Syntax</th></tr></thead><tbody>
+<tr><td>Template land</td><td>Generate pages and other tracked output</td><td><code>\@if</code>, <code>\@for</code>, <code>\$[...]</code>, <code>\@input</code></td></tr>
+<tr><td>Script land</td><td>Execute native Nift statements</td><td><code>if</code>, <code>for</code>, <code>fn</code>, assignments and ordinary calls</td></tr>
+</tbody></table></div>
+<p><code>\@script { ... }</code> is the explicit bridge from a template into script land. Inside it, ordinary statements do not need <code>\$[...]</code> wrappers and language constructs do not need template <code>\@</code> prefixes.</p>
+<pre><code class="language-nift">\@script {
+    values := [1, 2, 3, 4]
+    doubled := values.map(x =&gt; x * 2)
+
+    if(doubled.contains(8)) {
+        return doubled.join(", ")
+    }
+
+    return
+}</code></pre>
+<p>An inline script executes in the current template scope. Falling through or using bare <code>return</code> emits nothing; <code>return expression</code> renders exactly that value. Returned strings are values and are not reparsed as template source.</p>
+
+<h2 id="where-next">Script files and interactive use</h2>
+<p>Use <a href="@path('docs/scripting-imports')"><code>\@import(path)</code></a> for isolated reusable script files, <a href="@path('docs/scripting-run-shell')"><code>nift run</code> and <code>nift sh</code></a> for standalone execution, and the dedicated filesystem and stream references for script-side I/O.</p>
+<div class="docs-callout"><strong>No shell escape.</strong><p>Native scripting does not resurrect <code>\@system</code> or arbitrary subprocess execution. Script land stays inside Nift's own runtime and capability boundaries.</p></div>
+<div class="docs-next"><span>Next</span><a href="@path('docs/scripting-imports')">Imports &amp; exports →</a></div>
+</article>

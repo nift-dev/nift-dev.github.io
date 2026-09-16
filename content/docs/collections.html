@@ -15,6 +15,13 @@
 \$[items.remove(0)]
 \$[items.clear()]</code></pre>
 <p>Arrays also expose <code>size()</code> and <code>empty()</code>. <code>indexOf</code> and <code>contains</code> use structural equality, including for nested data values.</p>
+<h3 id="array-slicing">Joining, slicing and mutation</h3>
+<pre><code class="language-nift">\$[csv := items.join(", ")]
+\$[part := items.slice(1, 3)]
+\$[tail := items.slice(2)]
+\$[removed := items.splice(1, 2, [8, 9])]
+\$[items.reverse()]</code></pre>
+<p><code>join</code> and <code>slice</code> do not mutate the array. <code>splice(start, delete_count[, replacements])</code> mutates and returns the removed values; replacements are supplied as an array. <code>reverse()</code> mutates in place.</p>
 
 <h2 id="sequential-collections">Stack, queue and <code>prique</code></h2>
 <pre><code class="language-nift">\$[s := stack()]

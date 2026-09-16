@@ -44,6 +44,16 @@
     <a href="@path('docs/project-structure')"><span>Structure</span><h2>Project layout</h2><p>See how <code>content/</code>, <code>templates/</code>, <code>public/</code> and the rest of your repository can fit together.</p></a>
   </div>
 
+  <h2>Step into script land when you need it.</h2>
+  <p>The Core reference above stays focused on building websites. Nift's native scripting environment has its own reference for standalone automation, imports, console I/O, filesystem access and streams.</p>
+  <div class="docs-step-grid">
+    <a href="@path('docs/scripting')"><span>Script land</span><h2>Native Nift scripting</h2><p>Use <code>\@script { ... }</code> to write native statements inside a template without <code>\@</code> prefixes or <code>\$[...]</code> wrappers.</p></a>
+    <a href="@path('docs/scripting-imports')"><span>Reusable code</span><h2>Imports &amp; exports</h2><p>Execute isolated script files and explicitly export live bindings into the caller.</p></a>
+    <a href="@path('docs/scripting-run-shell')"><span>CLI scripting</span><h2>Run &amp; interactive shell</h2><p>Execute files with <code>nift run path</code> or keep a persistent native Nift environment open with <code>nift sh</code>.</p></a>
+    <a href="@path('docs/scripting-filesystem')"><span>Filesystem</span><h2>Files &amp; directories</h2><p>Read and manipulate files with Nift's bounded native filesystem operations.</p></a>
+    <a href="@path('docs/scripting-streams')"><span>I/O</span><h2>File streams</h2><p>Process larger inputs and outputs incrementally with <code>ifs</code>, <code>ofs</code> and typed <code>read_val()</code>.</p></a>
+  </div>
+
   <h2>Understand what Nift is tracking.</h2>
   <div class="docs-step-grid">
     <a href="@path('docs/configuration')"><span>.nift</span><h2>config.json</h2><p>Project-wide directories, extensions, template defaults, thread count, incremental mode, contracts and optional minified output extensions.</p></a>
