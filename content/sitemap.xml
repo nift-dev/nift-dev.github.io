@@ -261,6 +261,30 @@
     <lastmod>2026-08-18</lastmod>
   </url>
   <url>
+    <loc>https://nift.dev/docs/scripting.html</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nift.dev/docs/scripting-imports.html</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nift.dev/docs/scripting-run-shell.html</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nift.dev/docs/scripting-io.html</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nift.dev/docs/scripting-filesystem.html</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://nift.dev/docs/scripting-streams.html</loc>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
     <loc>https://nift.dev/developers.html</loc>
     <lastmod>2026-08-22</lastmod>
   </url>
