@@ -109,7 +109,7 @@ $[sequence := counter()]
         }
     &lt;/ul&gt;
     $[state.leave()]
-}</code></pre> <p>This is useful when recursive rendering needs shared structured state: pass one instance rather than adding more scalar parameters at every recursion level.</p> <div class="docs-callout"><strong>Why no navigation-builder <code>push()</code> example?</strong><p>Nift arrays do not currently have in-place <code>push</code>/<code>pop</code>/<code>remove</code> methods. Struct methods can mutate their fields, but examples should not imply a container-mutation API that the language does not provide. Use collection operations for array transformations.</p></div> <h2 id="private-members">Private fields and methods</h2> <pre><code class="language-nift">@struct(counter) {
+}</code></pre> <p>This is useful when recursive rendering needs shared structured state: pass one instance rather than adding more scalar parameters at every recursion level.</p> <div class="docs-callout"><strong>Arrays can now be mutable struct state.</strong><p>Nift 4.3 adds in-place array methods such as <code>push</code>, <code>pop</code>, <code>insert</code> and <code>remove</code>, so struct methods can maintain list-like state directly.</p></div> <h2 id="private-members">Private fields and methods</h2> <pre><code class="language-nift">@struct(counter) {
     private count := 0
     fn(counter(start)) { count = start }
     private fn(step()) { count = count + 1 }

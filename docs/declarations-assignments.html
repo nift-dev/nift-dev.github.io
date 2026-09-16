@@ -36,8 +36,12 @@ $[users := [{"name":"Ada"}, {"name":"Grace"}]]</code></pre> <p>Use zero-based in
 @for(name : names) {
     &lt;li&gt;$[name]&lt;/li&gt;
 }
-&lt;/ul&gt;</code></pre> <p>Nift does <strong>not</strong> currently expose in-place list methods such as <code>push</code>, <code>pop</code>, <code>append</code> or <code>remove</code>. Collection operations are value-producing transforms: filter, map, sort, slice, reverse and distinct return new arrays rather than mutating their source. If you need a different literal array in mutable state, assign another array of the same type; for data transformation, use the collection operations page.</p> <pre><code class="language-nift">$[names := ["Ada", "Grace"]]
-$[names = ["Ada", "Grace", "Linus"]]</code></pre> <p>This distinction is intentional: lexical bindings can be mutable while Nift's collection transforms remain predictable and non-mutating.</p> <h2 id="objects">Objects</h2> <pre><code class="language-nift">$[site := {"title":"Example", "draft":false}]
+&lt;/ul&gt;</code></pre> <p>Nift 4.3 arrays are mutable list values. They support <code>push</code>, <code>pop</code>, <code>insert</code>, <code>remove</code>, <code>clear</code>, <code>first</code>, <code>last</code>, <code>indexOf</code>, <code>contains</code>, <code>size</code> and <code>empty</code>.</p> <pre><code class="language-nift">$[names := ["Ada", "Grace"]]
+$[names.push("Linus")]
+$[names.insert(1, "Margaret")]
+$[names.contains("Grace")]
+$[names.indexOf("Linus")]
+$[last := names.pop()]</code></pre> <p>Array search uses structural equality, so nested data values can be found by content. Mutating methods require a mutable binding; <code>const</code>/<code>immut</code> state remains protected. Higher-order transforms such as <code>map</code>, <code>filter</code> and <code>reduce</code> are documented on the collection operations page.</p> <h2 id="objects">Objects</h2> <pre><code class="language-nift">$[site := {"title":"Example", "draft":false}]
 $[sites := [{"title":"One"}, {"title":"Two"}]]
 
 $[site.title]
