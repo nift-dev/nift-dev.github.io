@@ -12,11 +12,17 @@ return 0</code></pre>
 <pre><code class="language-plaintext">$ nift sh
 /path/to/project:~? x := 10
 /path/to/project:~? x++
-/path/to/project:~? print(x)
+/path/to/project:~? x
 11
+/path/to/project:~? ls().prettify()
+[
+  "README.md",
+  "content",
+  "docs"
+]
 /path/to/project:~? cd("/tmp")
 /tmp:~?</code></pre>
-<p>The shell retains one root lexical environment between commands. Its prompt shows the current working directory; on a colour-capable terminal the path is green and the <code>~</code> marker is blue. <code>cd(path)</code> changes both the process working directory and the next prompt.</p>
+<p>The shell retains one root lexical environment between commands. Bare expressions display their safe compact value directly, so inspecting <code>x</code>, <code>ls()</code> or another data expression does not require <code>print()</code>. Use <code>.prettify()</code> when an expanded human-readable representation is easier to inspect. Its prompt shows the current working directory; on a colour-capable terminal the path is green and the <code>~</code> marker is blue. <code>cd(path)</code> changes both the process working directory and the next prompt.</p>
 <p>Ordinary errors are reported without destroying the persistent session. Multiline parser-state hardening remains part of the v4.3 certification work; the shell already supports the implemented native statement host and persistent state.</p>
 <div class="docs-next"><span>Next</span><a href="@path('docs/scripting-io')">Console I/O →</a></div>
 </article>
