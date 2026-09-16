@@ -45,7 +45,18 @@
 <pre><code class="language-nift">\$[score &gt;= 50]
 \@if(item.priority &gt;= site.minimum_priority){ ... }
 \@if(item.type == "article"){ ... }</code></pre>
-<p>Numbers order numerically and strings lexicographically. Ordering requires two numbers or two strings; Nift does not coerce between types. Booleans, <code>null</code>, arrays and objects are not orderable.</p>
+<p>Numbers order numerically and strings lexicographically. Integers are signed 64-bit values and floating-point values use <code>double</code>; integer and double values can be compared numerically. Nift does not coerce strings or booleans into numbers. Data values use structural equality where supported, while identity-bearing values can be compared explicitly with <code>same(a, b)</code>.</p>
+
+<h2 id="increment-and-compound-assignment">Increment, decrement and compound assignment</h2>
+<pre><code class="language-nift">\$[count := 1]
+\$[count++]
+\$[++count]
+\$[count += 5]
+\$[count -= 2]
+\$[count *= 3]
+\$[count /= 2]
+\$[count %= 4]</code></pre>
+<p>Prefix increment/decrement returns the updated value; postfix returns the previous value. The target must be a mutable numeric lvalue. Compound assignment preserves the binding's stable type; <code>+=</code> also supports string concatenation for string bindings.</p>
 
 <h2 id="logic-and-short-circuiting">Logic and short-circuiting</h2>
 <p>Use <code>!</code>, <code>&amp;&amp;</code> and <code>||</code> to compose conditions. Logical operators short-circuit: an operand that cannot affect the result is not resolved.</p>
@@ -58,14 +69,15 @@
 <h2 id="precedence-and-parentheses">Precedence and parentheses</h2>
 <p>Nift follows conventional precedence. From tightest to loosest:</p>
 <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Level</th><th>Operators</th></tr></thead><tbody>
-<tr><td>Unary</td><td><code>!</code>, unary <code>+</code>, unary <code>-</code></td></tr>
+<tr><td>Postfix</td><td><code>x++</code>, <code>x--</code></td></tr>
+<tr><td>Unary</td><td><code>!</code>, unary <code>+</code>, unary <code>-</code>, <code>++x</code>, <code>--x</code></td></tr>
 <tr><td>Multiplicative</td><td><code>*</code>, <code>/</code>, <code>%</code></td></tr>
 <tr><td>Additive</td><td><code>+</code>, <code>-</code></td></tr>
 <tr><td>Comparison</td><td><code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code></td></tr>
 <tr><td>Logical AND</td><td><code>&amp;&amp;</code></td></tr>
 <tr><td>Logical OR</td><td><code>||</code></td></tr>
 <tr><td>Conditional</td><td><code>?:</code></td></tr>
-<tr><td>Assignment</td><td><code>=</code></td></tr>
+<tr><td>Assignment</td><td><code>=</code>, <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>, <code>%=</code></td></tr>
 <tr><td>Declaration</td><td><code>:=</code></td></tr>
 </tbody></table></div>
 <pre><code class="language-nift">\$[2 + 3 * 4]       // 14

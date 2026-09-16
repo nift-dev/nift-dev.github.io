@@ -61,5 +61,31 @@
 <p>Bare <code>return</code> stops the current fragment. It does not roll back content already rendered, and fragments cannot return an expression value.</p>
 <h2 id="scope">Scope</h2>
 <p>Functions and fragments receive their own child scope. Existing visible mutable bindings can be changed, while declarations created inside the callable disappear when it exits.</p>
+<h2 id="first-class-callables-and-lambdas">First-class callables and lambdas</h2>
+<p>Nift 4.3 makes named functions and lambdas first-class callable values. A lambda can have an expression body or a statement block.</p>
+<pre><code class="language-nift">\$[double := x =&gt; x * 2]
+\$[add := (a, b) =&gt; a + b]
+\$[absolute := x =&gt; {
+    if(x &lt; 0) { return -x }
+    return x
+}]
+
+\$[double(6)]
+\$[add(2, 3)]</code></pre>
+<p>Existing named functions can also be assigned, passed, returned and stored as values.</p>
+<pre><code class="language-nift">\@fn(double(x)) { return x * 2 }
+\$[operation := double]
+\$[operation(6)]</code></pre>
+<h2 id="closures">Lexical closures</h2>
+<p>Lambdas capture lexical <em>bindings</em>, not snapshots of their values. Rebinding or mutating captured state is therefore visible to the closure, and captured bindings remain alive when a closure escapes its defining function.</p>
+<pre><code class="language-nift">\@fn(counter(start)) {
+    n := start
+    return () =&gt; n++
+}
+
+\$[next := counter(10)]
+\$[next()]  @/* 10 */
+\$[next()]  @/* 11 */</code></pre>
+<p>Callable equality is identity-based. Use <code>same(a, b)</code> when you explicitly need to test whether two references identify the same callable or other identity-bearing object.</p>
 <div class="docs-next"><span>Next</span><a href="@path('docs/structs')">Structs →</a></div>
 </article>
