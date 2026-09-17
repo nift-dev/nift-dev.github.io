@@ -1,464 +1,469 @@
 {
-  "tracked": [
-    {
-      "name": "/",
-      "title": "Build the web without the baggage",
-      "template": "templates/home.html"
-    },
-    {
-      "name": "docs",
-      "title": "Documentation",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/advanced",
-      "title": "Nift with the wider web toolchain",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/getting-started",
-      "title": "Getting started",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/incremental-builds",
-      "title": "Incremental builds",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/partials",
-      "title": "Partials and input",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/markup",
-      "title": "Markup conversion",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/paths",
-      "title": "Paths and tracked files",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/how-nift-works",
-      "title": "How Nift works",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/project-structure",
-      "title": "Project structure",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/templating",
-      "title": "Templating essentials",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/comments",
-      "title": "Comments",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/use-cases/dashboards",
-      "title": "Dashboards",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/use-cases/documentation",
-      "title": "Documentation projects",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/use-cases/react-islands",
-      "title": "React islands",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/use-cases/text-assets",
-      "title": "Text assets",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/use-cases/web-apps",
-      "title": "Full web applications",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/use-cases/mobile-development",
-      "title": "Mobile development",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "examples",
-      "title": "Examples",
-      "template": "templates/template.html"
-    },
-    {
-      "name": "templates",
-      "title": "Templates",
-      "template": "templates/template.html"
-    },
-    {
-      "name": "docs/metadata",
-      "title": "Page and build metadata",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/expressions",
-      "title": "Expressions",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/declarations-assignments",
-      "title": "Declarations and assignments",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/collections",
-      "title": "Collection operations",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/json",
-      "title": "JSON data",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/json-schema",
-      "title": "JSON Schema validation",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/control-flow",
-      "title": "Loops & conditions",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/functions-fragments",
-      "title": "Functions and fragments",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/structs",
-      "title": "Structs",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/pagination",
-      "title": "Pagination",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/minification",
-      "title": "Minification",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/commands",
-      "title": "Commands",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/existing-sites",
-      "title": "Add Nift to an existing website",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/contracts",
-      "title": "Contracts",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/project-contracts",
-      "title": "Project contracts",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/routes",
-      "title": "Route contracts",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/configuration",
-      "title": "Project configuration",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/tracked-json",
-      "title": "Tracked project files",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/dep",
-      "title": "Explicit dependencies",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/user-dependencies",
-      "title": "Per-page dependency JSON",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/installing",
-      "title": "Installing Nift",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/why-nift",
-      "title": "Why Nift?",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/comparisons",
-      "title": "Comparisons",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/three-primitives",
-      "title": "Start with three primitives",
-      "template": "templates/docs-demo.html"
-    },
-    {
-      "name": "docs/developer-experience",
-      "title": "Developer experience",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/battle-tested",
-      "title": "Battle tested",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/memory-safety",
-      "title": "Memory & resource safety",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/hosting",
-      "title": "Hosting and deployment",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/ai-opinion",
-      "title": "AI opinion: Nift vs other web build tools",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/ai-development",
-      "title": "AI-assisted development",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/production-readiness",
-      "title": "Production readiness",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "showcase",
-      "title": "Built with Nift",
-      "template": "templates/template.html"
-    },
-    {
-      "name": "docs/serverless",
-      "title": "Nift in a serverless stack",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/architectural-rules",
-      "title": "Nift architectural rules",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "developers",
-      "title": "Developer resources",
-      "template": "templates/info.html"
-    },
-    {
-      "name": "about",
-      "title": "About Nift",
-      "template": "templates/info.html"
-    },
-    {
-      "name": "contact",
-      "title": "Contact and project support",
-      "template": "templates/info.html"
-    },
-    {
-      "name": "privacy",
-      "title": "Privacy",
-      "template": "templates/info.html"
-    },
-    {
-      "name": "docs/platforms",
-      "title": "Platform targets",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/platforms/vercel",
-      "title": "Vercel",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/platforms/netlify",
-      "title": "Netlify",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/platforms/amplify",
-      "title": "AWS Amplify Hosting",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/platforms/azure",
-      "title": "Azure Static Web Apps",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/platforms/firebase",
-      "title": "Firebase Hosting",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/platforms/render",
-      "title": "Render",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/platforms/cloudflare",
-      "title": "Cloudflare Pages",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/platforms/github-pages",
-      "title": "GitHub Pages",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/platforms/supabase",
-      "title": "Supabase",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "404",
-      "title": "Page not found",
-      "template": "templates/404.html"
-    },
-    {
-      "name": "llms",
-      "title": "Nift agent index",
-      "template": "templates/asset.txt",
-      "content-ext": ".txt",
-      "output-ext": ".txt"
-    },
-    {
-      "name": "agents",
-      "title": "Nift agent guide",
-      "template": "templates/asset.txt",
-      "content-ext": ".md",
-      "output-ext": ".md"
-    },
-    {
-      "name": "robots",
-      "title": "Crawler policy",
-      "template": "templates/asset.txt",
-      "content-ext": ".txt",
-      "output-ext": ".txt"
-    },
-    {
-      "name": "sitemap",
-      "title": "Sitemap",
-      "template": "templates/asset.txt",
-      "content-ext": ".xml",
-      "output-ext": ".xml"
-    },
-    {
-      "name": "docs/ai-agents",
-      "title": "Nift with AI agents",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "ai-context",
-      "title": "Legacy AI context compatibility",
-      "template": "templates/asset.txt",
-      "content-ext": ".txt",
-      "output-ext": ".txt"
-    },
-    {
-      "name": "docs/ai-assistants",
-      "title": "Moved: AI agents",
-      "template": "templates/legacy-ai-assistants.html"
-    },
-    {
-      "name": "docs/template_files",
-      "title": "Moved: Template language",
-      "template": "templates/legacy-template_files.html"
-    },
-    {
-      "name": "docs/markdown",
-      "title": "Moved: Documentation projects",
-      "template": "templates/legacy-markdown.html"
-    },
-    {
-      "name": "docs/scripting",
-      "title": "Native Nift scripting",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/scripting-imports",
-      "title": "Imports and exports",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/scripting-run-shell",
-      "title": "Run scripts and interactive shell",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/scripting-io",
-      "title": "Console input and output",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/scripting-filesystem",
-      "title": "Filesystem scripting",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/scripting-streams",
-      "title": "File streams",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/scripting-managed-files",
-      "title": "Managed files",
-      "template": "templates/template.html"
-    },
-    {
-      "name": "docs/project-data",
-      "title": "Project information",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/frontmatter",
-      "title": "Front matter",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/schemas",
-      "title": "Schemas",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/typed-content",
-      "title": "Typed content",
-      "template": "templates/docs.html"
-    },
-    {
-      "name": "docs/taxonomies",
-      "title": "Taxonomies",
-      "template": "templates/docs.html"
-    }
-  ]
+ "tracked": [
+  {
+   "name": "/",
+   "title": "Build the web without the baggage",
+   "template": "templates/home.html"
+  },
+  {
+   "name": "docs",
+   "title": "Documentation",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/advanced",
+   "title": "Nift with the wider web toolchain",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/getting-started",
+   "title": "Getting started",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/incremental-builds",
+   "title": "Incremental builds",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/partials",
+   "title": "Partials and input",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/markup",
+   "title": "Markup conversion",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/paths",
+   "title": "Paths and tracked files",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/how-nift-works",
+   "title": "How Nift works",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/project-structure",
+   "title": "Project structure",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/templating",
+   "title": "Templating essentials",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/comments",
+   "title": "Comments",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/use-cases/dashboards",
+   "title": "Dashboards",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/use-cases/documentation",
+   "title": "Documentation projects",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/use-cases/react-islands",
+   "title": "React islands",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/use-cases/text-assets",
+   "title": "Text assets",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/use-cases/web-apps",
+   "title": "Full web applications",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/use-cases/mobile-development",
+   "title": "Mobile development",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "examples",
+   "title": "Examples",
+   "template": "templates/template.html"
+  },
+  {
+   "name": "templates",
+   "title": "Templates",
+   "template": "templates/template.html"
+  },
+  {
+   "name": "docs/metadata",
+   "title": "Page and build metadata",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/expressions",
+   "title": "Expressions",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/declarations-assignments",
+   "title": "Declarations and assignments",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/collections",
+   "title": "Collection operations",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/json",
+   "title": "JSON data",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/json-schema",
+   "title": "JSON Schema validation",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/control-flow",
+   "title": "Loops & conditions",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/functions-fragments",
+   "title": "Functions and fragments",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/structs",
+   "title": "Structs",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/pagination",
+   "title": "Pagination",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/minification",
+   "title": "Minification",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/commands",
+   "title": "Commands",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/existing-sites",
+   "title": "Add Nift to an existing website",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/contracts",
+   "title": "Contracts",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/project-contracts",
+   "title": "Project contracts",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/routes",
+   "title": "Route contracts",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/configuration",
+   "title": "Project configuration",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/tracked-json",
+   "title": "Tracked project files",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/dep",
+   "title": "Explicit dependencies",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/user-dependencies",
+   "title": "Per-page dependency JSON",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/installing",
+   "title": "Installing Nift",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/why-nift",
+   "title": "Why Nift?",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/comparisons",
+   "title": "Comparisons",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/three-primitives",
+   "title": "Start with three primitives",
+   "template": "templates/docs-demo.html"
+  },
+  {
+   "name": "docs/developer-experience",
+   "title": "Developer experience",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/battle-tested",
+   "title": "Battle tested",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/memory-safety",
+   "title": "Memory & resource safety",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/performance",
+   "title": "Performance: what v4.3 costs",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/hosting",
+   "title": "Hosting and deployment",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/ai-opinion",
+   "title": "AI opinion: Nift vs other web build tools",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/ai-development",
+   "title": "AI-assisted development",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/production-readiness",
+   "title": "Production readiness",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "showcase",
+   "title": "Built with Nift",
+   "template": "templates/template.html"
+  },
+  {
+   "name": "docs/serverless",
+   "title": "Nift in a serverless stack",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/architectural-rules",
+   "title": "Nift architectural rules",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "developers",
+   "title": "Developer resources",
+   "template": "templates/info.html"
+  },
+  {
+   "name": "about",
+   "title": "About Nift",
+   "template": "templates/info.html"
+  },
+  {
+   "name": "contact",
+   "title": "Contact and project support",
+   "template": "templates/info.html"
+  },
+  {
+   "name": "privacy",
+   "title": "Privacy",
+   "template": "templates/info.html"
+  },
+  {
+   "name": "docs/platforms",
+   "title": "Platform targets",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/platforms/vercel",
+   "title": "Vercel",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/platforms/netlify",
+   "title": "Netlify",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/platforms/amplify",
+   "title": "AWS Amplify Hosting",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/platforms/azure",
+   "title": "Azure Static Web Apps",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/platforms/firebase",
+   "title": "Firebase Hosting",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/platforms/render",
+   "title": "Render",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/platforms/cloudflare",
+   "title": "Cloudflare Pages",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/platforms/github-pages",
+   "title": "GitHub Pages",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/platforms/supabase",
+   "title": "Supabase",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "404",
+   "title": "Page not found",
+   "template": "templates/404.html"
+  },
+  {
+   "name": "llms",
+   "title": "Nift agent index",
+   "template": "templates/asset.txt",
+   "content-ext": ".txt",
+   "output-ext": ".txt"
+  },
+  {
+   "name": "agents",
+   "title": "Nift agent guide",
+   "template": "templates/asset.txt",
+   "content-ext": ".md",
+   "output-ext": ".md"
+  },
+  {
+   "name": "robots",
+   "title": "Crawler policy",
+   "template": "templates/asset.txt",
+   "content-ext": ".txt",
+   "output-ext": ".txt"
+  },
+  {
+   "name": "sitemap",
+   "title": "Sitemap",
+   "template": "templates/asset.txt",
+   "content-ext": ".xml",
+   "output-ext": ".xml"
+  },
+  {
+   "name": "docs/ai-agents",
+   "title": "Nift with AI agents",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "ai-context",
+   "title": "Legacy AI context compatibility",
+   "template": "templates/asset.txt",
+   "content-ext": ".txt",
+   "output-ext": ".txt"
+  },
+  {
+   "name": "docs/ai-assistants",
+   "title": "Moved: AI agents",
+   "template": "templates/legacy-ai-assistants.html"
+  },
+  {
+   "name": "docs/template_files",
+   "title": "Moved: Template language",
+   "template": "templates/legacy-template_files.html"
+  },
+  {
+   "name": "docs/markdown",
+   "title": "Moved: Documentation projects",
+   "template": "templates/legacy-markdown.html"
+  },
+  {
+   "name": "docs/scripting",
+   "title": "Native Nift scripting",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/scripting-imports",
+   "title": "Imports and exports",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/scripting-run-shell",
+   "title": "Run scripts and interactive shell",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/scripting-io",
+   "title": "Console input and output",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/scripting-filesystem",
+   "title": "Filesystem scripting",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/scripting-streams",
+   "title": "File streams",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/scripting-managed-files",
+   "title": "Managed files",
+   "template": "templates/template.html"
+  },
+  {
+   "name": "docs/project-data",
+   "title": "Project information",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/frontmatter",
+   "title": "Front matter",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/schemas",
+   "title": "Schemas",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/typed-content",
+   "title": "Typed content",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/taxonomies",
+   "title": "Taxonomies",
+   "template": "templates/docs.html"
+  }
+ ]
 }

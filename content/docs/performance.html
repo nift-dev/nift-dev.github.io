@@ -1,0 +1,41 @@
+<article class="docs-article architecture-page">
+<p class="docs-kicker">Performance · v4.2.0 comparison</p>
+<h1>Performance: what v4.3 costs.</h1>
+<p class="docs-lead">Nift v4.3 added a substantially larger language/content surface: functions and fragments, structs, richer expressions, a project model with typed content, schemas, taxonomies and agent-facing functionality. The architecture deliberately follows pay-for-what-you-use: an ordinary project pays little for features it does not use, and project-aware builds pay only when project-wide facilities are actually requested.</p>
+
+<h2 id="the-benchmark">The released-v4.2.0 comparison</h2>
+<p>Both binaries were built from identical sources with identical release flags (<code>g++ -std=c++17 -O2</code>) and run on identical generated fixtures (front-matter pages, <code>\@content</code> template, parallel build, tmpfs, Linux x86-64). Ordinary full-build wall time is the median of three runs; output is byte-identical between versions.</p>
+
+<div class="table-wrap"><table>
+<thead><tr><th>Pages</th><th>v4.2.0</th><th>v4.3</th><th>Ratio</th></tr></thead>
+<tbody>
+<tr><td>100</td><td>0.005s</td><td>0.006s</td><td>1.04x</td></tr>
+<tr><td>1,000</td><td>0.019s</td><td>0.023s</td><td>1.19x</td></tr>
+<tr><td>5,000</td><td>0.065s</td><td>0.076s</td><td>1.17x</td></tr>
+<tr><td>10,000</td><td>0.122s</td><td>0.131s</td><td>1.07x</td></tr>
+</tbody>
+</table></div>
+
+<p>Peak RSS at 10,000 pages: v4.2.0 ~11 MB vs v4.3 ~12 MB. Both versions scale approximately linearly. Incremental builds (no-change, body edit, front-matter edit, template edit, add, remove, rename) are all within ~1.0–1.2x of v4.2.0 at 10,000 pages.</p>
+
+<h2 id="pay-for-what-you-use">Pay-for-what-you-use</h2>
+<p>An ordinary project never constructs the project-wide query model: no project fingerprint is produced, and none of the project content is read for model construction. Enabling project-aware access pays for the model once per build, shared across pages.</p>
+
+<div class="table-wrap"><table>
+<thead><tr><th>10,000 pages</th><th>Time</th><th>RSS</th></tr></thead>
+<tbody>
+<tr><td><code>\@content</code> only</td><td>0.115s</td><td>12.3 MB</td></tr>
+<tr><td>+ expressions / functions / structs</td><td>~0.12s</td><td>~12 MB</td></tr>
+<tr><td>+ typed content / schemas</td><td>~0.12s</td><td>~15 MB</td></tr>
+<tr><td>+ <code>project.files</code> / <code>project.content</code> / taxonomies</td><td>~0.29s</td><td>~59 MB</td></tr>
+</tbody>
+</table></div>
+
+<p>Enabling one feature does not unexpectedly activate unrelated machinery. The project-aware cost is the constructed-and-shared project model; it is not paid by ordinary builds.</p>
+
+<h2 id="the-engineering-result">The engineering result</h2>
+<p>The useful story is not a single number. v4.3 keeps approximately linear build scaling, produces byte-identical output to v4.2.0 on ordinary projects, stays within ~1.2x of v4.2.0 ordinary build time while adding a far richer language and content model, and avoids most of that richer feature cost when the features are unused. Early v4.3 development performed ~1.5–2x more work on ordinary builds (it constructed the full project model even when no template referenced it); that unused-feature overhead was removed.</p>
+
+<p class="docs-kicker" style="margin-top:2rem">Environment</p>
+<p>Numbers above were measured on Linux x86-64 with g++ 15.2.0, fixtures on tmpfs (warm cache, no cold-cache claims). The maintained comparison harness is <code>benchmarks/v420_comparison.py</code> in the source tree; run it with a v4.2.0 binary and the current v4.3 binary to reproduce.</p>
+</article>
