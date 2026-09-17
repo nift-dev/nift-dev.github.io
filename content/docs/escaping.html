@@ -16,21 +16,21 @@
 
 <h2 id="html-text">HTML text: <code>html_escape()</code></h2>
 <pre><code class="language-nift">html_escape("&lt;b&gt;&amp; hello&lt;/b&gt;")
-# &amp;lt;b&amp;gt;&amp;amp; hello&amp;lt;/b&amp;gt;</code></pre>
+\@// &amp;lt;b&amp;gt;&amp;amp; hello&amp;lt;/b&amp;gt;</code></pre>
 <p>Use it for text that will appear between tags:</p>
 <pre><code class="language-html">&lt;p&gt;\$[html_escape(post.title)]&lt;/p&gt;</code></pre>
 <p>Because the function escapes every <code>&amp;</code>, input that already contains an entity is re-escaped: <code>html_escape("&amp;amp;")</code> produces <code>&amp;amp;amp;</code>. Escape data once, at the point of output.</p>
 
 <h2 id="attr">HTML attribute: <code>attr_escape()</code></h2>
 <pre><code class="language-nift">attr_escape("a&quot;b&amp;c")
-# a&amp;quot;b&amp;amp;c</code></pre>
+\@// a&amp;quot;b&amp;amp;c</code></pre>
 <pre><code class="language-html">&lt;input value="\$[attr_escape(form.value)]"&gt;
 &lt;div data-value="\$[attr_escape(record.status)]"&gt;&lt;/div&gt;</code></pre>
 <p>Always write the attribute with quotes around the interpolation.</p>
 
 <h2 id="url">URL component: <code>url_encode()</code></h2>
 <pre><code class="language-nift">url_encode("a b/c?d=e&amp;f")
-# a%20b%2Fc%3Fd%3De%26f</code></pre>
+\@// a%20b%2Fc%3Fd%3De%26f</code></pre>
 <p><code>url_encode()</code> percent-encodes a single URL <em>component</em> (a path segment or a query value). It is RFC&nbsp;3986 encoding, not form encoding: a space becomes <code>%20</code>, never <code>+</code>. It does not sanitize a complete URL — pass one dynamic component at a time.</p>
 <pre><code class="language-html">&lt;a href="/search?q=\$[url_encode(query)]"&gt;Search&lt;/a&gt;
 &lt;a href="/products/\$[url_encode(product.slug)]"&gt;\$[html_escape(product.name)]&lt;/a&gt;</code></pre>
