@@ -11,6 +11,7 @@
   "pagination-template": "",
   "pagination-separator": "",
   "pagination-pages": 0,
+  "project-fingerprint": "",
   "dependencies": [
     "content/docs/ai-assistants.html",
     "templates/legacy-ai-assistants.html"
