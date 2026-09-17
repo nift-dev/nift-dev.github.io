@@ -438,7 +438,7 @@
   {
    "name": "docs/scripting-managed-files",
    "title": "Managed files",
-   "template": "templates/template.html"
+   "template": "templates/docs.html"
   },
   {
    "name": "docs/project-data",
