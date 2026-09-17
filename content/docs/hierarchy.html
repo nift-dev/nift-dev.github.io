@@ -1,0 +1,50 @@
+<article class="docs-article">
+<p class="docs-kicker">Structured content · Intrinsic page hierarchy</p>
+<h1>Page hierarchy.</h1>
+<p class="docs-lead">Every tracked page belongs to an intrinsic project hierarchy derived from its tracked name. Pages expose <code>parent</code>, <code>children</code>, <code>ancestors</code>, <code>descendants</code> and <code>siblings</code>, so breadcrumbs, section navigation and nested documentation compose directly with collection operations.</p>
+
+<h2 id="relations">The hierarchy relations</h2>
+<p>A page's <code>parent</code> is the nearest <em>existing</em> tracked ancestor by name path: <code>docs/advanced/guide</code> is a child of <code>docs/advanced</code> when that page exists, otherwise of <code>docs</code>, otherwise of the root <code>/</code>. The root has no parent. <code>children</code> are ordered by tracked order; <code>ancestors</code> and <code>descendants</code> exclude the page itself; <code>siblings</code> are the other children of the parent, in tracked order.</p>
+<div class="table-wrap"><table class="reference-table"><thead><tr><th>Relation</th><th>Result</th><th>Cost</th></tr></thead><tbody>
+<tr><td><code>page.parent</code></td><td>The parent page value, or <code>null</code> for the root.</td><td>O(1)</td></tr>
+<tr><td><code>page.children</code></td><td>Direct children in tracked order.</td><td>O(children)</td></tr>
+<tr><td><code>page.ancestors</code></td><td>Ancestors from the parent up to the root, excluding self.</td><td>O(depth)</td></tr>
+<tr><td><code>page.descendants</code></td><td>All descendants in pre-order, excluding self.</td><td>O(descendants)</td></tr>
+<tr><td><code>page.siblings</code></td><td>Other children of the parent, excluding self.</td><td>O(siblings)</td></tr>
+</tbody></table></div>
+<p>Every page value also exposes its data: <code>name</code>, <code>title</code>, <code>path</code>, <code>output_path</code>, <code>url</code>, <code>type</code>, <code>metadata</code> and <code>content</code>.</p>
+
+<h2 id="getting-pages">Getting a page value</h2>
+<p>In a page template, <code>page</code> binds to the current page. Anywhere (templates, scripts, <code>nift eval</code>), <code>page(name)</code> returns a tracked page by name:</p>
+<pre><code class="language-nift">\$[current := page]                       # current page (templates)
+\$[docs := page("docs")]                  # any tracked page by name
+\$[title := page("docs/advanced").title]  # data field on a page value</code></pre>
+
+<h2 id="breadcrumbs">Breadcrumbs from ancestors</h2>
+<pre><code class="language-nift">\$[crumbs := page.ancestors.reverse().map(a =&gt; "&lt;a href=\"" + a.url + "\"&gt;" + a.title + "&lt;/a&gt;").join(" / ")]</code></pre>
+
+<h2 id="section-nav">Section and index navigation from children</h2>
+<pre><code class="language-nift">\$[links := page.children.map(c =&gt; "&lt;a href=\"" + c.url + "\"&gt;" + c.title + "&lt;/a&gt;").join(", ")]</code></pre>
+<p>Children compose with collection operations directly:</p>
+<pre><code class="language-nift">\$[published := page.children.filter(c =&gt; !c.metadata.draft)]
+\$[newest := page.children.sort_by(c =&gt; c.metadata.date, "desc").take(5)]
+\$[tags := page.children.map(c =&gt; c.metadata.tags).flatten().unique()]</code></pre>
+
+<h2 id="nested-docs">Nested documentation navigation</h2>
+<pre><code class="language-nift">@for(section : page.children){
+&lt;h2&gt;\$[section.title]&lt;/h2&gt;
+&lt;ul&gt;
+@for(article : section.children){&lt;li&gt;&lt;a href="\$[article.url]"&gt;\$[article.title]&lt;/a&gt;&lt;/li&gt;}
+&lt;/ul&gt;
+}</code></pre>
+
+<h2 id="eval">Agent use through nift eval</h2>
+<pre><code class="language-bash">nift eval 'page("docs/advanced").parent.title'
+nift eval --json 'page("docs").children.map(c => c.title)'
+nift eval 'page("docs").descendants.size()'</code></pre>
+
+<h2 id="incremental">Incremental behaviour</h2>
+<p>Pages that use the hierarchy record one compact structural dependency (a hierarchy fingerprint), so adding, removing, renaming or reparenting a page rebuilds hierarchy consumers without recording every tracked item against every consumer. Ordinary pages that never use the hierarchy carry no hierarchy dependency and pay nothing for it.</p>
+
+<div class="docs-next"><span>Next</span><a href="@path('docs/project-data')">Project information →</a></div>
+</article>

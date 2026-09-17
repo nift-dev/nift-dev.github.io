@@ -12,6 +12,7 @@
   "pagination-separator": "",
   "pagination-pages": 0,
   "project-fingerprint": "",
+  "hierarchy-fingerprint": "",
   "dependencies": [
     "content/robots.txt",
     "templates/asset.txt"

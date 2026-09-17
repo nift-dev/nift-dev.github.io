@@ -446,6 +446,11 @@
    "template": "templates/docs.html"
   },
   {
+   "name": "docs/hierarchy",
+   "title": "Page hierarchy",
+   "template": "templates/docs.html"
+  },
+  {
    "name": "docs/frontmatter",
    "title": "Front matter",
    "template": "templates/docs.html"

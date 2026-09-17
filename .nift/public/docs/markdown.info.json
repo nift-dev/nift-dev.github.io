@@ -12,6 +12,7 @@
   "pagination-separator": "",
   "pagination-pages": 0,
   "project-fingerprint": "",
+  "hierarchy-fingerprint": "",
   "dependencies": [
     "content/docs/markdown.html",
     "templates/legacy-markdown.html"

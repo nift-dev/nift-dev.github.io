@@ -12,6 +12,7 @@
   "pagination-separator": "",
   "pagination-pages": 0,
   "project-fingerprint": "",
+  "hierarchy-fingerprint": "",
   "dependencies": [
     "content/docs/ai-development.html",
     "templates/docs.html",
@@ -50,6 +51,7 @@
     "public/docs/frontmatter.html",
     "public/docs/functions-fragments.html",
     "public/docs/getting-started.html",
+    "public/docs/hierarchy.html",
     "public/docs/hosting.html",
     "public/docs/how-nift-works.html",
     "public/docs/incremental-builds.html",
