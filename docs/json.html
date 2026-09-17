@@ -13,7 +13,10 @@
         "items": [1, 2, 3]
     }
 }</code></pre> <p>Objects, arrays, strings, numbers, booleans and <code>null</code> are expression values. The binding type is inferred when declared and remains stable. Numbers that arrive already parsed from a JSON document keep their established representation; Nift source literals are typed by their lexical form, so <code>0.0</code> is a floating-point literal while <code>0</code> is an integer (see <a href="./declarations-assignments.html">Declarations &amp; assignments</a>).</p> <h2 id="access-values">Access values</h2> <pre><code class="language-html">&lt;h1&gt;$[site.name]&lt;/h1&gt;
-&lt;a href="$[site.navigation[0].url]"&gt;$[site.navigation[0].title]&lt;/a&gt;</code></pre> <p>Objects use <code>.member</code>; arrays use zero-based <code>[index]</code>. Scalar values render directly.</p> <h2 id="json-collections">Working with JSON collections</h2> <p>JSON arrays and objects participate directly in Nift's collection operations, so structured data can be queried and reshaped without a separate query language. Bind the data once, then compose the read-only methods documented on the <a href="./collections.html">Collection operations</a> page.</p> <pre><code class="language-nift">$[posts := [
+&lt;a href="$[site.navigation[0].url]"&gt;$[site.navigation[0].title]&lt;/a&gt;</code></pre> <p>Objects use <code>.member</code>; arrays use zero-based <code>[index]</code>. Scalar values render directly.</p> <h2 id="json-collections">Working with JSON collections</h2> <p>JSON arrays and objects participate directly in Nift's collection operations, so structured data can be queried and reshaped without a separate query language. Bind the data once, then compose the read-only methods documented on the <a href="./collections.html">Collection operations</a> page.</p> <pre><code class="language-nift">$[authors_by_id := data.authors.index_by(a =&gt; a.id)]
+$[public_config := data.config.omit(["internal", "draft"])]
+$[layered := data.defaults.merge_deep(data.overrides)]
+$[round_trip := data.config.entries().from_entries()]</code></pre> <pre><code class="language-nift">$[posts := [
     {"title":"One","draft":false,"year":2024,"tags":["nift","docs"]},
     {"title":"Two","draft":true,"year":2025,"tags":["nift"]},
     {"title":"Three","draft":false,"year":2025,"tags":["nift","markup"]}
