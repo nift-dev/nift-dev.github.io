@@ -1,0 +1,50 @@
+<article class="docs-article">
+<p class="docs-kicker">Output safety · Core reference</p>
+<h1>Escaping &amp; encoding.</h1>
+<p class="docs-lead">Dynamic values that end up in HTML must be escaped for the context they appear in. Nift keeps interpolation raw by default and provides three explicit helpers — <code>html_escape()</code>, <code>attr_escape()</code> and <code>url_encode()</code> — one per output context.</p>
+<div class="docs-callout"><strong>No automatic escaping.</strong><p>Ordinary <code>$[...]</code> interpolation is <em>not</em> HTML-escaped automatically. That is a deliberate compatibility property: a template renders exactly the value it binds. When a value may contain markup-significant characters, apply the explicit helper that matches its destination context.</p></div>
+
+<h2 id="contexts">Three output contexts</h2>
+<p>A value can be emitted into three different places, each with its own rules:</p>
+<div class="reference-table-wrap"><table class="reference-table">
+<tr><th>Context</th><th>Helper</th><th>Escaped characters</th></tr>
+<tr><td>HTML text node</td><td><code>html_escape(value)</code></td><td><code>&amp; &lt; &gt;</code></td></tr>
+<tr><td>Quoted HTML attribute</td><td><code>attr_escape(value)</code></td><td><code>&amp; &lt; &gt; &quot; &#39;</code></td></tr>
+<tr><td>URL component</td><td><code>url_encode(value)</code></td><td>RFC&nbsp;3986 percent-encoding of everything except unreserved characters</td></tr>
+</table></div>
+<p>Quotes do not need escaping in text nodes, so <code>html_escape()</code> leaves them alone; <code>attr_escape()</code> escapes both quote styles so the result is safe inside either <code>"..."</code> or <code>'...'</code> attributes. Documentation examples use quoted attributes.</p>
+
+<h2 id="html-text">HTML text: <code>html_escape()</code></h2>
+<pre><code class="language-nift">html_escape("&lt;b&gt;&amp; hello&lt;/b&gt;")
+# &amp;lt;b&amp;gt;&amp;amp; hello&amp;lt;/b&amp;gt;</code></pre>
+<p>Use it for text that will appear between tags:</p>
+<pre><code class="language-html">&lt;p&gt;\$[html_escape(post.title)]&lt;/p&gt;</code></pre>
+<p>Because the function escapes every <code>&amp;</code>, input that already contains an entity is re-escaped: <code>html_escape("&amp;amp;")</code> produces <code>&amp;amp;amp;</code>. Escape data once, at the point of output.</p>
+
+<h2 id="attr">HTML attribute: <code>attr_escape()</code></h2>
+<pre><code class="language-nift">attr_escape("a&quot;b&amp;c")
+# a&amp;quot;b&amp;amp;c</code></pre>
+<pre><code class="language-html">&lt;input value="\$[attr_escape(form.value)]"&gt;
+&lt;div data-value="\$[attr_escape(record.status)]"&gt;&lt;/div&gt;</code></pre>
+<p>Always write the attribute with quotes around the interpolation.</p>
+
+<h2 id="url">URL component: <code>url_encode()</code></h2>
+<pre><code class="language-nift">url_encode("a b/c?d=e&amp;f")
+# a%20b%2Fc%3Fd%3De%26f</code></pre>
+<p><code>url_encode()</code> percent-encodes a single URL <em>component</em> (a path segment or a query value). It is RFC&nbsp;3986 encoding, not form encoding: a space becomes <code>%20</code>, never <code>+</code>. It does not sanitize a complete URL — pass one dynamic component at a time.</p>
+<pre><code class="language-html">&lt;a href="/search?q=\$[url_encode(query)]"&gt;Search&lt;/a&gt;
+&lt;a href="/products/\$[url_encode(product.slug)]"&gt;\$[html_escape(product.name)]&lt;/a&gt;</code></pre>
+
+<h2 id="composition">Composing contexts</h2>
+<p>The contexts compose. A dynamic search link whose query value may contain <code>&amp;</code>, spaces, quotes or Unicode needs <em>two</em> steps: percent-encode the value into a URL component, build the URL, then attribute-escape the final attribute value.</p>
+<pre><code class="language-nift">\$[encoded := url_encode(query)]
+\$[href := "/search?q=" + encoded]</code></pre>
+<pre><code class="language-html">&lt;a href="\$[attr_escape(href)]"&gt;Search&lt;/a&gt;</code></pre>
+<p>Neither <code>html_escape()</code> alone nor <code>url_encode()</code> alone safely constructs a URL embedded in HTML: <code>html_escape()</code> does not percent-encode URL-reserved characters, and <code>url_encode()</code> does not escape attribute quotes.</p>
+
+<h2 id="ent">Relationship to <code>@ent</code></h2>
+<p><code>\@ent(name)</code> (documented on the <a href="@path('docs/templating')">Template language</a> page) maps a specific symbol or token to its named HTML entity — for example <code>\@ent('&amp;')</code> to <code>&amp;amp;</code> or <code>\@ent('-&gt;')</code> to <code>&amp;rarr;</code>. It is a fixed symbol-to-entity lookup used for markup, not a general escaping operation. When you need to escape arbitrary data, use <code>html_escape()</code>, <code>attr_escape()</code> or <code>url_encode()</code>.</p>
+
+<h2 id="see-also">See also</h2>
+<p><a href="@path('docs/json')">JSON data</a> · <a href="@path('docs/collections')">Collection operations</a> · <a href="@path('docs/templating')">Template language</a></p>
+</article>

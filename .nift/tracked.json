@@ -121,6 +121,11 @@
    "template": "templates/docs.html"
   },
   {
+   "name": "docs/escaping",
+   "title": "Escaping & encoding",
+   "template": "templates/docs.html"
+  },
+  {
    "name": "docs/json",
    "title": "JSON data",
    "template": "templates/docs.html"

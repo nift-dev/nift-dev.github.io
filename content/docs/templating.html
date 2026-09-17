@@ -149,7 +149,7 @@
 <div class="docs-callout"><strong>Generated frontend files are still public files.</strong><p>Do not use <code>\@getenv</code> to leak private tokens, passwords or credentials into client-visible HTML/JavaScript.</p></div>
 
 <h2 id="ent-emit-a-supported-html-entity"><code>\@ent(...)</code> — emit a supported HTML entity</h2>
-<p><code>\@ent</code> accepts <strong>exactly one value</strong>. The mapping below is the complete mapping implemented by the current v4 parser.</p>
+<p><code>\@ent</code> accepts <strong>exactly one value</strong>. The mapping below is the complete mapping implemented by the current v4 parser. It is a fixed symbol-to-entity lookup for markup, distinct from the general escaping helpers (<code>html_escape()</code>, <code>attr_escape()</code>, <code>url_encode()</code>) documented on the <a href="@path('docs/escaping')">Escaping &amp; encoding</a> page.</p>
 <div class="reference-table-wrap"><table class="reference-table reference-table-entities"><thead><tr><th>Input</th><th>Emits</th><th>Input</th><th>Emits</th></tr></thead><tbody>
 <tr><td><code>`</code></td><td><code>&amp;grave;</code></td><td><code>~</code></td><td><code>&amp;tilde;</code></td></tr>
 <tr><td><code>!</code></td><td><code>&amp;excl;</code></td><td><code>@</code></td><td><code>&amp;commat;</code></td></tr>

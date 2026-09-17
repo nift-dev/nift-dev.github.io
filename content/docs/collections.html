@@ -29,7 +29,7 @@
 <tr><td><code>min()</code> / <code>max()</code></td><td>array of numbers/strings</td><td>value</td><td>Extreme value; empty array is an error.</td></tr>
 <tr><td><code>sort([cb])</code></td><td>mutable array</td><td>array (mutates)</td><td>Stable in-place sort, homogeneous or by comparator.</td></tr>
 <tr><td><code>size()</code> / <code>length()</code></td><td>array / object / collection</td><td>number</td><td>Element count.</td></tr>
-<tr><td><code>empty()</code></td><td>array / object / collection</td><td>boolean</td><td>True when empty.</td></tr>
+<tr><td><code>empty()</code></td><td>array / object / collection / string</td><td>boolean</td><td>True when empty.</td></tr>
 <tr><td><code>first()</code> / <code>last()</code></td><td>array</td><td>value</td><td>Boundary element; empty array is an error.</td></tr>
 <tr><td><code>contains(v)</code></td><td>array / collection</td><td>boolean</td><td>Structural membership.</td></tr>
 <tr><td><code>indexOf(v)</code></td><td>array</td><td>number</td><td>First index or <code>-1</code>.</td></tr>
@@ -132,7 +132,7 @@
 <pre><code class="language-nift">\$[items.contains(3)]
 \$[items.indexOf(3)]</code></pre>
 <h3 id="size-empty">size() / length() / empty()</h3>
-<p><code>size()</code> and <code>length()</code> return the element count; <code>empty()</code> reports whether it is zero. Valid on arrays, objects and collection kinds.</p>
+<p><code>size()</code> and <code>length()</code> return the element count; <code>empty()</code> reports whether it is zero. Valid on arrays, objects and collection kinds, and on strings (<code>"".empty()</code> is <code>true</code>, <code>""</code>.length() is <code>0</code>).</p>
 <pre><code class="language-nift">\$[posts.size()]
 \$[config.empty()]</code></pre>
 <h2 id="mutation">Mutation</h2>

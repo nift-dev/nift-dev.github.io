@@ -1,9 +1,9 @@
 {
-  "name": "docs/control-flow",
-  "title": "Loops & conditions",
+  "name": "docs/escaping",
+  "title": "Escaping & encoding",
   "template": "templates/docs.html",
-  "content": "content/docs/control-flow.html",
-  "output": "public/docs/control-flow.html",
+  "content": "content/docs/escaping.html",
+  "output": "public/docs/escaping.html",
   "minify": true,
   "minify-version": 1,
   "pagination": false,
@@ -14,7 +14,7 @@
   "project-fingerprint": "",
   "hierarchy-fingerprint": "",
   "dependencies": [
-    "content/docs/control-flow.html",
+    "content/docs/escaping.html",
     "templates/docs.html",
     "templates/partials/docs-sidebar.html",
     "templates/partials/footer.html",
