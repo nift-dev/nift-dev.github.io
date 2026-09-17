@@ -50,6 +50,10 @@
 <pre><code class="language-nift">\$[names := ["Ada", "Grace", "Linus"]]
 \$[matrix := [[1, 2], [3, 4]]]
 \$[users := [{"name":"Ada"}, {"name":"Grace"}]]</code></pre>
+<p>In v4.3 array elements are full expressions, evaluated from left to right exactly once:</p>
+<pre><code class="language-nift">\$[x := 10]
+\$[i := 0]
+\$[computed := [x, x + 1, i++, i++, "42".to_int()]]</code></pre>
 <p>Use zero-based indexing to read an item and <code>\@for</code> to iterate:</p>
 <pre><code class="language-html">&lt;p&gt;First: \$[names[0]]&lt;/p&gt;
 

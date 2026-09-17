@@ -23,6 +23,29 @@
 \$[items.reverse()]</code></pre>
 <p><code>join</code> and <code>slice</code> do not mutate the array. <code>splice(start, delete_count[, replacements])</code> mutates and returns the removed values; replacements are supplied as an array. <code>reverse()</code> mutates in place.</p>
 
+<h2 id="strings">String parsing and conversion</h2>
+<p>Nift 4.3 strings include small parsing helpers that compose directly with the expression language:</p>
+<pre><code class="language-nift">\$[parts := "alpha,beta,,gamma".split(",")]
+\$[chars := "Nift".split("")]
+\$[name := "  Ada  ".trim()]
+\$[lower := name.to_lower()]
+\$[position := "archive.tar.gz".last_index_of(".")]
+\$[price := "120.50".to_double()]
+\$[count := "42".to_int()]</code></pre>
+<p>The string methods are <code>length()</code>, <code>split(delimiter)</code>, <code>index_of(needle)</code>, <code>last_index_of(needle)</code>, <code>contains(needle)</code>, <code>starts_with(prefix)</code>, <code>ends_with(suffix)</code>, <code>trim()</code>, <code>trim_start()</code>, <code>trim_end()</code>, <code>to_lower()</code>, <code>to_upper()</code>, <code>replace(old, replacement)</code>, <code>substr(pos[, length])</code>, <code>to_int()</code> and <code>to_double()</code>.</p>
+<p><code>split()</code> requires a delimiter. An empty delimiter deliberately splits into UTF-8 characters; adjacent, leading and trailing non-empty delimiters preserve empty fields. Numeric conversion is strict: the complete string must be a valid value, so trim whitespace explicitly when needed. Integer and double values expose <code>to_string()</code> for scalar text conversion.</p>
+<pre><code class="language-nift">\$[value := " 42 ".trim().to_int()]
+\$[text := value.to_string()]
+\$[fields := "a,,b,".split(",")]</code></pre>
+
+<h2 id="expression-arrays-and-chaining">Expression arrays and method chaining</h2>
+<p>Array literals can contain arbitrary expressions. Elements evaluate left-to-right exactly once, so literals can be used naturally for computed frontend data rather than only JSON-shaped constants.</p>
+<pre><code class="language-nift">\$[i := 0]
+\$[values := [i++, i++, "6".to_int(), make_value()]]</code></pre>
+<p>Read-only methods also compose on literals and expression/call results. Temporary bindings are not required merely to continue a chain:</p>
+<pre><code class="language-nift">\$[count := " a,b,c ".trim().split(",").size()]
+\$[upper := ["a", "b"].join(",").to_upper()]</code></pre>
+
 <h2 id="sequential-collections">Stack, queue and <code>prique</code></h2>
 <pre><code class="language-nift">\$[s := stack()]
 \$[s.push("first")]
