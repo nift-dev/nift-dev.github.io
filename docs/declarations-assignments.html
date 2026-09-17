@@ -30,7 +30,9 @@ $[visible]
 </code></pre> <h2 id="const-and-immut"><code>const</code> and <code>immut</code></h2> <pre><code class="language-nift">$[const site_name := "Nift"]
 $[immut config := {"features":["docs","builds"]}]</code></pre> <p><code>const</code> prevents rebinding. <code>immut</code> establishes a recursively read-only binding/view contract. An <code>immut</code> view does not make separately reachable mutable storage globally immutable.</p> <h2 id="arrays">Arrays (lists)</h2> <p>Nift calls list-like values <strong>arrays</strong>, following JSON terminology. JSON arrays existed as data values before v4.1; v4.1 made array and object literals directly declarable in the expression language.</p> <pre><code class="language-nift">$[names := ["Ada", "Grace", "Linus"]]
 $[matrix := [[1, 2], [3, 4]]]
-$[users := [{"name":"Ada"}, {"name":"Grace"}]]</code></pre> <p>Use zero-based indexing to read an item and <code>@for</code> to iterate:</p> <pre><code class="language-html">&lt;p&gt;First: $[names[0]]&lt;/p&gt;
+$[users := [{"name":"Ada"}, {"name":"Grace"}]]</code></pre> <p>In v4.3 array elements are full expressions, evaluated from left to right exactly once:</p> <pre><code class="language-nift">$[x := 10]
+$[i := 0]
+$[computed := [x, x + 1, i++, i++, "42".to_int()]]</code></pre> <p>Use zero-based indexing to read an item and <code>@for</code> to iterate:</p> <pre><code class="language-html">&lt;p&gt;First: $[names[0]]&lt;/p&gt;
 
 &lt;ul&gt;
 @for(name : names) {
