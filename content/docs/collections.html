@@ -33,8 +33,12 @@
 <tr><td><code>push(v)</code> / <code>pop()</code> / <code>insert(i,v)</code> / <code>remove(i)</code> / <code>clear()</code></td><td>mutable array</td><td>value / null</td><td>Mutating element operations.</td></tr>
 <tr><td><code>keys()</code> / <code>values()</code></td><td>object</td><td>array</td><td>Keys or values in insertion order.</td></tr>
 <tr><td><code>entries()</code></td><td>object</td><td>array of <code>{key,value}</code></td><td>Key/value pairs in insertion order.</td></tr>
+<tr><td><code>from_entries()</code></td><td>array of <code>{key,value}</code></td><td>object</td><td>Inverse of <code>entries()</code>; duplicate generated keys are errors.</td></tr>
+<tr><td><code>index_by(cb)</code></td><td>array</td><td>object</td><td>Index elements by a unique generated scalar key.</td></tr>
 <tr><td><code>has(key)</code> / <code>get(key[, default])</code></td><td>object</td><td>boolean / value</td><td>Probe and read a key, with an optional default.</td></tr>
+<tr><td><code>pick(keys)</code> / <code>omit(keys)</code></td><td>object</td><td>object</td><td>Shallow immutable field projection/exclusion.</td></tr>
 <tr><td><code>merge(other)</code></td><td>object</td><td>object</td><td>Non-mutating shallow merge.</td></tr>
+<tr><td><code>merge_deep(other)</code></td><td>object</td><td>object</td><td>Recursive object merge; all non-object collisions, including arrays, use RHS.</td></tr>
 <tr><td><code>set(k,v)</code> / <code>add(v)</code></td><td>map / set</td><td>value</td><td>Insert a key or member.</td></tr>
 <tr><td><code>get(k)</code> / <code>remove(k)</code></td><td>map</td><td>value</td><td>Read or remove a key.</td></tr>
 <tr><td><code>push(v)</code> / <code>pop()</code> / <code>top()</code> / <code>front()</code></td><td>stack/queue/prique</td><td>value</td><td>LIFO/FIFO/priority access and removal.</td></tr>
@@ -116,6 +120,18 @@
 <p>Return the object's keys, values, or an array of <code>{key, value}</code> entries, in insertion order. Observable object order is deterministic.</p>
 <pre><code class="language-nift">\$[names := data.keys()]
 \$[config.entries()]</code></pre>
+<h3 id="from-entries">from_entries()</h3>
+<p>Reconstructs an insertion-ordered object from the canonical <code>{key, value}</code> records returned by <code>entries()</code>. Generated keys may be strings, numbers or booleans; invalid or duplicate rendered keys are errors, so object construction never silently loses data.</p>
+<pre><code class="language-nift">\$[public_meta := metadata.entries().filter(e =&gt; e.key != "internal").from_entries()]
+\$[round_trip := metadata.entries().from_entries()]</code></pre>
+<h3 id="index-by">index_by(cb)</h3>
+<p>Builds an insertion-ordered object keyed by a selector evaluated once per item. It is useful for relationship lookups such as authors by ID. Duplicate or non-scalar generated keys are errors.</p>
+<pre><code class="language-nift">\$[authors_by_id := authors.index_by(a =&gt; a.id)]
+\$[owner := authors_by_id.get(post.author_id)]</code></pre>
+<h3 id="pick-omit">pick(keys) / omit(keys)</h3>
+<p>Return shallow object copies. <code>pick</code> emits existing fields in requested-key order; <code>omit</code> preserves source order while excluding requested fields. Missing keys are ignored and dotted strings remain literal top-level keys.</p>
+<pre><code class="language-nift">\$[card := page.pick(["title", "description", "url"])]
+\$[client := metadata.omit(["draft", "internal"])]</code></pre>
 <h3 id="has-get">has(key) / get(key[, default])</h3>
 <p><code>has</code> reports whether the key exists; <code>get</code> returns the value, the optional default, or <code>null</code>.</p>
 <pre><code class="language-nift">\$[config.has("port")]
@@ -123,6 +139,9 @@
 <h3 id="merge">merge(other)</h3>
 <p>Returns a new object with <code>other</code>'s key/value pairs overlaid on a copy of the receiver. Non-mutating.</p>
 <pre><code class="language-nift">\$[full := defaults.merge(overrides)]</code></pre>
+<h3 id="merge-deep">merge_deep(other)</h3>
+<p>Recursively merges object/object collisions without mutating either input. Every other collision is replaced by the right-hand value; arrays replace rather than concatenate. This keeps layered site/section/page configuration predictable.</p>
+<pre><code class="language-nift">\$[page_config := defaults.merge_deep(section).merge_deep(frontmatter)]</code></pre>
 
 <h2 id="arrays">Mutable arrays</h2>
 <pre><code class="language-nift">\$[items := [1, 2, 3]]
