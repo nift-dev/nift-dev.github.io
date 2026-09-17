@@ -40,6 +40,7 @@ f.flush()
 f.save()
 f.close()</code></pre>
 <p>Managed files provide <code>read()</code> (all remaining bytes), <code>read(n)</code>, <code>read_line()</code>, <code>read_all()</code>, <code>read_val()</code>, <code>eof()</code>, <code>tell()</code>, <code>seek(pos)</code>, <code>write(value)</code>, <code>write_line(value)</code> and <code>flush()</code>. Positions are byte offsets. Reads observe the current working contents, including unsaved edits.</p>
+<p><code>flush()</code> is retained for output-vocabulary parity with <code>ofs</code> and is a no-op on a managed working copy: a managed file's edits live in memory and nothing reaches the filesystem until <code>save()</code>, so <code>flush()</code> never commits and has no observable effect. Only <code>save()</code> is the commit boundary.</p>
 <h2 id="surgical-edits">Surgical edits</h2>
 <pre><code class="language-nift">f := file("README.md")
 f.open("rw")
@@ -53,6 +54,7 @@ f.append("\nDone.\n")
 f.save()
 f.close()</code></pre>
 <p><code>replace()</code> replaces all non-overlapping matches and returns the replacement count. <code>replace_once()</code>, <code>insert_before()</code> and <code>insert_after()</code> require exactly one match/anchor. Zero or multiple matches are errors and leave the working contents unchanged.</p>
+<p><code>read()</code>, <code>read(n)</code>, <code>write()</code>, <code>write_line()</code> and <code>seek()</code> move the cursor; structural edits (<code>replace()</code>, <code>replace_once()</code>, <code>insert()</code>, <code>insert_before()</code>, <code>insert_after()</code>, <code>prepend()</code>, <code>append()</code>) leave the cursor where it was, clamped to the new working length, and <code>revert()</code> resets it to the start.</p>
 <h2 id="rollback">Explicit rollback</h2>
 <pre><code class="language-nift">f := file("config.json")
 f.open("rw")
