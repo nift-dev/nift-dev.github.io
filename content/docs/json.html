@@ -80,4 +80,9 @@
 <h2 id="scope-and-failures">Scope and failures</h2>
 <p>Bindings follow Nift's lexical scope rules. Malformed values, missing or escaping paths, schema failures, missing members and invalid indices produce source-located build errors.</p>
 <div class="docs-next"><span>Next</span><a href="@path('docs/json-schema')">JSON Schema validation →</a></div>
+<h2 id="frontend-collection-algebra">Frontend collection algebra</h2>
+<p>JSON arrays use the same non-mutating frontend operations as other Nift arrays, including <code>partition</code>, <code>unique_by</code>, <code>min_by</code>/<code>max_by</code>, <code>count_by</code>, <code>take</code>/<code>drop</code>/<code>chunk</code>, <code>group_by_each</code>, and stable compound <code>sort_by</code>. See <a href="@path('docs/collections')">Collection Operations</a> for the complete reference.</p>
+<pre><code class="language-nift">\$[published := data.posts.partition(p =&gt; p.published).matched]
+\$[by_tag := published.group_by_each(p =&gt; p.tags)]
+\$[cards := published.sort_by(p =&gt; p.featured, "desc", p =&gt; p.date, "desc").take(6)]</code></pre>
 </article>

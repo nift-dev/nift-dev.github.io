@@ -14,8 +14,15 @@
 <tr><td><code>find(cb)</code></td><td>array</td><td>value / null</td><td>First matching element or <code>null</code>.</td></tr>
 <tr><td><code>find_index(cb)</code></td><td>array</td><td>number</td><td>Index of the first match or <code>-1</code>.</td></tr>
 <tr><td><code>count(cb)</code></td><td>array</td><td>number</td><td>How many elements match.</td></tr>
-<tr><td><code>sort_by(cb)</code></td><td>array</td><td>array</td><td>Sorted copy by a scalar key.</td></tr>
+<tr><td><code>sort_by(cb[, "dir", cb, "dir"...])</code></td><td>array</td><td>array</td><td>Stable sorted copy; compound keys support independent <code>asc</code>/<code>desc</code> directions.</td></tr>
 <tr><td><code>group_by(cb)</code></td><td>array</td><td>object</td><td>Group elements into <code>key → array</code>.</td></tr>
+<tr><td><code>group_by_each(cb)</code></td><td>array</td><td>object</td><td>Place each item into zero or more generated-key groups.</td></tr>
+<tr><td><code>partition(cb)</code></td><td>array</td><td>object</td><td>Split once into named <code>matched</code>/<code>unmatched</code> arrays.</td></tr>
+<tr><td><code>unique_by(cb)</code></td><td>array</td><td>array</td><td>Deduplicate by derived value, preserving first occurrence.</td></tr>
+<tr><td><code>min_by(cb)</code> / <code>max_by(cb)</code></td><td>array</td><td>value</td><td>Single-pass item selection by scalar key.</td></tr>
+<tr><td><code>count_by(cb)</code></td><td>array</td><td>object</td><td>Count items by generated scalar key.</td></tr>
+<tr><td><code>take(n)</code> / <code>drop(n)</code></td><td>array</td><td>array</td><td>Take a prefix or drop a prefix without mutation.</td></tr>
+<tr><td><code>chunk(n)</code></td><td>array</td><td>array of arrays</td><td>Split into positive-sized chunks, retaining the final partial chunk.</td></tr>
 <tr><td><code>unique()</code></td><td>array</td><td>array</td><td>Deduplicate using structural equality.</td></tr>
 <tr><td><code>flatten()</code></td><td>array</td><td>array</td><td>Flatten one level of nested arrays.</td></tr>
 <tr><td><code>sum()</code></td><td>array of numbers</td><td>number</td><td>Total (<code>0</code> on an empty array).</td></tr>
@@ -69,12 +76,37 @@
 <h3 id="count">count(cb)</h3>
 <p>Returns how many elements match the callback.</p>
 <pre><code class="language-nift">\$[n := [1, 2, 3, 4].count(x =&gt; x % 2 == 0)]</code></pre>
-<h3 id="sort-by">sort_by(cb)</h3>
-<p>Returns a new array ordered by each element's scalar key (number, string or boolean), ascending. Stable; non-mutating.</p>
-<pre><code class="language-nift">\$[newest := posts.sort_by(p =&gt; p.year)]</code></pre>
+<h3 id="sort-by">sort_by(cb[, "dir", cb, "dir"...])</h3>
+<p>Returns a stable, non-mutating sorted copy. The original one-selector form remains ascending. Compound sorting supplies selector/direction pairs; each selector is evaluated once per item and each direction is <code>"asc"</code> or <code>"desc"</code>. Items tied on every key retain source order.</p>
+<pre><code class="language-nift">\$[by_year := posts.sort_by(p =&gt; p.year)]
+\$[featured_newest := posts.sort_by(p =&gt; p.featured, "desc", p =&gt; p.date, "desc", p =&gt; p.title, "asc")]</code></pre>
 <h3 id="group-by">group_by(cb)</h3>
 <p>Returns an object mapping each scalar key to an array of the elements sharing it. Keys are produced by rendering the callback result.</p>
 <pre><code class="language-nift">\$[by_year := posts.group_by(p =&gt; p.year)]</code></pre>
+<h3 id="partition">partition(cb)</h3>
+<p>Evaluates the predicate once per item and returns <code>{matched, unmatched}</code>; both arrays preserve source order. This is useful for featured/rest or published/draft presentation without two filter passes.</p>
+<pre><code class="language-nift">\$[parts := posts.partition(p =&gt; p.featured)]
+\$[hero := parts.matched.first()]
+\$[rest := parts.unmatched]</code></pre>
+<h3 id="unique-by">unique_by(cb)</h3>
+<p>Returns the first item for each structurally distinct derived value. Selector evaluation is once per source item and source order is preserved.</p>
+<pre><code class="language-nift">\$[authors := posts.unique_by(p =&gt; p.author_id)]</code></pre>
+<h3 id="min-max-by">min_by(cb) / max_by(cb)</h3>
+<p>Select an item in one pass using a homogeneous scalar key. The first source item wins ties; an empty array is an error.</p>
+<pre><code class="language-nift">\$[oldest := posts.min_by(p =&gt; p.date)]
+\$[newest := posts.max_by(p =&gt; p.date)]</code></pre>
+<h3 id="count-by">count_by(cb)</h3>
+<p>Returns an insertion-ordered object of generated scalar keys to counts, with keys ordered by first occurrence.</p>
+<pre><code class="language-nift">\$[counts := posts.count_by(p =&gt; p.category)]</code></pre>
+<h3 id="take-drop-chunk">take(n) / drop(n) / chunk(n)</h3>
+<p>Array-only presentation helpers. <code>take</code> keeps a prefix, <code>drop</code> removes a prefix, and <code>chunk</code> makes positive-sized groups while retaining a final partial group. They are non-mutating; negative/non-integer counts are errors and <code>chunk(0)</code> is an error.</p>
+<pre><code class="language-nift">\$[hero := posts.take(1)]
+\$[rest := posts.drop(1)]
+\$[rows := products.chunk(3)]</code></pre>
+<h3 id="group-by-each">group_by_each(cb)</h3>
+<p>For many-to-many metadata, the selector returns an array of scalar keys. An item is added once to every selected group; duplicate keys from one item are deduplicated, groups follow first occurrence, and members retain source order.</p>
+<pre><code class="language-nift">\$[posts_by_tag := posts.group_by_each(p =&gt; p.tags)]
+\$[nift_posts := posts_by_tag.get("nift", [])]</code></pre>
 <h2 id="selection">Selection and aggregation</h2>
 <h3 id="unique">unique()</h3>
 <p>Returns a new array with structural duplicates removed, keeping first occurrence order.</p>
