@@ -8,7 +8,7 @@
 <div class="table-wrap"><table class="reference-table"><thead><tr><th>Relation</th><th>Result</th><th>Cost</th></tr></thead><tbody>
 <tr><td><code>page.parent</code></td><td>The parent page value, or <code>null</code> for the root.</td><td>O(1)</td></tr>
 <tr><td><code>page.children</code></td><td>Direct children in tracked order.</td><td>O(children)</td></tr>
-<tr><td><code>page.ancestors</code></td><td>Ancestors from the parent up to the root, excluding self.</td><td>O(depth)</td></tr>
+<tr><td><code>page.ancestors</code></td><td>Ancestors top-down (root first, immediate parent last), excluding self.</td><td>O(depth)</td></tr>
 <tr><td><code>page.descendants</code></td><td>All descendants in pre-order, excluding self.</td><td>O(descendants)</td></tr>
 <tr><td><code>page.siblings</code></td><td>Other children of the parent, excluding self.</td><td>O(siblings)</td></tr>
 </tbody></table></div>
