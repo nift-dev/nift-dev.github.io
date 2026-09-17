@@ -1,7 +1,7 @@
 <article class="docs-article">
 <p class="docs-kicker">Scripting · File streams</p>
 <h1>File streams.</h1>
-<p class="docs-lead">Use <code>open(path)</code> for convenient whole-file text. Use <code>ifs(path)</code> and <code>ofs(path)</code> when data should be consumed or produced incrementally.</p>
+<p class="docs-lead">Use <code>open(path)</code> for convenient whole-file text, <code>file(path)</code> for managed transactional editing, and <code>ifs(path)</code>/<code>ofs(path)</code> when data should be consumed or produced incrementally.</p>
 <h2 id="input">Input streams</h2>
 <pre><code class="language-nift">stream := ifs("data.txt")
 
@@ -28,5 +28,5 @@ out.write_line(" world")
 out.flush()
 close(out)</code></pre>
 <p><code>ofs(path)</code> creates/truncates its output file. Streams are resource values with identity and closed-state checks; they are not directly renderable as template/console values.</p>
-<div class="docs-next"><span>Related</span><a href="@path('docs/scripting-filesystem')">Filesystem operations →</a></div>
+<div class="docs-next"><span>Related</span><a href="@path('docs/scripting-managed-files')">Managed files →</a></div>
 </article>

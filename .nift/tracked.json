@@ -429,6 +429,11 @@
       "name": "docs/scripting-streams",
       "title": "File streams",
       "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/scripting-managed-files",
+      "title": "Managed files",
+      "template": "templates/template.html"
     }
   ]
 }

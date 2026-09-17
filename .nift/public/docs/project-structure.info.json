@@ -78,6 +78,7 @@
     "public/docs/scripting-filesystem.html",
     "public/docs/scripting-imports.html",
     "public/docs/scripting-io.html",
+    "public/docs/scripting-managed-files.html",
     "public/docs/scripting-run-shell.html",
     "public/docs/scripting-streams.html",
     "public/docs/scripting.html",

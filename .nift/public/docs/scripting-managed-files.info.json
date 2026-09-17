@@ -1,0 +1,38 @@
+{
+  "name": "docs/scripting-managed-files",
+  "title": "Managed files",
+  "template": "templates/template.html",
+  "content": "content/docs/scripting-managed-files.html",
+  "output": "public/docs/scripting-managed-files.html",
+  "minify": true,
+  "minify-version": 1,
+  "pagination": false,
+  "pagination-items-per-page": 0,
+  "pagination-template": "",
+  "pagination-separator": "",
+  "pagination-pages": 0,
+  "dependencies": [
+    "content/docs/scripting-managed-files.html",
+    "templates/partials/footer.html",
+    "templates/partials/head.html",
+    "templates/partials/header.html",
+    "templates/template.html"
+  ],
+  "reqs": [
+    "public/about.html",
+    "public/assets/css/style.css",
+    "public/assets/images/favicon.png",
+    "public/assets/images/nift-logo.webp",
+    "public/assets/js/demo.js",
+    "public/assets/js/script.js",
+    "public/contact.html",
+    "public/developers.html",
+    "public/docs.html",
+    "public/docs/scripting-streams.html",
+    "public/examples.html",
+    "public/index.html",
+    "public/privacy.html",
+    "public/showcase.html",
+    "public/templates.html"
+  ]
+}
