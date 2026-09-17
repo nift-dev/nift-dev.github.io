@@ -1,0 +1,16 @@
+<article class="docs-article">
+<p class="docs-kicker">Content · Discovery</p><h1>Typed content.</h1>
+<p class="docs-lead">A tracked file with a content type becomes an ordinary read-only Nift value in the project's semantic content index.</p>
+<h2 id="discover">Discover content</h2>
+<pre><code class="language-nift">\$[posts := project.content.post]
+\$[published := posts.filter(p =&gt; !p.draft)]
+\$[titles := posts.map(p =&gt; p.title)]</code></pre>
+<p><code>project.content.all</code> contains all typed content. <code>project.content.post</code> selects one type; dynamic object indexing can select a type whose name is computed.</p>
+<h2 id="values">Content values</h2>
+<p>Schema/front-matter fields are available directly, such as <code>post.title</code>. Intrinsic fields include <code>type</code>, <code>path</code>, <code>output_path</code>, <code>url</code>, <code>content</code> and the raw effective <code>metadata</code> object.</p>
+<h2 id="agents">Query without building</h2>
+<pre><code class="language-bash">nift eval --json '(project.content.post).map(p => p.title)'
+nift eval --json '(project.content.post).filter(p => !p.draft)'</code></pre>
+<p>The CLI uses the same expression engine and project model as templates. Project-content queries also participate in dependency tracking so content/model changes invalidate dependent outputs.</p>
+<div class="docs-next"><span>Next</span><a href="@path('docs/taxonomies')">Taxonomies →</a></div>
+</article>

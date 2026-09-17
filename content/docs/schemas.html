@@ -1,0 +1,26 @@
+<article class="docs-article">
+<p class="docs-kicker">Content · Validation</p><h1>Schemas.</h1>
+<p class="docs-lead">Native <code>.schema</code> files give tracked content a small, readable content model while reusing Nift's existing value and validation concepts.</p>
+<h2 id="define">Define a schema</h2>
+<pre><code class="language-nift">@schema(post) {
+    title: string
+    draft: bool = false
+    tags: taxonomy(tag)[]
+}</code></pre>
+<p>A schema file may contain multiple declarations. Configure sources explicitly in <code>.nift/config.json</code>; Nift does not magic-scan directories.</p>
+<pre><code class="language-json">"schemas": ["model/content.schema"]</code></pre>
+<p>Fields support scalar types, arrays, optional fields with <code>?</code>, defaults with <code>=</code>, and taxonomy references. Effective front matter is validated before typed content enters the project content index.</p>
+<h2 id="types">Assign a content type</h2>
+<p>Use conventional front matter:</p><pre><code class="language-yaml">---
+type: post
+title: Hello
+tags:
+  - nift
+---</code></pre>
+<p>or set <code>"type": "post"</code> on the file entry in <code>.nift/tracked.json</code>. If both specify a type they must agree.</p>
+<h2 id="introspection">Inspect schemas</h2>
+<pre><code class="language-nift">\$[project.schemas.post.name]
+\$[(project.schemas).keys()]</code></pre>
+<pre><code class="language-bash">nift eval --json 'project.schemas.post'</code></pre>
+<div class="docs-next"><span>Next</span><a href="@path('docs/typed-content')">Typed content →</a></div>
+</article>

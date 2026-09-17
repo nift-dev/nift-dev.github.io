@@ -17,5 +17,10 @@
 <pre><code class="language-bash">nift eval --json 'project.files.size()'
 nift eval --json 'project.files.map(f => f.path)'</code></pre>
 <p>Running project-dependent expressions outside a Nift project fails rather than inventing project state. This keeps the CLI and build-time expression hosts aligned.</p>
+<h2 id="semantic-content">Schemas, content and taxonomies</h2>
+<pre><code class="language-nift">\$[(project.schemas).keys()]
+\$[(project.content.post).map(p =&gt; p.title)]
+\$[(project.taxonomies.tag).map(t =&gt; t.name)]</code></pre>
+<p>Typed content and taxonomy indexes are ordinary project values, so the same collection methods work in templates and <code>nift eval</code>.</p>
 <div class="docs-next"><span>Related</span><a href="@path('docs/frontmatter')">Front matter →</a></div>
 </article>

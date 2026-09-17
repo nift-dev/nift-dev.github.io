@@ -444,6 +444,21 @@
       "name": "docs/frontmatter",
       "title": "Front matter",
       "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/schemas",
+      "title": "Schemas",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/typed-content",
+      "title": "Typed content",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/taxonomies",
+      "title": "Taxonomies",
+      "template": "templates/docs.html"
     }
   ]
 }

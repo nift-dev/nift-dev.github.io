@@ -1,0 +1,24 @@
+<article class="docs-article">
+<p class="docs-kicker">Content · Classification</p><h1>Taxonomies.</h1>
+<p class="docs-lead">Nift keeps the familiar taxonomy model: declare a classification system once, reference it from schemas, and let terms emerge from typed content.</p>
+<h2 id="declare">Declare taxonomies</h2>
+<pre><code class="language-nift">@taxonomy(tag)
+@taxonomy(section) {
+    hierarchical: true
+}</code></pre>
+<p>Taxonomy definitions live in <code>.tax</code> files configured explicitly:</p>
+<pre><code class="language-json">"taxonomies": ["model/site.tax"]</code></pre>
+<h2 id="schema">Use them in schemas</h2>
+<pre><code class="language-nift">@schema(article) {
+    title: string
+    tags: taxonomy(tag)[]
+    section: taxonomy(section)?
+}</code></pre>
+<p>Repeated terms resolve to one semantic term. Nift builds reverse indexes so each term exposes the content classified by it.</p>
+<h2 id="query">Query terms</h2>
+<pre><code class="language-nift">\$[tags := project.taxonomies.tag]
+\$[popular := tags.filter(t =&gt; t.content.size() &gt;= 2)]</code></pre>
+<p>Term values expose <code>name</code>, a deterministic <code>slug</code>, and <code>content</code>. Hierarchical taxonomy terms written as paths also expose their parent path.</p>
+<pre><code class="language-bash">nift eval --json '(project.taxonomies.tag).map(t => t.name)'</code></pre>
+<div class="docs-next"><span>Related</span><a href="@path('docs/frontmatter')">Front matter →</a></div>
+</article>

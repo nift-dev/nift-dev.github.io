@@ -16,7 +16,9 @@
     "minify-exts": [],
     "contracts": {
       "routes": ".nift/routes.json"
-    }
+    },
+    "schemas": ["model/content.schema"],
+    "taxonomies": ["model/site.tax"]
   }
 }</code></pre>
   <p>For a web project, <code>public/</code> is a useful conventional output directory because many servers, hosts and frameworks already use that name for browser-facing files. Nift does not require the directory to be called <code>public/</code>; it simply uses the value in <code>output-dir</code>.</p>
@@ -32,6 +34,8 @@
     <tr><td><code>incremental-mode</code></td><td>How Nift determines whether dependencies changed: <code>modified</code>, <code>hash</code>, or <code>hybrid</code>.</td></tr>
     <tr><td><code>minify-exts</code></td><td>Optional array of final output extensions to minify automatically, for example <code>[".html", ".css", ".js"]</code>. Supported formats are documented on the Minification page.</td></tr>
     <tr><td><code>contracts</code></td><td>Optional object mapping project-wide contract namespace names to project-relative JSON source paths. Referenced contracts become checked dependencies and are available through <code>\$[...]</code>.</td></tr>
+    <tr><td><code>schemas</code></td><td>Optional ordered array of project-relative <code>.schema</code> definition sources for typed content.</td></tr>
+    <tr><td><code>taxonomies</code></td><td>Optional ordered array of project-relative <code>.tax</code> definition sources.</td></tr>
   </tbody></table></div>
 
   <h2 id="how-tracked-names-become-paths">How tracked names become paths</h2>
