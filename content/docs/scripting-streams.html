@@ -1,9 +1,9 @@
 <article class="docs-article">
 <p class="docs-kicker">Scripting · File streams</p>
 <h1>File streams.</h1>
-<p class="docs-lead">Use <code>open(path)</code> for convenient whole-file text, <code>file(path)</code> for managed transactional editing, and <code>ifs(path)</code>/<code>ofs(path)</code> when data should be consumed or produced incrementally.</p>
+<p class="docs-lead">Use <code>open(path)</code> for convenient whole-file text, <code>file(path)</code> for managed transactional editing, and <code>ifstream(path)</code>/<code>ofstream(path)</code> when data should be consumed or produced incrementally.</p>
 <h2 id="input">Input streams</h2>
-<pre><code class="language-nift">stream := ifs("data.txt")
+<pre><code class="language-nift">stream := ifstream("data.txt")
 
 line := stream.read_line()
 rest := stream.read_all()
@@ -14,19 +14,34 @@ close(stream)</code></pre>
 <tr><td><code>read_line()</code></td><td>Read the next line.</td></tr>
 <tr><td><code>read_all()</code></td><td>Read the remaining stream contents.</td></tr>
 <tr><td><code>read_val()</code></td><td>Parse the next serialized Nift data value using Nift's value parser.</td></tr>
+<tr><td><code>write_val(value)</code></td><td>Serialize any value as compact JSON followed by a newline (JSON Lines), enabling round-trips with <code>read_val()</code>.</td></tr>
 <tr><td><code>eof()</code></td><td>Report the stream's EOF state.</td></tr>
 </tbody></table></div>
-<pre><code class="language-nift">values := ifs("values.txt")
+<pre><code class="language-nift">values := ifstream("values.txt")
 flag := values.read_val()
 count := values.read_val()
 items := values.read_val()</code></pre>
-<p><code>read_val()</code> understands supported serialized Nift data values such as <code>null</code>, booleans, integers, doubles, strings and arrays/data values. Malformed input is an error rather than silently becoming a string.</p>
+<p><code>read_val()</code> reads exactly one value from the current stream position, skipping leading whitespace, and leaves the position immediately after that value (trailing whitespace is not consumed). It understands supported serialized Nift data values: <code>null</code>, <code>true</code>/<code>false</code>, integers, floating-point numbers, quoted strings, JSON arrays and JSON objects, including nested structures. At end of stream it returns <code>null</code>. Repeated calls consume sequential values where the input separates them (for example JSON Lines or any whitespace-separated series). Malformed input is a hard error — <code>read_val()</code> reports <code>cannot parse value</code> rather than silently becoming a string. It is only valid on input streams.</p>
 <h2 id="output">Output streams</h2>
-<pre><code class="language-nift">out := ofs("result.txt")
+<pre><code class="language-nift">out := ofstream("result.txt")
 out.write("hello")
 out.write_line(" world")
+out.write_val({"count": 3, "ok": true})
 out.flush()
 close(out)</code></pre>
-<p><code>ofs(path)</code> creates/truncates its output file. Streams are resource values with identity and closed-state checks; they are not directly renderable as template/console values.</p>
+<p><code>ofstream(path)</code> creates/truncates its output file. Streams are resource values with identity and closed-state checks; they are not directly renderable as template/console values.</p>
+<p><code>write(value)</code> writes a renderable scalar (strings and numbers) without quotes; <code>write_line(value)</code> appends a newline. To serialize structured data use <code>write_val(value)</code>, which writes any value — scalar, array or object — as compact JSON followed by a newline. A <code>write_val()</code>/<code>read_val()</code> pair round-trips values through a file:</p>
+<pre><code class="language-nift">out := ofstream("data.jsonl")
+out.write_val({"name": "nift", "tags": ["build", "static"]})
+out.write_val([1, 2, 3])
+close(out)
+
+in := ifstream("data.jsonl")
+first := in.read_val()
+second := in.read_val()
+print(first.name)      # nift
+print(first.tags[0])   # build
+print(second.size())   # 3
+close(in)</code></pre>
 <div class="docs-next"><span>Related</span><a href="@path('docs/scripting-managed-files')">Managed files →</a></div>
 </article>

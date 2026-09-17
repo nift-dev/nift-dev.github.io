@@ -39,8 +39,9 @@ f.write_line(" value")
 f.flush()
 f.save()
 f.close()</code></pre>
-<p>Managed files provide <code>read()</code> (all remaining bytes), <code>read(n)</code>, <code>read_line()</code>, <code>read_all()</code>, <code>read_val()</code>, <code>eof()</code>, <code>tell()</code>, <code>seek(pos)</code>, <code>write(value)</code>, <code>write_line(value)</code> and <code>flush()</code>. Positions are byte offsets. Reads observe the current working contents, including unsaved edits.</p>
-<p><code>flush()</code> is retained for output-vocabulary parity with <code>ofs</code> and is a no-op on a managed working copy: a managed file's edits live in memory and nothing reaches the filesystem until <code>save()</code>, so <code>flush()</code> never commits and has no observable effect. Only <code>save()</code> is the commit boundary.</p>
+<p>Managed files provide <code>read()</code> (all remaining bytes), <code>read(n)</code>, <code>read_line()</code>, <code>read_all()</code>, <code>read_val()</code>, <code>eof()</code>, <code>tell()</code>, <code>seek(pos)</code>, <code>write(value)</code>, <code>write_line(value)</code>, <code>write_val(value)</code> and <code>flush()</code>. Positions are byte offsets. Reads observe the current working contents, including unsaved edits.</p>
+<p><code>read_val()</code> parses one serialized Nift data value (scalar, array or object) at the cursor, skipping leading whitespace, and advances the cursor past it; at end it returns <code>null</code>. <code>write_val(value)</code> writes the value's compact JSON serialization followed by a newline at the cursor, so sequential <code>write_val()</code>/<code>read_val()</code> pairs round-trip structured values. Malformed input to <code>read_val()</code> is a hard error.</p>
+<p><code>flush()</code> is retained for output-vocabulary parity with <code>ofstream</code> and is a no-op on a managed working copy: a managed file's edits live in memory and nothing reaches the filesystem until <code>save()</code>, so <code>flush()</code> never commits and has no observable effect. Only <code>save()</code> is the commit boundary.</p>
 <h2 id="surgical-edits">Surgical edits</h2>
 <pre><code class="language-nift">f := file("README.md")
 f.open("rw")
@@ -72,7 +73,7 @@ f.close()</code></pre>
 <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>API</th><th>Use it for</th></tr></thead><tbody>
 <tr><td><code>open(path)</code></td><td>A one-shot whole-file read into a string.</td></tr>
 <tr><td><code>file(path)</code></td><td>Explicitly managed, seekable and transactional file editing.</td></tr>
-<tr><td><code>ifs(path)</code> / <code>ofs(path)</code></td><td>Incremental streaming I/O without a managed working-copy transaction.</td></tr>
+<tr><td><code>ifstream(path)</code> / <code>ofstream(path)</code></td><td>Incremental streaming I/O without a managed working-copy transaction.</td></tr>
 </tbody></table></div>
 <div class="docs-next"><span>Next</span><a href="@path('docs/scripting-streams')">File streams →</a></div>
 </article>
