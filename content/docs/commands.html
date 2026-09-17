@@ -36,6 +36,8 @@ nift minify [-i|--in-place] file...
 # Scripting
 nift run path
 nift sh
+nift eval [--json] expression
+nift eval --capabilities
 
 # General
 nift about
@@ -123,7 +125,14 @@ nift minify -i generated/site.css</code></pre>
   <pre><code class="language-bash">nift run scripts/report.nift
 nift sh</code></pre>
 
-  <h2 id="general">General and aliases</h2>
+  <h2 id="eval">Evaluate expressions</h2>
+<p><code>nift eval</code> exposes the same expression engine used by templates and scripts, making small data queries available directly to shell scripts and coding agents.</p>
+<pre><code class="language-bash">nift eval '"hello".to_upper()'
+nift eval --json 'json("package.json").version'
+nift eval --json 'project.files.size()'
+nift eval --capabilities</code></pre>
+<p><code>--json</code> writes deterministic machine-readable JSON to stdout while diagnostics stay on stderr. <code>--capabilities</code> reports the evaluator contract and supported value-method surface for agents. When invoked inside a Nift project, the read-only <code>project</code> value is also available.</p>
+<h2 id="general">General and aliases</h2>
   <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Canonical command</th><th>Purpose</th><th>Aliases</th></tr></thead><tbody>
   <tr><td><code>nift about</code></td><td>Shows a short project description, installed version, license and website.</td><td>—</td></tr>
   <tr><td><code>nift version</code></td><td>Prints the installed version.</td><td><code>--version</code>, <code>-v</code></td></tr>

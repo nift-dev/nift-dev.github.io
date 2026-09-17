@@ -434,6 +434,16 @@
       "name": "docs/scripting-managed-files",
       "title": "Managed files",
       "template": "templates/template.html"
+    },
+    {
+      "name": "docs/project-data",
+      "title": "Project information",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/frontmatter",
+      "title": "Front matter",
+      "template": "templates/docs.html"
     }
   ]
 }

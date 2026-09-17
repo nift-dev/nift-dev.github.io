@@ -1,0 +1,21 @@
+<article class="docs-article">
+<p class="docs-kicker">Core language · Project model</p>
+<h1>Project information.</h1>
+<p class="docs-lead">Templates, scripts and <code>nift eval</code> can inspect the same read-only semantic view of the current Nift project.</p>
+<h2 id="project-value">The <code>project</code> value</h2>
+<pre><code class="language-nift">\$[project.name]
+\$[project.root]
+\$[project.output]
+\$[project.mode]
+\$[project.files.size()]</code></pre>
+<p>The public boundary contains project facts rather than mutable engine bookkeeping. Project values are ordinary Nift data, so the normal object and collection methods apply.</p>
+<h2 id="tracked-files">Tracked files</h2>
+<p><code>project.files</code> is deterministic and contains one value per tracked item. File values expose <code>name</code>, <code>title</code>, <code>path</code>, <code>output_path</code>, <code>url</code>, <code>extension</code> and <code>metadata</code>.</p>
+<pre><code class="language-nift">\$[html := project.files.filter(f =&gt; f.extension == ".html")]
+\$[names := project.files.map(f =&gt; f.name)]</code></pre>
+<h2 id="agents">The same model for agents</h2>
+<pre><code class="language-bash">nift eval --json 'project.files.size()'
+nift eval --json 'project.files.map(f => f.path)'</code></pre>
+<p>Running project-dependent expressions outside a Nift project fails rather than inventing project state. This keeps the CLI and build-time expression hosts aligned.</p>
+<div class="docs-next"><span>Related</span><a href="@path('docs/frontmatter')">Front matter →</a></div>
+</article>

@@ -1,9 +1,9 @@
 {
-  "name": "docs/getting-started",
-  "title": "Getting started",
+  "name": "docs/frontmatter",
+  "title": "Front matter",
   "template": "templates/docs.html",
-  "content": "content/docs/getting-started.html",
-  "output": "public/docs/getting-started.html",
+  "content": "content/docs/frontmatter.html",
+  "output": "public/docs/frontmatter.html",
   "minify": true,
   "minify-version": 1,
   "pagination": false,
@@ -12,7 +12,7 @@
   "pagination-separator": "",
   "pagination-pages": 0,
   "dependencies": [
-    "content/docs/getting-started.html",
+    "content/docs/frontmatter.html",
     "templates/docs.html",
     "templates/partials/docs-sidebar.html",
     "templates/partials/footer.html",

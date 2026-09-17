@@ -1,0 +1,28 @@
+<article class="docs-article">
+<p class="docs-kicker">Content · Metadata</p>
+<h1>Front matter.</h1>
+<p class="docs-lead">Nift supports conventional YAML front matter on tracked content and an explicit external front-matter file in <code>.nift/tracked.json</code>.</p>
+<h2 id="inline">Inline YAML front matter</h2>
+<pre><code class="language-yaml">---
+type: post
+title: Nift 4.3 released
+draft: false
+tags:
+  - nift
+  - release
+---</code></pre>
+<p>The front-matter block is metadata and is removed before the content body is rendered. Its values use Nift's ordinary null, boolean, number, string, array and object value model. During the page build the object is available as <code>frontmatter</code>.</p>
+<pre><code class="language-nift">\$[frontmatter.title]
+\$[frontmatter.tags.size()]</code></pre>
+<h2 id="external">External front matter</h2>
+<pre><code class="language-json">{
+  "name": "posts/generated",
+  "title": "Generated post",
+  "frontmatter": "metadata/posts/generated.yaml"
+}</code></pre>
+<p>External front matter is project-confined and can currently be YAML or JSON. This is useful when another tool or agent owns metadata separately from the authored body.</p>
+<h2 id="one-source">Exactly one source</h2>
+<div class="docs-callout"><strong>Inline + external is an error.</strong><p>Nift does not merge two front-matter sources and has no hidden precedence rule. Use inline front matter, configured external front matter, or neither.</p></div>
+<p>A tracked <code>type</code> may supply the content type separately. If both tracked configuration and front matter provide a type, they must agree.</p>
+<div class="docs-next"><span>Related</span><a href="@path('docs/project-data')">Project information →</a></div>
+</article>

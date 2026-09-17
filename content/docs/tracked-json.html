@@ -43,7 +43,16 @@
   <div class="docs-callout"><strong>Omission is the preferred representation.</strong><p>The historical <code>"template": ""</code> form remains a backward-compatible template-less alias, but new entries should omit the field. Switching an entry between templated and template-less forms also updates the dependency relationship: an old template is not retained as a stale dependency.</p></div>
   <div class="docs-callout"><strong>Static assets are untracked by default.</strong><p><code>nift init</code> creates starter CSS and JavaScript directly in the configured output tree and leaves them out of <code>tracked.json</code>. This avoids duplicate <code>content/</code> and <code>public/</code> copies when Nift has no transformation to perform. Use a template-less tracked entry only when an asset genuinely needs Nift syntax, build-time data, dependency tracking or output minification.</p></div>
 
-  <h2 id="optional-per-item-extensions">Optional per-item extensions</h2>
+  <h2 id="content-type-and-frontmatter">Content type and external front matter</h2>
+<p>A tracked entry may declare a content <code>type</code> and may point at one external <code>frontmatter</code> file. These fields are the foundation for the typed-content campaign; <code>type</code> is already exposed in effective metadata.</p>
+<pre><code class="language-json">{
+  "name": "posts/hello",
+  "title": "Hello",
+  "type": "post",
+  "frontmatter": "metadata/posts/hello.yaml"
+}</code></pre>
+<p>External front matter may be YAML or JSON. A content file may instead contain conventional <code>---</code>-delimited YAML front matter. <strong>There is deliberately no merge precedence:</strong> configuring external front matter for a file that also contains inline front matter is a build error.</p>
+<h2 id="optional-per-item-extensions">Optional per-item extensions</h2>
   <p>An entry can override the project's default content or output extension:</p>
   <pre><code class="language-json">{
   "name": "feed",
