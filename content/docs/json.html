@@ -45,7 +45,7 @@
 <pre><code class="language-nift">\$[names := config.keys()]
 \$[port := config.get("port", 8080)]
 \$[full := defaults.merge(overrides)]</code></pre>
-<p>When a chain ends in a member access, bind the intermediate value first: <code>first := published.first()</code> then <code>first.title</code>.</p>
+<p>Chains compose directly across calls, members and indices: <code>first := published.first()</code> and <code>published.first().title</code> are equivalent, so a filtered collection can be queried inline.</p>
 <h2 id="inject-json">Load expression source from a file</h2>
 <pre><code class="language-nift">\$[site := inject("data/site.nift")]
 \$[products := inject("data/products.nift")]</code></pre>
