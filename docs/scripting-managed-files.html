@@ -1,0 +1,51 @@
+<!doctype html> <html lang="en"> <head> <title>Nift — Managed files</title> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1"> <meta name="description" content="Nift — Managed files. Documentation, examples and guidance for the fast, dependency-aware website templating and build system."> <link rel="canonical" href="https://nift.dev/docs/scripting-managed-files.html"> <meta name="theme-color" content="#071c29"> <meta name="robots" content="index,follow"> <meta name="application-name" content="Nift"> <link rel="sitemap" type="application/xml" href="/sitemap.xml"> <link rel="alternate" type="text/plain" href="/llms.txt" title="Nift agent index"> <link rel="alternate" type="text/markdown" href="/agents.md" title="Nift agent guide"> <script>
+	(() => {
+		const mode = localStorage.getItem('nift-theme') || 'system';
+		const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+		document.documentElement.dataset.themeMode = mode;
+		document.documentElement.dataset.theme = mode === 'system' ? (systemDark ? 'dark' : 'light') : mode;
+	})();
+	</script> <link rel="icon" type="image/png" href="../assets/images/favicon.png"> <link rel="stylesheet" href="../assets/css/style.css"> </head> <body> <header class="site-header" data-header> <a class="brand" href="../" aria-label="Nift home"> <img src="../assets/images/nift-logo.webp" alt="Nift" width="420" height="162"> </a> <div class="header-actions"> <nav class="desktop-nav" aria-label="Primary navigation"> <a href="../">Home</a> <a href="../docs.html">Docs</a> <a href="../templates.html">Templates</a> <a href="../examples.html">Examples</a> <a href="../showcase.html">Showcase</a> <a href="https://github.com/nift-dev/nift" target="_blank" rel="noreferrer">GitHub</a> </nav> <div class="theme-switcher desktop-theme-switcher" role="group" aria-label="Colour theme"> <button type="button" data-theme-choice="system" title="Use system theme">System</button> <button type="button" data-theme-choice="light" title="Use light theme">Light</button> <button type="button" data-theme-choice="dark" title="Use dark theme">Dark</button> </div> <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" data-menu-toggle> <span></span><span></span> </button> </div> </header> <div class="mobile-nav" data-mobile-nav> <a href="../">Home</a> <a href="../docs.html">Documentation</a> <a href="../templates.html">Templates</a> <a href="../examples.html">Examples</a> <a href="../showcase.html">Showcase</a> <a href="https://github.com/nift-dev/nift" target="_blank" rel="noreferrer">GitHub</a> <div class="mobile-theme-row"> <span>Theme</span> <div class="theme-switcher" role="group" aria-label="Colour theme"> <button type="button" data-theme-choice="system">System</button> <button type="button" data-theme-choice="light">Light</button> <button type="button" data-theme-choice="dark">Dark</button> </div> </div> </div> <article class="docs-article"> <p class="docs-kicker">Scripting · Managed files</p> <h1>Safe, transactional file editing.</h1> <p class="docs-lead"><code>file(path)</code> creates a managed file value for seekable reads/writes and surgical edits. Content operations require an explicit <code>open()</code>; changes are not committed until <code>save()</code>.</p> <h2 id="lifecycle">Lifecycle</h2> <pre><code class="language-nift">f := file("src/main.cpp")
+f.open("rw")
+
+f.replace_once(
+    "constexpr int version = 3;",
+    "constexpr int version = 4;"
+)
+f.insert_after("#include &lt;string&gt;", "\n#include &lt;vector&gt;")
+
+if(f.modified()) {
+    f.save()
+}
+f.close()</code></pre> <p><code>open()</code> defaults to read-only <code>"r"</code>. Modes are <code>r</code>, <code>w</code>, <code>a</code> and <code>rw</code>. A dirty file cannot be closed: call <code>save()</code> to commit it or <code>revert()</code> to abandon pending edits first. Exiting <code>nift run</code> or <code>nift sh</code> with a managed file still open is an error; unsaved state is discarded during cleanup.</p> <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Method</th><th>Purpose</th></tr></thead><tbody> <tr><td><code>path()</code> / <code>exists()</code></td><td>Inspect the path-backed value without opening it.</td></tr> <tr><td><code>open()</code> / <code>open(mode)</code></td><td>Begin a managed session. Default mode is <code>r</code>.</td></tr> <tr><td><code>modified()</code></td><td>Report whether working contents differ from the last saved state.</td></tr> <tr><td><code>save()</code></td><td>Atomically commit writable working contents where the platform supports replacement; remain open and clean.</td></tr> <tr><td><code>revert()</code></td><td>Discard pending edits and restore the last saved contents.</td></tr> <tr><td><code>close()</code></td><td>Close a clean session. Closing a dirty session is an error.</td></tr> </tbody></table></div> <h2 id="reading-writing">Seekable reading and writing</h2> <pre><code class="language-nift">f := file("values.txt")
+f.open("rw")
+line := f.read_line()
+f.seek(0)
+head := f.read(8)
+position := f.tell()
+rest := f.read_all()
+f.seek(0)
+f.write("updated")
+f.write_line(" value")
+f.flush()
+f.save()
+f.close()</code></pre> <p>Managed files provide <code>read()</code> (all remaining bytes), <code>read(n)</code>, <code>read_line()</code>, <code>read_all()</code>, <code>read_val()</code>, <code>eof()</code>, <code>tell()</code>, <code>seek(pos)</code>, <code>write(value)</code>, <code>write_line(value)</code> and <code>flush()</code>. Positions are byte offsets. Reads observe the current working contents, including unsaved edits.</p> <h2 id="surgical-edits">Surgical edits</h2> <pre><code class="language-nift">f := file("README.md")
+f.open("rw")
+f.replace("old-name", "new-name")
+f.replace_once("Version 4.2", "Version 4.3")
+f.insert(0, "&lt;!-- generated --&gt;\n")
+f.insert_before("## Install", "Intro text\n\n")
+f.insert_after("## Install", "\nRun `nift build`.")
+f.prepend("Title\n")
+f.append("\nDone.\n")
+f.save()
+f.close()</code></pre> <p><code>replace()</code> replaces all non-overlapping matches and returns the replacement count. <code>replace_once()</code>, <code>insert_before()</code> and <code>insert_after()</code> require exactly one match/anchor. Zero or multiple matches are errors and leave the working contents unchanged.</p> <h2 id="rollback">Explicit rollback</h2> <pre><code class="language-nift">f := file("config.json")
+f.open("rw")
+f.replace_once(old, replacement)
+if(valid) {
+    f.save()
+}
+else {
+    f.revert()
+}
+f.close()</code></pre> <h2 id="closed-operations">Closed-state path operations</h2> <p>A managed file must be closed for <code>copy(destination)</code>, <code>move(destination)</code> and <code>remove()</code>. Copy and move return a new <code>file(destination)</code> value and reuse Nift's existing filesystem/path-security rules.</p> <h2 id="which-api">Which file API?</h2> <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>API</th><th>Use it for</th></tr></thead><tbody> <tr><td><code>open(path)</code></td><td>A one-shot whole-file read into a string.</td></tr> <tr><td><code>file(path)</code></td><td>Explicitly managed, seekable and transactional file editing.</td></tr> <tr><td><code>ifs(path)</code> / <code>ofs(path)</code></td><td>Incremental streaming I/O without a managed working-copy transaction.</td></tr> </tbody></table></div> <div class="docs-next"><span>Next</span><a href="./scripting-streams.html">File streams →</a></div> </article> <footer class="site-footer"> <div class="footer-inner"> <div> <strong>Nift</strong> <p>Build the web without letting your build tool own it.</p> </div> <div class="footer-links"> <a href="../docs.html">Documentation</a> <a href="../templates.html">Templates</a> <a href="../examples.html">Examples</a> <a href="../developers.html">Developers</a> <a href="../about.html">About</a> <a href="https://github.com/nift-dev/nift" target="_blank" rel="noreferrer">GitHub</a> </div> </div> <div class="footer-bottom"> <span>Open source · MIT licensed · <a href="../privacy.html">Privacy</a> · <a href="../contact.html">Contact</a></span> <span>© <span data-current-year></span></span> </div> </footer> <script>document.querySelectorAll("[data-current-year]").forEach(function(el){el.textContent=String(new Date().getFullYear());});</script> <script defer src="../assets/js/demo.js"></script> <script defer src="../assets/js/script.js"></script> </body> </html>
