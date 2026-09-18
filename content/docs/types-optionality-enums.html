@@ -1,0 +1,62 @@
+<h1>Types, optionality, ranges &amp; enums</h1>
+<p class="docs-lead">Nift v4.3 adds runtime type inspection, null propagation/defaulting, compact destructuring, integer ranges and symbolic integer-backed enums. These use the same expression engine in templates, <code>nift run</code> and <code>nift eval</code>.</p>
+
+<h2 id="types">Runtime type inspection</h2>
+<p><code>type(value)</code> returns a stable public type name. Numeric values distinguish <code>int</code> from <code>float</code>; <code>is_number()</code> accepts either.</p>
+<pre><code class="language-nift">type(null)       # "null"
+type(42)         # "int"
+type(3.14)       # "float"
+type("nift")     # "string"
+
+is_null(null)    # true
+is_number(3.14)  # true
+is_int(42)       # true
+is_float(3.14)   # true</code></pre>
+<table><thead><tr><th>Function</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>type(value)</code></td><td>Returns the stable public runtime type.</td></tr>
+<tr><td><code>is_null</code>, <code>is_bool</code></td><td>Null and boolean predicates.</td></tr>
+<tr><td><code>is_number</code>, <code>is_int</code>, <code>is_float</code></td><td>Numeric predicates; <code>number</code> is the int/float union.</td></tr>
+<tr><td><code>is_string</code>, <code>is_array</code>, <code>is_object</code></td><td>Core JSON/value predicates.</td></tr>
+<tr><td><code>is_struct</code>, <code>is_function</code>, <code>is_collection</code>, <code>is_enum</code></td><td>Nift runtime-value predicates.</td></tr>
+</tbody></table>
+<p>Nift has no separate public <code>undefined</code> value. Missing object access remains an error; <code>obj.has(key)</code> distinguishes a missing key from a present key containing <code>null</code>.</p>
+
+<h2 id="optionality">Null coalescing and safe access</h2>
+<pre><code class="language-nift">label := post.subtitle ?? "Untitled"
+name := user?.profile?.name ?? "Anonymous"
+value := maybe_object?[key]</code></pre>
+<p><code>??</code> evaluates its right-hand side only when the left side is <code>null</code>. <code>?.</code> and <code>?[]</code> are <strong>null propagation only</strong>: a null receiver produces null; a non-null receiver uses ordinary access rules. Missing members, missing keys and invalid receiver types therefore remain errors rather than being silently hidden.</p>
+
+<h2 id="destructuring">Destructuring</h2>
+<pre><code class="language-nift">[first, second] := pair
+[first, second] = next_pair
+
+{heading, date} := post
+{heading, date} = updated_post</code></pre>
+<p>v4.3 deliberately keeps destructuring small and predictable. Array patterns are flat and exact-length. Object patterns are flat, require every named key, and ignore unrelated extra keys. Nested patterns, rest elements, defaults and rename syntax are not part of the v4.3 surface.</p>
+
+<h2 id="ranges">Integer ranges</h2>
+<pre><code class="language-nift">range(5)          # [0,1,2,3,4]
+range(2, 6)       # [2,3,4,5]
+range(0, 10, 2)   # [0,2,4,6,8]
+range(10, 0, -2)  # [10,8,6,4,2]</code></pre>
+<p>Ranges are stop-exclusive, integer-only and materialize an array. A zero step is an error. A step pointing away from the stop produces an empty array.</p>
+
+<h2 id="enums">Enums</h2>
+<pre><code class="language-nift">enum Status {
+    Draft,
+    Published,
+    Archived
+}
+
+enum HttpStatus {
+    OK = 200,
+    Created,
+    NotFound = 404
+}
+
+Status.Published.to_int()     # 1
+Status.Published.to_string()  # "Published"
+type(Status.Published)        # "enum"
+is_enum(Status.Published)     # true</code></pre>
+<p>Implicit numbering starts at 0. Explicit and implicit integer values may be mixed; the next implicit member follows the previous value. Explicit values may be negative, but duplicate integer values and duplicate member names are errors. Enum members are symbolic values rather than arbitrary integers: use <code>to_int()</code> when the backing integer is required and <code>to_string()</code> for the member name. Arbitrary string/float/object/array backing values are intentionally not supported.</p>

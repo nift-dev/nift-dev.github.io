@@ -1,9 +1,9 @@
 {
-  "name": "docs/declarations-assignments",
-  "title": "Declarations and assignments",
+  "name": "docs/types-optionality-enums",
+  "title": "Types, optionality, ranges and enums",
   "template": "templates/docs.html",
-  "content": "content/docs/declarations-assignments.html",
-  "output": "public/docs/declarations-assignments.html",
+  "content": "content/docs/types-optionality-enums.html",
+  "output": "public/docs/types-optionality-enums.html",
   "minify": true,
   "minify-version": 1,
   "pagination": false,
@@ -14,7 +14,7 @@
   "project-fingerprint": "",
   "hierarchy-fingerprint": "",
   "dependencies": [
-    "content/docs/declarations-assignments.html",
+    "content/docs/types-optionality-enums.html",
     "templates/docs.html",
     "templates/partials/docs-sidebar.html",
     "templates/partials/footer.html",

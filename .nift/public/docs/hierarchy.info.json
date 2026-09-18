@@ -12,7 +12,7 @@
   "pagination-separator": "",
   "pagination-pages": 0,
   "project-fingerprint": "",
-  "hierarchy-fingerprint": "eee49355e071675c",
+  "hierarchy-fingerprint": "9d6c721be37c08a4",
   "dependencies": [
     ".nift/hierarchy.fingerprint",
     "content/docs/hierarchy.html",
@@ -97,6 +97,7 @@
     "public/docs/three-primitives.html",
     "public/docs/tracked-json.html",
     "public/docs/typed-content.html",
+    "public/docs/types-optionality-enums.html",
     "public/docs/use-cases/dashboards.html",
     "public/docs/use-cases/documentation.html",
     "public/docs/use-cases/mobile-development.html",

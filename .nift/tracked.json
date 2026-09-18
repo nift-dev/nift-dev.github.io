@@ -111,6 +111,11 @@
    "template": "templates/docs.html"
   },
   {
+   "name": "docs/types-optionality-enums",
+   "title": "Types, optionality, ranges and enums",
+   "template": "templates/docs.html"
+  },
+  {
    "name": "docs/declarations-assignments",
    "title": "Declarations and assignments",
    "template": "templates/docs.html"
