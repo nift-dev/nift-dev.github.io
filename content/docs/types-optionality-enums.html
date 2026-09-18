@@ -3,15 +3,23 @@
 
 <h2 id="types">Runtime type inspection</h2>
 <p><code>type(value)</code> returns a stable public type name. Numeric values distinguish <code>int</code> from <code>float</code>; <code>is_number()</code> accepts either.</p>
-<pre><code class="language-nift">type(null)       # "null"
-type(42)         # "int"
-type(3.14)       # "float"
-type("nift")     # "string"
+<pre><code class="language-nift">print(type(null))
+\@// "null"
+print(type(42))
+\@// "int"
+print(type(3.14))
+\@// "float"
+print(type("nift"))
+\@// "string"
 
-is_null(null)    # true
-is_number(3.14)  # true
-is_int(42)       # true
-is_float(3.14)   # true</code></pre>
+print(is_null(null))
+\@// true
+print(is_number(3.14))
+\@// true
+print(is_int(42))
+\@// true
+print(is_float(3.14))
+\@// true</code></pre>
 <table><thead><tr><th>Function</th><th>Meaning</th></tr></thead><tbody>
 <tr><td><code>type(value)</code></td><td>Returns the stable public runtime type.</td></tr>
 <tr><td><code>is_null</code>, <code>is_bool</code></td><td>Null and boolean predicates.</td></tr>
@@ -36,10 +44,14 @@ value := maybe_object?[key]</code></pre>
 <p>v4.3 deliberately keeps destructuring small and predictable. Array patterns are flat and exact-length. Object patterns are flat, require every named key, and ignore unrelated extra keys. Nested patterns, rest elements, defaults and rename syntax are not part of the v4.3 surface.</p>
 
 <h2 id="ranges">Integer ranges</h2>
-<pre><code class="language-nift">range(5)          # [0,1,2,3,4]
-range(2, 6)       # [2,3,4,5]
-range(0, 10, 2)   # [0,2,4,6,8]
-range(10, 0, -2)  # [10,8,6,4,2]</code></pre>
+<pre><code class="language-nift">print(range(5).join(","))
+\@// 0,1,2,3,4
+print(range(2, 6).join(","))
+\@// 2,3,4,5
+print(range(0, 10, 2).join(","))
+\@// 0,2,4,6,8
+print(range(10, 0, -2).join(","))
+\@// 10,8,6,4,2</code></pre>
 <p>Ranges are stop-exclusive, integer-only and materialize an array. A zero step is an error. A step pointing away from the stop produces an empty array.</p>
 
 <h2 id="enums">Enums</h2>
@@ -55,9 +67,13 @@ enum HttpStatus {
     NotFound = 404
 }
 
-Status.Published.to_int()     # 1
-Status.Published.to_string()  # "Published"
-type(Status.Published)        # "enum"
-is_enum(Status.Published)     # true</code></pre>
+print(Status.Published.to_int())
+\@// 1
+print(Status.Published.to_string())
+\@// Published
+print(type(Status.Published))
+\@// enum
+print(is_enum(Status.Published))
+\@// true</code></pre>
 <p>In standalone scripts use the native <code>enum Name { ... }</code> form shown above. In template source, the equivalent declaration is <code>\@enum(Name){ ... }</code>; declarations inside <code>\@script</code> use the native script form.</p>
 <p>Implicit numbering starts at 0. Explicit and implicit integer values may be mixed; the next implicit member follows the previous value. Explicit values may be negative, but duplicate integer values and duplicate member names are errors. Enum members are symbolic values rather than arbitrary integers: use <code>to_int()</code> when the backing integer is required and <code>to_string()</code> for the member name. Arbitrary string/float/object/array backing values are intentionally not supported.</p>
