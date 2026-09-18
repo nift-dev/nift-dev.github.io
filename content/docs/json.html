@@ -77,9 +77,12 @@
 <p>A missing key is an error through <code>obj["missing"]</code>; use <code>has(key)</code> to test membership and <code>get(key[, default])</code> to read with a fallback.</p>
 <h2 id="null-model">Null, missing keys and membership</h2>
 <p><code>null</code> is Nift's single first-class absence value: there is no separate <code>undefined</code>. Accessing a missing object member errors, and <code>get("missing")</code> returns <code>null</code> (or its default). A key stored with an explicit <code>null</code> value remains distinguishable from a missing key via <code>has(key)</code>.</p>
-<pre><code class="language-nift">\$[config.has("port")]     # false when absent, true when present even if null
-\$[config.get("port", 8080)] # fallback when absent
-\$[config["port"]]         # errors when absent</code></pre>
+<pre><code class="language-nift">\$[config.has("port")]
+\@// false when absent, true when present even if null
+\$[config.get("port", 8080)]
+\@// fallback when absent
+\$[config["port"]]
+\@// errors when absent</code></pre>
 <h2 id="inject-json">Load expression source from a file</h2>
 <pre><code class="language-nift">\$[site := inject("data/site.nift")]
 \$[products := inject("data/products.nift")]</code></pre>

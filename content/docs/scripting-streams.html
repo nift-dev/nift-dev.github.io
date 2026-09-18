@@ -39,9 +39,12 @@ close(out)
 in := ifstream("data.jsonl")
 first := in.read_val()
 second := in.read_val()
-print(first.name)      # nift
-print(first.tags[0])   # build
-print(second.size())   # 3
+print(first.name)
+\@// nift
+print(first.tags[0])
+\@// build
+print(second.size())
+\@// 3
 close(in)</code></pre>
 <div class="docs-next"><span>Related</span><a href="@path('docs/scripting-managed-files')">Managed files →</a></div>
 </article>

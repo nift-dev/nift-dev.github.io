@@ -16,9 +16,12 @@
 
 <h2 id="getting-pages">Getting a page value</h2>
 <p>In a page template, <code>page</code> binds to the current page. Anywhere (templates, scripts, <code>nift eval</code>), <code>page(name)</code> returns a tracked page by name:</p>
-<pre><code class="language-nift">\$[current := page]                       # current page (templates)
-\$[docs := page("docs")]                  # any tracked page by name
-\$[title := page("docs/advanced").title]  # data field on a page value</code></pre>
+<pre><code class="language-nift">\$[current := page]
+\@// current page (templates)
+\$[docs := page("docs")]
+\@// any tracked page by name
+\$[title := page("docs/advanced").title]
+\@// data field on a page value</code></pre>
 
 <h2 id="breadcrumbs">Breadcrumbs from ancestors</h2>
 <pre><code class="language-nift">\$[crumbs := page.ancestors.reverse().map(a =&gt; "&lt;a href=\"" + a.url + "\"&gt;" + a.title + "&lt;/a&gt;").join(" / ")]</code></pre>
