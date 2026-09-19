@@ -36,6 +36,6 @@ nift update sqlite
 nift remove sqlite</code></pre>
 <p>Package references may track <code>latest</code>, <code>latest-tag</code>, an explicit tag/branch/commit, or a local path. Remote dependencies are recorded in <code>.nift/packages.lock.json</code> at an exact Git commit so normal installs are reproducible; <code>nift update</code> deliberately advances floating references.</p>
 <p>An installed package is imported by its package name:</p>
-<pre><code class="language-nift">@import("sqlite")
+<pre><code class="language-nift">\@import("sqlite")
 
 db := sqlite_open("content.db")</code></pre>
