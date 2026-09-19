@@ -54,7 +54,21 @@ $[absolute := x =&gt; {
 $[double(6)]
 $[add(2, 3)]</code></pre> <p>Existing named functions can also be assigned, passed, returned and stored as values.</p> <pre><code class="language-nift">@fn(double(x)) { return x * 2 }
 $[operation := double]
-$[operation(6)]</code></pre> <h2 id="closures">Lexical closures</h2> <p>Lambdas capture lexical <em>bindings</em>, not snapshots of their values. Rebinding or mutating captured state is therefore visible to the closure, and captured bindings remain alive when a closure escapes its defining function.</p> <pre><code class="language-nift">@fn(counter(start)) {
+$[operation(6)]</code></pre> <h2 id="variadics">Variadic parameters and spread (v4.4 development)</h2> <p>Functions and lambdas may end their parameter list with <code>...args</code>. The variadic binding is an ordinary heterogeneous array. Call-site spread expands an array back into positional arguments.</p> <pre><code class="language-nift">@fn(join_words(prefix, ...words)) {
+    return prefix + words.join("-")
+}
+
+$[parts := ["one", "two"]]
+$[join_words("nift:", ...parts)]
+
+$[count := (...items) =&gt; items.size()]
+$[count(1, "two", true)]</code></pre> <p>Only one variadic parameter is allowed and it must be last. Spread requires an array.</p> <h2 id="rendered-lambdas">Mapping values to rendered markup (v4.4 development)</h2> <pre><code class="language-nift">$[html := posts
+    .filter(post =&gt; post.published)
+    .map(post =&gt; {
+        &lt;article&gt;&lt;h2&gt;$[post.title]&lt;/h2&gt;&lt;/article&gt;
+    })
+    .join("")]
+$[html]</code></pre> <p>A markup-first block lambda produces its rendered text as the callback value; ordinary statement-block lambdas keep their existing <code>return</code> semantics.</p> <h2 id="closures">Lexical closures</h2> <p>Lambdas capture lexical <em>bindings</em>, not snapshots of their values. Rebinding or mutating captured state is therefore visible to the closure, and captured bindings remain alive when a closure escapes its defining function.</p> <pre><code class="language-nift">@fn(counter(start)) {
     n := start
     return () =&gt; n++
 }
