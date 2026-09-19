@@ -13,3 +13,7 @@ node_modules/
 Thumbs.db
 
 # `public/` is intentionally not ignored: it is the checked-out deployment repo.
+
+# Python tooling caches
+__pycache__/
+*.pyc
