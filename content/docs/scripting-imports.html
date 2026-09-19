@@ -39,3 +39,12 @@ nift remove sqlite</code></pre>
 <pre><code class="language-nift">\@import("sqlite")
 
 db := sqlite_open("content.db")</code></pre>
+<h2 id="module-style-exports">Module-style exports</h2>
+<p>A package can export a struct instance or plain object whose callable fields are invoked as methods, giving packages a natural <code>vips.resize(...)</code>-style interface while keeping package-private helpers out of the importer. Callable fields retain access to the module's private <code>@fn</code> helpers; those helpers and any other private bindings never leak into the importing project.</p>
+<pre><code class="language-nift">\@fn(scale_helper(x)) { return x * 2 }
+\@struct(vips_lib) { resize := (w, h) => { return {"w": scale_helper(w), "h": scale_helper(h)} } }
+vips := vips_lib()
+export(vips)</code></pre>
+<pre><code class="language-nift">\@import("vips")
+r := vips.resize(100, 50)
+print(r.w)  // 200</code></pre>
