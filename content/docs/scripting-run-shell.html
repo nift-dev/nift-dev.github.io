@@ -42,3 +42,17 @@ git status --short
 git log | grep fix &gt; fixes.txt
 make &amp;&amp; ./tests</code></pre>
 <p>The shell loads <code>~/.niftrc</code> as ordinary Nift code at startup. Native <code>setenv()</code>/<code>unsetenv()</code> changes persist for the shell session and are inherited by child processes.</p>
+
+<h2 id="automation">Native project build automation</h2>
+<p>Scripts can drive Nift's own project/build machinery directly, with no subprocess and no shell round-trip. The nearest project (a directory containing <code>.nift/config.json</code>) at or above the working directory is resolved automatically. Every operation returns a structured result object with <code>ok</code>, <code>exit_code</code>, <code>affected</code> (page names touched), <code>errors</code> and <code>duration_seconds</code>; build progress/summary output is suppressed so script stdout stays parseable.</p>
+<pre><code class="language-nift">r := build()                     // incremental; also build_all(), build_names(...), build_repair()
+print(r.ok)
+print(r.affected.join(","))
+
+t := track("about", "About", "templates/main.html")
+print(t.ok)
+print(tracked().join(","))       // every tracked name
+print(status().join(","))        // names that currently need a rebuild
+print(project_root())            // the resolved project root
+u := untrack("about")
+print(u.ok)</code></pre>
