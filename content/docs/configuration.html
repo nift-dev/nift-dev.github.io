@@ -88,5 +88,17 @@ public/docs/getting-started.html</code></pre>
   <p>Yes, when you want to change project-wide defaults such as moving generated files to <code>public/</code>, changing the default template, or choosing an incremental mode. It is deliberately ordinary JSON so the project setup is inspectable and easy for humans, scripts and AI assistants to understand.</p>
 
   <div class="docs-callout"><strong><code>config.json</code> describes the project-wide rules.</strong><p><code>tracked.json</code> describes the individual things Nift manages within those rules.</p></div>
+
+  <h2 id="build-hooks">Build hooks</h2>
+  <p>Project-wide pre/post build scripts run ordinary Nift <code>.f</code> files around a build, configured as <code>pre build</code>/<code>post build</code> (generic — run for every build) and the mode-specific variants <code>pre build -all</code>, <code>post build -all</code>, <code>pre build --auto</code>, <code>post build --auto</code>, <code>pre build --repair</code> and <code>post build --repair</code> (run additionally only for that mode). Matching is additive, so each key runs at most once. A hook receives its build context through the environment: <code>NIFT_HOOK_PHASE</code> (<code>pre</code>/<code>post</code>), <code>NIFT_HOOK_MODE</code> (<code>updated</code>/<code>all</code>/<code>names</code>/<code>auto</code>/<code>repair</code>) and, for per-file hooks, <code>NIFT_HOOK_TARGET</code> (the page name). Hooks run through Nift's own parser (no subprocess); project pre-hooks run before the affected-set calculation so generated inputs can change dependencies.</p>
+<pre><code class="language-json">{"config": {
+  "content-dir": "content/",
+  "default-template": "templates/main.html",
+  "pre build": "scripts/pre.f",
+  "post build": "scripts/post.f",
+  "post build -all": "scripts/deploy.f"
+}}</code></pre>
+  <p>Hooks are expected to run successfully: a failing project pre-hook aborts the build before rendering, and a failing post-hook fails the build visibly. Per-file hooks are configured on individual entries in <code>.nift/tracked.json</code> and run only for the pages a given invocation actually processes.</p>
+
   <div class="docs-next"><span>Next</span><a href="@path('docs/tracked-json')"><code>tracked.json</code> →</a></div>
 </article>
