@@ -56,3 +56,11 @@ print(status().join(","))        // names that currently need a rebuild
 print(project_root())            // the resolved project root
 u := untrack("about")
 print(u.ok)</code></pre>
+
+<h2 id="restrictions">Opt-in restrictions</h2>
+<p>Standalone scripts and the shell run with ordinary OS-user authority by default. Two opt-in restrictions are available for safer automation; neither is an OS security sandbox.</p>
+<p><code>--no-process</code> (also honored via <code>NIFT_NO_PROCESS</code>) denies external process execution on every script-reachable surface: <code>run()</code>, the structured <code>cmd()</code> pipeline API, the shell's external-command fallback, <code>nift eval</code> and <code>run()</code> inside build hooks (<code>nift build --no-process</code>). Nift-native filesystem operations keep working.</p>
+<pre><code class="language-bash">nift run scripts/report.f --no-process
+nift sh --no-process
+nift build --no-process</code></pre>
+<p><code>--fs-root=&lt;path&gt;</code> (or <code>NIFT_FS_ROOT</code>) confines Nift-native filesystem operations (<code>cp</code>/<code>mv</code>/<code>rm</code>/<code>mkdir</code>/<code>touch</code>/<code>cat</code>/<code>open</code>/<code>ls</code>/<code>cd</code> and globs) to that root; paths escaping it are rejected. It restricts only Nift's own filesystem surface — when process execution is enabled, child processes run under their own OS authority, so do not treat this as an OS sandbox.</p>
