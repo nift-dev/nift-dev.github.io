@@ -37,10 +37,10 @@
 \$[10 % 3]             // 1
 \$[loop.index + 1]
 \$[price * quantity]</code></pre>
-<div class="docs-callout"><strong>Arithmetic is numeric.</strong><p><code>+</code> concatenates when either operand is a string (including mixed scalars such as <code>"n=" + 42</code>) and performs numeric addition otherwise. Nift does not coerce booleans, <code>null</code>, arrays or objects into numbers. Use ordinary template composition for text, for example <code>Hello \$[name]</code>.</p></div>
+<div class="docs-callout"><strong>Arithmetic is numeric.</strong><p><code>+</code> concatenates when either operand is a string (including mixed scalars such as <code>"n=" + 42</code>), concatenates arrays when both operands are arrays (<code>[1, 2] + [3]</code> → <code>[1, 2, 3]</code>), and performs numeric addition otherwise. Array concatenation builds a new array and never mutates its inputs. Nift does not coerce booleans, <code>null</code>, arrays or objects into numbers. Use ordinary template composition for text, for example <code>Hello \$[name]</code>.</p></div>
 
 <h2 id="numeric-methods">Numeric basics &amp; conversions</h2>
-<p>Numbers expose <code>abs()</code>, <code>floor()</code>, <code>ceil()</code> and <code>round()</code> (round half away from zero) as non-mutating methods. Conversions are explicit and directional: <code>"42".to_int()</code> and <code>"3.14".to_double()</code> parse strings into numbers, <code>value.to_string()</code> renders a number (or string) to text, and <code>min</code>/<code>max</code> are collection operations (<code>[a, b].min()</code>).</p>
+<p>Numbers expose <code>abs()</code>, <code>floor()</code>, <code>ceil()</code> and <code>round()</code> (round half away from zero) as non-mutating methods. Conversions are explicit and directional: <code>"42".to_int()</code> and <code>"3.14".to_double()</code> parse strings into numbers. <code>value.to_string()</code> renders any ordinary scalar to text: numbers (<code>42</code>, <code>4.5</code>), strings (themselves), booleans (<code>"true"</code>/<code>"false"</code>) and <code>null</code> (<code>"null"</code>). Arrays and objects are not silently stringified — use <code>.stringify()</code> for a JSON/data representation. <code>min</code>/<code>max</code> are collection operations (<code>[a, b].min()</code>).</p>
 <pre><code class="language-nift">\$[(-3).abs()]      // 3
 \$[(3.7).floor()]   // 3
 \$[(3.7).ceil()]    // 4
@@ -49,6 +49,9 @@
 \$["42".to_int()]
 \$["3.14".to_double()]
 \$[(3.5).to_string()]
+\$[true.to_string()]
+\$[null.to_string()]
+\$[[1, 2] + [3, 4]]
 \$[[a, b].min()]
 \$[[a, b].max()]</code></pre>
 <p><code>to_int()</code>/<code>to_double()</code> operate on strings and reject malformed or out-of-range input with an error; they are not numeric coercion of other value kinds.</p>
