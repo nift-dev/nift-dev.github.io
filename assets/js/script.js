@@ -277,6 +277,8 @@
           { className: 'number', begin: /\b(?:\d+(?:\.\d+)?)\b/ },
           { className: 'string', begin: /'/, end: /'/ },
           { className: 'string', begin: /"/, end: /"/ },
+          { className: 'comment', begin: /(?<!:)\/\//, end: /$/ },
+          { className: 'comment', begin: /\/\*/, end: /\*\// },
           { className: 'comment', begin: /@\/\//, end: /$/ },
           { className: 'comment', begin: /@\/\*/, end: /\*\// }
         ]
