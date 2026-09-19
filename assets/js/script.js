@@ -270,10 +270,10 @@
       hljs.registerLanguage('nift', () => ({
         name: 'Nift',
         contains: [
-          { className: 'meta', begin: /\\?@(?:content\b|input(?=\()|inject(?=\()|path(?=\()|pathto(?=\()|pathtofile(?=\()|pathtopage(?=\()|getenv(?=\()|ent(?=\()|dep(?=\()|for(?=\()|while(?=\()|if(?=\()|fn(?=\()|fragment(?=\()|struct(?=\()|:=(?=\())/ },
+          { className: 'meta', begin: /\\?@(?:content\b|input(?=\()|inject(?=\()|path(?=\()|pathto(?=\()|pathtofile(?=\()|pathtopage(?=\()|getenv(?=\()|ent(?=\()|dep(?=\()|script\b|import(?=\()|for(?=\()|while(?=\()|if(?=\()|fn(?=\()|fragment(?=\()|struct(?=\()|:=(?=\())/ },
           { className: 'meta', begin: /\\?\$\[/, end: /(?=.)/, excludeEnd: true },
-          { className: 'keyword', begin: /\b(?:if|else|for|while|return|break|continue|fn|private|const|immut|null)\b/ },
-          { className: 'operator', begin: /:=|==|!=|<=|>=|&&|\|\||[+*\/%?:<>!=\-]/ },
+          { className: 'keyword', begin: /\b(?:if|else|for|while|return|break|continue|fn|private|const|immut|export|null|run|cmd)\b/ },
+          { className: 'operator', begin: /\.\.\.|2>&1|2>|>>|:=|==|!=|<=|>=|&&|\|\||[|&+*\/%?:<>!=\-]/ },
           { className: 'number', begin: /\b(?:\d+(?:\.\d+)?)\b/ },
           { className: 'string', begin: /'/, end: /'/ },
           { className: 'string', begin: /"/, end: /"/ },
