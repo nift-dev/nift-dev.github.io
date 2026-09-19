@@ -8,6 +8,24 @@
 print("hello, \$[who]")
 return 0</code></pre>
 <p>A script starts in a fresh root scope. Fallthrough and bare <code>return</code> exit successfully without return output; <code>return expression</code> renders the returned value to stdout. Parse, runtime and I/O errors use stderr and a non-zero status.</p>
+
+<h2 id="executable-scripts">Executable scripts</h2>
+<p>There are three deliberately different ways to execute a Nift script. <code>nift run script.f</code> is explicit Nift source execution (no shebang or execute permission required). <code>nift script.f</code> is a convenient shorthand for the same thing and is what makes a shebang work. <code>./script.f</code> is ordinary executable-process invocation: the OS requires the normal shebang and execute-bit semantics, exactly like Python, Bash or Ruby.</p>
+<pre><code class="language-plaintext">#!/usr/bin/env nift
+
+/*
+    Build and deploy the project.
+*/
+print("hello")</code></pre>
+<pre><code class="language-bash">chmod +x deploy.f
+./deploy.f</code></pre>
+<p>The shebang line is treated as a script header (not Nift syntax) and is stripped, so the same file runs identically through <code>nift run</code> and <code>./deploy.f</code>. A Nift script is not special-cased when executed as a path: <code>./script.f</code>, <code>./thing.sh</code>, <code>./thing.py</code> and binaries all go through the same OS process model. <code>./deploy.f</code> also works from <code>nift sh</code> and from another <code>.f</code> script, where it is ordinary external-command execution (never in-process evaluation).</p>
+<pre><code class="language-plaintext">$ ./deploy.f staging --force</code></pre>
+<pre><code class="language-nift">./deploy.f staging --force
+r := run("./deploy.f", "staging", "--force")
+print(r.exit_code)
+</code></pre>
+<p>User arguments are available inside the script as an immutable <code>args</code> array (the script path itself is not included): <code>./deploy.f staging --force</code> gives <code>["staging", "--force"]</code>. The equivalent <code>nift run deploy.f staging --force</code> and <code>nift deploy.f staging --force</code> express the same thing. <code>--no-process</code> blocks external <code>./script.f</code> execution (both command-style and <code>run()</code>); launching the script itself is how the parent process started and is not the same operation.</p>
 <h2 id="shell">nift sh</h2>
 <pre><code class="language-plaintext">$ nift sh
 ~/project$ x := 10
@@ -37,6 +55,7 @@ upper := cmd("printf", "hello")
     .pipe(cmd("tr", "a-z", "A-Z"))
     .run()</code></pre>
 <p>Inside <code>nift sh</code>, command-style syntax follows familiar shell conventions where practical. Nift callables are tried first and otherwise commands fall through to executables on <code>PATH</code>. Unquoted arguments are literal tokens, so <code>rm *.o</code> and <code>cp assets/**/* public/assets/</code> need no quotes. <code>$[expr]</code> inside a command argument interpolates the evaluated Nift expression, and <code>;</code> separates commands that run unconditionally.</p>
+<p>Executable paths (<code>./x</code>, <code>../x</code>, <code>/x</code>, <code>dir/x</code>) are ordinary external commands even without arguments — from the shell and from script land alike — so <code>./scripts/build.f --production</code> runs the executable, never an in-process evaluation. <code>TAB</code> completion discovers these paths naturally (directories gain a trailing <code>/</code>), including paths containing spaces.</p>
 <pre><code class="language-bash">rm *.o
 git status --short
 git log | grep fix &gt; fixes.txt
