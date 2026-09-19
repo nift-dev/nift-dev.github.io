@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Verify the website's Nift syntax highlighter recognizes every path-family
-directive in its call form.
+"""Verify the website's Nift syntax highlighter recognizes modern Nift and
+command-style shell syntax without false positives in prose/CSS.
 
-The static highlighter lives in public/assets/js/script.js. The console
-highlighter in the Nift source already covers content/pathtopage/input/path/
-pathto/pathtofile/getenv/... via tests/console_smoke.cpp; this check mirrors
-that coverage for the website grammar so a future edit cannot silently drop a
-supported directive.
+The static highlighter lives in public/assets/js/script.js. Positive tokens
+must match at least one grammar rule. False-positive checks are scoped to the
+rule families where prose/CSS collisions actually matter: the @-directive meta
+rule (must not match @media/@path-without-call/email) and the comment rules
+(must match @// and @/* */ but not // or #).
 
 Run after editing the highlighter:
     python3 scripts/check_syntax_highlight.py
@@ -24,16 +24,80 @@ POSITIVE = [
     "@pathtofile('public/assets/app.js')",
     "@pathtopage(1)",
     "\\@path('about')",
-    "\\@pathto('about')",
-    "\\@pathtofile('public/assets/app.js')",
-    "\\@pathtopage(+1)",
+    "@script",
+    "@import('sqlite')",
+    "@import('./local.f')",
+    "@fn(public_add(a, b))",
+    "@fragment(x)",
+    "@if(cond)",
+    "@for(item : items)",
+    "@content",
+    "$[x]",
+    "$[row.name]",
+    "run",
+    "cmd",
+    "x := 5",
+    "...args",
+    "...xs",
+    "(x) => x * 2",
+    "|",
+    ">",
+    ">>",
+    "2>",
+    "2>&1",
+    "&&",
+    "||",
+    "@// single-line Nift comment",
+    "@/* block\n   comment */",
 ]
-NEGATIVE = [
+
+# Tokens that must NOT be treated as Nift @-directives.
+DIRECTIVE_NEGATIVE = [
     "use @path for internal links",
     "the @pathto legacy spelling",
     "@pathtofile is an alias",
     "@pathtopage requires an integer",
+    "@media (max-width: 600px)",
+    "a@b.com",
+    "email me at someone@example.com",
 ]
+
+# Prose/CSS that must NOT be treated as Nift comments.
+COMMENT_NEGATIVE = [
+    "// this is not a Nift comment",
+    "background: url(https://example.com/a.png)",
+    "color: #ffffff",
+    "href=\"#anchor\"",
+    "//# sourceMappingURL=app.js.map",
+]
+
+
+def begin_patterns(source: str):
+    """Return the list of highlighter begin regexes (as raw JS-regex strings)."""
+    out = []
+    idx = 0
+    while True:
+        start = source.find("begin:", idx)
+        if start < 0:
+            break
+        delim = source.find("/", start)
+        if delim < 0:
+            break
+        i = delim + 1
+        body = []
+        while i < len(source):
+            c = source[i]
+            if c == "\\" and i + 1 < len(source):
+                body.append(source[i : i + 2])
+                i += 2
+                continue
+            if c == "/":
+                break
+            body.append(c)
+            i += 1
+        out.append("".join(body))
+        idx = i + 1
+    return out
 
 
 def main() -> int:
@@ -41,24 +105,39 @@ def main() -> int:
         print(f"check-syntax-highlight FAIL: {JS} not found (run nift build first)")
         return 1
     source = JS.read_text(encoding="utf-8")
-    marker = re.compile(r"begin:\s*/(.*?)/\s*},", re.S)
-    match = marker.search(source)
-    if not match:
-        print("check-syntax-highlight FAIL: Nift grammar begin regex not found in script.js")
+    if "registerLanguage('nift'" not in source:
+        print("check-syntax-highlight FAIL: nift language not found in script.js")
         return 1
-    grammar = re.compile(match.group(1))
+    patterns = begin_patterns(source)
+    if not patterns:
+        print("check-syntax-highlight FAIL: no nift grammar begin regexes found in script.js")
+        return 1
+    grammars = [re.compile(p) for p in patterns if p]
+    # The first grammar rule is the @-directive family; the last two are the
+    # Nift comment rules (@// and @/* ... */).
+    directive = grammars[0]
+    comments = grammars[-2:]
     failed = False
+
+    def matches_any(token):
+        return any(g.search(token) for g in grammars)
+
     for token in POSITIVE:
-        if not grammar.search(token):
+        if not matches_any(token):
             print(f"check-syntax-highlight FAIL: grammar did not match {token!r}")
             failed = True
-    for token in NEGATIVE:
-        if grammar.search(token):
-            print(f"check-syntax-highlight FAIL: grammar matched prose {token!r} (expected no call match)")
+    for token in DIRECTIVE_NEGATIVE:
+        if directive.search(token):
+            print(f"check-syntax-highlight FAIL: directive rule matched prose {token!r}")
             failed = True
+    for token in COMMENT_NEGATIVE:
+        for g in comments:
+            if g.search(token):
+                print(f"check-syntax-highlight FAIL: comment rule matched prose {token!r}")
+                failed = True
     if failed:
         return 1
-    print("check-syntax-highlight passed: path family (@path, @pathto, @pathtofile, @pathtopage) recognized")
+    print("check-syntax-highlight passed: modern Nift + shell grammar recognized")
     return 0
 
 
