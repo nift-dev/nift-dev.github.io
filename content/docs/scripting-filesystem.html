@@ -1,7 +1,7 @@
 <article class="docs-article">
 <p class="docs-kicker">Scripting · Filesystem</p>
 <h1>Filesystem operations.</h1>
-<p class="docs-lead">Script land includes a small readable filesystem API without exposing arbitrary shell execution.</p>
+<p class="docs-lead">Script land includes a readable filesystem API. Nift 4.4 development generalizes it with normal standalone filesystem authority, variadic path operations and deterministic wildcards.</p>
 <pre><code class="language-nift">print(pwd())
 
 if(!exists("work")) {
@@ -16,6 +16,12 @@ print(entries.prettify())
 cat("work/final.txt")
 text := open("work/final.txt")
 remove("work/final.txt")</code></pre>
+<h2 id="v44-wildcards">Wildcards and multiple paths (v4.4 development)</h2>
+<pre><code class="language-nift">objects := ls("build/**/*.o")
+remove("*.o", "*.tmp")
+copy(["assets/logo.svg", "assets/icon.svg"], "public/assets")
+move("generated/*.json", "archive")</code></pre>
+<p><code>*</code> and <code>?</code> match within one path component; a complete <code>**</code> component recursively matches directory levels. Results are deterministic and hidden entries are not matched unless the pattern explicitly starts that component with <code>.</code>. Arrays and <code>...spread</code> compose with the same APIs.</p>
 <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Operation</th><th>Purpose</th></tr></thead><tbody>
 <tr><td><code>pwd()</code></td><td>Return the current script working directory.</td></tr>
 <tr><td><code>cd(path)</code></td><td>Change directory under standalone <code>run</code>/<code>sh</code> hosts.</td></tr>
@@ -29,6 +35,6 @@ remove("work/final.txt")</code></pre>
 <tr><td><code>remove(path)</code></td><td>Remove a file. Directory removal is deliberately not recursive.</td></tr>
 <tr><td><code>open(path)</code></td><td>Load the entire file as a string.</td></tr>
 </tbody></table></div>
-<p>Build-hosted scripts remain confined by Nift's project/path rules. Standalone <code>nift run</code> and <code>nift sh</code> use the process working directory. <code>open(path)</code> is data access; it is intentionally distinct from template <code>\@input</code>, script <code>\@import</code> and source injection.</p>
+<p>Build-hosted scripts remain confined by Nift's project/path rules. Standalone <code>nift run</code> and <code>nift sh</code> use normal OS-user filesystem authority: relative/parent, absolute and <code>~</code> home paths are available subject to OS permissions. Build-hosted paths retain Nift's dependency/output safety rules. <code>open(path)</code> is data access; it is intentionally distinct from template <code>\@input</code>, script <code>\@import</code> and source injection.</p>
 <div class="docs-next"><span>Next</span><a href="@path('docs/scripting-managed-files')">Managed files →</a></div>
 </article>
