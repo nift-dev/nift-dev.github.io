@@ -49,6 +49,10 @@ POSITIVE = [
     "||",
     "@// single-line Nift comment",
     "@/* block\n   comment */",
+    "// single-line script-land comment",
+    "/* block\n   comment */",
+    "fn(double(x)) {",
+    "minify(\"assets/app.js\", {\"output\": \"app.min.js\"})",
 ]
 
 # Tokens that must NOT be treated as Nift @-directives.
@@ -62,13 +66,23 @@ DIRECTIVE_NEGATIVE = [
     "email me at someone@example.com",
 ]
 
-# Prose/CSS that must NOT be treated as Nift comments.
+# Prose/CSS that must NOT be treated as Nift comments. These are checked
+# against the template comment rules (@// and @/* ... */); they never start
+# with '@' so they must stay unmatched.
 COMMENT_NEGATIVE = [
-    "// this is not a Nift comment",
     "background: url(https://example.com/a.png)",
     "color: #ffffff",
     "href=\"#anchor\"",
     "//# sourceMappingURL=app.js.map",
+]
+
+# Script-land bare comments (// and /* */) are now real Nift comments. URLs
+# carry a scheme before '//' and must not be colored as comments.
+BARE_COMMENT_NEGATIVE = [
+    "https://example.com/a.png",
+    "http://localhost:8000",
+    "ftp://host/path",
+    "git@github.com:user/repo.git",
 ]
 
 
@@ -113,10 +127,12 @@ def main() -> int:
         print("check-syntax-highlight FAIL: no nift grammar begin regexes found in script.js")
         return 1
     grammars = [re.compile(p) for p in patterns if p]
-    # The first grammar rule is the @-directive family; the last two are the
-    # Nift comment rules (@// and @/* ... */).
+    # The first grammar rule is the @-directive family. The final four are the
+    # Nift comment rules: bare script-land // and /* */ (positions -4,-3) then
+    # the template @// and @/* */ forms (positions -2,-1).
     directive = grammars[0]
-    comments = grammars[-2:]
+    bare_comments = grammars[-4:-2]
+    template_comments = grammars[-2:]
     failed = False
 
     def matches_any(token):
@@ -131,9 +147,14 @@ def main() -> int:
             print(f"check-syntax-highlight FAIL: directive rule matched prose {token!r}")
             failed = True
     for token in COMMENT_NEGATIVE:
-        for g in comments:
+        for g in template_comments:
             if g.search(token):
                 print(f"check-syntax-highlight FAIL: comment rule matched prose {token!r}")
+                failed = True
+    for token in BARE_COMMENT_NEGATIVE:
+        for g in bare_comments:
+            if g.search(token):
+                print(f"check-syntax-highlight FAIL: bare comment rule matched {token!r}")
                 failed = True
     if failed:
         return 1

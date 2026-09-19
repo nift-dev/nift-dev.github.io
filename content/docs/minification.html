@@ -63,6 +63,21 @@ nift minify -i public/assets/site.css</code></pre>
 <p>The files do not need to belong to a Nift project and may be anywhere the running process has permission to read and write. Multiple files may be supplied at once; Nift processes supported files and returns a failure status if any requested file is missing, unsupported, malformed for a validating minifier such as JSON, or cannot be written.</p>
 <div class="docs-callout"><strong>Failure is non-destructive.</strong><p>The transformed text is produced and validated in memory before the destination is written. Malformed JSON, for example, leaves the source untouched and does not create a partial <code>.min.json</code> file.</p></div>
 
+<h2 id="script-land-minify">Script-land <code>minify(...)</code></h2>
+<p>Nift also exposes the embedded Minify++ directly to script land as a native function (not a subprocess), so it keeps working under <code>--no-process</code>. It returns an ordinary Nift object <code>{ok, output, error, format, written}</code>.</p>
+<h3 id="string-to-string">String → string</h3>
+<pre><code class="language-nift">r := minify("const x = 1;   const y = 2;", "js")
+print(r.ok)      // true
+print(r.output)  // const x=1;const y=2</code></pre>
+<p>Supported format names: <code>html</code>, <code>css</code>, <code>js</code>, <code>jsx</code>, <code>json</code>, <code>xml</code>, <code>svg</code>. An explicit format string always means the first argument is source text.</p>
+<h3 id="file-to-output-path">Path → output path</h3>
+<pre><code class="language-nift">minify("assets/app.js", {"output": "public/app.min.js"})</code></pre>
+<h3 id="file-to-conventional-min-ext">Path → conventional <code>.min.ext</code></h3>
+<p>With no options, the output is formed by inserting <code>.min</code> before the extension, matching the CLI default:</p>
+<pre><code class="language-nift">minify("assets/app.js")   // writes assets/app.min.js</code></pre>
+<h3 id="in-place">In place</h3>
+<pre><code class="language-nift">minify("public/app.css", {"in_place": true})</code></pre>
+<p>Overwriting is never implicit; <code>in_place: true</code> and <code>output</code> are mutually exclusive. Format is inferred from the file extension, or forced with <code>{"format": "js"}</code>. Ordinary failures (missing file, unsupported format, malformed input) are returned as <code>{ok: false, error: ...}</code> rather than aborting the script; filesystem-root and project-root restrictions still apply.</p>
 <h2 id="the-minifier-is-an-embedded-standalone-subproject">The minifier is an embedded standalone subproject</h2>
 <p>The implementation now lives behind its own source-tree boundary rather than inside Nift's project/build classes:</p>
 <pre><code class="language-plaintext">minifier/
