@@ -121,6 +121,11 @@
    "template": "templates/docs.html"
   },
   {
+   "name": "docs/copying-references",
+   "title": "Copying and references",
+   "template": "templates/docs.html"
+  },
+  {
    "name": "docs/collections",
    "title": "Collection operations",
    "template": "templates/docs.html"

@@ -76,7 +76,7 @@
 <pre><code class="language-nift">\@fn(double(x)) { return x * 2 }
 \$[operation := double]
 \$[operation(6)]</code></pre>
-<h2 id="variadics">Variadic parameters and spread (v4.4 development)</h2>
+<h2 id="variadics">Variadic parameters and spread (v4.4)</h2>
 <p>Functions and lambdas may end their parameter list with <code>...args</code>. The variadic binding is an ordinary heterogeneous array. Call-site spread expands an array back into positional arguments.</p>
 <pre><code class="language-nift">\@fn(join_words(prefix, ...words)) {
     return prefix + words.join("-")
@@ -88,7 +88,7 @@
 \$[count := (...items) =&gt; items.size()]
 \$[count(1, "two", true)]</code></pre>
 <p>Only one variadic parameter is allowed and it must be last. Spread requires an array.</p>
-<h2 id="rendered-lambdas">Mapping values to rendered markup (v4.4 development)</h2>
+<h2 id="rendered-lambdas">Mapping values to rendered markup (v4.4)</h2>
 <pre><code class="language-nift">\$[html := posts
     .filter(post =&gt; post.published)
     .map(post =&gt; {

@@ -12,7 +12,7 @@
   "pagination-separator": "",
   "pagination-pages": 0,
   "project-fingerprint": "",
-  "hierarchy-fingerprint": "9d6c721be37c08a4",
+  "hierarchy-fingerprint": "7f34758fc59c7d6d",
   "dependencies": [
     ".nift/hierarchy.fingerprint",
     "content/docs/hierarchy.html",
@@ -44,6 +44,7 @@
     "public/docs/configuration.html",
     "public/docs/contracts.html",
     "public/docs/control-flow.html",
+    "public/docs/copying-references.html",
     "public/docs/declarations-assignments.html",
     "public/docs/dep.html",
     "public/docs/developer-experience.html",

@@ -153,7 +153,16 @@ commit source + matching Git-link pointer on stage</code></pre>
   <p>Nift is first and foremost designed for humans building websites. Its compact model, explicit configuration, deterministic behavior, fast feedback and checked relationships are human developer-experience choices. Those same properties happen to make it unusually legible to coding agents: tracked outputs, templates, <code>\@content</code>, <code>\@input</code>, <code>\@path</code>, metadata and incremental dependencies explain most projects. Fast builds make repeated edit/build/inspect cycles cheap, while <code>nift status</code> explains why a page would rebuild before changing output.</p>
   <p>The small mental model does not eliminate responsibility. An AI assistant still needs to read the project's handover, inspect current Git state, preserve unrelated user work, distinguish source from generated output and validate links/assets rather than assuming a successful command means a correct site.</p>
 
-  <h2 id="what-ai-should-not-decide-silently">What AI should not decide silently</h2>
+  <h2 id="when-the-human-changes-the-problem">When the human changes the problem</h2>
+<p>The v4.4 reference-semantics campaign is a useful concrete example. Multiple agent passes were converging on increasingly sophisticated ownership machinery for nested JSON aggregates. The decisive simplification came from questioning the premise: a binding such as <code>b := a[0]</code> did not need Python-style object identity; it could consistently mean the live location <code>a[0]</code>. That changed the engineering problem from “preserve every nested object's address and lifetime” to “remember a root binding and a path”.</p>
+<pre><code class="language-plaintext">assumed object identity        chosen location identity
+        ↓                              ↓
+shared aggregate nodes        root binding + path
+second runtime value graph    existing JSONIC values
+complex lifetime machinery    re-resolve on read/write</code></pre>
+<p>The agents then prototyped, benchmarked and sanitizer-tested the new rule before it became the implementation. This is the kind of collaboration the process is designed for: agents can search a huge implementation space quickly, while human product judgement can still notice that a simpler semantic contract makes the whole problem disappear.</p>
+
+<h2 id="what-ai-should-not-decide-silently">What AI should not decide silently</h2>
   <ul>
     <li>whether a compatibility boundary should expand;</li>
     <li>whether a benchmark justifies a universal performance claim;</li>

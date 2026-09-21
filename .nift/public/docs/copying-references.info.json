@@ -1,9 +1,9 @@
 {
-  "name": "docs/pagination",
-  "title": "Pagination",
+  "name": "docs/copying-references",
+  "title": "Copying and references",
   "template": "templates/docs.html",
-  "content": "content/docs/pagination.html",
-  "output": "public/docs/pagination.html",
+  "content": "content/docs/copying-references.html",
+  "output": "public/docs/copying-references.html",
   "minify": true,
   "minify-version": 1,
   "pagination": false,
@@ -14,7 +14,7 @@
   "project-fingerprint": "",
   "hierarchy-fingerprint": "",
   "dependencies": [
-    "content/docs/pagination.html",
+    "content/docs/copying-references.html",
     "templates/docs.html",
     "templates/partials/docs-sidebar.html",
     "templates/partials/footer.html",

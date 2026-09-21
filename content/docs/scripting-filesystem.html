@@ -1,7 +1,7 @@
 <article class="docs-article">
 <p class="docs-kicker">Scripting · Filesystem</p>
 <h1>Filesystem operations.</h1>
-<p class="docs-lead">Script land includes a readable filesystem API. Nift 4.4 development generalizes it with normal standalone filesystem authority, variadic path operations and deterministic wildcards.</p>
+<p class="docs-lead">Script land includes a readable filesystem API. Nift 4.4 generalizes it with normal standalone filesystem authority, variadic path operations and deterministic wildcards.</p>
 <pre><code class="language-nift">print(pwd())
 
 if(!exists("work")) {
@@ -16,7 +16,7 @@ print(entries.prettify())
 cat("work/final.txt")
 text := open("work/final.txt")
 remove("work/final.txt")</code></pre>
-<h2 id="v44-wildcards">Wildcards and multiple paths (v4.4 development)</h2>
+<h2 id="v44-wildcards">Wildcards and multiple paths (v4.4)</h2>
 <pre><code class="language-nift">objects := ls("build/**/*.o")
 remove("*.o", "*.tmp")
 copy(["assets/logo.svg", "assets/icon.svg"], "public/assets")
