@@ -1,7 +1,7 @@
 <article class="docs-article">
 <p class="docs-kicker">Core language · Values, bindings and identity</p><h1>Copying and references.</h1>
 <p class="docs-lead">Nift distinguishes a live <em>location</em> from an independent value. Aggregate binding and nested extraction preserve a location; <code>copy()</code> materializes the current value into a recursively independent root.</p>
-<div class="docs-callout"><strong>The short rule.</strong><p><code>b := a</code> and <code>b := a[key]</code> keep a live reference to a location. <code>b := copy(a)</code> creates independent data. <code>deepcopy()</code> is a compatibility spelling of <code>copy()</code>.</p></div>
+<div class="docs-callout"><strong>The short rule.</strong><p><code>b := a</code> and <code>b := a[key]</code> keep a live reference to a location. <code>b := copy(a)</code> creates independent data.</p></div>
 <h2>Binding another aggregate</h2><pre><code class="language-nift">\$[a := {"x": [1, 2]}]
 \$[b := a]</code></pre>
 <pre><code class="language-plaintext">a ─────┐
@@ -52,7 +52,7 @@ A ≠ B, X ≠ Y — nested aggregate data is recursively independent</code></pr
 <pre><code class="language-nift">\$[b.x[0][0] = 99]
 \$[a.x[0][0]]          \@/* 1 */</code></pre>
 <p><code>copy()</code> also works on a location reference: Nift resolves the current value and recursively clones it into a new independent root.</p>
-<h2><code>deepcopy()</code> compatibility</h2><p>In Nift 4.4 <code>deepcopy(x)</code> has the same recursive-independent-copy semantics as <code>copy(x)</code>. New code can use <code>copy()</code>.</p>
+
 <h2>Identity versus equality</h2><p><code>same(x, y)</code> asks whether aggregate references identify the same location. <code>==</code> asks whether values are structurally equal.</p>
 <pre><code class="language-nift">\$[a := [[1], [1]]]
 \$[b := a[0]]

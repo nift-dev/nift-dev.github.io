@@ -111,7 +111,6 @@
 \$[b := copy(a)]
 \$[b[0][0] = 99]
 \$[a[0][0]]              @/* 1 — b is independent */</code></pre>
-<p><code>deepcopy()</code> is a retained compatibility spelling of <code>copy()</code>: both produce a recursively independent value.</p>
 <h3 id="same">Identity with <code>same()</code></h3>
 <p><code>same(x, y)</code> reports whether two aggregate references name the <em>same location</em> (same root binding identity and same normalized path). It is not structural equality (<code>==</code>) and not value equality:</p>
 <pre><code class="language-nift">\$[a := [[1], [2]]]

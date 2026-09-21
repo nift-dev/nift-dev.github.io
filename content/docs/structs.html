@@ -156,11 +156,10 @@
 
 &lt;p&gt;\$[a.value()]&lt;/p&gt;  &lt;!-- 5: a and b refer to the same instance --&gt;</code></pre>
 <p>Assigning or passing a struct instance copies its reference, not the entire instance.</p>
-<h2 id="copying">Shallow and recursive copies</h2>
+<h2 id="copying">References and independent copies</h2>
 <pre><code class="language-nift">\$[alias := original]
-\$[shallow := copy(original)]
-\$[independent := deepcopy(original)]</code></pre>
-<p><code>copy()</code> creates a distinct, recursively independent struct instance. <code>deepcopy()</code> is a retained compatibility spelling of <code>copy()</code>; both recursively duplicate mutable aggregate state. Private fields participate because copying is runtime state duplication, not public serialization.</p>
+\$[independent := copy(original)]</code></pre>
+<p>Binding a struct normally copies its reference. <code>copy()</code> instead creates a distinct, recursively independent struct instance, including its mutable aggregate state. Private fields participate because copying is runtime state duplication, not public serialization.</p>
 <h2 id="fixed-shape">Fixed shape and stable field types</h2>
 <p>Struct fields cannot be added or removed dynamically. Assigning a value of a different type to a field is an error, just as it is for ordinary stable inferred bindings. Field typing is lexical like ordinary bindings: <code>count := 0</code> infers <code>int</code> while <code>total := 0.0</code> infers <code>double</code>, and arithmetic keeps a field <code>double</code> whenever any operand is <code>double</code> (see <a href="@path('docs/declarations-assignments')">Declarations &amp; assignments</a>).</p>
 <h2 id="scope">Scope</h2>
