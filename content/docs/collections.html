@@ -310,11 +310,13 @@
 \$[descending.sort((a, b) =&gt; a &gt; b)]</code></pre>
 
 <h2 id="equality-and-identity">Equality and identity</h2>
-<p>Data values use structural equality. Arrays compare recursively, maps compare key/value contents, and sets compare their logical members. Struct instances and callables are identity-bearing. <code>same(a, b)</code> explicitly asks whether two identity-bearing references designate the same object.</p>
+<p>Data values use structural equality. Arrays compare recursively, maps compare key/value contents, and sets compare their logical members. Aggregate locations have <em>location identity</em>: two references are <code>same()</code> when they name the same root binding and normalized path. Struct instances and callables are identity-bearing handles, and <code>same(a, b)</code> asks whether two references designate the same location/object.</p>
 <pre><code class="language-nift">\$[a := [1, 2, [3]]]
-\$[b := copy(a)]
-\$[a == b]
-\$[same(a, b)]</code></pre>
+\$[b := a]
+\$[c := copy(a)]
+\$[a == b]      @/* true — same value */
+\$[same(a, b)]  @/* true — same location */
+\$[same(a, c)]  @/* false — copy() is independent */</code></pre>
 
 <div class="docs-next"><span>Next</span><a href="@path('docs/functions-fragments')">Functions &amp; lambdas →</a></div>
 </article>
