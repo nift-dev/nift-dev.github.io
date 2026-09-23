@@ -159,7 +159,7 @@ must correspond. Build and inspect templates before updating captures/downloads.
 ## Design context
 
 About-page full-bleed artwork, the executable colon-loop example and the
-neutral `#242422` code palette are documented in
+neutral `#20201e` code palette are documented in
 `docs/handover/ABOUT-PAGE-REPAIR.md`. The WebPs are retouched/recomposed supplied
 raster artwork, not twelve independently regenerated illustrations. Keep the
 native foreground bounds intact when changing responsive image fitting.

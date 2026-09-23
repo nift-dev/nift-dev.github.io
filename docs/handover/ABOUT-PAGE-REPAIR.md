@@ -44,8 +44,8 @@ On small screens the main copy precedes the artwork.
 
 ## Code surfaces and example
 
-- Shared warm-neutral code background: **`#242422`** (formerly `#181816`).
-- Control background: `#30302d`; border: `#454540`. No blue bias in these fills.
+- Shared warm-neutral code background: **`#20201e`** (darkened from `#242422`).
+- Control background: `#2a2a27`; border: `#454540`. No blue bias in these fills.
 - The About example remains one semantic `pre > code` with the normal token
   highlighter. It starts with **`@for(post : posts)`**, not `post in posts`.
 - The code-copy button is attached to `.about-code-panel`, which is its
