@@ -145,6 +145,29 @@
     installCommand.dataset.customHighlight = 'true';
   }
 
+  // About's miniature template is stored as real, plain code in HTML. The
+  // build engine escapes markup inside <pre>, so span tags do not belong in
+  // its source. Add these three token styles in the DOM, also offline.
+  const aboutTemplate = document.querySelector('[data-about-template]');
+  if (aboutTemplate) {
+    const source = aboutTemplate.textContent || '';
+    const fragment = document.createDocumentFragment();
+    const tokens = /\$\[[^\r\n]*?\]|@[a-z_]+|<\/?[a-z][^<>]*>/gi;
+    let cursor = 0;
+    for (const match of source.matchAll(tokens)) {
+      fragment.appendChild(document.createTextNode(source.slice(cursor, match.index)));
+      const span = document.createElement('span');
+      span.className = match[0].startsWith('@') ? 'about-token-directive'
+        : match[0].startsWith('$') ? 'about-token-value' : 'about-token-tag';
+      span.textContent = match[0];
+      fragment.appendChild(span);
+      cursor = match.index + match[0].length;
+    }
+    fragment.appendChild(document.createTextNode(source.slice(cursor)));
+    aboutTemplate.replaceChildren(fragment);
+    aboutTemplate.dataset.customHighlight = 'true';
+  }
+
   // The complete CLI map is a command reference, not a shell program. Mark its
   // executable, subcommands and options explicitly so a generic Bash grammar
   // cannot colour identical kinds of token inconsistently.
