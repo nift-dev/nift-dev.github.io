@@ -1,8 +1,112 @@
-<article class="docs-article">
-<p class="docs-kicker">About</p>
-<h1>About Nift</h1>
-<p class="docs-lead">Nift is an open-source, dependency-aware website templating and build system. It is designed to add a small amount of build-time structure without replacing the rest of the web stack.</p>
-<p>Nift started as nifty-site-manager and has been developed around a deliberately narrow idea: websites already have HTML, CSS, JavaScript, backend languages, databases, deployment platforms and specialist tools. A build tool does not need to absorb those ecosystems to be useful. Nift focuses on tracked outputs, templates and partials, checked project paths, structured data, project contracts, and fast dependency-aware rebuilding.</p>
-<p>The result can be a conventional pre-rendered website, documentation, generated text assets, or the frontend of a fully dynamic application backed by Go, Node, PHP, serverless functions or another runtime. Nift is build-time glue rather than an application runtime.</p>
-<p>The project is open source under the MIT licence. Source, releases, issues and development history are published on <a href="https://github.com/nift-dev/nift">GitHub</a>. The <a href="@path('docs/why-nift')">Why Nift?</a> page explains the design philosophy in more detail, while <a href="@path('docs/battle-tested')">Battle Tested</a> documents the evidence and boundaries behind the project’s reliability claims.</p>
-</article>
+<main class="about-poster-page">
+<section class="about-hero">
+  <div class="about-hero-copy">
+    <p class="about-kicker">About Nift</p>
+    <h1>One language.<br><span>Endless possibilities.</span></h1>
+    <p class="about-hero-lead">Nift is a fast website build system with a native scripting language and shell. Build frontends, automate tasks, process data, generate content, create developer tools and more — with one small, consistent toolkit.</p>
+    <div class="about-values" aria-label="Nift values">
+      <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 5 14h6l-1 8 8-13h-6z"/></svg><span><strong>Fast</strong><small>Get things done.</small></span></div>
+      <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 9 5-9 5-9-5 9-5Zm9 5v10l-9 5-9-5V7m9 5v10"/></svg><span><strong>Flexible</strong><small>Build your way.</small></span></div>
+      <div><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="5" r="2"/><circle cx="18" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><path d="M8 5h6a4 4 0 0 1 4 4v1M6 7v10"/></svg><span><strong>Open</strong><small>Built for everyone.</small></span></div>
+    </div>
+  </div>
+  <div class="about-hero-art" aria-hidden="true">
+    <img src="@path('public/assets/images/about/hero.webp')" alt="" width="405" height="275" decoding="async" fetchpriority="high">
+    <p>Simple to learn. <br>Powerful in practice. <br>Built for what’s next.</p>
+  </div>
+</section>
+
+<section class="about-intro">
+  <div class="about-intro-copy">
+    <p class="about-kicker">What is Nift?</p>
+    <h2>A modern, multi-purpose developer tool.</h2>
+    <p>Nift combines a dependency-aware website build system, expressive templating, a native scripting language and an interactive shell. It is designed to stay small enough to understand while still being useful for serious projects.</p>
+    <p>Use it as the build layer for a site, the frontend generator for an application, a scripting runtime for automation, a data transformation tool, or the glue between the tools you already use. Nift does not need to own your whole stack to be useful.</p>
+  </div>
+  <div class="about-code-panel" aria-label="Nift template example">
+    <div class="about-code-label">Nift · template</div>
+    <div class="about-code-body">
+      <div class="about-code-example">
+        <div class="about-code-gutter" aria-hidden="true">1<br>2<br>3<br>4<br>5<br>6</div>
+        <pre><code class="language-nift" data-about-template>\@for(post in posts) {
+  &lt;article&gt;
+    &lt;h2&gt;\$[post.title]&lt;/h2&gt;
+    &lt;p&gt;\$[post.excerpt]&lt;/p&gt;
+  &lt;/article&gt;
+}</code></pre>
+      </div>
+      <p class="about-code-motto">Simple syntax. <br>Real power. <br>Readable results.</p>
+    </div>
+  </div>
+</section>
+
+<section class="about-capabilities">
+  <div class="about-section-heading">
+    <p class="about-kicker">What can you do with Nift?</p>
+    <h2>A toolkit for real projects.</h2>
+    <p>Nift can be the main build tool for a project or one focused piece of a larger stack.</p>
+  </div>
+
+  <div class="about-card-grid">
+    <article class="about-capability-card about-purple">
+      <div class="about-card-copy"><h3>Websites and documentation</h3><p>Build fast, modern sites for personal projects, documentation, blogs, product sites and large content-heavy platforms. Templates, partials, tracked outputs and dependency-aware rebuilding keep repeated structure under control.</p><a href="@path('docs/getting-started')">Learn more <span>→</span></a></div>
+      <div class="about-card-art" aria-hidden="true"><img src="@path('public/assets/images/about/websites.webp')" alt="" width="210" height="130" decoding="async" loading="lazy"></div>
+    </article>
+
+    <article class="about-capability-card about-teal">
+      <div class="about-card-copy"><h3>Frontends for any backend</h3><p>Use Nift to generate the frontend for APIs and applications written in Go, Node, Python, PHP, serverless runtimes or anything else. Keep runtime concerns in the runtime and let Nift own the files it is good at building.</p><a href="@path('examples')">See examples <span>→</span></a></div>
+      <div class="about-card-art" aria-hidden="true"><img src="@path('public/assets/images/about/frontend.webp')" alt="" width="225" height="130" decoding="async" loading="lazy"></div>
+    </article>
+
+    <article class="about-capability-card about-blue">
+      <div class="about-card-copy"><h3>Scripting and automation</h3><p>Run <code>.f</code> scripts with <code>nift run</code>. Work with files, directories, streams, HTTP requests, JSON and collections; write reusable functions and packages; and automate the repetitive parts of a project without reaching for another language.</p><a href="@path('docs/scripting')">Read the docs <span>→</span></a></div>
+      <div class="about-card-art" aria-hidden="true"><img src="@path('public/assets/images/about/automation.webp')" alt="" width="210" height="130" decoding="async" loading="lazy"></div>
+    </article>
+
+    <article class="about-capability-card about-violet">
+      <div class="about-card-copy"><h3>The Nift shell</h3><p>Use <code>nift sh</code> as an interactive REPL for the same language. Explore data, test expressions, call functions, inspect files and prototype a script one command at a time before saving it.</p><a href="@path('docs/scripting-run-shell')">Get started <span>→</span></a></div>
+      <div class="about-card-art" aria-hidden="true"><div class="about-art-frame"><img src="@path('public/assets/images/about/shell.webp')" alt="" width="240" height="130" decoding="async" loading="lazy"><span class="about-terminal-command">$ nift sh<br>› ▮</span></div></div>
+    </article>
+
+    <article class="about-capability-card about-cyan">
+      <div class="about-card-copy"><h3>Data processing</h3><p>Load, transform, validate and generate structured data. Nift has first-class JSON, arrays, maps, sets, collection operations, schemas and content metadata, making it useful for data-driven pages as well as standalone scripts.</p><a href="@path('docs/json')">See data features <span>→</span></a></div>
+      <div class="about-card-art" aria-hidden="true"><div class="about-art-frame"><img src="@path('public/assets/images/about/data.webp')" alt="" width="225" height="130" decoding="async" loading="lazy"><span class="about-data-label about-label-json">JSON</span><span class="about-data-label about-label-csv">CSV</span><span class="about-data-label about-label-yaml">YAML</span></div></div>
+    </article>
+
+    <article class="about-capability-card about-magenta">
+      <div class="about-card-copy"><h3>Game development</h3><p>Nift is useful around browser games and interactive projects: generate pages, levels, content, configuration and assets, write build-time or local tooling, and pair it with JavaScript, Canvas, WebGL or another runtime for rendering and input.</p><a href="@path('examples')">Explore <span>→</span></a></div>
+      <div class="about-card-art" aria-hidden="true"><img src="@path('public/assets/images/about/game.webp')" alt="" width="225" height="130" decoding="async" loading="lazy"></div>
+    </article>
+
+    <article class="about-capability-card about-sky">
+      <div class="about-card-copy"><h3>Developer tools and local apps</h3><p>Use the scripting language and shell to build project utilities, generators, local workflows and developer-facing tools. Nift can also generate the HTML, data and assets used by desktop or embedded web interfaces.</p><a href="@path('developers')">Learn more <span>→</span></a></div>
+      <div class="about-card-art" aria-hidden="true"><img src="@path('public/assets/images/about/desktop.webp')" alt="" width="215" height="135" decoding="async" loading="lazy"></div>
+    </article>
+
+    <article class="about-capability-card about-agent">
+      <div class="about-card-copy"><h3>Built for AI agents</h3><p>Nift is deliberately legible to both humans and coding agents: plain files, deterministic builds, a consistent scripting surface and explicit project structure. <code>nift init --handover</code> can scaffold a project handover so an agent can understand how the project is meant to be changed.</p><a href="@path('docs/ai-agents')">For AI agents <span>→</span></a></div>
+      <div class="about-card-art" aria-hidden="true"><img src="@path('public/assets/images/about/agents.webp')" alt="" width="220" height="135" decoding="async" loading="lazy"></div>
+    </article>
+
+    <article class="about-capability-card about-green">
+      <div class="about-card-copy"><h3>Extensible and composable</h3><p>Import scripts, build reusable packages and compose Nift with the rest of your toolchain. Your bundler, backend, database, image pipeline and deployment platform can keep doing the jobs they already do well.</p><a href="@path('docs/scripting-imports')">Explore composition <span>→</span></a></div>
+      <div class="about-card-art" aria-hidden="true"><img src="@path('public/assets/images/about/packages.webp')" alt="" width="230" height="135" decoding="async" loading="lazy"></div>
+    </article>
+
+    <article class="about-capability-card about-orange">
+      <div class="about-card-copy"><h3>Built for creators</h3><p>From a single page to a large documentation site, from a throwaway script to a production workflow, Nift is designed to shorten the distance between an idea and something working without demanding a framework around every project.</p><a href="@path('docs')">Start building <span>→</span></a></div>
+      <div class="about-card-art" aria-hidden="true"><img src="@path('public/assets/images/about/creators.webp')" alt="" width="220" height="135" decoding="async" loading="lazy"></div>
+    </article>
+  </div>
+</section>
+
+<section class="about-closing">
+  <div class="about-closing-copy">
+    <p class="about-kicker">A more open internet</p>
+    <h2>Built by creators, for everyone.</h2>
+    <p>Nift helps you create independent sites, tools and applications. Own your content. Own your infrastructure. Build without lock-in.</p>
+    <div class="about-closing-actions"><a class="button button-primary" href="@path('docs/getting-started')">Get started</a><a class="text-link" href="@path('docs')">Read the docs →</a><a class="text-link" href="@path('examples')">View examples →</a></div>
+  </div>
+  <div class="about-closing-art" aria-hidden="true"><img src="@path('public/assets/images/about/closing.webp')" alt="" width="475" height="195" decoding="async" loading="lazy"><p>Create<br>Write<br>Build<br>Deploy<br>Own</p></div>
+</section>
+</main>

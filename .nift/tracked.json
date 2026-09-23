@@ -303,7 +303,7 @@
   {
    "name": "about",
    "title": "About Nift",
-   "template": "templates/info.html"
+   "template": "templates/template.html"
   },
   {
    "name": "contact",

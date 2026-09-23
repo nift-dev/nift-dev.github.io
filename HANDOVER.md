@@ -158,6 +158,11 @@ must correspond. Build and inspect templates before updating captures/downloads.
 
 ## Design context
 
+About-page layout/code repair and **still-pending standalone raster artwork**
+are documented in `docs/handover/ABOUT-PAGE-REPAIR.md`. The current WebPs are
+retouched supplied artwork, not twelve independently regenerated illustrations.
+
+
 Durable direction: clean typography, low clutter, responsive behavior,
 system/light/dark themes, dark-mode friendliness, green-gradient identity, and
 restrained JavaScript. Historical preferences include angular rather than curvy
