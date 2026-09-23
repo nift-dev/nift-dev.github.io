@@ -94,7 +94,7 @@
   };
   desktopBreakpoint.addEventListener?.('change', syncMenuToViewport);
 
-  // Three-state theme: system is the default, with the explicit choice persisted.
+  // Three-state theme: dark is the default, with any explicit choice persisted.
   const resolveTheme = mode => mode === 'system' ? (systemTheme.matches ? 'dark' : 'light') : mode;
   const applyTheme = mode => {
     document.documentElement.dataset.themeMode = mode;
@@ -107,13 +107,13 @@
     });
   };
 
-  const initialTheme = localStorage.getItem('nift-theme') || 'system';
-  applyTheme(['system', 'light', 'dark'].includes(initialTheme) ? initialTheme : 'system');
+  const initialTheme = localStorage.getItem('nift-theme') || 'dark';
+  applyTheme(['system', 'light', 'dark'].includes(initialTheme) ? initialTheme : 'dark');
   document.querySelectorAll('[data-theme-choice]').forEach(button => {
     button.addEventListener('click', () => applyTheme(button.dataset.themeChoice));
   });
   systemTheme.addEventListener?.('change', () => {
-    if ((localStorage.getItem('nift-theme') || 'system') === 'system') applyTheme('system');
+    if ((localStorage.getItem('nift-theme') || 'dark') === 'system') applyTheme('system');
   });
 
 
