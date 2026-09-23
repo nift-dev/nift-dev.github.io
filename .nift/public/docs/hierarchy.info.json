@@ -12,7 +12,7 @@
   "pagination-separator": "",
   "pagination-pages": 0,
   "project-fingerprint": "",
-  "hierarchy-fingerprint": "7f34758fc59c7d6d",
+  "hierarchy-fingerprint": "21eda3be692b5789",
   "dependencies": [
     ".nift/hierarchy.fingerprint",
     "content/docs/hierarchy.html",
@@ -61,6 +61,7 @@
     "public/docs/installing.html",
     "public/docs/json-schema.html",
     "public/docs/json.html",
+    "public/docs/lambdas-closures.html",
     "public/docs/markup.html",
     "public/docs/memory-safety.html",
     "public/docs/metadata.html",

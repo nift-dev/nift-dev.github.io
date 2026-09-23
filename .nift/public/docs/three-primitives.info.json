@@ -61,6 +61,7 @@
     "public/docs/installing.html",
     "public/docs/json-schema.html",
     "public/docs/json.html",
+    "public/docs/lambdas-closures.html",
     "public/docs/markup.html",
     "public/docs/memory-safety.html",
     "public/docs/metadata.html",

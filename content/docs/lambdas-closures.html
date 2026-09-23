@@ -1,0 +1,116 @@
+<article class="docs-article">
+<p class="docs-kicker">Core language · First-class behaviour</p>
+<h1>Lambdas &amp; closures.</h1>
+<p class="docs-lead">Nift lambdas are first-class callable values: define behaviour inline, pass it to collection operations, store it, return it from a function, and close over live lexical state.</p>
+<div class="docs-callout"><strong>Quick shape.</strong><p>Use <code>x =&gt; expression</code> for one parameter, <code>(a, b) =&gt; expression</code> for several, <code>() =&gt; expression</code> for none, or a block body when the callback needs statements and control flow.</p></div>
+<h2 id="expression-lambdas">Expression lambdas</h2>
+<p>An expression lambda evaluates its body when called and returns that value. Parentheses around a single parameter are optional.</p>
+<pre><code class="language-nift">\$[double := x =&gt; x * 2]
+\$[add := (a, b) =&gt; a + b]
+\$[answer := () =&gt; 42]
+
+\$[double(6)]   @/* 12 */
+\$[add(2, 3)]  @/* 5 */
+\$[answer()]   @/* 42 */</code></pre>
+<h2 id="block-lambdas">Block lambdas</h2>
+<p>Use a statement block when the operation needs local bindings, conditions, loops or an explicit <code>return</code>. Block lambdas execute the same statement machinery as functions.</p>
+<pre><code class="language-nift">\$[describe := score =&gt; {
+    if(score &gt;= 90) { return "excellent" }
+    if(score &gt;= 50) { return "pass" }
+    return "retry"
+}]
+\$[describe(84)]</code></pre>
+<h2 id="collection-callbacks">Collection callbacks</h2>
+<p>The most common use is to put behaviour next to the data operation that consumes it. Arrays and collections accept lambdas for higher-order operations such as <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>any</code>, <code>all</code>, <code>find</code>, <code>count</code>, <code>sort_by</code> and <code>group_by</code>.</p>
+<pre><code class="language-nift">\$[posts := @inject("data/posts.json")]
+\$[published := posts.filter(post =&gt; !post.draft)]
+\$[titles := published.map(post =&gt; post.title)]
+\$[total_words := posts.map(post =&gt; post.words).sum()]
+\$[by_year := posts.group_by(post =&gt; post.year)]
+\$[first_featured := posts.find(post =&gt; post.featured)]</code></pre>
+<p>Callbacks over map-like collections receive <code>(key, value)</code>. <code>reduce</code> receives the accumulator and current value and starts from an explicit initial value.</p>
+<pre><code class="language-nift">\$[total := [1, 2, 3, 4].reduce((acc, value) =&gt; acc + value, 0)]
+\$[visible := settings.filter((key, value) =&gt; value.enabled)]</code></pre>
+<h2 id="named-functions">Named functions are callables too</h2>
+<p>Lambdas are not a callback-only feature. Named functions are first-class callable values, so APIs that accept a lambda can also accept an existing function.</p>
+<pre><code class="language-nift">\@fn(is_public(post)) {
+    return post.published &amp;&amp; !post.draft
+}
+\$[predicate := is_public]
+\$[public_posts := posts.filter(predicate)]</code></pre>
+<p>Callables can also be passed to your own functions.</p>
+<pre><code class="language-nift">\@fn(apply(value, operation)) {
+    return operation(value)
+}
+\$[triple := x =&gt; x * 3]
+\$[apply(7, triple)]  @/* 21 */</code></pre>
+<h2 id="closures">Closures capture live bindings</h2>
+<p>A lambda closes over lexical <em>bindings</em>, not a frozen copy of their current values. Rebinding captured state is therefore visible to the closure.</p>
+<pre><code class="language-nift">\$[factor := 10]
+\$[multiply := x =&gt; x * factor]
+\$[multiply(2)]  @/* 20 */
+\$[factor = 20]
+\$[multiply(2)]  @/* 40 */</code></pre>
+<h2 id="escaping-closures">Escaping closures keep state alive</h2>
+<p>Bindings captured by a returned lambda remain alive after the defining function returns. Each call to <code>counter</code> below creates independent state.</p>
+<pre><code class="language-nift">\@fn(counter(start)) {
+    n := start
+    return () =&gt; n++
+}
+\$[a := counter(10)]
+\$[b := counter(100)]
+\$[a()]  @/* 10 */
+\$[a()]  @/* 11 */
+\$[b()]  @/* 100 */</code></pre>
+<h2 id="factories">Function factories</h2>
+<pre><code class="language-nift">\@fn(at_least(minimum)) {
+    return value =&gt; value &gt;= minimum
+}
+\$[passing := at_least(50)]
+\$[distinctions := at_least(75)]
+\$[scores.filter(passing)]
+\$[scores.filter(distinctions)]</code></pre>
+<h2 id="variadic-lambdas">Variadic lambdas and spread</h2>
+<p>A lambda may end its parameter list with one variadic parameter. The remaining arguments become an ordinary heterogeneous array. Spread expands an array back into positional arguments.</p>
+<pre><code class="language-nift">\$[collect := (first, ...rest) =&gt; {
+    return {"first": first, "rest": rest}
+}]
+\$[collect("a", "b", "c")]
+
+\$[values := [2, 3, 4]]
+\$[sum3 := (a, b, c) =&gt; a + b + c]
+\$[sum3(...values)]</code></pre>
+<p>Only one variadic parameter is allowed, it must be last, and spread requires an array.</p>
+<h2 id="rendered-lambdas">Rendered block lambdas</h2>
+<p>A markup-first block lambda can map structured values directly to rendered text—useful for frontend generation before <code>join("")</code>.</p>
+<pre><code class="language-nift">\$[cards := posts
+    .filter(post =&gt; post.published)
+    .map(post =&gt; {
+        &lt;article class="card"&gt;
+            &lt;h2&gt;\$[post.title]&lt;/h2&gt;
+            &lt;p&gt;\$[post.summary]&lt;/p&gt;
+        &lt;/article&gt;
+    })
+    .join("")]
+\$[cards]</code></pre>
+<p>A markup-first block produces its rendered text as the callback value. An ordinary statement-block lambda follows normal <code>return</code> semantics.</p>
+<h2 id="identity">Callable identity</h2>
+<p>Callables are identity-bearing values. Use <code>same(a, b)</code> to ask whether two bindings refer to the same callable. Separately-created lambdas are separate instances even when their source is identical.</p>
+<pre><code class="language-nift">\$[f := x =&gt; x * 2]
+\$[alias := f]
+\$[other := x =&gt; x * 2]
+\$[same(f, alias)]  @/* true */
+\$[same(f, other)]  @/* false */</code></pre>
+<h2 id="imports">Closures exported from scripts</h2>
+<p>Imported scripts have isolated scope, but an exported closure can retain private bindings it captured. This supports module-style APIs with encapsulated state.</p>
+<pre><code class="language-nift">@/* counter.f */
+count := 0
+next := () =&gt; count++
+export(next)</code></pre>
+<pre><code class="language-nift">\@import("counter.f")
+\$[next()]
+\$[next()]</code></pre>
+<p>See <a href="@path('docs/scripting-imports')">Imports &amp; exports</a> for module and export rules.</p>
+<div class="docs-callout"><strong>When to use which.</strong><p>Use a named <code>\@fn</code> when behaviour deserves a stable name or broad reuse. Use a lambda when behaviour is naturally local to a transformation, callback, factory or closure. Both are first-class callables.</p></div>
+<div class="docs-next"><span>Next</span><a href="@path('docs/structs')">Structs →</a></div>
+</article>

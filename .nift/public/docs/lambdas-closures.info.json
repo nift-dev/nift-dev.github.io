@@ -1,9 +1,9 @@
 {
-  "name": "docs/schemas",
-  "title": "Schemas",
+  "name": "docs/lambdas-closures",
+  "title": "Lambdas and closures",
   "template": "templates/docs.html",
-  "content": "content/docs/schemas.html",
-  "output": "public/docs/schemas.html",
+  "content": "content/docs/lambdas-closures.html",
+  "output": "public/docs/lambdas-closures.html",
   "minify": true,
   "minify-version": 1,
   "pagination": false,
@@ -14,7 +14,7 @@
   "project-fingerprint": "",
   "hierarchy-fingerprint": "",
   "dependencies": [
-    "content/docs/schemas.html",
+    "content/docs/lambdas-closures.html",
     "templates/docs.html",
     "templates/partials/docs-sidebar.html",
     "templates/partials/footer.html",

@@ -156,6 +156,11 @@
    "template": "templates/docs.html"
   },
   {
+   "name": "docs/lambdas-closures",
+   "title": "Lambdas and closures",
+   "template": "templates/docs.html"
+  },
+  {
    "name": "docs/structs",
    "title": "Structs",
    "template": "templates/docs.html"
