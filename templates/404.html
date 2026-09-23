@@ -9,7 +9,7 @@
 	<meta name="robots" content="noindex,follow">
 	<script>
 	(() => {
-		const mode = localStorage.getItem('nift-theme') || 'system';
+		const mode = localStorage.getItem('nift-theme') || 'dark';
 		const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 		document.documentElement.dataset.themeMode = mode;
 		document.documentElement.dataset.theme = mode === 'system' ? (systemDark ? 'dark' : 'light') : mode;

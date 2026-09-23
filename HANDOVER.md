@@ -166,7 +166,8 @@ native foreground bounds intact when changing responsive image fitting.
 
 
 Durable direction: clean typography, low clutter, responsive behavior,
-system/light/dark themes, dark-mode friendliness, green-gradient identity, and
+dark-by-default theming with explicit light/system choices, dark-mode friendliness,
+green-gradient identity, and
 restrained JavaScript. Historical preferences include angular rather than curvy
 hero hills, no sky grid, wide example cards, one representative template image,
 and a demo that explains Nift rather than becoming a distracting application.
