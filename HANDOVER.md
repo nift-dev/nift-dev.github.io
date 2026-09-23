@@ -158,9 +158,11 @@ must correspond. Build and inspect templates before updating captures/downloads.
 
 ## Design context
 
-About-page layout/code repair and **still-pending standalone raster artwork**
-are documented in `docs/handover/ABOUT-PAGE-REPAIR.md`. The current WebPs are
-retouched supplied artwork, not twelve independently regenerated illustrations.
+About-page full-bleed artwork, the executable colon-loop example and the
+neutral `#242422` code palette are documented in
+`docs/handover/ABOUT-PAGE-REPAIR.md`. The WebPs are retouched/recomposed supplied
+raster artwork, not twelve independently regenerated illustrations. Keep the
+native foreground bounds intact when changing responsive image fitting.
 
 
 Durable direction: clean typography, low clutter, responsive behavior,

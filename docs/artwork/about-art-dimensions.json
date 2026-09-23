@@ -1,0 +1,82 @@
+{
+  "websites": {
+    "width": 475,
+    "height": 180,
+    "source_top": 14,
+    "poster_x": 32,
+    "poster_y": 594,
+    "source_height": 120
+  },
+  "frontend": {
+    "width": 476,
+    "height": 180,
+    "source_top": 14,
+    "poster_x": 517,
+    "poster_y": 594,
+    "source_height": 120
+  },
+  "automation": {
+    "width": 475,
+    "height": 180,
+    "source_top": 55,
+    "poster_x": 32,
+    "poster_y": 724,
+    "source_height": 121
+  },
+  "shell": {
+    "width": 476,
+    "height": 180,
+    "source_top": 14,
+    "poster_x": 517,
+    "poster_y": 724,
+    "source_height": 121
+  },
+  "data": {
+    "width": 475,
+    "height": 180,
+    "source_top": 14,
+    "poster_x": 32,
+    "poster_y": 854,
+    "source_height": 121
+  },
+  "game": {
+    "width": 476,
+    "height": 180,
+    "source_top": 14,
+    "poster_x": 517,
+    "poster_y": 854,
+    "source_height": 121
+  },
+  "desktop": {
+    "width": 475,
+    "height": 180,
+    "source_top": 14,
+    "poster_x": 32,
+    "poster_y": 985,
+    "source_height": 121
+  },
+  "agents": {
+    "width": 476,
+    "height": 180,
+    "source_top": 14,
+    "poster_x": 517,
+    "poster_y": 985,
+    "source_height": 121
+  },
+  "packages": {
+    "width": 475,
+    "height": 180,
+    "source_top": 14,
+    "poster_x": 32,
+    "poster_y": 1116,
+    "source_height": 126
+  },
+  "creators": {
+    "width": 476,
+    "height": 180,
+    "source_top": 14,
+    "poster_x": 517,
+    "poster_y": 1116,
+    "source_height": 126
+  }
+}

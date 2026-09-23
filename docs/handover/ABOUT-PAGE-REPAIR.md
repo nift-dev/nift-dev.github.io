@@ -1,86 +1,72 @@
-# About page: layout and code repair — artwork regeneration still pending
+# About page — full-bleed artwork, corrected example and code surfaces
 
-## Scope and honest status
+## Current scope / artwork provenance
 
-This repair starts from `nift-about-poster-page(2).zip`: source branch `stage`
-at `21e9d37`, generated checkout `public/main` at `af48d37`, with the supplied
-uncommitted About-page/theme/navigation work retained.
+This pass starts from `nift-about-layout-code-repair(1).zip` (source `1f58b70`,
+public `851e991`). It retains the existing site template, favicon, navigation,
+footer, typography and `#02090e` site background.
 
-**The requested twelve independently generated, high-resolution raster
-illustrations have NOT been completed.** The image generator repeatedly returned
-full-page website mockups, including after an isolated hero reference was supplied.
-Those mockups were not used. No SVG replacements or vector reinterpretations
-were introduced.
+The artwork is **retouched/recomposed from the approved raster poster**, not a
+set of twelve independently AI-generated illustrations. Individual-image requests
+again produced full-page mockups; those generated mockups are not deployment
+assets. No SVG illustrations replace the original glass/neon/mountain artwork.
 
-The current twelve WebPs are **retouched versions of the supplied raster assets**.
-Their original dimensions/resolution and subjects are retained; they are not new
-standalone generations and are not upscaled. Border pixels and stray poster
-caption fragments were inpainted, and the outer backdrop pixels were softly
-feathered. The terminal and document lettering is now real HTML positioned inside
-the artwork column, not baked into the image. The N emblem and pictorial UI
-symbols remain part of the artwork.
+`docs/artwork/about-poster-reference.png` is the original source reference and
+is not published by Nift. `scripts/prepare_about_artwork.py` derives the hero and
+ten card scenes reproducibly (optional Pillow/numpy/OpenCV asset-editing tools).
+It removes poster copy and outer card rules, restores the original frontend and
+terminal lower corners, and adds sky / shallow reflection margin without
+stretching the subjects. The final WebPs retain the original raster detail;
+they are not claimed to be newly generated high-resolution art. The existing
+closing WebP is unchanged byte-for-byte.
 
-The retouching is an interim cleanup, not a substitute for the requested complete
-artwork regeneration. Original poster-derived framing and low resolution remain
-limitations. Do not describe these files as newly generated or fully reconstructed.
+The hero is now a 1024×376 text-free panorama, rather than the old 405×275 inset.
+The title, description, values and small motto are actual HTML over/alongside it.
+On small screens the main copy precedes the artwork.
 
-## Completed page/code repairs
+## Layout contract
 
-- Preserve the existing general page template, site header/footer/navigation,
-  typography, favicon and `#02090e` site background.
-- Keep the same hero → introduction/example → two-column capability grid →
-  closing structure. No poster is embedded as a single page image.
-- Give copy and images independent grid cells. Below 901px the capability grid
-  becomes one column; below 541px each card stacks copy above its illustration.
-  There are no absolute-positioned background images under the card copy.
-- All twelve illustration elements use `object-fit: contain`, automatic height,
-  intrinsic width/height attributes, and separate layout space. The page does not
-  crop them with `cover`. This does not reconstruct content missing in the source
-  poster-derived raster files.
-- Each card owns one CSS border; its artwork container has no additional border
-  or overlay. Removed baked-in right-edge poster border pixels as part of retouching.
-- Dark code surface: **`#181816`**, warm-neutral charcoal. Controls: `#242420`;
-  borders: `#363630`; inline chips: `#252521`. No blue bias in these backgrounds.
-  Includes documentation, examples, quickstart, homepage demo and install command.
-- The About example is one semantic `<pre><code>` block, not six inline-code
-  chips or an image. Gutter and caption are outside the code/copy payload.
-- The Nift build engine escapes markup inside code examples. Do not place
-  highlighting `<span>` elements in the source example: they render literally.
-  `data-about-template` enables a narrow DOM-based three-token highlighter in the
-  existing script, retaining the exact underlying code text and working offline.
-- Copying the example returns the literal six-line template with `$[post.title]`
-  and `$[post.excerpt]`, not line numbers, captions or HTML span tags.
+- Keep the two-column capability grid on desktop. Below 1101px it becomes one
+  column; below 701px each card stacks its copy above the artwork.
+- Card scenes fill the entire inner card surface, right up to the single CSS
+  border. There is no extra raster frame or padded inset-image box.
+- The left region of each desktop scene is intentionally dark/empty for copy.
+  Foreground objects must not cross into that copy region.
+- `object-fit: cover` may crop **landscape margins**, never the complete panes,
+  terminal, files, controller or other main subjects. The render test checks
+  native subject bounds, not just the image element's bounding box.
+- Avoid excessively long card paragraphs which force tall, narrow crops. The
+  card copy remains practical and links to the full relevant documentation.
+- Terminal/data labels remain HTML. Their positions are mapped from native
+  image coordinates, including `object-fit` offsets, by one ResizeObserver in
+  the existing site script. Keep coordinates and intrinsic image dimensions
+  synchronized with any replacement artwork.
 
-## Asset replacement contract
+## Code surfaces and example
 
-The image files are ordinary directly maintained public assets, in
-`public/assets/images/about/`. Keep these names for a later real artwork pass:
-
-`hero.webp`, `websites.webp`, `frontend.webp`, `automation.webp`, `shell.webp`,
-`data.webp`, `game.webp`, `desktop.webp`, `agents.webp`, `packages.webp`,
-`creators.webp`, `closing.webp`.
-
-Generate the complete subjects with space around them, no card frames, no baked
-headings/captions and no cropped subject extremities. Preserve the approved
-cinematic glass/neon/mountain style. Hero needs the moonlit lake and three-layer
-Nift stack; closing needs its own wide mountain/lake scene. Keep the existing
-logo/favicon. Do not try another full-page mockup → crop or SVG shortcut.
-
-Update the image width/height attributes when replacing assets. Terminal/data
-HTML labels are positioned for the present artwork and must be adjusted or
-removed if a new composition differs; do not let them drift outside the image.
+- Shared warm-neutral code background: **`#242422`** (formerly `#181816`).
+- Control background: `#30302d`; border: `#454540`. No blue bias in these fills.
+- The About example remains one semantic `pre > code` with the normal token
+  highlighter. It starts with **`@for(post : posts)`**, not `post in posts`.
+- The code-copy button is attached to `.about-code-panel`, which is its
+  positioned ancestor, and sits 10px from its inner top/right edges. Do not
+  move it back into the narrower inner code-column wrapper.
+- Copying produces only the six-line template; no gutter numbers, captions or
+  generated highlighting markup enter the clipboard.
+- `check_about_example.py` executes that exact displayed example with two data
+  records using the supplied compiled Nift binary.
 
 ## Validation
 
-The supplied Nift source compiled successfully and reports **Nift v4.5.0**.
-No Nift engine/version/source changes were made as part of this website repair.
-The command in this supplied version is `nift build --all`, not `build-all`.
+The unmodified supplied Nift source compiled and reports **Nift v4.5.0**.
+No Nift source/version/tag changes belong to this website pass.
 
 ```sh
 make -C ../nift -j4
 ../nift/nift build --all
 ../nift/nift build
 ../nift/nift status
+python3 scripts/check_about_example.py --nift ../nift/nift
 python3 scripts/check_handover_display.py
 python3 scripts/check_script_extensions.py
 python3 scripts/check_syntax_highlight.py
@@ -88,26 +74,23 @@ node --check public/assets/js/script.js
 python3 scripts/check_about_render.py --chromium /usr/bin/chromium
 ```
 
-The render check uses the actual built HTML/CSS/JS/image bytes offline and covers
-22 width/theme combinations (320–1440px, dark and light), ten card copy/art
-separations, image containment, single CSS borders, image loading, HTML art-label
-containment, literal code contents, token highlighting, copy payload, and menu /
-theme controls. It also checks the effective dark code backgrounds on the
-homepage, examples, getting-started and lambdas/closures pages.
+The full build covers 96 tracked files; the subsequent incremental build is a
+no-op. Optional render QA covers 34 width/theme combinations from 320–1600px,
+full-bleed boundaries, main-object/copy separation and subject containment,
+image loading, HTML labels, literal template/highlighting, top-right button
+geometry and its copy payload, and the shared menu/theme controls. It also
+checks effective neutral code backgrounds on four other website surfaces.
 
-The container's Chromium policy rejected direct file/loopback navigation. No
-policy was disabled. The test embeds the actual local assets into a blank
-browser document, with in-memory localStorage for theme state, and blocks all
-network requests. This validates layout and local scripting, **not** HTTP/file
-origin behaviour, the remote highlighter CDN, storage persistence, or Vantage /
-WebKit itself. Screenshots made by this test are actual HTML renders, not mockups.
+Render tests use the actual local built HTML/CSS/JS/images in an offline
+Chromium document. They do not test Vantage/WebKit, HTTP/file origin behavior,
+persistent localStorage, OS clipboard integration, or the external syntax
+highlight CDN. Preview PNGs from the render test are actual browser renders,
+not generated design mockups. Optional QA dependencies are not site runtime
+dependencies.
 
-The optional render test needs Python `playwright`, `beautifulsoup4` and a
-Chromium binary; it does not add runtime dependencies to the website.
+## Publication / packaging
 
-## Repository/publication
-
-Commit `public/main` first, then `stage` including the updated Git-linked public
-entry. Keep both `.git` directories when packaging; unzip into a separate
-location and verify both Git statuses and HEADs. No push or tag is part of this
-repair.
+Commit generated `public/main` first, then source `stage` including its updated
+Git-linked `public` entry. Preserve both `.git` directories. Verify Git HEADs,
+status and object integrity after unpacking the archive into a fresh directory.
+No push or tag is part of this task.

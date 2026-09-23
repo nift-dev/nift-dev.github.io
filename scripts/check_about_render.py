@@ -20,13 +20,13 @@ import shutil
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
-EXPECTED = """@for(post in posts) {
+EXPECTED = """@for(post : posts) {
   <article>
     <h2>$[post.title]</h2>
     <p>$[post.excerpt]</p>
   </article>
 }"""
-WIDTHS = (1440, 1280, 1100, 1024, 901, 900, 768, 541, 540, 390, 320)
+WIDTHS = (1600, 1440, 1280, 1200, 1101, 1100, 1024, 901, 900, 768, 701, 700, 600, 541, 540, 390, 320)
 ROOT = Path(__file__).resolve().parent.parent
 
 
@@ -67,6 +67,7 @@ def embedded_page(public: Path, relative: str, theme: str) -> str:
         else:
             link.decompose()
     for image in soup.find_all('img'):
+        image['data-qa-asset'] = Path(urlsplit(image['src']).path).stem
         path = local(image['src'])
         image['src'] = 'data:' + (mimetypes.guess_type(path)[0] or 'application/octet-stream') + ';base64,' + base64.b64encode(path.read_bytes()).decode('ascii')
         image['loading'] = 'eager'
@@ -90,7 +91,10 @@ LAYOUT_CHECK = r"""() => {
     const art = card.querySelector('.about-card-art');
     if (!copy || !art) {fail(`card ${i}: missing dedicated copy/art columns`);return;}
     const c=rect(copy), a=rect(art), outer=rect(card);
-    if (!(a.left>=c.right-.7 || a.top>=c.bottom-.7)) fail(`card ${i}: copy/art overlap`);
+    // Scenery intentionally extends behind the copy's dark negative space.
+    // Desktop art must meet ALL inner edges, not be an inset image.
+    if (innerWidth>700 && (Math.abs(a.right-outer.right+1)>1 || Math.abs(a.left-outer.left-1)>1 || Math.abs(a.top-outer.top-1)>1 || Math.abs(a.bottom-outer.bottom+1)>1)) fail(`card ${i}: artwork does not fill the card`);
+    if (innerWidth<=700 && a.top<c.bottom-.7) fail(`card ${i}: stacked art overlaps copy`);
     if (!within(c,outer) || !within(a,outer)) fail(`card ${i}: content outside card`);
     if (copy.scrollWidth>copy.clientWidth+1) fail(`card ${i}: overflowing text`);
     if (getComputedStyle(card).borderRightWidth!=='1px') fail(`card ${i}: border not 1px`);
@@ -103,10 +107,34 @@ LAYOUT_CHECK = r"""() => {
   if (images.length!==12) fail('expected twelve illustrations');
   images.forEach((im,i) => {
     if (!im.complete || !im.naturalWidth) fail(`image ${i}: failed to load`);
-    if (getComputedStyle(im).objectFit!=='contain') fail(`image ${i}: potentially cropped`);
+    if (!['contain','cover'].includes(getComputedStyle(im).objectFit)) fail(`image ${i}: distorted raster fit`);
     if (getComputedStyle(im).borderRightWidth!=='0px') fail(`image ${i}: second CSS border`);
     if (!within(rect(im),rect(im.parentElement))) fail(`image ${i}: outside its own column`);
     if (im.closest('.about-card-copy')) fail(`image ${i}: inside copy`);
+  });
+  // Full-bleed cover is allowed to crop landscape margins, never these main
+  // subjects. Bounds are measured in the native restored raster canvases.
+  const subjects = {
+    hero:[562,80,792,301], websites:[305,17,450,135],
+    frontend:[291,18,434,137], shell:[261,29,435,137],
+    data:[271,17,451,136], game:[305,34,450,135],
+    desktop:[304,17,448,134], agents:[300,18,430,135],
+    packages:[260,17,440,137], creators:[295,22,403,135]
+  };
+  images.forEach(im => {
+    const bounds=subjects[im.dataset.qaAsset]; if(!bounds)return;
+    const box=rect(im), style=getComputedStyle(im);
+    const scale=(style.objectFit==='contain'?Math.min:Math.max)(box.width/im.naturalWidth,box.height/im.naturalHeight);
+    const pos=style.objectPosition.split(' ').map(x=>parseFloat(x)/100);
+    const dx=box.left+(box.width-im.naturalWidth*scale)*pos[0];
+    const dy=box.top+(box.height-im.naturalHeight*scale)*pos[1];
+    const subject={left:dx+bounds[0]*scale,top:dy+bounds[1]*scale,right:dx+bounds[2]*scale,bottom:dy+bounds[3]*scale};
+    if(!within(subject,box))fail(`${im.dataset.qaAsset}: main subject clipped`);
+    const copy=im.closest('.about-capability-card')?.querySelector('.about-card-copy') || (im.dataset.qaAsset==='hero'?document.querySelector('.about-hero-copy'):null);
+    if(copy) {
+      const c=rect(copy);
+      if(!(subject.left>=c.right-1 || subject.top>=c.bottom-1))fail(`${im.dataset.qaAsset}: main object overlaps the copy region`);
+    }
   });
   document.querySelectorAll('.about-art-frame').forEach(frame => {
     const image=rect(frame.querySelector('img'));
@@ -121,9 +149,14 @@ LAYOUT_CHECK = r"""() => {
     if (getComputedStyle(code).backgroundColor!=='rgba(0, 0, 0, 0)') fail('code inherits inline chip background');
     if (getComputedStyle(code).borderTopWidth!=='0px') fail('code inherits inline chip border');
   }
-  if (getComputedStyle(panel).backgroundColor!=='rgb(24, 24, 22)') fail('non-neutral About code panel');
+  if (getComputedStyle(panel).backgroundColor!=='rgb(36, 36, 34)') fail('non-neutral About code panel');
   const button=panel.querySelector('.code-copy-button');
   if (!button || !within(rect(button),rect(panel))) fail('copy button missing or outside panel');
+  else {
+    const b=rect(button),p=rect(panel);
+    if(Math.abs(p.right-b.right-11)>1 || Math.abs(b.top-p.top-11)>1) fail('copy button not anchored to the panel top-right');
+    if(button.parentElement!==panel)fail('copy button attached to inner code column');
+  }
   if (document.querySelector('.about-card-art svg,.about-hero-art svg,.about-closing-art svg')) fail('SVG substituted for raster artwork');
   return errors;
 }"""
@@ -185,10 +218,12 @@ def main() -> int:
             assert page.locator('[data-about-template] .about-token-value').count() == 2
             for width in WIDTHS:
                 page.set_viewport_size({'width':width,'height':1000})
+                page.wait_for_timeout(60)  # allow the art-label ResizeObserver to settle
                 failures = page.evaluate(LAYOUT_CHECK)
                 assert not failures, f'{theme} / {width}px: {failures}'
                 checks += 1
                 if args.screenshots and theme == 'dark' and width in (1440,900,390):
+                    page.evaluate('window.scrollTo(0,0)')
                     page.screenshot(path=str(args.screenshots / f'about-{width}.png'), full_page=True)
             # Exercise the shared theme/menu wiring with the actual site script.
             page.set_viewport_size({'width':390,'height':900})
@@ -225,7 +260,7 @@ def main() -> int:
                 page.screenshot(path=str(args.screenshots / 'docs-code-charcoal.png'))
         ctx.close()
         browser.close()
-    print(f'check-about-render passed: {checks} width/theme layouts, 12 raster assets, literal code + copy, menu/theme controls, 4 dark code surfaces')
+    print(f'check-about-render passed: {checks} width/theme layouts, 12 raster assets, full-bleed scenery + protected subjects, literal code + top-right copy, menu/theme controls, 4 dark code surfaces')
     return 0
 
 
