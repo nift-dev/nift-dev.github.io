@@ -255,7 +255,10 @@
     button.setAttribute('aria-label', 'Copy code');
     button.title = 'Copy code';
     button.innerHTML = copyIcon;
-    wrap.appendChild(button);
+    // The About example has an outer label/motto panel. Its copy control
+    // belongs to that panel, not the narrower inner code column.
+    const copyHost = pre.closest('.about-code-panel') || wrap;
+    copyHost.appendChild(button);
 
     button.addEventListener('click', async () => {
       try {
@@ -276,6 +279,36 @@
       }
     });
   });
+  // Map HTML terminal/data lettering into the rendered raster, including
+  // object-fit:cover's offset. The words stay selectable HTML, not image ink.
+  // A single observer updates only these two frames; no window-resize polling.
+  const artFrames = [...document.querySelectorAll('.about-art-frame')];
+  const positionArtLabels = frame => {
+    const image = frame.querySelector('img');
+    if (!image?.naturalWidth || !image.naturalHeight) return;
+    const width = frame.clientWidth, height = frame.clientHeight;
+    const style = getComputedStyle(image);
+    const scale = (style.objectFit === 'contain' ? Math.min : Math.max)(
+      width / image.naturalWidth, height / image.naturalHeight);
+    const position = style.objectPosition.split(' ').map(value => parseFloat(value) / 100);
+    const x = (width - image.naturalWidth * scale) * (position[0] || 0);
+    const y = (height - image.naturalHeight * scale) * (position[1] || 0);
+    frame.querySelectorAll('[data-art-x]').forEach(label => {
+      label.style.left = `${x + Number(label.dataset.artX) * image.naturalWidth * scale}px`;
+      label.style.top = `${y + Number(label.dataset.artY) * image.naturalHeight * scale}px`;
+      label.style.fontSize = `${Number(label.dataset.artFont) * scale}px`;
+    });
+  };
+  if (artFrames.length) {
+    const artObserver = typeof ResizeObserver !== 'undefined'
+      ? new ResizeObserver(entries => entries.forEach(entry => positionArtLabels(entry.target))) : null;
+    artFrames.forEach(frame => {
+      frame.querySelector('img')?.addEventListener('load', () => positionArtLabels(frame));
+      artObserver?.observe(frame);
+      positionArtLabels(frame);
+    });
+  }
+
   const loadHighlighting = () => {
     if (!codeBlocks.length) return;
 
