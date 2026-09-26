@@ -26,6 +26,7 @@ r := run("./deploy.f", "staging", "--force")
 print(r.exit_code)
 </code></pre>
 <p>User arguments are available inside the script as an immutable <code>args</code> array (the script path itself is not included): <code>./deploy.f staging --force</code> gives <code>["staging", "--force"]</code>. <code>nift deploy.f staging --force</code> supplies the same user arguments without requiring executable permission. <code>--no-process</code> blocks external <code>./script.f</code> execution (both command-style and <code>run()</code>); launching the script itself is how the parent process started and is not the same operation.</p>
+<p>Standalone execution also provides immutable <code>cmd</code> and <code>args</code> bindings. <code>cmd</code> is the script invocation spelling (for example <code>./deploy.f</code>), while <code>args</code> contains only user arguments. Use <code>--</code> to force later option-looking tokens into <code>args</code>, for example <code>nift deploy.f -- --no-process</code>. The interactive shell uses <code>&lt;repl&gt;</code> as its stable <code>cmd</code> identity and an empty <code>args</code> array.</p>
 <h2 id="shell">Interactive shell</h2>
 <pre><code class="language-plaintext">$ nift
 ~/project$ x := 10
