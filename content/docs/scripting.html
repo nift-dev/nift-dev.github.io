@@ -74,7 +74,26 @@ a.join(); b.join()
 counter.lock()
 print(counter.get()) // 2
 counter.unlock()</code></pre>
-<p>Mutex ownership is non-recursive. Double locking by the owner, unlocking from another worker, and reading/writing the synchronized value without ownership are runtime errors. Nift does not expose C++ memory-order controls in v4.5; ordinary values still cross worker boundaries by copy unless they are wrapped in an explicit thread-safe runtime handle.</p>
+<p>Mutex ownership is non-recursive. Double locking by the owner, unlocking from another worker, and reading/writing the synchronized value without ownership are runtime errors. Ordinary values still cross worker boundaries by copy unless they are wrapped in an explicit thread-safe runtime handle.</p>
+<h3 id="atomics">Atomic integers and booleans</h3>
+<p><code>atomic&lt;int&gt;(initial)</code> and <code>atomic&lt;bool&gt;(initial)</code> create small transferable shared-state handles for scalar concurrency. Atomic operations are sequentially consistent; Nift deliberately does not expose C++ memory-order parameters.</p>
+<pre><code class="language-nift">fn(increment(counter, count)) {
+    i := 0
+    while(i &lt; count) {
+        counter.fetch_add(1)
+        i += 1
+    }
+}
+
+counter := atomic&lt;int&gt;(0)
+a := thread(increment, counter, 1000)
+b := thread(increment, counter, 1000)
+a.join(); b.join()
+print(counter.load()) // 2000
+
+ready := atomic&lt;bool&gt;(false)
+ready.store(true)</code></pre>
+<p>Both atomic types support <code>load()</code>, <code>store(value)</code>, <code>exchange(value)</code> and <code>compare_exchange(expected, desired)</code>. <code>atomic&lt;int&gt;</code> additionally supports <code>fetch_add(delta)</code> and <code>fetch_sub(delta)</code>; these return the previous value. Atomic integers are signed 64-bit values, while atomic booleans accept only <code>true</code>/<code>false</code>.</p>
 <h3 id="async-await">Async / await</h3>
 <p><code>async(callable, ...args)</code> schedules the same callable/value snapshot model onto a bounded native worker pool and returns an async handle. Use <code>await(handle)</code> or <code>handle.await()</code> to obtain the result. <code>done()</code> and <code>status()</code> mirror thread-handle inspection.</p>
 <pre><code class="language-nift">fn(fetch_one(id)) {
