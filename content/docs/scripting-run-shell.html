@@ -101,3 +101,7 @@ print(u.ok)</code></pre>
 nift --no-process
 nift build --no-process</code></pre>
 <p><code>--fs-root=&lt;path&gt;</code> (or <code>NIFT_FS_ROOT</code>) confines Nift-native filesystem operations (<code>cp</code>/<code>mv</code>/<code>rm</code>/<code>mkdir</code>/<code>touch</code>/<code>cat</code>/<code>open</code>/<code>ls</code>/<code>cd</code> and globs) to that root; paths escaping it are rejected. It restricts only Nift's own filesystem surface — when process execution is enabled, child processes run under their own OS authority, so do not treat this as an OS sandbox.</p>
+
+<h2 id="background-jobs">Background jobs (v4.5)</h2>
+<p>On POSIX hosts, append <code>&amp;</code> to a command or pipeline to launch it as a background process group. <code>jobs</code> reports stable job IDs and running/stopped/completed state. Structured <code>run()</code>/<code>cmd().run()</code> remains synchronous and separate from interactive shell jobs.</p>
+<p>Windows currently reports interactive POSIX-style job control as unsupported rather than emulating process-group semantics it cannot guarantee.</p>
