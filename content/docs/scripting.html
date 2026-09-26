@@ -1,7 +1,7 @@
 <article class="docs-article">
 <p class="docs-kicker">Scripting · Script land</p>
 <h1>Native Nift scripting.</h1>
-<p class="docs-lead">Nift 4.3 has two deliberately distinct contexts: <strong>template land</strong> for building websites, and <strong>script land</strong> for native statements, reusable script files and interactive automation. They share one Nift language/runtime rather than embedding another interpreter.</p>
+<p class="docs-lead">Nift 4.5 has two deliberately distinct contexts: <strong>template land</strong> for building websites, and <strong>script land</strong> for native statements, reusable script files and interactive automation. They share one Nift language/runtime rather than embedding another interpreter.</p>
 
 <h2 id="template-vs-script">Template land vs script land</h2>
 <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Context</th><th>Purpose</th><th>Syntax</th></tr></thead><tbody>
@@ -86,15 +86,42 @@ b := async(fetch_one, 21)
 print(await(a) + await(b)) // 82</code></pre>
 <p>The pool uses real native worker threads and is bounded to a fixed worker count for the process. Awaiting from inside a pool worker can execute queued work while it waits, so nested async/await does not deadlock merely because every worker is waiting on work queued to the same pool. Worker errors are replayed by <code>await</code>; there is no forced task cancellation in the initial v4.5 contract.</p>
 
+
+<h2 id="runtime-targets">Runtime targets (v4.5)</h2>
+<p><code>target()</code> reports the invocation target independently from host <code>os()</code> and <code>arch()</code>. The default is <code>native</code>.</p>
+<pre><code class="language-bash">nift --android script.f
+nift --target=my.custom script.f
+nift build --android</code></pre>
+<p>Built-in target IDs are <code>native</code>, <code>linux</code>, <code>macos</code>, <code>windows</code>, <code>android</code>, <code>ios</code> and <code>wasm</code>. Custom lowercase IDs are accepted with <code>--target=ID</code>. Target state belongs to the invocation/runtime; it does not change the real host operating system reported by <code>os()</code>.</p>
+
+<h2 id="ffi">Native C ABI FFI (v4.5)</h2>
+<p>Nift can load native shared libraries at runtime and call an explicitly typed C ABI surface without turning arbitrary native memory into ordinary Nift values. Open a library with <code>ffi_open()</code>, invoke a symbol with <code>ffi_call()</code>, and close the handle with <code>ffi_close()</code>.</p>
+<pre><code class="language-nift">lib := ffi_open("./libmaths.so")
+answer := ffi_call(lib, "add_i64", "i64(i64,i64)", 20, 22)
+print(answer) // 42
+ffi_close(lib)</code></pre>
+<p>The v4.5 built-in dispatcher supports integer/bool/pointer/C-string scalar calls plus homogeneous floating-point calls, owned byte buffers, explicitly laid-out native structs passed by address, and a certified synchronous <code>i64(i64)</code> callback bridge. Unsupported signatures fail explicitly rather than guessing an ABI. Package authors are expected to wrap low-level calls behind ordinary Nift functions so application code does not repeat signatures and ownership details.</p>
+<pre><code class="language-nift">bytes := ffi_buffer([1, 2, 3])
+pair := ffi_struct("i32,i32", [7, 8])
+
+fn(twice(x)) { return x * 2 }
+cb := ffi_callback(twice, "i64(i64)")</code></pre>
+<p>Native filenames remain platform-specific (<code>.so</code>, <code>.dylib</code>, <code>.dll</code>). FFI handles, buffers and callbacks are runtime-owned resources; closing or tearing down a runtime invalidates the corresponding native resources deterministically.</p>
+
+<h2 id="embedding">Embedding Nift (v4.5)</h2>
+<p>The Nift runtime can also be embedded in native applications. The C++ <code>nift::Engine</code> keeps template rendering and a persistent script runtime in one host-owned object: applications can execute scripts, evaluate expressions, set a runtime target, register trusted native functions, and invoke named Nift functions.</p>
+<pre><code class="language-cpp">nift::Engine engine;
+engine.set_target("native");
+engine.register_function("native_mul", [](const std::vector&lt;nift::Value&gt;&amp; args) {
+    return nift::Value(args[0].integer() * args[1].integer());
+});
+
+engine.execute("fn(scale(x)) { return native_mul(x, 2) }");
+auto result = engine.call("scale", {nift::Value(21)});</code></pre>
+<p>A versioned C ABI exposes the same execute/evaluate result model for non-C++ hosts. Separate <code>Engine</code> instances are isolated and can run concurrently; script operations on one Engine are serialized so its persistent bindings remain coherent. Embedded scripts run in hosted mode and do not silently acquire shell-only process-global powers such as changing the host process working directory.</p>
+
 <h2 id="where-next">Script files and interactive use</h2>
 <p>Use <a href="@path('docs/scripting-imports')"><code>\@import(path)</code></a> for isolated reusable script files, <a href="@path('docs/scripting-run-shell')"><code>nift path</code> and <code>nift</code></a> for standalone execution, and the dedicated filesystem and stream references for script-side I/O.</p>
 <div class="docs-callout"><strong>Explicit process execution.</strong><p>Nift 4.4 does not resurrect <code>\@system</code>. Script land instead provides structured <code>run()</code>/<code>cmd()</code> process APIs and shell command execution with explicit argv/pipeline semantics; <code>--no-process</code> can disable every script-reachable external-process surface.</p></div>
 <div class="docs-next"><span>Next</span><a href="@path('docs/scripting-imports')">Imports &amp; exports →</a></div>
 </article>
-
-<h2 id="runtime-targets">Runtime targets (v4.5)</h2>
-<p><code>target()</code> reports the invocation target independently from host <code>os()</code> and <code>arch()</code>. The default is <code>native</code>.</p>
-<pre><code>nift --android script.f
-nift --target=my.custom script.f
-nift build --android</code></pre>
-<p>Built-in target IDs are <code>native</code>, <code>linux</code>, <code>macos</code>, <code>windows</code>, <code>android</code>, <code>ios</code> and <code>wasm</code>. Custom lowercase IDs are accepted with <code>--target=ID</code>.</p>
