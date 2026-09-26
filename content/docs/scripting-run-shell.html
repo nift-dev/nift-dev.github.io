@@ -105,3 +105,6 @@ nift build --no-process</code></pre>
 <h2 id="background-jobs">Background jobs (v4.5)</h2>
 <p>On POSIX hosts, append <code>&amp;</code> to a command or pipeline to launch it as a background process group. <code>jobs</code> reports stable job IDs and running/stopped/completed state. Structured <code>run()</code>/<code>cmd().run()</code> remains synchronous and separate from interactive shell jobs.</p>
 <p>Windows currently reports interactive POSIX-style job control as unsupported rather than emulating process-group semantics it cannot guarantee.</p>
+
+<h3 id="job-control-builtins">Foreground and stopped jobs</h3>
+<p>POSIX shells also provide <code>fg [job]</code>, <code>bg [job]</code>, and <code>wait [job]</code>. Job IDs accept <code>1</code> or <code>%1</code>. Foreground commands and pipelines share one process group, so terminal Ctrl-C/Ctrl-Z is delivered to the job rather than the Nift shell. <code>wait</code> without an ID waits for all known live jobs.</p>
