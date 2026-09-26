@@ -10,3 +10,10 @@ That writes the canonical HANDOVER.md into the project root. For an existing pro
 
 Current AI-agent documentation:
     https://nift.dev/docs/ai-agents.html
+
+Nift 4.5 runtime note:
+    Direct scripts: nift file.f
+    Interactive shell: nift
+    Stdin source: nift -
+    Native concurrency: thread/mutex + async/await
+    Native integration: typed C-ABI FFI + embeddable Engine/C ABI 1.1

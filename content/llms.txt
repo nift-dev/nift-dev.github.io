@@ -28,6 +28,11 @@ Nift is itself an official command-line tool. Install and run the `nift` executa
 - [AI agents and project handovers](https://nift.dev/docs/ai-agents.html)
 - [GitHub repository](https://github.com/nift-dev/nift)
 
+
+## Nift 4.5 scripting/runtime
+
+Nift 4.5 also provides a native scripting/runtime layer: direct `nift file.f` execution, the persistent `nift` shell, `-e`/`-c`/`-i`, stdin source via `nift -`, `cmd`/`args`, environment/OS/target inspection, POSIX job control, native threads, mutex-protected shared state, a bounded native async/await pool, an explicitly typed C-ABI FFI, and an embeddable C++/C-ABI runtime with maintained Go/Python/Node/C# bindings. These capabilities complement Nift's website build role; they do not turn nift.dev itself into a hosted application API.
+
 ## Machine-readable resources
 
 - [Sitemap](https://nift.dev/sitemap.xml)
