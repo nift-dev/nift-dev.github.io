@@ -73,6 +73,12 @@ make &amp;&amp; ./tests
 who := "world"; echo hello $[who]   # hello world
 echo one ; echo two</code></pre>
 <p>The shell loads <code>~/.niftrc</code> as ordinary Nift code at startup. Native <code>setenv()</code>/<code>unsetenv()</code> changes persist for the shell session and are inherited by child processes.</p>
+<h2 id="host-introspection">Environment and host introspection</h2>
+<pre><code class="language-nift">home := getenv("HOME")
+all := env()
+print(os())       // linux, macos or windows
+print(arch())     // x86_64, arm64, x86, arm, wasm32, wasm64 or unknown</code></pre>
+<p><code>env()</code> returns an ordinary object snapshot whose keys and values are strings. Environment names are case-sensitive on POSIX. On Windows they are treated case-insensitively when collapsing duplicate spellings, with the last observed spelling/value retained. <code>os()</code> reports the host operating system; <code>arch()</code> reports the host CPU architecture and is deliberately separate from the v4.5 target-selection contract. Embedded engines with a custom lookup-only environment provider do not silently expose the process environment through <code>env()</code>; snapshot enumeration fails explicitly unless the host boundary can provide it.</p>
 
 <h2 id="automation">Native project build automation</h2>
 <p>Scripts can drive Nift's own project/build machinery directly, with no subprocess and no shell round-trip. The nearest project (a directory containing <code>.nift/config.json</code>) at or above the working directory is resolved automatically. Every operation returns a structured result object with <code>ok</code>, <code>exit_code</code>, <code>affected</code> (page names touched), <code>errors</code> and <code>duration_seconds</code>; build progress/summary output is suppressed so script stdout stays parseable.</p>
