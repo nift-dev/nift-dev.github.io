@@ -52,7 +52,7 @@ print(counter.get()) // 2
 counter.unlock()</code></pre> <p>Mutex ownership is non-recursive. Double locking by the owner, unlocking from another worker, and reading/writing the synchronized value without ownership are runtime errors. Ordinary values still cross worker boundaries by copy unless they are wrapped in an explicit thread-safe runtime handle.</p> <h3 id="atomics">Atomic integers and booleans</h3> <p><code>atomic&lt;int&gt;(initial)</code> and <code>atomic&lt;bool&gt;(initial)</code> create small transferable shared-state handles for scalar concurrency. Atomic operations are sequentially consistent; Nift deliberately does not expose C++ memory-order parameters.</p> <pre><code class="language-nift">fn(increment(counter, count)) {
     i := 0
     while(i &lt; count) {
-        counter.fetch_add(1)
+        counter++
         i += 1
     }
 }
@@ -61,18 +61,21 @@ counter := atomic&lt;int&gt;(0)
 a := thread(increment, counter, 1000)
 b := thread(increment, counter, 1000)
 a.join(); b.join()
-print(counter.load()) // 2000
+print(counter) // 2000
 
 ready := atomic&lt;bool&gt;(false)
-ready.store(true)</code></pre> <p>Both atomic types support <code>load()</code>, <code>store(value)</code>, <code>exchange(value)</code> and <code>compare_exchange(expected, desired)</code>. <code>atomic&lt;int&gt;</code> additionally supports <code>fetch_add(delta)</code> and <code>fetch_sub(delta)</code>; these return the previous value. Atomic integers are signed 64-bit values, while atomic booleans accept only <code>true</code>/<code>false</code>.</p> <h3 id="async-await">Async / await</h3> <p><code>async(callable, ...args)</code> schedules the same callable/value snapshot model onto a bounded native worker pool and returns an async handle. Use <code>await(handle)</code> or <code>handle.await()</code> to obtain the result. <code>done()</code> and <code>status()</code> mirror thread-handle inspection.</p> <pre><code class="language-nift">fn(fetch_one(id)) {
-    return id * 2
-}
+ready = true</code></pre> <p>Atomics behave like synchronized scalar references in ordinary expressions. <code>atomic&lt;int&gt;</code> supports <code>++</code>, <code>--</code>, <code>+=</code>, <code>-=</code>, <code>&amp;=</code>, <code>|=</code>, <code>^=</code>, <code>%=</code> and scalar assignment with <code>=</code>; <code>atomic&lt;bool&gt;</code> supports scalar assignment with <code>=</code>. Both retain explicit <code>load()</code>, <code>store(value)</code>, <code>exchange(value)</code> and <code>compare_exchange(expected, desired)</code>; integer atomics also expose <code>fetch_add()</code> / <code>fetch_sub()</code>. Atomic integers are signed 64-bit values and all operations are sequentially consistent.</p> <h3 id="async-await">Async functions, futures and await</h3> <p>Declare an async function with <code></code> (or <code>fn[async]</code> in script-style source), or create an async lambda with <code>async (args) =&gt; { ... }</code>. Calling an async callable schedules it on Nift's bounded native worker pool and immediately returns a <code>future</code>.</p> <pre><code class="language-nift">
 
-a := async(fetch_one, 20)
-b := async(fetch_one, 21)
-print(await(a) + await(b)) // 82</code></pre> <p>The pool uses real native worker threads and is bounded to a fixed worker count for the process. Awaiting from inside a pool worker can execute queued work while it waits, so nested async/await does not deadlock merely because every worker is waiting on work queued to the same pool. Worker errors are replayed by <code>await</code>; there is no forced task cancellation in the initial v4.5 contract.</p> <h2 id="runtime-targets">Runtime targets (v4.5)</h2> <p><code>target()</code> reports the invocation target independently from host <code>os()</code> and <code>arch()</code>. The default is <code>native</code>.</p> <pre><code class="language-bash">nift --android script.f
-nift --target=my.custom script.f
-nift build --android</code></pre> <p>Built-in target IDs are <code>native</code>, <code>linux</code>, <code>macos</code>, <code>windows</code>, <code>android</code>, <code>ios</code> and <code>wasm</code>. Custom lowercase IDs are accepted with <code>--target=ID</code>. Target state belongs to the invocation/runtime; it does not change the real host operating system reported by <code>os()</code>.</p> <h2 id="ffi">Native C ABI FFI (v4.5)</h2> <p>Nift can load native shared libraries at runtime and call an explicitly typed C ABI surface without turning arbitrary native memory into ordinary Nift values. Open a library with <code>ffi_open()</code>, invoke a symbol with <code>ffi_call()</code>, and close the handle with <code>ffi_close()</code>.</p> <pre><code class="language-nift">lib := ffi_open("./libmaths.so")
+a := fetch_one(20)
+print(type(a))          // future
+print(await a)          // 40
+print(await fetch_one(21)) // 42
+
+work := async (x) =&gt; { return x + 1 }
+p := work(41)
+print(await p)          // 42</code></pre> <p><code>await future</code> and <code>await async_fn(...)</code> are prefix expressions. Futures expose <code>done()</code> and <code>status()</code> for inspection. The old library-style <code>async(callable, ...)</code>, <code>await(...)</code> and <code>.await()</code> spellings are not part of the v4.5 public API.</p> <p>The pool uses real native worker threads. A worker awaiting nested work can execute queued work while waiting, preventing fixed-pool starvation. Errors are replayed by <code>await</code>; forced cancellation is not part of the initial v4.5 contract.</p> <h2 id="runtime-platforms">Runtime platforms (v4.5)</h2> <p><code>platform()</code> reports the selected execution/output platform independently from host <code>os()</code> and <code>arch()</code>. The default is <code>native</code>. Runtime/build selection deliberately uses <code>--platform</code> so <code>nift init --target=&lt;provider&gt;</code> keeps its existing deployment-provider meaning.</p> <pre><code class="language-bash">nift --platform=android script.f
+nift --platform=my.custom script.f
+nift build --platform=android</code></pre> <p>Built-in platform IDs are <code>native</code>, <code>linux</code>, <code>macos</code>, <code>windows</code>, <code>android</code>, <code>ios</code> and <code>wasm</code>. Custom lowercase IDs are accepted with <code>--platform=ID</code>. Platform state belongs to the invocation/runtime; it never changes the real host operating system reported by <code>os()</code>.</p> <h2 id="ffi">Native C ABI FFI (v4.5)</h2> <p>Nift can load native shared libraries at runtime and call an explicitly typed C ABI surface without turning arbitrary native memory into ordinary Nift values. Open a library with <code>ffi_open()</code>, invoke a symbol with <code>ffi_call()</code>, and close the handle with <code>ffi_close()</code>.</p> <pre><code class="language-nift">lib := ffi_open("./libmaths.so")
 answer := ffi_call(lib, "add_i64", "i64(i64,i64)", 20, 22)
 print(answer) // 42
 ffi_close(lib)</code></pre> <p>The v4.5 built-in dispatcher supports integer/bool/pointer/C-string scalar calls plus homogeneous floating-point calls, owned byte buffers, explicitly laid-out native structs passed by address, and a certified synchronous <code>i64(i64)</code> callback bridge. Unsupported signatures fail explicitly rather than guessing an ABI. Package authors are expected to wrap low-level calls behind ordinary Nift functions so application code does not repeat signatures and ownership details.</p> <pre><code class="language-nift">bytes := ffi_buffer([1, 2, 3])
