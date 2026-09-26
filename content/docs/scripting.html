@@ -51,3 +51,10 @@ fn(example(x)) {
 <div class="docs-callout"><strong>Explicit process execution.</strong><p>Nift 4.4 does not resurrect <code>\@system</code>. Script land instead provides structured <code>run()</code>/<code>cmd()</code> process APIs and shell command execution with explicit argv/pipeline semantics; <code>--no-process</code> can disable every script-reachable external-process surface.</p></div>
 <div class="docs-next"><span>Next</span><a href="@path('docs/scripting-imports')">Imports &amp; exports →</a></div>
 </article>
+
+<h2 id="runtime-targets">Runtime targets (v4.5)</h2>
+<p><code>target()</code> reports the invocation target independently from host <code>os()</code> and <code>arch()</code>. The default is <code>native</code>.</p>
+<pre><code>nift --android script.f
+nift --target=my.custom script.f
+nift build --android</code></pre>
+<p>Built-in target IDs are <code>native</code>, <code>linux</code>, <code>macos</code>, <code>windows</code>, <code>android</code>, <code>ios</code> and <code>wasm</code>. Custom lowercase IDs are accepted with <code>--target=ID</code>.</p>
