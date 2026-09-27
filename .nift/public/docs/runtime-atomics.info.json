@@ -1,9 +1,9 @@
 {
-  "name": "docs/how-nift-works",
-  "title": "How Nift works",
+  "name": "docs/runtime-atomics",
+  "title": "Atomic shared scalars",
   "template": "templates/docs.html",
-  "content": "content/docs/how-nift-works.html",
-  "output": "public/docs/how-nift-works.html",
+  "content": "content/docs/runtime-atomics.html",
+  "output": "public/docs/runtime-atomics.html",
   "minify": true,
   "minify-version": 1,
   "pagination": false,
@@ -14,7 +14,7 @@
   "project-fingerprint": "",
   "hierarchy-fingerprint": "",
   "dependencies": [
-    "content/docs/how-nift-works.html",
+    "content/docs/runtime-atomics.html",
     "templates/docs.html",
     "templates/partials/docs-sidebar.html",
     "templates/partials/footer.html",

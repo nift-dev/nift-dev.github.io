@@ -1,0 +1,45 @@
+<article class="docs-article">
+<p class="docs-kicker">Scripting &amp; runtime · concurrency</p>
+<h1>Threads, mutexes, async functions &amp; futures.</h1>
+<p class="docs-lead">Nift v4.5 runs real native work concurrently. Use explicit threads for dedicated work, async functions for pool-scheduled tasks, and mutexes or atomics only when workers intentionally share state.</p>
+
+<h2 id="threads">Native threads</h2>
+<pre><code class="language-nift">fn(add(a, b)) { return a + b }
+t := thread(add, 20, 22)
+print(t.join())
+print(t.join()) // replayable: 42 again</code></pre>
+<p><code>thread(callable, ...args)</code> accepts a named function or lambda and starts a native worker. <code>join()</code> waits and replays the same result on later calls; worker errors are rethrown at join. <code>done()</code> and <code>status()</code> inspect progress, and <code>hardware_concurrency()</code> reports the host hint. Thread handles own safe teardown: a runtime does not abandon work it created.</p>
+<p>Ordinary values and captured closures are copied into an isolated worker context. That makes accidental shared mutation impossible; pass a <code>mutex</code> or <code>atomic</code> handle when sharing is intentional.</p>
+
+<h2 id="mutexes">Mutex-protected shared state</h2>
+<pre><code class="language-nift">fn(inc(m, count)) {
+    i := 0
+    while(i &lt; count) {
+        m.lock()
+        m.set(m.get() + 1)
+        m.unlock()
+        i++
+    }
+    return true
+}
+
+counter := mutex(0)
+a := thread(inc, counter, 500)
+b := thread(inc, counter, 500)
+a.join(); b.join()
+counter.lock(); print(counter.get()); counter.unlock()</code></pre>
+<p><code>mutex()</code> creates a lock-only handle; <code>mutex(value)</code> also owns a synchronized value. The API is <code>lock()</code>, <code>try_lock()</code>, <code>unlock()</code>, <code>locked()</code>, plus owner-only <code>get()</code>/<code>set()</code>. Locks are non-recursive. Reading the protected value without owning the lock, recursively locking it, or unlocking from another worker is an error.</p>
+
+<h2 id="async">Async functions and futures</h2>
+<pre><code class="language-nift">fn[async](double(x)) { return x * 2 }
+triple := async (x) =&gt; { return x * 3 }
+
+f := double(21)
+print(type(f))       // future
+print(await f)       // 42
+print(await triple(14))</code></pre>
+<p>In template syntax the named declaration is <code>\@fn[async](double(x)) { ... }</code>. Calling an async function immediately returns a <code>future</code>. Prefix <code>await</code> accepts a future expression directly; a bare <code>await f</code> statement is also valid. Results are replayable, failures propagate at await, and <code>done()</code>/<code>status()</code> inspect state.</p>
+<p>Async functions use a bounded native worker pool. A worker awaiting another future helps drain queued work, so nested awaits make progress instead of exhausting a fixed pool. Runtime teardown waits for work created by that runtime. Use <code>thread(...)</code> for an explicit native thread; use async functions for tasks scheduled onto the shared bounded pool.</p>
+<div class="docs-callout"><strong>Old async spellings are not public.</strong><p><code>async(work, ...)</code>, <code>await(f)</code>, and <code>f.await()</code> were superseded before release. Use async function/lambda declarations and prefix <code>await</code>.</p></div>
+<div class="docs-next"><span>Next</span><a href="@path('docs/runtime-atomics')">Atomic shared scalars →</a></div>
+</article>

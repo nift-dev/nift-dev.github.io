@@ -1,0 +1,16 @@
+<article class="docs-article">
+<p class="docs-kicker">Scripting &amp; runtime · native FFI</p>
+<h1>Call explicitly typed C ABI functions.</h1>
+<p class="docs-lead">The v4.5 FFI opens a native library, resolves a symbol, and calls it through a signature you provide. It is an unsafe typed boundary—not automatic C header or ABI inference.</p>
+<pre><code class="language-nift">lib := ffi_open("./libmath_helpers.so")
+sum := ffi_call(lib, "add_i64", "i64(i64,i64)", 20, 22)
+print(sum)
+ffi_close(lib)</code></pre>
+<p>Use <code>.so</code> on Linux, <code>.dylib</code> on macOS, and <code>.dll</code> on Windows. Keep the library open for every call and callback that depends on it; calling through a closed handle is an error.</p>
+<h2 id="types">Supported boundary</h2>
+<p>Signatures cover the maintained scalar integer, floating-point, boolean, C-string, pointer and void forms, plus explicit null pointers. Nift-owned native buffers and declared struct layouts provide bounded memory exchange without pretending arbitrary C layouts are self-describing. Unsupported signatures, layouts, calling conventions, argument counts, conversions, or missing symbols fail explicitly.</p>
+<h2 id="callbacks">Callbacks and lifetime</h2>
+<p>Callbacks are bounded synchronous calls from native code into a Nift callable. Keep the callback and its owning runtime alive for the entire native call. Native code must not retain the callback for later or invoke it asynchronously after <code>ffi_call</code> returns. Callback failures cross the boundary as controlled runtime errors rather than exceptions escaping through C.</p>
+<div class="docs-callout"><strong>FFI is unsafe by nature.</strong><p>A correct signature can still point at unsafe native behavior. Validate lengths and ownership, match the library's documented ABI exactly, and prefer the supported embedding API when you control both sides.</p></div>
+<div class="docs-next"><span>Next</span><a href="@path('docs/runtime-embedding')">Embed Nift in an application →</a></div>
+</article>

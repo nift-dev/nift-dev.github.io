@@ -17,6 +17,7 @@ nift -i -e 'x := 40; x += 2'</code></pre>
 <pre><code class="language-bash">printf 'print("hello")\n' | nift -
 nift - &lt; scripts/report.f</code></pre>
 <p><code>nift -</code> consumes stdin through EOF as one Nift program. It is intentionally distinct from plain <code>nift</code>, which starts the interactive shell. Stdin programs use <code>&lt;stdin&gt;</code> as their stable <code>cmd</code> identity and preserve parser source locations in diagnostics. Empty stdin is a successful empty program; a NUL byte is rejected explicitly rather than treated as a string terminator. Arguments after <code>-</code> populate <code>args</code>, with <code>--</code> available for literal option-looking arguments.</p>
+<div class="docs-callout"><strong>Direct invocation is the public interface.</strong><p>The former <code>nift run ...</code> and <code>nift sh</code> wrappers are removed. Use <code>nift script.f</code> and plain <code>nift</code>.</p></div>
 
 <h2 id="executable-scripts">Executable scripts</h2>
 <p>There are two deliberately different ways to execute a Nift script. <code>nift script.f</code> is explicit Nift source execution and needs no shebang or execute permission. <code>./script.f</code> is ordinary executable-process invocation: the OS requires the normal shebang and execute-bit semantics, exactly like Python, Bash or Ruby.</p>
@@ -79,6 +80,11 @@ all := env()
 print(os())       // linux, macos or windows
 print(arch())     // x86_64, arm64, x86, arm, wasm32, wasm64 or unknown</code></pre>
 <p><code>env()</code> returns an ordinary object snapshot whose keys and values are strings. Environment names are case-sensitive on POSIX. On Windows they are treated case-insensitively when collapsing duplicate spellings, with the last observed spelling/value retained. <code>os()</code> reports the host operating system; <code>arch()</code> reports the host CPU architecture and is deliberately separate from the v4.5 target-selection contract. Embedded engines with a custom lookup-only environment provider do not silently expose the process environment through <code>env()</code>; snapshot enumeration fails explicitly unless the host boundary can provide it.</p>
+<pre><code class="language-bash">nift --platform=android script.f
+nift script.f --platform=android
+nift build --platform=android
+nift script.f -- --platform=literal-argument</code></pre>
+<p><code>platform()</code> reports the selected execution/output platform; the default is <code>native</code>. The global <code>--platform=ID</code> option may appear before or after a script/build command, while <code>--</code> ends Nift option parsing. This is independent of <code>os()</code>/<code>arch()</code> and distinct from <code>nift init --target=vercel</code>, where <code>--target</code> selects a deployment-provider starter.</p>
 
 <h2 id="automation">Native project build automation</h2>
 <p>Scripts can drive Nift's own project/build machinery directly, with no subprocess and no shell round-trip. The nearest project (a directory containing <code>.nift/config.json</code>) at or above the working directory is resolved automatically. Every operation returns a structured result object with <code>ok</code>, <code>exit_code</code>, <code>affected</code> (page names touched), <code>errors</code> and <code>duration_seconds</code>; build progress/summary output is suppressed so script stdout stays parseable.</p>

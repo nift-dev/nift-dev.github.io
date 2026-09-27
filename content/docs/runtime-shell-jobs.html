@@ -1,0 +1,18 @@
+<article class="docs-article">
+<p class="docs-kicker">Scripting &amp; runtime · shell</p>
+<h1>Processes, pipelines &amp; POSIX job control.</h1>
+<p class="docs-lead">The interactive <code>nift</code> shell combines native Nift expressions with direct commands, structured process APIs, pipelines, and real POSIX foreground/background job control.</p>
+<pre><code class="language-bash">$ nift
+~/project$ make | tee build.log
+~/project$ long-task &amp;
+[1] running long-task
+~/project$ jobs
+~/project$ fg 1
+^Z
+~/project$ bg 1
+~/project$ wait 1</code></pre>
+<p>On POSIX, each interactive pipeline uses a process group. Foreground jobs receive terminal ownership; <code>Ctrl-C</code> interrupts the foreground group and <code>Ctrl-Z</code> stops it. <code>fg</code> resumes a job in the foreground, <code>bg</code> resumes it in the background, <code>jobs</code> reports stable IDs/states, and <code>wait</code> waits for a job. Terminal ownership and settings are restored before the next prompt.</p>
+<p>Append <code>&amp;</code> to launch a background command or pipeline. Structured <code>run()</code> and <code>cmd(...).pipe(...).run()</code> remain synchronous APIs and are separate from interactive job control.</p>
+<div class="docs-callout"><strong>Platform boundary.</strong><p>Full process-group and terminal job control is POSIX-specific. Windows supports process execution and structured pipelines but reports interactive <code>jobs</code>/<code>fg</code>/<code>bg</code>/<code>wait</code> as unsupported rather than simulating Unix terminal semantics.</p></div>
+<div class="docs-next"><span>Related</span><a href="@path('docs/scripting-run-shell')">Run scripts &amp; use the shell →</a></div>
+</article>

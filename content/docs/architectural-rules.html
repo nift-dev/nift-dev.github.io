@@ -31,11 +31,11 @@ Nift does not need to become the source compiler.</code></pre>
 <p>Final-output optimisation is different because it operates on the file Nift is already about to write. It can remain optional, format-aware and semantically conservative without making Nift responsible for another language's compilation model.</p>
 <p>The experimental <code>tscc</code> project is therefore deliberately separate. It can be used beside Nift, distributed with Nift one day, or even invoked by a user's build script, without changing the architectural rule that TypeScript compilation is not part of Nift's template/build semantics.</p>
 
-<h2 id="4-the-template-language-is-a-build-language-not-a-general-scripting-language">4. The template language is a build language, not a general scripting language.</h2>
-<p>The language may gain concise constructs that directly describe static rendering, but it should resist features whose main purpose is arbitrary computation.</p>
+<h2 id="4-keep-template-rendering-and-hosted-scripting-boundaries-clear">4. Keep template rendering and hosted scripting boundaries clear.</h2>
+<p>Nift now has a supported native scripting and embedding runtime, while templates remain optimized for understandable output construction. Open-ended automation belongs in standalone scripts, build hooks, or an embedded Engine rather than being hidden inside presentation markup.</p>
 <div class="advanced-doc-grid">
   <div><h2 id="fits-naturally">Fits naturally</h2><p>Inputs, metadata, JSON loading, schema validation, loops, conditions, sorting, path resolution and dependency declaration.</p></div>
-  <div><h2 id="raises-the-bar">Raises the bar</h2><p>Mutable variables, arbitrary assignment, user functions, unrestricted arithmetic/state, shell execution and an embedded general-purpose runtime.</p></div>
+  <div><h2 id="use-the-runtime">Use the runtime boundary</h2><p>Process automation, native concurrency, FFI calls, long stateful workflows and host-application integration.</p></div>
 </div>
 <p>The useful distinction is not “simple versus powerful”. It is <strong>declarative rendering versus open-ended program execution</strong>.</p>
 

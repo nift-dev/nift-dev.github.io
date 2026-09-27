@@ -28,6 +28,7 @@ print(is_float(3.14))
 <tr><td><code>is_struct</code>, <code>is_function</code>, <code>is_collection</code>, <code>is_enum</code></td><td>Nift runtime-value predicates.</td></tr>
 </tbody></table>
 <p>Nift has no separate public <code>undefined</code> value. Missing object access remains an error; <code>obj.has(key)</code> distinguishes a missing key from a present key containing <code>null</code>.</p>
+<p>Runtime handles add the stable public types <code>thread</code>, <code>mutex</code>, <code>future</code>, <code>atomic&lt;int&gt;</code>, <code>atomic&lt;bool&gt;</code>, and FFI handle/buffer/layout values. These are identity-bearing resources rather than JSON values; see the <a href="@path('docs/runtime-concurrency')">concurrency</a>, <a href="@path('docs/runtime-atomics')">atomics</a>, and <a href="@path('docs/runtime-ffi')">FFI</a> references.</p>
 
 <h2 id="optionality">Null coalescing and safe access</h2>
 <pre><code class="language-nift">label := post.subtitle ?? "Untitled"

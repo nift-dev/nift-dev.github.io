@@ -1,0 +1,24 @@
+<article class="docs-article">
+<p class="docs-kicker">Scripting &amp; runtime · atomics</p>
+<h1>Share small scalar state without a mutex.</h1>
+<p class="docs-lead"><code>atomic&lt;int&gt;</code> and <code>atomic&lt;bool&gt;</code> are transferable, sequentially consistent scalar references for threads and async functions.</p>
+<pre><code class="language-nift">count := atomic&lt;int&gt;(0)
+ready := atomic&lt;bool&gt;(false)
+
+count++
+count += 4
+ready = true
+print(count)
+if(ready) { print("ready") }</code></pre>
+<p><code>atomic&lt;int&gt;</code> stores a signed 64-bit integer. It supports scalar assignment, <code>++</code>, <code>--</code>, <code>+=</code>, <code>-=</code>, <code>&amp;=</code>, <code>|=</code>, <code>^=</code>, and <code>%=</code>. <code>atomic&lt;bool&gt;</code> supports boolean assignment and reads naturally in expressions. Arithmetic such as <code>*=</code> or <code>/=</code> is not an atomic operator; use a supported method or a mutex-protected invariant.</p>
+<h2 id="methods">Explicit operations</h2>
+<pre><code class="language-nift">old := count.load()
+count.store(10)
+previous := count.exchange(20)
+changed := count.compare_exchange(20, 21)
+before_add := count.fetch_add(5)
+before_sub := count.fetch_sub(2)</code></pre>
+<p>Both atomic types provide <code>load()</code>, <code>store(value)</code>, <code>exchange(value)</code>, and <code>compare_exchange(expected, desired)</code>. Integer atomics additionally provide <code>fetch_add()</code> and <code>fetch_sub()</code>. Nift intentionally exposes sequential consistency rather than C++ memory-order controls.</p>
+<p>Assignment updates the shared atomic; copying or passing the handle preserves alias identity. This is deliberately different from ordinary values, which are isolated across workers.</p>
+<div class="docs-next"><span>Related</span><a href="@path('docs/runtime-concurrency')">Threads, mutexes &amp; futures →</a></div>
+</article>

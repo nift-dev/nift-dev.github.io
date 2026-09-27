@@ -63,9 +63,10 @@ applications, React/Vue/Svelte islands, API clients, dashboards, or backend
 frontends. The underlying engine can template non-HTML text assets too, but the
 website is the primary use-case framing.
 
-The modern story follows deliberate removal of LuaJIT, ExprTk, general scripting,
-and hooks. Emphasize a small dependency-aware generation layer, ordinary web
-technologies, speed, incrementality, composition, and explicit behavior. Useful
+The modern story follows deliberate removal of LuaJIT and ExprTk, followed by a
+purpose-built native scripting/embedding runtime and explicit build hooks.
+Emphasize a small dependency-aware generation layer, ordinary web technologies,
+speed, incrementality, composition, and explicit behavior. Useful
 current ideas include “Keep your HTML. Keep your tools. Stop repeating yourself”
 and “Nift provides the glue without trying to become the universe.”
 
@@ -209,7 +210,14 @@ benchmark evidence, testing claims, AI guidance, or downloads, reconcile this
 source before considering the product checkpoint complete. Internal refactors
 with no public effect normally require only a compatibility self-build.
 
-Current project status is **Nift v4.1.0 released, with v4.2.0 in development**. The released v4.1 template language adds lexical bindings, `:=` declarations, `=` assignment, stable inferred types, `const`/`immut`, multiline declarations, `inject()`, `validate()`, `@fn` and `@fragment`, while retaining legacy `@json` compatibility. The deliberate Checkpoints 0–10 hardening campaign remains the maintained baseline, while later CLI, language, pagination, project-contract, initializer and platform-target work has its own focused and cross-platform evidence. Current living priorities are keeping command/version-sensitive documentation aligned with the executable, verifying public distribution channels as they propagate, dogfooding this site and the documented integrations, collecting field evidence, and reviewing responsive/accessibility/publication readiness. End-to-end provider deployment is useful field evidence, not a prerequisite for documenting the target presets. Continue reviewing Battle Tested when protected behavior or evidence changes, but do not invent new hardening checkpoints merely to keep the sequence going.
+Current public product status is **Nift v4.5.0 released**, with the native
+scripting/runtime, concurrency, FFI, Engine and C ABI 1.1 supported. The
+deliberate Checkpoints 0–10 hardening campaign remains the maintained baseline,
+with later language/runtime work covered by focused, sanitizer and
+cross-platform evidence. Current priorities are keeping command/version-sensitive
+documentation aligned with the executable, verifying public distribution
+channels as they propagate, dogfooding this site and documented integrations,
+and reviewing responsive/accessibility/publication readiness.
 
 ## Maintaining this handover
 
@@ -227,6 +235,12 @@ The detailed website history lives at
 design, documentation, AI, template, benchmark, checkpoint, and production-support
 history. Keep both documents current, using this root file as the operational
 entry point.
+
+The v4.5 documentation completion added first-class navigation and dedicated
+public references for script invocation, job control, native concurrency,
+atomics, FFI and embedding. Keep these pages synchronized with the executable
+contracts and C ABI 1.1; do not collapse them back into release notes or a
+single buried scripting page.
 
 ## 2026-08-17 AI/HDAE and template-less documentation reconciliation
 

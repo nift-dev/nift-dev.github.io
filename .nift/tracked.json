@@ -461,6 +461,31 @@
    "template": "templates/docs.html"
   },
   {
+   "name": "docs/runtime-shell-jobs",
+   "title": "Processes, pipelines and job control",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/runtime-concurrency",
+   "title": "Threads, mutexes, async functions and futures",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/runtime-atomics",
+   "title": "Atomic shared scalars",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/runtime-ffi",
+   "title": "Native FFI",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/runtime-embedding",
+   "title": "Embedding Nift",
+   "template": "templates/docs.html"
+  },
+  {
    "name": "docs/project-data",
    "title": "Project information",
    "template": "templates/docs.html"

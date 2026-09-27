@@ -79,6 +79,13 @@
 \$[count := (...items) =&gt; items.size()]
 \$[count(1, "two", true)]</code></pre>
 <p>Only one variadic parameter is allowed and it must be last. Spread requires an array.</p>
+<h2 id="async-functions">Async functions (v4.5)</h2>
+<pre><code class="language-nift">\@fn[async](load_record(id)) {
+    return fetch_record(id)
+}
+
+record := await load_record(42)</code></pre>
+<p>In standalone script syntax, omit the template prefix: <code>fn[async](load_record(id)) { ... }</code>. Calling an async function returns a <code>future</code>; consume it with prefix <code>await</code>. Async lambdas use <code>async (args) =&gt; { ... }</code>. See <a href="@path('docs/runtime-concurrency')">Threads, mutexes, async functions &amp; futures</a> for scheduling, failure and lifetime semantics.</p>
 <h2 id="rendered-lambdas">Mapping values to rendered markup (v4.4)</h2>
 <pre><code class="language-nift">\$[html := posts
     .filter(post =&gt; post.published)

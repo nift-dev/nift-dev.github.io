@@ -332,4 +332,14 @@
     <loc>https://nift.dev/website-generator-benchmark/</loc>
     <lastmod>2026-08-23</lastmod>
   </url>
+  <url><loc>https://nift.dev/docs/copying-references.html</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://nift.dev/docs/escaping.html</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://nift.dev/docs/hierarchy.html</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://nift.dev/docs/lambdas-closures.html</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://nift.dev/docs/types-optionality-enums.html</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://nift.dev/docs/runtime-shell-jobs.html</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://nift.dev/docs/runtime-concurrency.html</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://nift.dev/docs/runtime-atomics.html</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://nift.dev/docs/runtime-ffi.html</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://nift.dev/docs/runtime-embedding.html</loc><lastmod>2026-09-27</lastmod></url>
 </urlset>

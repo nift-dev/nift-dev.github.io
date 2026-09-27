@@ -137,7 +137,7 @@ cb := ffi_callback(twice, "i64(i64)")</code></pre>
 <h2 id="embedding">Embedding Nift (v4.5)</h2>
 <p>The Nift runtime can also be embedded in native applications. The C++ <code>nift::Engine</code> keeps template rendering and a persistent script runtime in one host-owned object: applications can execute scripts, evaluate expressions, set a runtime target, register trusted native functions, and invoke named Nift functions.</p>
 <pre><code class="language-cpp">nift::Engine engine;
-engine.set_target("native");
+engine.set_platform("native");
 engine.register_function("native_mul", [](const std::vector&lt;nift::Value&gt;&amp; args) {
     return nift::Value(args[0].integer() * args[1].integer());
 });
