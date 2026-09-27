@@ -215,18 +215,18 @@ html .about-code-panel .code-block-wrap>pre { padding:0; }
    block has exactly the image's dimensions; no overlay reaches the body copy. */
 .about-art-frame { position:relative; container-type:inline-size; max-width:300px; margin-inline:auto; }
 .about-terminal-command {
-  position:absolute; left:12%; top:40%; transform:rotate(4deg);
+  position:absolute; left:12%; top:40%; transform:rotate(2deg);
   color:#86eee0; font:600 clamp(8px,4.2cqw,12px)/1.7 ui-monospace,monospace;
   white-space:nowrap; pointer-events:none;
 }
 .about-data-label {
   position:absolute; color:#e0edf5;
   font:500 clamp(8px,4.2cqw,12px)/1 ui-monospace,monospace;
-  transform:translate(-50%,-50%) rotate(3deg); pointer-events:none;
+  transform-origin:center; pointer-events:none;
 }
-.about-label-json { left:18%; top:59%; }
-.about-label-csv { left:45%; top:49%; }
-.about-label-yaml { left:75%; top:56%; }
+.about-label-json { left:18%; top:59%; transform:translate(-50%,-50%) rotate(7deg) skewY(2deg); }
+.about-label-csv { left:45%; top:49%; transform:translate(-50%,-50%) rotate(6deg) skewY(3deg); }
+.about-label-yaml { left:75%; top:56%; transform:translate(-50%,-50%) rotate(5deg) skewY(3deg); }
 
 .about-closing { border-top:1px solid #263d4b; margin-bottom:0; }
 .about-closing-copy>p:not(.about-kicker) { margin:0 0 18px; color:#ccd6de; font-size:14px; line-height:1.6; }
