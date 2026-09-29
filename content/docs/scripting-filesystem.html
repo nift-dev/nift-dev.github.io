@@ -35,6 +35,6 @@ move("generated/*.json", "archive")</code></pre>
 <tr><td><code>remove(path)</code></td><td>Remove a file. Directory removal is deliberately not recursive.</td></tr>
 <tr><td><code>open(path)</code></td><td>Load the entire file as a string.</td></tr>
 </tbody></table></div>
-<p>Build-hosted scripts remain confined by Nift's project/path rules. Standalone <code>nift path</code> and <code>nift</code> use normal OS-user filesystem authority: relative/parent, absolute and <code>~</code> home paths are available subject to OS permissions. Build-hosted paths retain Nift's dependency/output safety rules. <code>open(path)</code> is data access; it is intentionally distinct from template <code>\@input</code>, script <code>\@import</code> and source injection.</p>
+<p>Build-hosted scripts remain confined by Nift's project/path rules. Standalone <code>nift path</code> and <code>nift</code> use normal OS-user filesystem authority: relative/parent, absolute and <code>~</code> home paths are available subject to OS permissions. Build-hosted paths retain Nift's dependency/output safety rules. <code>open(path)</code> is data access; it is intentionally distinct from template <code>\@input</code>, script <code>import(path)</code> and source injection.</p>
 <div class="docs-next"><span>Next</span><a href="@path('docs/scripting-managed-files')">Managed files →</a></div>
 </article>

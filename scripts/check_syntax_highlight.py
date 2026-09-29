@@ -27,6 +27,8 @@ POSITIVE = [
     "@script",
     "@import('sqlite')",
     "@import('./local.f')",
+    "import('sqlite')",
+    "import('./local.f')",
     "@fn(public_add(a, b))",
     "@fragment(x)",
     "@if(cond)",

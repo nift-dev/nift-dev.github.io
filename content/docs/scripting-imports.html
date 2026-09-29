@@ -1,7 +1,8 @@
 <article class="docs-article">
 <p class="docs-kicker">Scripting · Reusable code</p>
 <h1>Imports &amp; exports.</h1>
-<p class="docs-lead"><code>\@import(path)</code> executes an external Nift script in an isolated scope and imports only the bindings that script explicitly exports.</p>
+<p class="docs-lead"><code>import(path)</code> executes an external Nift script in an isolated scope and imports only the bindings that script explicitly exports.</p>
+<p>Use bare <code>import(path)</code> in script land: standalone <code>.f</code> files, package source, the REPL and <code>\@script</code> blocks. At template top level, use the <code>\@import(path)</code> directive. Script land continues to accept <code>\@import(path)</code> for compatibility, but bare <code>import(path)</code> is the canonical spelling.</p>
 <pre><code class="language-nift">// scripts/math.f
 factor := 2
 double := x => x * factor
@@ -18,7 +19,7 @@ export(count)
 export(increment)</code></pre>
 <p>Exports are validated and installed atomically. Exporting a missing name, exporting the same name twice, or colliding with an existing caller binding makes the import fail without partially changing the caller.</p>
 <h2 id="completion">Completion</h2>
-<div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Completion</th><th>Meaning under <code>\@import</code></th></tr></thead><tbody>
+<div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Completion</th><th>Meaning during an import</th></tr></thead><tbody>
 <tr><td>Fall through</td><td>Successful import; commit valid exports.</td></tr>
 <tr><td><code>return</code></td><td>Early successful completion; commit valid exports.</td></tr>
 <tr><td><code>return value</code></td><td>Error. Imports communicate programmatically through <code>export()</code>.</td></tr>
@@ -36,7 +37,7 @@ nift update sqlite
 nift remove sqlite</code></pre>
 <p>Package references may track <code>latest</code>, <code>latest-tag</code>, an explicit tag/branch/commit, or a local path. Remote dependencies are recorded in <code>.nift/packages.lock.json</code> at an exact Git commit so normal installs are reproducible; <code>nift update</code> deliberately advances floating references.</p>
 <p>An installed package is imported by its package name:</p>
-<pre><code class="language-nift">\@import("sqlite")
+<pre><code class="language-nift">import("sqlite")
 
 db := sqlite.open("content.db")
 rows := sqlite.query(db, "SELECT * FROM posts")</code></pre>
@@ -46,6 +47,6 @@ rows := sqlite.query(db, "SELECT * FROM posts")</code></pre>
 \@struct(vips_lib) { resize := (w, h) => { return {"w": scale_helper(w), "h": scale_helper(h)} } }
 vips := vips_lib()
 export(vips)</code></pre>
-<pre><code class="language-nift">\@import("vips")
+<pre><code class="language-nift">import("vips")
 r := vips.resize(100, 50)
 print(r.w)  // 200</code></pre>
