@@ -1,40 +1,66 @@
 <article class="docs-article">
 <p class="docs-kicker">Scripting · File streams</p>
 <h1>File streams.</h1>
-<p class="docs-lead">Use <code>open(path)</code> for convenient whole-file text, <code>file(path)</code> for managed transactional editing, and <code>ifstream(path)</code>/<code>ofstream(path)</code> when data should be consumed or produced incrementally.</p>
+<p class="docs-lead">Use <code>open(path)</code> for convenient whole-file text, <code>file(path)</code> for managed transactional editing, and <code>ifstream</code>/<code>ofstream</code> when data should be consumed or produced incrementally.</p>
+<p>Construct a stream with a path, or default-construct it and call <code>.open(path)</code> later. Close explicitly with <code>.close()</code> (or the compatible <code>close(stream)</code>); reopening after close is allowed, while opening an already-open stream is a fatal lifecycle error.</p>
+<pre><code class="language-nift">ifs := ifstream("data.txt")     // open immediately
+s := ""
+n := 0
+ifs &gt;&gt; s &gt;&gt; n                  // whitespace-token extraction
+ifs.close()</code></pre>
+<pre><code class="language-nift">ifs := ifstream()               // default construction
+ifs.open("data.txt")            // open later
+s := ""
+n := 0
+ifs &gt;&gt; s &gt;&gt; n
+ifs.close()</code></pre>
+<pre><code class="language-nift">ofs := ofstream("report.txt")   // open immediately
+ofs &lt;&lt; "hello" &lt;&lt; " " &lt;&lt; 42      // chained insertion
+ofs.write_line("done")
+ofs.close()</code></pre>
+<pre><code class="language-nift">ofs := ofstream()               // default construction
+ofs.open("report.txt")          // open later
+ofs &lt;&lt; "hello" &lt;&lt; " " &lt;&lt; 42
+ofs.close()</code></pre>
 <h2 id="input">Input streams</h2>
 <pre><code class="language-nift">stream := ifstream("data.txt")
 
 line := stream.read_line()
 rest := stream.read_all()
 
-close(stream)</code></pre>
+stream.close()</code></pre>
 <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Method</th><th>Result</th></tr></thead><tbody>
 <tr><td><code>read(n)</code></td><td>Read up to <code>n</code> bytes from the current position.</td></tr>
 <tr><td><code>read_line()</code></td><td>Read the next line.</td></tr>
 <tr><td><code>read_all()</code></td><td>Read the remaining stream contents.</td></tr>
+<tr><td><code>read_bytes(n)</code></td><td>Read up to <code>n</code> bytes as a bytes value.</td></tr>
+<tr><td><code>read_all_bytes()</code></td><td>Read the remaining stream as a bytes value.</td></tr>
 <tr><td><code>read_val()</code></td><td>Parse the next serialized Nift data value using Nift's value parser.</td></tr>
-<tr><td><code>write_val(value)</code></td><td>Serialize any value as compact JSON followed by a newline (JSON Lines), enabling round-trips with <code>read_val()</code>.</td></tr>
 <tr><td><code>eof()</code></td><td>Report the stream's EOF state.</td></tr>
+<tr><td><code>&gt;&gt; destination</code></td><td>Extract one whitespace-delimited token into a mutable scalar binding (string, number or boolean).</td></tr>
+<tr><td><code>open(path)</code></td><td>Open (or reopen) the stream.</td></tr>
+<tr><td><code>close()</code></td><td>Close the stream.</td></tr>
 </tbody></table></div>
+<p>EOF is a normal stream state, not an error: <code>read_line()</code> returns <code>null</code> at EOF and <code>eof()</code> becomes <code>true</code>. A <code>&gt;&gt;</code> extraction at EOF leaves the destination unchanged. A conversion failure while extracting into a typed destination is a fatal data error, not <code>stream.read_failed</code>.</p>
 <pre><code class="language-nift">values := ifstream("values.txt")
 flag := values.read_val()
 count := values.read_val()
 items := values.read_val()</code></pre>
-<p><code>read_val()</code> reads exactly one value from the current stream position, skipping leading whitespace, and leaves the position immediately after that value (trailing whitespace is not consumed). It understands supported serialized Nift data values: <code>null</code>, <code>true</code>/<code>false</code>, integers, floating-point numbers, quoted strings, JSON arrays and JSON objects, including nested structures. At end of stream it returns <code>null</code>. Repeated calls consume sequential values where the input separates them (for example JSON Lines or any whitespace-separated series). Malformed input is a hard error — <code>read_val()</code> reports <code>cannot parse value</code> rather than silently becoming a string. It is only valid on input streams.</p>
+<p><code>read_val()</code> reads exactly one value from the current stream position, skipping leading whitespace, and leaves the position immediately after that value (trailing whitespace is not consumed). It understands supported serialized Nift data values: <code>null</code>, <code>true</code>/<code>false</code>, integers, floating-point numbers, quoted strings, JSON arrays and JSON objects, including nested structures. At end of stream it returns <code>null</code>. Malformed input is a hard error — <code>read_val()</code> reports <code>cannot parse value</code> rather than silently becoming a string. It is only valid on input streams.</p>
 <h2 id="output">Output streams</h2>
 <pre><code class="language-nift">out := ofstream("result.txt")
 out.write("hello")
 out.write_line(" world")
 out.write_val({"count": 3, "ok": true})
+out.write_bytes(bytes([65, 66, 67]))
 out.flush()
-close(out)</code></pre>
+out.close()</code></pre>
 <p><code>ofstream(path)</code> creates/truncates its output file. Streams are resource values with identity and closed-state checks; they are not directly renderable as template/console values.</p>
-<p><code>write(value)</code> writes a renderable scalar (strings and numbers) without quotes; <code>write_line(value)</code> appends a newline. To serialize structured data use <code>write_val(value)</code>, which writes any value — scalar, array or object — as compact JSON followed by a newline. A <code>write_val()</code>/<code>read_val()</code> pair round-trips values through a file:</p>
+<p><code>write(value)</code> writes a renderable scalar (strings and numbers) without quotes; <code>write_line(value)</code> appends a newline; <code>write_bytes(bytes)</code> writes raw bytes; <code>&lt;&lt; value</code> is the chaining operator and writes through the same machinery as <code>write()</code>. To serialize structured data use <code>write_val(value)</code>, which writes any value — scalar, array or object — as compact JSON followed by a newline. A <code>write_val()</code>/<code>read_val()</code> pair round-trips values through a file:</p>
 <pre><code class="language-nift">out := ofstream("data.jsonl")
 out.write_val({"name": "nift", "tags": ["build", "static"]})
 out.write_val([1, 2, 3])
-close(out)
+out.close()
 
 in := ifstream("data.jsonl")
 first := in.read_val()
@@ -45,6 +71,14 @@ print(first.tags[0])
 \@// build
 print(second.size())
 \@// 3
-close(in)</code></pre>
+in.close()</code></pre>
+<h2 id="recoverable-errors">Recoverable stream errors</h2>
+<p>A genuine backend failure on a valid stream operation is recoverable: <code>stream.open_failed</code>, <code>stream.read_failed</code>, <code>stream.write_failed</code>, <code>stream.flush_failed</code> and <code>stream.close_failed</code> (a delayed write surfaced at explicit close). These can be caught:</p>
+<pre><code class="language-nift">try {
+    s := ifstream("missing.txt")
+} catch(err) {
+    print(err.code)    // stream.open_failed
+}</code></pre>
+<p>Misuse stays fatal and bypasses <code>catch</code>: wrong direction (reading an output stream), operating on an unopened or closed stream, opening an already-open stream, invalid/forged handles, and non-renderable writes (including Error values). EOF and extraction conversion failures are also not <code>stream.read_failed</code>.</p>
 <div class="docs-next"><span>Related</span><a href="@path('docs/scripting-managed-files')">Managed files →</a></div>
 </article>

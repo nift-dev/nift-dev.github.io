@@ -75,5 +75,6 @@ f.close()</code></pre>
 <tr><td><code>file(path)</code></td><td>Explicitly managed, seekable and transactional file editing.</td></tr>
 <tr><td><code>ifstream(path)</code> / <code>ofstream(path)</code></td><td>Incremental streaming I/O without a managed working-copy transaction.</td></tr>
 </tbody></table></div>
+<p>A backend <code>save()</code> failure is recoverable (<code>io.write_failed</code> for a temporary-file write, <code>io.atomic_replace_failed</code> for the final atomic replacement) and can be caught. After a caught save failure the file stays open and dirty so <code>save()</code> can be retried or <code>revert()</code> can discard the edits; the on-disk content is unchanged. Lifecycle misuse (closing a dirty file, operating without opening, wrong mode) stays fatal.</p>
 <div class="docs-next"><span>Next</span><a href="@path('docs/scripting-streams')">File streams →</a></div>
 </article>

@@ -111,6 +111,7 @@
 
 <h2 id="structured-json-data">Structured JSON data</h2>
 <p><code>\@json(name, path)</code> loads immutable JSON data into the current page render; inline bodies and schema-by-path/name forms are also available. Access values through chained <code>\$[...]</code> expressions such as <code>\$[site.navigation[2].title]</code>.</p>
+<p>A data file that fails to parse is a recoverable operational failure (<code>json.parse_failed</code>) that <code>@script</code> recovery can handle; malformed inline <code>\@json</code> bodies and invalid schema definitions stay fatal.</p>
 <p><a class="text-link" href="@path('docs/json')">JSON data reference →</a></p>
 
 <h2 id="markup-conversion">Markup conversion</h2>

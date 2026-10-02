@@ -12,5 +12,20 @@ ffi_close(lib)</code></pre>
 <h2 id="callbacks">Callbacks and lifetime</h2>
 <p>Callbacks are bounded synchronous calls from native code into a Nift callable. Keep the callback and its owning runtime alive for the entire native call. Native code must not retain the callback for later or invoke it asynchronously after <code>ffi_call</code> returns. Callback failures cross the boundary as controlled runtime errors rather than exceptions escaping through C.</p>
 <div class="docs-callout"><strong>FFI is unsafe by nature.</strong><p>A correct signature can still point at unsafe native behavior. Validate lengths and ownership, match the library's documented ABI exactly, and prefer the supported embedding API when you control both sides.</p></div>
+<h2 id="recoverable-loader-failures">Recoverable loader failures</h2>
+<p>Two contained loader operations are recoverable and can be caught: failing to load a library (<code>ffi.library_load_failed</code>) and a missing symbol on a valid handle (<code>ffi.symbol_not_found</code>).</p>
+<pre><code class="language-nift">try {
+    lib := ffi_open("./libmath_helpers.so")
+} catch(err) {
+    print(err.code)   // ffi.library_load_failed
+}
+
+lib := ffi_open("./libmath_helpers.so")
+try {
+    sum := ffi_call(lib, "missing_symbol", "i64(i64,i64)", 1, 2)
+} catch(err) {
+    print(err.code)   // ffi.symbol_not_found
+}</code></pre>
+<p>Everything else stays fatal and cannot be caught: invalid signatures/types, wrong argument count, forged or closed handles, callback contract violations, buffer/C-string lifetime misuse, unload failures, double close, native crashes, signals and foreign exceptions. Failed loads register no handle and failed lookups do not mutate the library registry.</p>
 <div class="docs-next"><span>Next</span><a href="@path('docs/runtime-embedding')">Embed Nift in an application →</a></div>
 </article>

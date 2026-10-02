@@ -279,5 +279,6 @@ schemas/products.schema.json ┘
 <p>The schema should not trap your content inside Nift. The same document can be validated in an editor, a pre-commit hook, CI, a backend, a TypeScript workflow or another JSON Schema-aware tool. Nift only needs to enforce the contract at the point where it consumes the data.</p>
 <p>That keeps the architecture consistent with the rest of Nift: use a small project-aware build layer, and reuse standards and specialist tools from the wider ecosystem instead of creating Nift-specific substitutes for them.</p>
 
+<p>A valid schema rejecting a candidate is a recoverable operational failure (<code>schema.rejected</code>) that <code>try</code>/<code>catch</code> can handle; a malformed or unsupported schema definition stays fatal (<code>schema.definition_invalid</code>) and cannot be caught.</p>
 <div class="docs-next"><span>Next</span><a href="@path('docs/control-flow')">Render validated data with loops &amp; conditions →</a></div>
 </article>

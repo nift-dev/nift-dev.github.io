@@ -151,6 +151,36 @@ print(e.execute("x := 40; return x + 2;"))   # 42
 print(e.evaluate("x + 1"))                   # 41</code></pre>
 <p>Native distribution is staged by <code>make embed</code>: public headers, static/shared libraries and <code>pkg-config</code> metadata are produced together so C/C++ consumers can build against an installed prefix instead of Nift source internals. FFI and embedding are separate boundaries: FFI lets Nift scripts call explicitly typed C ABI symbols; embedding lets a host application own a Nift runtime.</p>
 
+<h2 id="recoverable-errors">Recoverable errors (v4.6)</h2>
+<p>Nift separates a small set of <strong>recoverable operational failures</strong> from ordinary fatal language/runtime failures. Recoverable failures surface as <code>Error</code> values that <code>try</code>/<code>catch</code> can handle; programmer, type, arity, policy, invariant and native-fault failures stay fatal and bypass <code>catch</code>.</p>
+<pre><code class="language-nift">try {
+    lib := ffi_open("./libmaths.so")
+    print(ffi_call(lib, "add_i64", "i64(i64,i64)", 20, 22))
+    ffi_close(lib)
+} catch(err) {
+    print(err.code)        // ffi.library_load_failed
+    print(err.category)    // ffi
+    print(err.message)
+}</code></pre>
+<p>Raise your own recoverable error with <code>throw error(...)</code>:</p>
+<pre><code class="language-nift">if(!exists("config.json")) {
+    throw error("configuration is missing", "user.config.not_found")
+}</code></pre>
+<p><code>error(message)</code> builds an Error value without throwing; the default code is <code>user.raised</code>. <code>error(message, code)</code> validates a custom <code>user.*</code> code and derives its category; <code>error(message, code, cause)</code> chains an optional Error cause. Built-in codes such as <code>io.*</code> or <code>ffi.*</code> cannot be forged through the public constructor.</p>
+<p>Error values are immutable and expose these fields:</p>
+<div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>message</code></td><td>Diagnostic text.</td></tr>
+<tr><td><code>code</code></td><td>Stable machine-readable code.</td></tr>
+<tr><td><code>category</code></td><td>Segment before the first <code>.</code> in the code.</td></tr>
+<tr><td><code>source</code></td><td>Defining source/path when available.</td></tr>
+<tr><td><code>line</code> / <code>column</code></td><td>Defining 1-based location when available.</td></tr>
+<tr><td><code>cause</code></td><td>Chained Error or <code>null</code>.</td></tr>
+</tbody></table></div>
+<p>The catch binding is a new immutable local. Rethrowing preserves the original Error; propagation appends context frames without replacing the defining origin. Normal <code>return</code>/<code>break</code>/<code>continue</code> pass through <code>try</code>/<code>catch</code> unchanged, and a fatal failure inside a <code>catch</code> body propagates past any outer <code>catch</code>.</p>
+<p><strong>Recoverable</strong> (catchable) failures include <code>throw error(...)</code>, valid filesystem backend failures (<code>io.*</code>), stream backend failures (<code>stream.*</code>), malformed runtime JSON (<code>json.parse_failed</code>), a valid schema rejecting a value (<code>schema.rejected</code>), FFI library load / missing symbol (<code>ffi.library_load_failed</code>, <code>ffi.symbol_not_found</code>), missing or unreadable import sources (<code>io.import_source_unreadable</code>, <code>package.not_installed</code>, <code>package.import_source_unreadable</code>), and a recoverable failure produced inside a future/thread observed at <code>await</code>/<code>join</code>.</p>
+<p><strong>Fatal</strong> (never caught): syntax/translation/name errors, invalid arity/type/mode, division by zero, mutation/privacy/authority/policy denials, invalid or forged handles, malformed package/config metadata, import cycles, failed imports that created workers, and native faults. Existing result APIs (<code>run()</code>, package/HTTP/database <code>{ok:false}</code>, <code>exists() == false</code>) remain structured results and do not throw automatically.</p>
+<p>Error values are interpreter-only: they cannot cross the public embedding/JSON/binding boundary. Render a diagnostic representation deliberately with <code>err.stringify()</code> / <code>err.prettify()</code>.</p>
+
 <h2 id="where-next">Script files and interactive use</h2>
 <p>Use <a href="@path('docs/scripting-imports')"><code>import(path)</code></a> for isolated reusable script files, <a href="@path('docs/scripting-run-shell')"><code>nift path</code> and <code>nift</code></a> for standalone execution, and the dedicated filesystem and stream references for script-side I/O. Template top level keeps the <code>\@import(path)</code> directive.</p>
 <div class="docs-callout"><strong>Explicit process execution.</strong><p>Nift 4.4 does not resurrect <code>\@system</code>. Script land instead provides structured <code>run()</code>/<code>cmd()</code> process APIs and shell command execution with explicit argv/pipeline semantics; <code>--no-process</code> can disable every script-reachable external-process surface.</p></div>

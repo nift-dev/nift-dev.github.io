@@ -25,6 +25,14 @@ export(increment)</code></pre>
 <tr><td><code>return value</code></td><td>Error. Imports communicate programmatically through <code>export()</code>.</td></tr>
 </tbody></table></div>
 <p>Imported scripts participate in Nift's path-security and tracked dependency model, including applicable transitive imports.</p>
+<h2 id="recoverable-import-failures">Recoverable import failures</h2>
+<p>A missing or unreadable import source is a recoverable operational failure that <code>try</code>/<code>catch</code> can handle. The codes are <code>io.import_source_unreadable</code> for an ordinary non-package import, and <code>package.import_source_unreadable</code> / <code>package.not_installed</code> for package imports. Rollback happens before the caller's <code>catch</code> runs, so no partial exports or types are visible.</p>
+<pre><code class="language-nift">try {
+    import("./optional-module.f")
+} catch(err) {
+    print(err.code)   // io.import_source_unreadable
+}</code></pre>
+<p>Malformed import syntax, invalid argument types, import cycles, malformed package metadata, authority/path violations, and failed imports that created a worker remain fatal and bypass <code>catch</code>.</p>
 <div class="docs-next"><span>Next</span><a href="@path('docs/scripting-run-shell')">Run scripts &amp; use the shell →</a></div>
 </article>
 
