@@ -44,6 +44,7 @@ nift install
 nift update sqlite
 nift remove sqlite</code></pre>
 <p>Package references may track <code>latest</code>, <code>latest-tag</code>, an explicit tag/branch/commit, or a local path. Remote dependencies are recorded in <code>.nift/packages.lock.json</code> at an exact Git commit so normal installs are reproducible; <code>nift update</code> deliberately advances floating references.</p>
+<p>Dependencies are transitive: installing a package installs its declared dependencies too, and <code>packages.lock.json</code> records the complete resolved graph (every package node with its exact commit plus the requirement edges). <code>nift packages [name] [--json]</code> explains why a package is installed, listing every dependency path and what each parent requested.</p>
 <p>An installed package is imported by its package name:</p>
 <pre><code class="language-nift">import("sqlite")
 
@@ -58,3 +59,7 @@ export(vips)</code></pre>
 <pre><code class="language-nift">import("vips")
 r := vips.resize(100, 50)
 print(r.w)  // 200</code></pre>
+<h2 id="source-ownership">Source ownership</h2>
+<p>Relative imports resolve from their <strong>defining source</strong>, not the process working directory: a file that imports <code>./helper.f</code> finds <code>helper.f</code> next to that file, even when the file is later invoked through a function, callback, lambda or worker. Missing siblings are errors and never fall through to a same-named file in the consuming project.</p>
+<p><code>module_path()</code> returns the absolute directory of the currently executing file-backed module; <code>package_path()</code> returns the absolute root of the package that owns the current module. Both accept one optional relative path argument and are confined to their owner (package-owned results never escape the package root). They only produce path strings and never fall back to the working directory.</p>
+<p>Installed packages carry frozen lock provenance (canonical source + exact commit or <code>local</code>). A package whose remote generation changed since it was imported is a controlled stale-provenance error; an unchanged local package continues to follow its live local contents.</p>
