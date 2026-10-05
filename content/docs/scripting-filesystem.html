@@ -24,11 +24,11 @@ move("generated/*.json", "archive")</code></pre>
 <p><code>*</code> and <code>?</code> match within one path component; a complete <code>**</code> component recursively matches directory levels. Results are deterministic and hidden entries are not matched unless the pattern explicitly starts that component with <code>.</code>. Arrays and <code>...spread</code> compose with the same APIs.</p>
 <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Operation</th><th>Purpose</th></tr></thead><tbody>
 <tr><td><code>pwd()</code></td><td>Return the current script working directory.</td></tr>
-<tr><td><code>cd(path)</code></td><td>Change directory under standalone <code>run</code>/<code>sh</code> hosts.</td></tr>
+<tr><td><code>cd(path)</code></td><td>Change directory under standalone <code>nift script.f</code>/<code>nift</code> hosts.</td></tr>
 <tr><td><code>exists(path)</code></td><td>Test whether a path exists (symlinks followed).</td></tr>
 <tr><td><code>is_file(path)</code></td><td>Test whether a path is an existing regular file.</td></tr>
 <tr><td><code>is_dir(path)</code></td><td>Test whether a path is an existing directory.</td></tr>
-<tr><td><code>stat(path)</code></td><td>Return type and size metadata (<code>{type, size}</code>) for a path; missing paths report <code>false</code>-style absence and permission/metadata failures raise a controlled recoverable error rather than a wrong answer.</td></tr>
+<tr><td><code>stat(path)</code></td><td>Return metadata for a path: <code>{exists:false}</code> when absent, otherwise <code>{exists:true, type:"file", size:N}</code> or <code>{exists:true, type:"directory"}</code> (no <code>size</code> for directories). Permission/metadata failures raise a controlled recoverable error rather than a wrong answer.</td></tr>
 <tr><td><code>ls()</code> / <code>ls(path)</code></td><td>Return a deterministically filename-sorted array of directory entry names.</td></tr>
 <tr><td><code>cat(path)</code></td><td>Write the file contents exactly to stdout, without adding a trailing newline; returns <code>null</code>.</td></tr>
 <tr><td><code>make_dir(path)</code></td><td>Create the directory path, including missing parents.</td></tr>
@@ -38,7 +38,7 @@ move("generated/*.json", "archive")</code></pre>
 <tr><td><code>remove(path)</code></td><td>Remove a file. Directory removal is deliberately not recursive.</td></tr>
 <tr><td><code>open(path)</code></td><td>Load the entire file as a string.</td></tr>
 </tbody></table></div>
-<p>Build-hosted scripts remain confined by Nift's project/path rules. Standalone <code>nift path</code> and <code>nift</code> use normal OS-user filesystem authority: relative/parent, absolute and <code>~</code> home paths are available subject to OS permissions. Build-hosted paths retain Nift's dependency/output safety rules. <code>open(path)</code> is data access; it is intentionally distinct from template <code>\@input</code>, script <code>import(path)</code> and source injection.</p>
+<p>Build-hosted scripts remain confined by Nift's project/path rules. Standalone <code>nift script.f</code> and <code>nift</code> use normal OS-user filesystem authority: relative/parent, absolute and <code>~</code> home paths are available subject to OS permissions. Build-hosted paths retain Nift's dependency/output safety rules. <code>open(path)</code> is data access; it is intentionally distinct from template <code>\@input</code>, script <code>import(path)</code> and source injection.</p>
 <p>Backend filesystem failures on an otherwise valid operation are recoverable and can be caught (<code>io.open_failed</code>, <code>io.read_failed</code>, <code>io.create_failed</code>, <code>io.write_failed</code>, <code>io.copy_failed</code>, <code>io.move_failed</code>, <code>io.remove_failed</code>, <code>io.directory_read_failed</code>, <code>io.change_directory_failed</code>, <code>io.atomic_replace_failed</code>). Invalid argument/type, authority/path escape, wrong target type and lifecycle misuse stay fatal.</p>
 <div class="docs-next"><span>Next</span><a href="@path('docs/scripting-managed-files')">Managed files →</a></div>
 </article>

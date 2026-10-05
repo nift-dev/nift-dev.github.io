@@ -11,18 +11,21 @@
 </code></pre>
 <h2 id="recoverable">What is recoverable</h2>
 <p>Recoverable operational failures include FFI loader and symbol lookup failures, import-source acquisition failures, approved filesystem and <code>FileValue</code> backend failures, stream backend failures, and JSON parse/schema rejections. Each carries a structured diagnostic: a stable <code>code</code>, a human <code>message</code>, and a disposition.</p>
+<pre><code class="language-nift">try {
+    text := cat("missing.txt")
+} catch(err) {
+    print(err.code)     // io.open_failed
+}
+
+try {
+    import("missing.f")
+} catch(err) {
+    print(err.code)     // io.import_source_unreadable
+}
+</code></pre>
 <h2 id="fatal">What stays fatal</h2>
 <p>Malformed programs, invalid runtime use, authority/privacy violations, and internal invariants are not catchable. This is a runtime error-handling contract, not a general exception system — there is no general <code>throw</code> of arbitrary values.</p>
 <h2 id="diagnostics">Structured diagnostic outcomes</h2>
-<p>Failures expose structured outcomes (code, disposition, source origin, and diagnostic frames) rather than only a message string, so script, template, import, and embedding paths report consistent, machine-readable errors.</p>
-<h2 id="handling">Handling</h2>
-<pre><code class="language-nift">try {
-    data := json.parse(maybe_text)
-} catch(err) {
-    if(err.code == "json.parse_failed") {
-        data := map()
-    }
-}
-</code></pre>
+<p>Failures expose structured outcomes (code, disposition, source origin, and diagnostic frames) rather than only a message string, so script, template, import, and embedding paths report consistent, machine-readable errors. The Error <em>value</em> itself remains interpreter-only and does not cross the embedding/JSON/binding boundary; embedding surfaces the structured diagnostic instead.</p>
 <div class="docs-next"><span>Related</span><a href="@path('docs/runtime-ffi')">Typed C FFI →</a> · <a href="@path('docs/scripting-imports')">Imports →</a></div>
 </article>

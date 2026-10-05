@@ -90,6 +90,7 @@
     "public/docs/runtime-errors.html",
     "public/docs/runtime-ffi.html",
     "public/docs/runtime-shell-jobs.html",
+    "public/docs/runtime-utilities.html",
     "public/docs/schemas.html",
     "public/docs/scripting-filesystem.html",
     "public/docs/scripting-imports.html",

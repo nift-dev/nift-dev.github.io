@@ -16,7 +16,7 @@ if(f.modified()) {
     f.save()
 }
 f.close()</code></pre>
-<p><code>open()</code> defaults to read-only <code>"r"</code>. Modes are <code>r</code>, <code>w</code>, <code>a</code> and <code>rw</code>. A dirty file cannot be closed: call <code>save()</code> to commit it or <code>revert()</code> to abandon pending edits first. Exiting <code>nift path</code> or <code>nift</code> with a managed file still open is an error; unsaved state is discarded during cleanup.</p>
+<p><code>open()</code> defaults to read-only <code>"r"</code>. Modes are <code>r</code>, <code>w</code>, <code>a</code> and <code>rw</code>. A dirty file cannot be closed: call <code>save()</code> to commit it or <code>revert()</code> to abandon pending edits first. Exiting <code>nift script.f</code> or <code>nift</code> with a managed file still open is an error; unsaved state is discarded during cleanup.</p>
 <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Method</th><th>Purpose</th></tr></thead><tbody>
 <tr><td><code>path()</code> / <code>exists()</code></td><td>Inspect the path-backed value without opening it.</td></tr>
 <tr><td><code>open()</code> / <code>open(mode)</code></td><td>Begin a managed session. Default mode is <code>r</code>.</td></tr>

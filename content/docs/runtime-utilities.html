@@ -15,7 +15,8 @@ print(t.elapsed())  // elapsed milliseconds
 </code></pre>
 <h2 id="random">Secure random bytes</h2>
 <p><code>secure_random_bytes(n)</code> returns up to 10,000,000 bytes from the operating-system CSPRNG, with no fallback pseudorandom generator.</p>
-<pre><code class="language-nift">token := secure_random_bytes(32).to_hex()
+<pre><code class="language-nift">token := secure_random_bytes(32)   // 32 random bytes
+print(token.size())                // 32
 </code></pre>
 <h2 id="output">Output streams</h2>
 <p>Runtime output uses execution-scoped stdout and stderr sinks. <code>err(value)</code> writes one atomic line to stderr with the same value rules as <code>print(value)</code>, and embedding captures both channels separately from values, diagnostics, and rendered content.</p>

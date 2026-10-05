@@ -34,7 +34,7 @@ nift init [--target=platform] [--ext=.ext] [--handover]
 nift minify [-i|--in-place] file...
 
 # Scripting
-nift path
+nift script.f [args...]
 nift
 nift -e 'program'
 nift -c 'program'
@@ -42,6 +42,13 @@ nift -i [path]
 nift -
 nift eval [--json] expression
 nift eval --capabilities
+
+# Packages
+nift add source [--ref=REF]
+nift remove name
+nift install
+nift update [name]
+nift packages [name]
 
 # General
 nift about
@@ -125,7 +132,7 @@ nift minify -i generated/site.css</code></pre>
   <p>Supported extensions are HTML/HTM, CSS, JS/MJS/CJS, JSX, JSON, XML and SVG. At least one file is required. Unsupported, missing, malformed or unwritable files produce a non-zero status; other valid arguments in the invocation are still processed. <a class="text-link" href="@path('docs/minification')">Minification details →</a></p>
 
   <h2 id="scripting">Scripting</h2>
-  <p><code>nift path</code> executes a native Nift script in a fresh root scope. <code>nift</code> opens the persistent interactive script environment. <code>-e</code>/<code>-c</code> run inline programs, <code>-i</code> continues into the same live interactive runtime, and <code>nift -</code> consumes a program from stdin. The removed <code>nift run</code> and <code>nift sh</code> spellings are not aliases.</p>
+  <p><code>nift &lt;path&gt;</code> executes a native Nift script in a fresh root scope. <code>nift</code> opens the persistent interactive script environment. <code>-e</code>/<code>-c</code> run inline programs, <code>-i</code> continues into the same live interactive runtime, and <code>nift -</code> consumes a program from stdin. The removed <code>nift run</code> and <code>nift sh</code> spellings are not aliases.</p>
   <pre><code class="language-bash">nift scripts/report.f
 nift</code></pre>
 
@@ -136,6 +143,15 @@ nift eval --json 'json("package.json").version'
 nift eval --json 'project.files.size()'
 nift eval --capabilities</code></pre>
 <p><code>--json</code> writes deterministic machine-readable JSON to stdout while diagnostics stay on stderr. <code>--capabilities</code> reports the evaluator contract and supported value-method surface for agents. When invoked inside a Nift project, the read-only <code>project</code> value is also available.</p>
+<h2 id="packages">Packages</h2>
+  <p>Deterministic v2 package-graph commands manage dependencies from a manifest and lockfile.</p>
+  <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody>
+  <tr><td><code>nift add source [--ref=REF]</code></td><td>Add a Git, GitHub or local Nift package dependency.</td></tr>
+  <tr><td><code>nift remove name</code></td><td>Remove a package dependency.</td></tr>
+  <tr><td><code>nift install</code></td><td>Install locked/manifest dependencies.</td></tr>
+  <tr><td><code>nift update [name]</code></td><td>Refresh floating package refs and lock commits.</td></tr>
+  <tr><td><code>nift packages [name]</code></td><td>Explain why packages are installed (the dependency graph).</td></tr>
+  </tbody></table></div>
 <h2 id="general">General and aliases</h2>
   <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Canonical command</th><th>Purpose</th><th>Aliases</th></tr></thead><tbody>
   <tr><td><code>nift about</code></td><td>Shows a short project description, installed version, license and website.</td><td>—</td></tr>

@@ -2,25 +2,29 @@
 <p class="docs-kicker">Scripting &amp; runtime · bytes</p>
 <h1>Handle raw bytes as a first-class value.</h1>
 <p class="docs-lead"><code>bytes</code> is an immutable, shared-backed byte value. It is the language's representation for binary data and interoperates with the FFI byte bridges without ever aliasing mutable native storage.</p>
-<pre><code class="language-nift">b := bytes([0x48, 0x69])
+<pre><code class="language-nift">b := bytes([72, 105])
 print(b.size())          // 2
 print(b[0])              // 72
-print(b.to_hex())        // 4869
 print(b.decode("utf-8")) // Hi
 </code></pre>
 <h2 id="construction">Construction</h2>
-<p>Build bytes from an array of byte integers, from a string (UTF-8 encoded), or from the byte-reading I/O helpers. Invalid byte values and non-byte inputs raise controlled errors rather than producing a malformed value.</p>
+<p>Build bytes from an array of byte integers, or from a string via UTF-8 encoding. Invalid byte values and non-byte inputs raise controlled errors rather than producing a malformed value.</p>
 <pre><code class="language-nift">from_array := bytes([1, 2, 3])
 from_text  := "héllo".encode("utf-8")
 </code></pre>
 <h2 id="operations">Operations</h2>
-<p>Byte values support indexing and <code>size()</code>/<code>empty()</code>, concatenation with <code>+</code>, <code>slice()</code>, <code>take()</code>/<code>skip()</code>, <code>contains()</code>, equality comparison, <code>to_hex()</code>/<code>from_hex()</code>, and strict UTF-8 <code>decode()</code>. Out-of-range indexing and invalid UTF-8 decode are controlled errors.</p>
+<p>Byte values support <code>size()</code>/<code>length()</code> and <code>empty()</code>, integer indexing (<code>b[i]</code>), <code>slice(start, end?)</code>, concatenation with <code>+</code>, equality comparison, truthiness, and strict UTF-8 <code>decode("utf-8")</code>. Out-of-range indexing and invalid UTF-8 decode are controlled errors.</p>
+<pre><code class="language-nift">a := bytes([1, 2])
+joined := a + bytes([3])      // 3 bytes
+print(joined.slice(0, 2).size())
+print(a == bytes([1, 2]))     // true
+</code></pre>
 <h2 id="identity">Identity and sharing</h2>
 <p>Bytes are immutable and share their backing storage. Assignment, <code>copy()</code>/<code>deepcopy()</code>, closures, nested aggregates, mutex values, and thread/async transfer all preserve the shared backing while giving each aggregate shell independent identity.</p>
 <h2 id="boundaries">Text and JSON boundaries</h2>
-<p>Bytes are intentionally not text. Value/text serialization and JSON reject bytes; convert explicitly with <code>decode()</code> or <code>to_hex()</code>. Checked JSON extraction of byte values is available at the embedding boundary.</p>
+<p>Bytes are intentionally not text. Rendering, value/text serialization, and JSON reject bytes; convert explicitly with <code>decode("utf-8")</code>. Checked JSON extraction of byte values is available at the embedding boundary.</p>
 <h2 id="io">Byte I/O</h2>
-<p><code>open_bytes(path)</code> and the stream/managed-file byte reads return bytes; exact raw byte writes are additive and leave existing text I/O unchanged.</p>
+<p><code>open_bytes(path)</code>, the stream/managed-file byte reads (<code>read_bytes(n)</code> / <code>read_all_bytes()</code>), and exact raw byte writes return or accept bytes; existing text I/O is unchanged.</p>
 <pre><code class="language-nift">data := open_bytes("./asset.bin")
 print(data.size())
 </code></pre>
