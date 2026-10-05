@@ -1,24 +1,32 @@
 <article class="docs-article">
 <p class="docs-kicker">Scripting &amp; runtime · utilities</p>
-<h1>Time, sleep and secure randomness.</h1>
-<p class="docs-lead">Small native runtime utilities added in v4.6: wall-clock epoch milliseconds, a blocking sleep, an identity-preserving monotonic stopwatch, and operating-system secure random bytes.</p>
+<h1>Time, sleep, secure randomness and output.</h1>
+<p class="docs-lead">Small native runtime utilities: wall-clock epoch milliseconds, a blocking sleep, an identity-preserving monotonic stopwatch, operating-system secure random bytes, and execution-scoped output streams.</p>
 <h2 id="time">Time and sleep</h2>
 <pre><code class="language-nift">now := epoch()      // Unix epoch milliseconds (integer)
 sleep(250)          // blocks this execution thread for 250 ms, returns null
 </code></pre>
+<p><code>epoch()</code> returns integer Unix milliseconds. <code>sleep(ms)</code> blocks the current execution thread for a non-negative signed-64-bit duration and returns <code>null</code>.</p>
 <h2 id="timer">Monotonic stopwatch</h2>
-<p><code>timer()</code> is an opaque, identity-preserving monotonic stopwatch with start, pause/resume, stop, reset, elapsed-millisecond, and state operations. Timer handles are Parser-local and are rejected at rendering, embedding, serialization, and thread/future transfer boundaries.</p>
+<p><code>timer()</code> returns a stopped monotonic stopwatch with opaque, identity-preserving semantics. Copying or passing the handle preserves identity.</p>
 <pre><code class="language-nift">t := timer()
 t.start()
 sleep(10)
-print(t.elapsed())  // elapsed milliseconds
+print(t.elapsed())   // elapsed milliseconds
+t.pause()
+t.resume()
+t.stop()
+t.reset()
+print(t.running())   // false
+print(t.paused())    // false
 </code></pre>
+<p>Methods: <code>start()</code>, <code>elapsed()</code>, <code>pause()</code>, <code>resume()</code>, <code>stop()</code>, <code>reset()</code>, <code>running()</code>, <code>paused()</code>. Timer handles are Parser-local: they are rejected at rendering, embedding, serialization, and thread/future transfer boundaries.</p>
 <h2 id="random">Secure random bytes</h2>
-<p><code>secure_random_bytes(n)</code> returns up to 10,000,000 bytes from the operating-system CSPRNG, with no fallback pseudorandom generator.</p>
+<p><code>secure_random_bytes(n)</code> returns up to 10,000,000 bytes from the operating-system CSPRNG, with no fallback pseudorandom generator. The bytes use ordinary (non-erased) heap storage, and using them in a template makes the generated output nondeterministic.</p>
 <pre><code class="language-nift">token := secure_random_bytes(32)   // 32 random bytes
 print(token.size())                // 32
 </code></pre>
-<h2 id="output">Output streams</h2>
-<p>Runtime output uses execution-scoped stdout and stderr sinks. <code>err(value)</code> writes one atomic line to stderr with the same value rules as <code>print(value)</code>, and embedding captures both channels separately from values, diagnostics, and rendered content.</p>
+<h2 id="output">Execution output streams</h2>
+<p>Runtime output uses execution-scoped stdout and stderr sinks. <code>err(value)</code> writes one atomic line to stderr with the same value rules as <code>print(value)</code>. Embedding captures stdout and stderr separately per operation, on success and on failure, and keeps them distinct from return values, diagnostics, and rendered content. Worker output is inherited from the owning execution and written atomically.</p>
 <div class="docs-next"><span>Related</span><a href="@path('docs/runtime-bytes')">Bytes →</a> · <a href="@path('docs/runtime-errors')">Recoverable errors →</a></div>
 </article>
