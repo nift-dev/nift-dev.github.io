@@ -514,6 +514,21 @@
    "name": "docs/taxonomies",
    "title": "Taxonomies",
    "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/runtime-bytes",
+   "title": "Bytes",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/runtime-errors",
+   "title": "Recoverable errors",
+   "template": "templates/docs.html"
+  },
+  {
+   "name": "docs/runtime-utilities",
+   "title": "Runtime utilities",
+   "template": "templates/docs.html"
   }
  ]
 }

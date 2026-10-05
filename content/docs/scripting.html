@@ -1,7 +1,7 @@
 <article class="docs-article">
 <p class="docs-kicker">Scripting · Script land</p>
 <h1>Native Nift scripting.</h1>
-<p class="docs-lead">Nift 4.5 has two deliberately distinct contexts: <strong>template land</strong> for building websites, and <strong>script land</strong> for native statements, reusable script files and interactive automation. They share one Nift language/runtime rather than embedding another interpreter.</p>
+<p class="docs-lead">Nift has two deliberately distinct contexts: <strong>template land</strong> for building websites, and <strong>script land</strong> for native statements, reusable script files and interactive automation. They share one Nift language/runtime rather than embedding another interpreter.</p>
 
 <h2 id="template-vs-script">Template land vs script land</h2>
 <div class="reference-table-wrap"><table class="reference-table"><thead><tr><th>Context</th><th>Purpose</th><th>Syntax</th></tr></thead><tbody>
@@ -144,7 +144,7 @@ engine.register_function("native_mul", [](const std::vector&lt;nift::Value&gt;&a
 
 engine.execute("fn(scale(x)) { return native_mul(x, 2) }");
 auto result = engine.call("scale", {nift::Value(21)});</code></pre>
-<p>The versioned <strong>C ABI 1.1</strong> exposes the same execute/evaluate result model for non-C++ hosts. The maintained Go, Python, Node and C# bindings are thin adapters over that ABI rather than independent Nift implementations. Separate <code>Engine</code> instances are isolated and can run concurrently; script operations on one Engine are serialized so its persistent bindings remain coherent. Embedded scripts run in hosted mode and do not silently acquire shell-only process-global powers such as changing the host process working directory.</p>
+<p>The versioned <strong>C ABI 1.3</strong> exposes the same execute/evaluate result model for non-C++ hosts. The maintained Go, Python, Node and C# bindings are thin adapters over that ABI rather than independent Nift implementations. Separate <code>Engine</code> instances are isolated and can run concurrently; script operations on one Engine are serialized so its persistent bindings remain coherent. Embedded scripts run in hosted mode and do not silently acquire shell-only process-global powers such as changing the host process working directory.</p>
 <pre><code class="language-python">from nift import Engine
 e = Engine.new()
 print(e.execute("x := 40; return x + 2;"))   # 42

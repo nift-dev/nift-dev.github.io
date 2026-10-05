@@ -1,7 +1,7 @@
 <article class="docs-article">
 <p class="docs-kicker">Scripting &amp; runtime · native FFI</p>
 <h1>Call explicitly typed C ABI functions.</h1>
-<p class="docs-lead">The v4.5 FFI opens a native library, resolves a symbol, and calls it through a signature you provide. It is an unsafe typed boundary—not automatic C header or ABI inference.</p>
+<p class="docs-lead">The FFI opens a native library, resolves a symbol, and calls it through a signature you provide. It is an unsafe typed boundary—not automatic C header or ABI inference.</p>
 <pre><code class="language-nift">lib := ffi_open("./libmath_helpers.so")
 sum := ffi_call(lib, "add_i64", "i64(i64,i64)", 20, 22)
 print(sum)

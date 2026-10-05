@@ -1,7 +1,7 @@
 <article class="docs-article">
 <p class="docs-kicker">Scripting &amp; runtime · concurrency</p>
 <h1>Threads, mutexes, async functions &amp; futures.</h1>
-<p class="docs-lead">Nift v4.5 runs real native work concurrently. Use explicit threads for dedicated work, async functions for pool-scheduled tasks, and mutexes or atomics only when workers intentionally share state.</p>
+<p class="docs-lead">Nift runs real native work concurrently. Use explicit threads for dedicated work, async functions for pool-scheduled tasks, and mutexes or atomics only when workers intentionally share state.</p>
 
 <h2 id="threads">Native threads</h2>
 <pre><code class="language-nift">fn(add(a, b)) { return a + b }
