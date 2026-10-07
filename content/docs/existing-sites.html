@@ -1,178 +1,82 @@
 <article class="docs-article">
-  <p class="docs-kicker">Migration workflow</p>
-  <h1>Add Nift to the website you already have.</h1>
-  <p class="docs-lead">One of Nift's easiest adoption paths is not a rewrite at all. Keep the site's HTML, CSS, JavaScript, assets and runtime architecture; use Nift to extract the repetition and add a fast tracked build layer around it.</p>
+  <p class="docs-kicker">Workflow · Migrations</p>
+  <h1>Migrate an existing site to Nift.</h1>
+  <p class="docs-lead"><code>nift init --migration</code> creates a normal Nift project plus an agent-ready migration playbook. Nift provides the rails; the agent (or you) understands the source framework. Parity comes before cleanup.</p>
 
-  <div class="docs-callout"><strong>Keep your HTML. Keep your tools. Stop repeating yourself.</strong><p>If an existing site already works, Nift does not need you to translate it into a different component model before it can help.</p></div>
+  <div class="docs-callout"><strong>Start a migration in one command.</strong><p>
+    <pre><code class="language-bash">nift init --migration</code></pre>
+    Then give the working copy to a coding agent - or ask the agent to run that command itself - and follow the generated playbook.</p></div>
 
-  <h2 id="the-kind-of-site-this-helps-immediately">The kind of site this helps immediately</h2>
-  <pre><code class="language-plaintext">index.html
-about.html
-services.html
-work.html
-contact.html
+  <h2 id="run-it-yourself-or-let-the-agent">Run it yourself, or let your agent run it</h2>
+  <p>Either workflow is valid:</p>
+  <pre><code class="language-bash"># You run it, then hand the project to an agent:
+cd &lt;migration-project&gt;
+nift init --migration
+</code></pre>
+  <p>Or give the agent the repository and let it initialize in its own environment:</p>
+  <pre><code class="language-bash">&gt; Run `nift init --migration` in this project.
+&gt; Read MIGRATION.md, HANDOVER.md and the Nift section of AGENTS.md, then migrate the site to Nift.
+&gt; Preserve route, content and behavioural parity, work through the migration checkpoints,
+&gt; keep HANDOVER.md current, and stop/report if the migration appears to require a change
+&gt; to Nift itself.</code></pre>
 
-Every page repeats:
-  <!doctype html>
-  <head>...</head>
-  header / navigation
-  footer
-  CSS / JS references</code></pre>
-  <p>That repetition is already telling you where the first template and partial boundaries are.</p>
-
-  <h2 id="before">Before</h2>
-  <pre><code class="language-html">&lt;!-- about.html --&gt;
-&lt;!doctype html&gt;
-&lt;html&gt;
-  &lt;head&gt;
-    &lt;title&gt;About&lt;/title&gt;
-    &lt;link rel="stylesheet" href="assets/css/site.css"&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;header&gt;
-      &lt;a href="index.html"&gt;Home&lt;/a&gt;
-      &lt;a href="about.html"&gt;About&lt;/a&gt;
-      &lt;a href="contact.html"&gt;Contact&lt;/a&gt;
-    &lt;/header&gt;
-
-    &lt;main&gt;
-      &lt;h1&gt;About us&lt;/h1&gt;
-      &lt;p&gt;Page-specific content...&lt;/p&gt;
-    &lt;/main&gt;
-
-    &lt;footer&gt;...repeated footer...&lt;/footer&gt;
-    &lt;script src="assets/js/app.js"&gt;&lt;/script&gt;
-  &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-
-  <h2 id="after-the-page-specific-content-stays-almost-untouched">After: the page-specific content stays almost untouched</h2>
-  <pre><code class="language-html">&lt;!-- content/about.html --&gt;
-&lt;h1&gt;About us&lt;/h1&gt;
-&lt;p&gt;Page-specific content...&lt;/p&gt;</code></pre>
-
-  <h2 id="the-repeated-shell-becomes-the-template">The repeated shell becomes the template</h2>
-  <pre><code class="language-html">&lt;!doctype html&gt;
-&lt;html lang="en"&gt;
-  &lt;head&gt;
-    &lt;meta charset="utf-8"&gt;
-    &lt;title&gt;\$[title]&lt;/title&gt;
-    &lt;link
-      rel="stylesheet"
-      href="\@path('public/assets/css/site.css')"&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    \@input('templates/partials/header.html')
-
-    &lt;main&gt;
-      \@content
-    &lt;/main&gt;
-
-    \@input('templates/partials/footer.html')
-
-    &lt;script
-      src="\@path('public/assets/js/app.js')"&gt;&lt;/script&gt;
-  &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-
-  <h2 id="the-repeated-navigation-becomes-a-partial">The repeated navigation becomes a partial</h2>
-  <pre><code class="language-html">&lt;header&gt;
-  &lt;a href="\@path('/')"&gt;Home&lt;/a&gt;
-  &lt;a href="\@path('about')"&gt;About&lt;/a&gt;
-  &lt;a href="\@path('contact')"&gt;Contact&lt;/a&gt;
-&lt;/header&gt;</code></pre>
-  <p>The result is not a new frontend architecture. It is the same frontend with the duplicated structure factored out.</p>
-
-  <h2 id="a-practical-migration-sequence">A practical migration sequence</h2>
-  <div class="migration-steps">
-    <div><span>01</span><h3 id="make-a-comparison-copy">Make a comparison copy</h3><p>Keep the current site available so you can compare generated output and appearance during the migration.</p></div>
-    <div><span>02</span><h3 id="initialise-nift">Initialise Nift</h3><p>Run <code>nift init</code> and configure <code>public/</code> as your web-facing output convention.</p></div>
-    <div><span>03</span><h3 id="keep-existing-assets">Keep existing assets</h3><p>Copy or preserve the site's CSS, JS, fonts, images and other assets. They do not need to be rewritten.</p></div>
-    <div><span>04</span><h3 id="choose-one-representative-page">Choose one representative page</h3><p>Pick a page containing the normal header, footer and layout rather than migrating every page at once.</p></div>
-    <div><span>05</span><h3 id="extract-the-template-shell">Extract the template shell</h3><p>Move shared document structure into the template and replace the unique page region with <code>\@content</code>.</p></div>
-    <div><span>06</span><h3 id="extract-obvious-partials">Extract obvious partials</h3><p>Header, navigation, footer and repeated page furniture can move behind <code>\@input</code>.</p></div>
-    <div><span>07</span><h3 id="track-the-remaining-pages">Track the remaining pages</h3><p>Move each page's unique markup into its content file and add the tracked names Nift should manage.</p></div>
-    <div><span>08</span><h3 id="replace-fragile-local-paths">Replace fragile local paths</h3><p>Use <code>\@path</code> where shared partials link to tracked pages or concrete local assets.</p></div>
-    <div><span>09</span><h3 id="build-and-compare">Build and compare</h3><p>Run <code>nift build --all</code>, compare the generated site to the original and correct any deliberate path/layout differences.</p></div>
-    <div><span>10</span><h3 id="then-stop-thinking-about-migration">Then stop thinking about migration</h3><p>Once the output matches, develop normally. New pages can use the shared template from the start.</p></div>
-  </div>
-
-  <h2 id="you-can-migrate-gradually">You can migrate gradually</h2>
-  <p>Nift does not require every file in the repository to become tracked on day one. A practical project can move the repetitive HTML pages first while leaving unrelated assets, application code and tooling untouched.</p>
-
-  <h2 id="existing-typescript-vite-project">Existing TypeScript/Vite project</h2>
-  <pre><code class="language-plaintext">before:
-  src/
-  assets/
-  vite.config.ts
-  several hand-maintained HTML entry pages
-
-after:
-  content/
-  templates/
-  src/                 ← still TypeScript/Vite
-  vite.config.ts       ← still Vite
-  public/
-  .nift/</code></pre>
-  <p>Nift can own document composition while Vite continues owning the frontend asset pipeline.</p>
-
-  <h2 id="existing-backend-application">Existing backend application</h2>
-  <pre><code class="language-plaintext">application/
-  content/             ← page-specific frontend HTML
-  templates/           ← shared frontend shell
-  public/              ← generated frontend/assets
-  server/              ← Go / Node / Python / etc.
-  .nift/</code></pre>
-  <p>The backend does not become a Nift backend. It simply serves or deploys the files Nift generates.</p>
-
-  <h2 id="ai-assisted-migration">AI-assisted migration</h2>
-  <p>This is also a strong coding-assistant task because the transformation is mostly structural refactoring rather than framework translation. Give an assistant the current site plus the Nift context and ask it to identify repeated document structure while preserving output.</p>
-  <pre><code class="language-plaintext">Read ai-context.txt and inspect this existing website.
-
-Convert the repeated document structure into Nift templates and
-partials while preserving the existing HTML/CSS/JS architecture
-and visual output. Keep page-specific markup in content files.
-Use \@path for project-owned page and asset references.</code></pre>
-
-  <div class="docs-callout"><strong>The migration succeeds when the site becomes easier to maintain—not when it looks more like a framework.</strong><p>Nift should remove duplication, improve path/dependency awareness and speed up the edit/build loop while leaving the architecture you deliberately chose intact.</p></div>
-  <div class="docs-next"><span>Related</span><a href="@path('docs/paths')">Project-aware paths →</a></div>
-</article>
-  <h2 id="agent-ready-migrations">Agent-ready migrations of a whole site</h2>
-  <p>The adoption path above extracts repetition from a site you are keeping. When the goal is a full migration into Nift, `nift init --migration` creates a normal Nift project plus an agent-ready migration playbook: canonical `MIGRATION.md`, `HANDOVER.md`, a Nift-managed `AGENTS.md` migration block, and an `investigation/` workspace.</p>
-  <pre><code class="language-bash">git clone <existing-site>
-cd <working-copy-or-target>
-nift init --migration</code></pre>
-  <p>Then give the project to a human or coding agent and follow `MIGRATION.md`. Nift does not automatically convert another framework; it provides the rails.</p>
-  <p><code>nift init --migration</code> never silently overwrites existing `MIGRATION.md`/`HANDOVER.md` files. The default policy stops with a list of conflicts; `--migration-existing=keep`, `append`, and `replace` make the choice explicit. `AGENTS.md` is created, or safely augmented with Nift's managed migration block, using deterministic HTML-comment markers.</p>
-
-  <h2 id="a-disciplined-migration-workflow">A disciplined migration workflow</h2>
-  <p>The generated `MIGRATION.md` is designed for humans and agents across multiple sessions, and is parity-first, not architecture-first:</p>
+  <h2 id="what-nift-creates">What Nift creates</h2>
   <ul>
-    <li>Baseline: reproduce the source revision and build before changing anything.</li>
-    <li>Inventory: content, routes, layouts, components, shortcodes/render hooks, assets, data, frontmatter, taxonomies, redirects, generated/listing pages.</li>
-    <li>Parity fixtures: route/generated-file inventories, representative captures, a known-divergence ledger.</li>
-    <li>Staged migration: shared shells first, then authored content, with reconciled counts.</li>
-    <li>Compatibility handling: faithful stages are legitimate (for example Goldmark, Chroma, an MDX rendering stage, or source-specific shortcode adapters).</li>
-    <li>Verification: route-set and file-set comparison, content parity, incremental-vs-full equivalence, clean-clone build.</li>
-    <li>Benchmarking and handover: fair measurements, exact revisions, remaining work, and a maintenance recommendation.</li>
+    <li><code>MIGRATION.md</code> - the migration playbook and parity gates.</li>
+    <li><code>HANDOVER.md</code> - current progress, decisions, blockers and the exact next action.</li>
+    <li><code>AGENTS.md</code> - project-local instructions for coding agents; Nift safely manages only its own marked section.</li>
+    <li><code>investigation/</code> - evidence, reproductions, route inventories, benchmarks and compatibility work.</li>
+  </ul>
+  <ul>
+    <li><a href="https://nift.dev/MIGRATION.md">Canonical MIGRATION.md</a></li>
+    <li><a href="https://nift.dev/HANDOVER.md">Canonical HANDOVER.md</a></li>
   </ul>
 
-  <h2 id="migration-invariants">Migration invariants</h2>
-  <ul>
-    <li>Preserve route, content and behavioural parity unless divergence is explicitly approved.</li>
-    <li>Do not modify Nift itself to solve a source-project compatibility gap without stopping and reporting the requirement.</li>
-    <li>Maintain an explicit known-divergence list and do not declare completion while unexplained differences remain.</li>
-    <li>Prefer faithful compatibility over speculative rewrites, and clean up only after the faithful baseline is established.</li>
-  </ul>
+  <h2 id="how-the-migration-works">How the migration works</h2>
+  <ol>
+    <li>Baseline - reproduce the source revision and build before changing anything.</li>
+    <li>Inventory - content, routes, layouts, components, shortcodes, assets, data, frontmatter, redirects.</li>
+    <li>Parity fixtures - route/generated-file inventories and a known-divergence ledger.</li>
+    <li>Migrate - shared shells/templates first, then authored content with reconciled counts.</li>
+    <li>Verify - route-set and file-set comparison, content parity, incremental-vs-full equivalence.</li>
+    <li>Benchmark - fair full/warm/targeted builds plus peak RSS, with compatibility-stage cost separated.</li>
+    <li>Clean checkout - a fresh clone must build without hidden local state.</li>
+    <li>Handover - exact revisions, known divergences, remaining work and a maintenance recommendation.</li>
+  </ol>
+  <p>Existing <code>MIGRATION.md</code>/<code>HANDOVER.md</code> files are never silently overwritten: the default policy stops with a list of conflicts, and <code>--migration-existing=keep</code>, <code>append</code>, or <code>replace</code> make the behaviour explicit.</p>
 
-  <p><strong>When Nift itself seems to need a change</strong>: stop, isolate the requirement with a narrow reproduction, and report it separately. Do not casually modify Nift core from inside the site migration.</p>
+  <h2 id="parity-first-migration">Parity-first migration</h2>
+  <p>Preserve route, content and behavioural parity unless divergence is explicitly approved, and maintain an explicit known-divergence list. A faithful migration may initially retain architectural baggage from the source generator; do not clean up too early, and prefer faithful compatibility over speculative rewrites.</p>
 
-  <p><strong>What comes after migration</strong>: a faithful migration achieves source parity first. Once the constraints are understood, a later native-Nift evolution may simplify the architecture - but keep a compatibility stage until parity is proven and the simplification is explicitly authorized.</p>
+  <h2 id="route-preservation">Route preservation</h2>
+  <p>Route preservation is a first-class migration invariant. Compare the authoritative route set, detect missing and extra routes, preserve redirect behaviour, and account for generated/index routes.</p>
 
-  <p>The playbook roles are distinct: `MIGRATION.md` holds methodology and parity requirements; `HANDOVER.md` holds current operational state and the exact next action; `AGENTS.md` merges Nift's managed migration block into project instructions; `investigation/` holds baseline evidence and findings.</p>
-  <ul>
-    <li><a href="https://nift.dev/MIGRATION.md">Canonical MIGRATION.md</a> - generated by <code>nift init --migration</code></li>
-    <li><a href="https://nift.dev/HANDOVER.md">Canonical HANDOVER.md</a> - generated by <code>nift init --handover</code> and <code>--migration</code></li>
-  </ul>
+  <h2 id="foreign-compatibility-stages">Foreign compatibility stages</h2>
+  <p>Migration does not require Nift to reproduce every source generator’s semantics natively. External renderers and adapters are legitimate when parity requires them - for example Goldmark, Chroma, an MDX rendering stage, or source-specific shortcode adapters - without being bundled by Nift.</p>
+
+  <h2 id="dependency-correctness">Dependency correctness</h2>
+  <p>Imported includes, assets, data, shared templates, and generated dependencies must become correct Nift dependencies where appropriate.</p>
+
+  <h2 id="incremental-correctness">Incremental correctness</h2>
+  <p>Verify single-page edits, shared-template edits, asset/data changes, and targeted builds, plus incremental-vs-full equivalence. A migration that only passes a full clean build is insufficient evidence.</p>
+
+  <h2 id="verification">Verification</h2>
+  <p>Use route checks, file-set checks, content checks, browser checks, and keyboard/runtime checks where relevant. No migration is complete while unexplained differences remain.</p>
+
+  <h2 id="benchmarking">Benchmarking</h2>
+  <p>Measure fairly on the same machine with the same corpus: the source build, Nift full/warm/targeted builds where relevant, and peak RSS. Separate and report compatibility-stage renderer cost honestly.</p>
+
+  <h2 id="clean-clone">Clean clone</h2>
+  <p>A migration is not finished until a fresh checkout builds and passes parity checks without hidden local state or absolute developer-machine paths.</p>
+
+  <h2 id="handover">Handover</h2>
+  <p><code>MIGRATION.md</code> holds methodology and parity requirements; <code>HANDOVER.md</code> holds current operational state and the exact next action; <code>AGENTS.md</code> merges Nift’s managed migration block into project instructions; <code>investigation/</code> holds baseline evidence and findings.</p>
+
+  <h2 id="when-nift-itself-seems-to-need-a-change">When Nift itself seems to need a change</h2>
+  <p>If a migration exposes a gap that looks like Nift core, stop and isolate the requirement with a narrow reproduction. Do not casually modify Nift core from inside the site migration; report the requirement separately.</p>
+
+  <h2 id="what-comes-after-migration">What comes after migration</h2>
+  <p>A faithful migration achieves source parity first. Once the constraints are understood, a later native-Nift evolution can simplify the architecture - but keep a compatibility stage until parity is proven and the simplification is explicitly authorized.</p>
 
   <h2 id="the-canonical-migration-md">The canonical MIGRATION.md</h2>
   <p><code>nift init --migration</code> writes this file to the project root, byte-for-byte:</p>
@@ -381,4 +285,20 @@ A faithful migration achieves source parity first. Once the constraints are
 understood, a subsequent native-Nift evolution may simplify the architecture -
 but do not strip away a compatibility stage until parity is proven and the
 simplification is explicitly authorized.</code></pre>
+
+  <h2 id="incremental-adoption">You do not have to migrate everything at once</h2>
+  <p>If you are keeping an existing site and want a lighter first step, you can also add Nift without a full migration. Keep the site’s HTML, CSS, JavaScript, assets and runtime architecture, and use Nift to extract repeated structure - shared heads, headers/footers/navigation, and repeated structural components - into templates and a fast tracked build layer.</p>
+  <pre><code class="language-plaintext">index.html
+about.html
+services.html
+work.html
+contact.html
+
+Every page repeats:
+  <!doctype html>
+  <head>...</head>
+  header / navigation
+  footer
+  CSS / JS references</code></pre>
+  <p>Extract the repetition, use <code>\@content</code>/<code>\@input</code>/<code>\@path</code> to compose it, and keep the parts that are already working. This incremental-adoption path does not require a rewrite and does not translate the site into a different component model.</p>
 </article>
