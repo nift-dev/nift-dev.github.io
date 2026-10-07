@@ -1,453 +1,315 @@
-# Nift website handover
-
-This file belongs to the authoritative website source checkout. It must not be
-copied into or maintained beneath the nested generated `public/` repository.
-
-## Current repository topology
-
-- Repository: `nift-dev.github.io`.
-- Authoritative source branch in this checkout: `stage`.
-- `content/`, `templates/`, and `.nift/` are source/project state.
-- Output directory: `public/` from `.nift/config.json`.
-- `public/` is itself a separate Git checkout containing built deployment state.
-- The outer repository records `public` as a Git-linked entry.
-
-Edit source on `stage`; generate `public`; never hand-edit generated HTML as the
-canonical fix. For publication checkpoints, commit the rebuilt/generated `public/`
-checkout on `main` **before** committing the corresponding authoritative source
-changes on `stage`; verify both trees are clean afterwards. Building locally is normal validation. Committing, pushing,
-publishing, or deploying either branch requires explicit approval.
-
-The repository-root `install` file is the canonical source for the extensionless installer served at `https://nift.dev/install`. Nift cannot directly derive an extensionless tracked output under the current extension contract, so publication copies this source file byte-for-byte to `public/install` after the candidate site build and validates shell syntax plus byte identity. Do not hand-edit the generated `public/install` copy.
-
-The canonical website stylesheet is `public/assets/css/style.css`. It is an
-ordinary deployment asset maintained directly in the output tree, not a tracked
-Nift output. The site deliberately dogfoods the default asset ownership model:
-there is no `content/assets/` copy and no CSS/JavaScript entry in
-`.nift/tracked.json`. Nift builds must preserve these direct assets.
-
-Downloadable template archives remain under `public/assets/templates/`. Their
-already-built `public/` directories are also published as case-sensitive demo
-directories under `public/templates/<Template>/` (for example
-`public/templates/Aurora/`). The templates page links to those concrete deployment
-paths with `@path`. When an archive is replaced, refresh its corresponding demo
-directory and validate the demo's relative CSS/JavaScript requests as well as the
-download itself. Only the ten templates represented by showcase cards are
-published as demos; the older Barebones archive remains download-only.
-
-At the time this handover was introduced, `content/docs/templating.html` and the
-nested `public` checkout already contained local changes from earlier work.
-Preserve and distinguish those changes.
-
-## What this website is
-
-The site is official documentation, product explanation, download/example
-surface, AI onboarding resource, a real Nift project, and a release-candidate
-integration fixture. It is part of the product rather than disposable marketing.
-
-A significant Nift candidate should build this entire site with the exact
-candidate binary. Synthetic tests and dogfooding are complementary.
-
-The documentation must describe the name-first six-form `@json` surface and
-the embedded Markup++ `@markup(format){...}` / `@markup(format, path)`
-boundary. Preserve the evaluation order: Nift templates the source, Markup++
-converts it once, and generated HTML is not reparsed. Keep the markup page,
-docs overview/sidebar, canonical public `HANDOVER.md`, and generated pages
-synchronized.
-
-## Product truth and terminology
-
-Describe Nift publicly as a **dependency-aware website templating and build
-system**, not merely a static site generator. Generated sites may include runtime
-applications, React/Vue/Svelte islands, API clients, dashboards, or backend
-frontends. The underlying engine can template non-HTML text assets too, but the
-website is the primary use-case framing.
-
-The modern story follows deliberate removal of LuaJIT and ExprTk, followed by a
-purpose-built native scripting/embedding runtime and explicit build hooks.
-Emphasize a small dependency-aware generation layer, ordinary web technologies,
-speed, incrementality, composition, and explicit behavior. Useful
-current ideas include “Keep your HTML. Keep your tools. Stop repeating yourself”
-and “Nift provides the glue without trying to become the universe.”
-
-Do not market simplicity as lack of capability or respond by inventing a giant
-feature list. Nift's value often comes from leaving HTML, CSS, JavaScript,
-frameworks, APIs, and external tools in their native form.
-
-
-## Agent-readiness surfaces
-
-The site intentionally publishes machine-readable discovery resources alongside
-the normal human documentation:
-
-- `/llms.txt` is a concise agent-oriented index with explicit when-to-use and
-  when-not-to-use guidance. Keep it short and link-oriented rather than turning it
-  into a duplicate manual.
-- `/agents.md` is a compact Markdown cold-discovery guide.
-- `/sitemap.xml` lists indexable HTML pages and should stay synchronized with
-  tracked public pages.
-- `/robots.txt` keeps the public site crawlable and points at the sitemap.
-- `/404.html` is the GitHub Pages missing-path surface and must remain a genuine
-  missing-page response after publication.
-
-Do not add OpenAPI, OAuth, GraphQL, MCP, JSON error conventions or other agent
-interfaces merely to improve an external readiness score when nift.dev does not
-actually provide those interfaces. Improve raw HTML semantics, discovery and
-recoverability where they are genuinely useful; reject rubric gaming.
-
-The first retained Is Agentic baseline (2026-08-22) was 49/100, with the most
-useful findings being the missing homepage H1/raw-HTML identity and missing-path
-recovery/discovery surfaces. Treat later scores as snapshots, not product
-certifications.
-
-## Documentation responsibilities
-
-The current tracked site covers getting started, project structure, templating,
-metadata, JSON/Schema/control flow, contracts/project contracts/route contracts,
-paths, dependencies, incrementality, configuration, commands, minification, full
-applications/use cases, migration, hosting, AI development, architectural rules,
-battle-testing, comparisons, templates, and showcase material.
-
-When Nift changes:
-
-1. Identify every affected documentation and AI-facing surface.
-2. Search globally for stale syntax, terminology, versions, paths, and claims.
-3. Edit canonical source only.
-4. Verify examples against current/candidate Nift rather than memory.
-5. Build with the exact candidate binary.
-6. Inspect generated diffs, links, assets, downloads, and affected rendered pages.
-7. For visual changes, inspect relevant desktop/tablet/mobile and theme states.
-8. Run Lighthouse/accessibility checks when the change can materially affect them.
-9. Review `Battle Tested` whenever behavior, regression coverage, test families, or checkpoint evidence changed.
-10. Reconcile this handover and the website roadmap before declaring the Nift work complete.
-
-`@path` examples require special care: tracked names and concrete paths are
-different semantic categories. `@dep` should generally remain advanced material.
-Backticks are not Nift quotes. Modern output convention is `public/`. Unknown CSS
-at-rules should not need Nift workarounds.
-
-Parameter interpolation is implemented and validated. Document it as constrained
-parameter value resolution: whole `$[...]` values and quoted literal/value
-composition. Explicitly state that nested `@...` directives are not evaluated
-inside parameters. Prefer examples backed by contract fixtures.
-
-
-Project-contract documentation is intentionally split into three layers:
-`docs/contracts` explains the build-time contract philosophy and contract-driven
-feature design and belongs under Design & Internals; `docs/routes` is the
-concrete route-contract pattern and should appear before the generic
-`docs/project-contracts` reference in the everyday docs navigation;
-`docs/project-contracts` specifies config-declared project-wide JSON contract
-namespaces. The routes page and relevant Vercel/serverless material must
-state explicitly that Nift route contracts are build-time application
-relationships whereas Vercel routes/routing rules are deployment/runtime request
-handling.
-
-AI-facing material should describe Nift as human-first: clarity, explicitness,
-fast feedback, determinism, and checked relationships are primarily good human DX
-and consequently also produce unusually strong AI DX. The AI-development page may
-describe the repository practice as human-directed agentic engineering, including
-contracts, checkpoints, handovers, adversarial testing, evidence, project memory,
-and the high-leverage role of human perception/judgement.
-
-## AI, templates, and downloads
-
-AI-facing documentation is first-class and must not teach stale limitations.
-The barebones project and template collection are onboarding and integration
-fixtures. A screenshot, downloadable archive, source project, and description
-must correspond. Build and inspect templates before updating captures/downloads.
-
-## Design context
-
-About-page full-bleed artwork, the executable colon-loop example and the
-neutral `#20201e` code palette are documented in
-`docs/handover/ABOUT-PAGE-REPAIR.md`. The WebPs are retouched/recomposed supplied
-raster artwork, not twelve independently regenerated illustrations. Keep the
-native foreground bounds intact when changing responsive image fitting.
-
-
-Durable direction: clean typography, low clutter, responsive behavior,
-dark-by-default theming with explicit light/system choices, dark-mode friendliness,
-green-gradient identity, and
-restrained JavaScript. Historical preferences include angular rather than curvy
-hero hills, no sky grid, wide example cards, one representative template image,
-and a demo that explains Nift rather than becoming a distracting application.
-These guide judgment; they are not immutable pixel specifications.
-
-Maintain semantic headings, labels, contrast, keyboard navigation, responsive
-menus, and theme behavior. Historical Lighthouse scores are checkpoint evidence,
-not permanent truth.
-
-## Claims and evidence
-
-Benchmark numbers, test counts, Lighthouse scores, and comparison conclusions are
-checkpoint-specific. Preserve fixture/tool/machine context or remeasure. Battle
-Tested messaging should emphasize failure families—parser boundaries, malformed
-state, filesystem safety, incrementality, dependency lifecycle, collisions,
-scaling—rather than a stale test count. Credible AI-opinion/comparison material
-may say another tool is better for a project shape.
-
-## Build and publication
-
-The Nift project configuration is `.nift/config.json`; the normal local product
-command is `nift build` for an incremental build or `nift build --all` for an
-explicit full rebuild, using the intended binary on `PATH`. For candidate
-validation, invoke the exact candidate executable from the Nift repository rather
-than relying on an unrelated installed version.
-
-The exact public deployment/push sequence is not encoded here because repository
-history alone does not establish an approved publication procedure. Determine it
-with Nick before publishing. Never infer that a successful local build authorizes
-updating `main` or the nested public remote.
-
-Website checkpoint identities do not automatically equal executable versions.
-Pure design/content changes do not require a Nift binary version bump.
-
-## Production-checkpoint review
-
-When a Nift checkpoint changes syntax, behavior, commands, config, terminology,
-benchmark evidence, testing claims, AI guidance, or downloads, reconcile this
-source before considering the product checkpoint complete. Internal refactors
-with no public effect normally require only a compatibility self-build.
-
-Current public product status is **Nift v4.5.0 released**, with the native
-scripting/runtime, concurrency, FFI, Engine and C ABI 1.1 supported. The
-deliberate Checkpoints 0–10 hardening campaign remains the maintained baseline,
-with later language/runtime work covered by focused, sanitizer and
-cross-platform evidence. Current priorities are keeping command/version-sensitive
-documentation aligned with the executable, verifying public distribution
-channels as they propagate, dogfooding this site and documented integrations,
-and reviewing responsive/accessibility/publication readiness.
-
-## Maintaining this handover
-
-This is living project infrastructure. Update it when branch topology, build or
-deployment procedure, design principles, product terminology, documentation
-responsibilities, or durable website lessons change. Replace obsolete operations;
-retain useful history without appending a diary. Every substantial website or
-Nift product checkpoint must review handover and roadmap impact. For Nift product
-work, completion also requires reviewing Battle Tested whenever the checkpoint
-changes protected behavior or validation evidence; do not leave that reconciliation
-for a later documentation pass.
-
-The detailed website history lives at
-`docs/handover/PROJECT-HISTORY.md`. It contains the full product,
-design, documentation, AI, template, benchmark, checkpoint, and production-support
-history. Keep both documents current, using this root file as the operational
-entry point.
-
-The v4.5 documentation completion added first-class navigation and dedicated
-public references for script invocation, job control, native concurrency,
-atomics, FFI and embedding. Keep these pages synchronized with the executable
-contracts and C ABI 1.1; do not collapse them back into release notes or a
-single buried scripting page.
-
-## 2026-08-17 AI/HDAE and template-less documentation reconciliation
-
-- Expanded `docs/ai-assistants` with a practical human-directed agentic engineering workflow for production Nift sites and linked it to the deeper Nift-development methodology.
-- Reworked the AI-opinion scoring model to remove overlapping categories, reserve 10s for unusually strong evidence, and explicitly separate Nift's internal testing discipline from ecosystem/production maturity.
-- Documented omitted `template` fields in `.nift/tracked.json`: direct top-level parsing of content, no template dependency, empty-string compatibility, dependency cleanup when switching modes, and scaffold usage for CSS/JS.
-- Documentation-only checkpoint: rebuild the canonical site, verify an immediate incremental no-op, and keep generated `main` synchronized with `stage`.
-
-## 2026-08-17 site-wide editorial reconciliation
-
-- Reworked the homepage around distinct jobs rather than repeated positioning: product/demo, core capabilities, incremental/dependency behavior, human-first AI assistance, migration, ecosystem composition, use cases, templates, and one closing boundary statement.
-- Reduced homepage copy substantially; avoid reintroducing separate sections that all restate “small layer / keep your stack / glue not universe.” Put deeper philosophy on `docs/why-nift`, ecosystem recipes on `docs/advanced`, and AI methodology on the dedicated AI pages.
-- Surface current differentiators such as checked relationships/project contracts where they add information; do not let older speed/simplicity messaging crowd out newer architectural strengths.
-- The website should practice its own contract philosophy: use `@path` for authored internal navigation instead of unchecked relative `.html` links unless a literal path is intentionally being demonstrated.
-- Keep `docs/production-readiness` and other evaluation pages synchronized with the current focused-test inventory and Battle Tested evidence; avoid copying old checkpoint counts forward.
-- Keep the Battle Tested introduction framed around behavioral contracts and executable guarantees, with the broad Contracts philosophy distinguished from the concrete Project Contracts feature; do not reduce the page to raw test-count marketing.
-- `docs/advanced` is now the practical wider-toolchain integration guide. Keep philosophical rationale primarily in `docs/why-nift` / `docs/contracts` rather than duplicating it there.
-
-## 2026-08-17 homepage visual cleanup
-
-- Removed the homepage package-manager icon strip and added a direct `Install` CTA between `Get started` and `View on GitHub`; installation-channel detail remains on the dedicated installing docs page.
-- Removed the homepage templates teaser entirely. Templates remain available through the global navigation and dedicated templates page; do not re-add homepage template promotion unless it earns space against the homepage's tighter product story.
-- Added shared vertical alignment for text links placed beside buttons in `.hero-actions`, addressing the recurring mixed-control alignment issue rather than patching only the boundary card.
-- Added breathing room above the final boundary card and centered the fourth performance card in the three-column desktop layout.
-- Removed the six package-manager icon assets from generated `main`; they are no longer referenced anywhere in authored source.
-- Validation for this presentation-only checkpoint: 46-page full build, immediate 46/46 no-op incremental build, and 4,329 generated local references with zero missing targets.
-
-## 2026-08-17 homepage narrative-order adjustment
-
-- Moved `Use it your way` directly after `Small by design` and before the performance section. The homepage now establishes Nift's compact model, immediately shows the range of project shapes it can serve, then explains fast/dependency-aware builds.
-- Keep this ordering unless a future homepage redesign deliberately replaces the multi-section narrative; it avoids delaying the practical “what can I build with this?” answer until after several implementation/engineering sections.
-- Validation for this presentation-only checkpoint: 46-page full build, immediate 46/46 no-op incremental build, and 4,329 generated local references with zero missing targets.
+# HANDOVER.md
+v0.0.8
 
-## 2026-08-17 minimal homepage checkpoint
-
-- Replaced the multi-section homepage narrative with an intentionally minimal product front door: hero, live template/content/output demo, four compact proof points, then footer.
-- The proof points link into the deeper docs for Nift's small design, checked relationships/contracts, dependency-aware incremental builds, and wider-toolchain composition; separate links lead to the docs index and testing evidence.
-- Keep detailed use cases, AI/HDAE guidance, migration, ecosystem recipes, production evidence and philosophy on their dedicated pages. Do not let the homepage gradually reaccumulate those sections unless a future redesign deliberately changes this strategy.
-- The hero CTAs remain `Get started`, `Install`, and `View on GitHub`.
-
-## 2026-08-17 minimal homepage closing proposition
-
-- Replaced the four-card homepage proof grid with one compact closing proposition after the live demo.
-- The homepage now has three jobs only: identify Nift in the hero, demonstrate it live, then summarize why it is credible before handing off to deeper documentation.
-- The closing links are `Why Nift?`, `Battle Tested`, and `Documentation`; do not reintroduce a feature-card grid merely to fill homepage space.
+This is a living handover for working effectively in a Nift project.
 
-## Comparison guide checkpoint (2026-08-18)
-
-- Added `docs/comparisons` as the canonical neutral comparison guide, separate from the more personal `docs/ai-opinion` assessment.
-- The page compares Nift with Astro, Next.js, Hugo, Eleventy, Jekyll and Zola and should continue to describe ownership models, strengths and weaknesses rather than constructing a table where Nift wins every row.
-- Keep current competitor feature descriptions grounded in official project documentation. Keep benchmark claims on evidence/benchmark pages and avoid inferring performance from architecture alone.
+Canonical version:
 
-## Integrated-web comparison and table-fit checkpoint (2026-08-18)
+https://nift.dev/HANDOVER.md
 
-- `docs/comparisons` now positions Nift against integrated website/application frameworks rather than grouping it with static-site generators. The current comparison set is Astro, Next.js, Nuxt, SvelteKit, Laravel, Django and Ruby on Rails.
-- Astro remains intentionally included because its component/islands/content/on-demand model is a common modern website architecture even though its ownership boundary differs from the more backend-heavy full-stack frameworks.
-- All generated documentation tables must fit ordinary desktop viewports without horizontal scrolling; narrow-screen scrolling may remain. The current rendered audit passes every table at 1024–1920 px.
+Check the version at the top of this file against the canonical copy when the
+project is old, unfamiliar, or behaving differently from the current Nift
+documentation.
 
-## Frontend-framework comparison and memory-safety checkpoint (2026-08-18)
+To replace this file with the latest canonical version:
 
-- `docs/comparisons` now covers two distinct ownership choices: integrated website/application frameworks (Astro, Next.js, Nuxt, SvelteKit, Laravel, Django, Rails) and frontend/UI frameworks (React, Vue, Svelte, SolidJS). Preserve the distinction: Nift does not replace a reactive UI runtime, but it can avoid making one the site-wide architecture and can consume framework-built islands/bundles selectively.
-- SolidJS is included explicitly for its fine-grained reactive/JSX model; comparison prose should stay architectural and current rather than treating all frontend frameworks as interchangeable React clones.
-- `docs/memory-safety` is the dedicated living record for the upcoming Nift leak/lifetime/endurance campaign, including watch-mode and 10k-page stability. Battle Tested links to it rather than freezing detailed memory claims in the broader regression page.
-- Future memory campaigns should record exact commit/date/toolchain/workload/results and distinguish allocator-retained RSS from confirmed leaks.
-
-## Jsonic++ memory-safety Checkpoint 1A / 1B status (2026-08-18)
-
-- The Jsonic++ component campaign completed Checkpoint 1A: 120 long-lived corpus iterations under ASan + LSan + UBSan produced zero findings; a separate 400-iteration RSS soak stabilized at 10,688 KiB from midpoint through completion after a 10,624 KiB warm-up observation.
-- This evidence covers the parser component, not Nift's later end-to-end lifecycle/watch/10k memory checkpoints. Do not generalize it into a project-wide Nift leak verdict.
-- Checkpoint 1B was initially blocked in the checkpoint environment because Valgrind was unavailable, then completed on a Linux host with Valgrind 3.26.0. The independent Jsonic++ gate is now satisfied; see the later Checkpoint 1B entry below for exact evidence.
-- `docs/memory-safety` now publishes the exact 1A evidence and the open 1B limitation; maintain it alongside this handover whenever memory-safety evidence changes.
-## Jsonic++ memory-safety Checkpoint 1B complete (2026-08-18)
+```sh
+curl -fsSL https://nift.dev/HANDOVER.md -o HANDOVER.md
+```
 
-- The embedded Jsonic++ component now has independent Valgrind confirmation in addition to its sanitizer/RSS evidence: Valgrind 3.26.0, Linux x86_64, commit `b9d0ff3`, 40 lifetime-corpus iterations, 0 errors, 0 bytes in use at exit, all 6,579,515 allocations freed, peak Valgrind RSS 215,992 KiB.
-- This completes Jsonic++'s standalone lifetime gate only. Nift's own command lifecycle, incremental-state, watch endurance, 10k pressure and integrated Minify++ checkpoints remain separate.
-- The Minify++ checkpoint should now stay standalone; move Nift-embedded Minify++ ownership stress to the later cross-project integration checkpoint to avoid duplicating integration scope.
-## Minify++ memory-safety Checkpoint 2A (2026-08-18)
+If this project has project-specific additions, preserve or reapply them when
+updating the canonical handover.
 
-- Standalone Minify++ resource testing is now green under its maintained sanitizer/RSS/CLI corpus at commit `db2a6ff`; the Nift vendored test infrastructure is synchronized.
-- Treat this as component evidence only. Nift-owned Minify++ integration/resource behavior remains a later cross-project checkpoint.
-- Independent Minify++ Valgrind confirmation is still open because Valgrind is unavailable in this environment. `docs/memory-safety` records the exact component evidence and limitation.
+This project uses Nift as part of its website build process.
 
-## Minify++ memory-safety Checkpoint 2B complete (2026-08-18)
+Nift is the project's build-time templating and dependency layer. It does not determine what the website is about or what other technologies the project should use.
 
-- The standalone Minify++ component gate now has independent Valgrind confirmation in addition to sanitizer/RSS/CLI evidence: Valgrind 3.26.0 on Linux x86_64, canonical Minify++ commit `2a51a38`, 30 lifetime-corpus iterations, 0 errors, 0 bytes in use at exit, all 2,448 allocations freed, peak Valgrind RSS 184,908 KiB.
-- This closes Minify++'s standalone component checkpoint only. Nift's own core lifecycle, watch/10k endurance and later cross-project integration gates remain open.
-- `docs/memory-safety` and Battle Tested have been reconciled accordingly; keep detailed component metrics on the living memory page rather than spreading them across general reliability copy.
+Keep the existing project architecture and use the project's normal HTML, CSS, JavaScript, frameworks, backend, and other tooling where appropriate.
 
-## Nift memory-safety Checkpoints 3 and 4A (2026-08-18)
+Do not introduce Nift-specific machinery where ordinary web tooling is the clearer solution.
 
-- Checkpoint 3 is complete: 57 sanitizer-backed core lifecycle/test phases passed with no ASan/LSan/UBSan finding, covering project mutation commands, success/failure/repair builds, incremental modes, contracts, schema, requirements, template-less tracking, Minify++ integration and cross-feature behavior.
-- `build-auto` exits after a failed watched rebuild. Preserve that actual contract; do not describe watch mode as a self-healing daemon. Failed-build cleanup/recovery is tested through repeated command lifecycles instead.
-- Checkpoint 4A native watch endurance completed 180 deterministic successful invalidations in one process. RSS stayed between 5,976 and 6,356 KiB; warm/mid/final observations were 6,332 / 6,216 / 5,976 KiB.
-- A 100-cycle sanitizer watch run completed without sanitizer failure. Do not use sanitizer-process RSS as leak evidence because allocator quarantine materially changes resident memory.
-- The 10k matrix stayed below 12 MiB peak RSS across 1, 4 and automatic workers, with a minified four-worker case included.
-- Checkpoint 4B remains the targeted independent Valgrind watch confirmation. Run `make valgrind-memory-safety-checkpoint-4` on Linux with Valgrind and retain the generated evidence before marking Checkpoint 4 fully complete.
+## Start here
 
-## Checkpoint 4B harness correction (2026-08-18)
+Before making substantial changes:
 
-- The first external Valgrind watch attempt exposed a shutdown bug in the memory-test harness, not a Nift leak result.
-- The corrected runner now signals the complete monitored process group and gives Valgrind time to finalize before escalation. Public memory-safety claims remain unchanged until the corrected Checkpoint 4B target produces passing Valgrind evidence.
+1. Inspect `.nift/config.json` and `.nift/tracked.json`.
+2. Inspect the existing `content/`, `templates/`, and output structure.
+3. Read this project's `README.md` and other project-specific documentation.
+4. Run:
 
-## Checkpoint 4B pacing correction (2026-08-18)
-
-- The second external Valgrind attempt produced a clean partial leak report but exited before completing the requested watch corpus because fixed 220 ms edits could outrun Valgrind-supervised rebuilds.
-- The corrected harness waits for the generated page to rebuild after each mutation before issuing the next mutation. The independent Checkpoint 4B gate remains pending a complete rerun; public memory-safety claims remain unchanged.
+```sh
+nift status
+```
 
-## Checkpoint 4B terminal/supervisor correction (2026-08-18)
+During normal development, build frequently:
 
-- The third external run completed all 30 watch cycles but was SIGKILLed during teardown before a final Valgrind report. The test now disconnects stdin from the interactive terminal, and the Valgrind wrapper explicitly forwards shutdown signals while remaining alive for report finalization.
-- Public memory-safety claims remain unchanged until the corrected external target yields a complete Valgrind result.
+```sh
+nift build
+```
 
-## Nift memory-safety Checkpoint 4 complete (2026-08-18)
+Use this throughout a task, not only at the end. Rebuild after meaningful
+changes so Nift can surface template, path, dependency, configuration, and
+tracking errors while the cause is still obvious.
 
-- External Checkpoint 4B passed at Nift commit `92e6c05`: 30/30 acknowledgement-driven watch cycles completed in 14.044 seconds under the Valgrind wrapper, with intended SIGINT shutdown/status 130.
-- Exact evidence is retained in the Nift source tree. Wrapper RSS was flat at 3,824 KiB across the retained cycle-20 and cycle-29 samples; do not present wrapper RSS as the leak oracle.
-- Public Memory & Resource Safety and Battle Tested pages describe Nift Checkpoint 4 as complete. The sibling tscc Checkpoint 5 baseline is now also complete; the cross-project campaign proceeds to integration Checkpoint 6.
+In particular, run `nift build` immediately after editing
+`.nift/config.json` or `.nift/tracked.json`.
 
-## Nift memory-safety Checkpoint 6 complete (2026-08-18)
+Use:
 
-- Standalone/embedded Jsonic++ and Minify++ synchronization was verified before a combined Nift workload.
-- Native evidence: 90 pages, 60 mutation/recovery rounds, 20 deliberately propagated Jsonic++/Minify++ failures, all repaired successfully. Sanitizer evidence: 30 pages, 12 rounds, four injected failures, no sanitizer finding.
-- Corrected 6B passed externally: 19 Nift invocations were directly monitored under Valgrind across 12 rounds / 40 pages with four expected component failures; every invocation recorded zero errors and no non-zero leak bytes. Public Memory & Resource Safety and Battle Tested now treat the generic memory campaign as complete and point to the explicit post-memory hardening properties.
+```sh
+nift status
+```
 
-## Checkpoint 6B instrumentation correction (2026-08-18)
+when you want to inspect what Nift considers stale and why.
 
-- The first external 6B failure was a harness wiring error: Valgrind wrapped Python instead of Nift, so it is not used as product evidence.
-- The corrected target instruments each Nift invocation directly and separates Memcheck findings from deliberately expected Nift build failures. Public 6A claims remain unchanged; 6B is still pending a corrected external run.
+Successful `nift build` output may include indented `↳ ...` lines explaining
+why a page was considered stale and rebuilt, such as a missing generated output
+or a changed dependency. These are rebuild reasons, not errors. Actual build
+failures are reported as errors and cause the build to fail.
 
-## Checkpoint 6B completed (2026-08-18)
+Do not delete or recreate `.nift/`.
 
-- The corrected external run at Nift commit `03e18b4` directly monitored Nift rather than the Python orchestrator.
-- Nineteen monitored invocations, 12 mixed rounds, 40 pages and four expected component failures completed with zero Valgrind error summaries and no non-zero definite/indirect/possible leak bytes.
-- The earlier incorrectly wired attempt remains historical rejected evidence. The public reliability record now closes Checkpoint 6 and advances to incremental-vs-clean equivalence.
-## Battle Tested reliability framework refresh (2026-08-18)
+## Nift's core template model
 
-- Kept the established **Battle Tested** page title/URL/navigation stable and added **What battle hardened means** as the conceptual opening.
-- The page now distinguishes test hardening from field hardening, explicitly acknowledges that Nift cannot manufacture mature-project production exposure, and explains the progression from feature tests → regressions → bug-family/adversarial attacks → guarantee-first/contract-first tests.
-- Reliability claims follow the editorial states PROVEN NOW / IN PROGRESS / PLANNED / PHILOSOPHICAL PRINCIPLE. At the time of this framework refresh, the completed memory/resource campaign was evidence; incremental-vs-clean equivalence was the next frontier, with filesystem/transaction integrity, parser fuzz/resource boundaries and cross-platform equivalence still future work. Later checkpoint entries below supersede that historical status.
-- Competitor context is deliberately secondary. Astro, Meson, Hugo, Ninja and esbuild were re-checked against current public sources on 2026-08-18; the comparison is used to explain accumulated field evidence rather than rank projects.
-- After Checkpoint 7, promote incremental equivalence only if the campaign establishes it, and add exact methodology, mutation families, scale, findings and retained regression evidence. Apply the same scoped-evidence discipline after Checkpoints 8–10.
+Most Nift websites need very little Nift-specific syntax.
 
-## Checkpoint 7 completed (2026-08-18)
+The three primitives you will use most often are:
 
-- Battle Tested promoted incremental-vs-clean equivalence from PLANNED/CURRENT FRONTIER to scoped evidence.
-- At Nift commit `93b7c2c`, all three incremental modes completed 8 deterministic seeds × 30 mutations: 720 full public-output-tree comparisons, all byte-equivalent to a clean rebuild from the same logical state.
-- Covered content/template/JSON/schema/Project Contract/config/shared-input/metadata mutations and tracked-page add/move/remove lifecycle operations.
-- The page explicitly scopes the claim to the generated/mutated corpus. Checkpoint 8 filesystem/transaction integrity is now the current frontier; Checkpoints 9–10 remain planned.
+```text
+@content
+@input(...)
+@path(...)
+```
 
-## Checkpoint 8 completed (2026-08-18)
+`@content` inserts the tracked page's content into its template.
 
-- Battle Tested now promotes filesystem/transaction integrity from CURRENT FRONTIER to scoped evidence and advances parser fuzz/resource boundaries to the current frontier.
-- At Nift commit `e261074`, 13 Linux filesystem/failure cases passed, including forced partial/interrupted writes, permission/readability failures, symlink/type-confusion cases and recovery after state/output write obstruction.
-- The campaign fixed unreadable-input-as-empty behavior, a directory-as-file `std::length_error` abort, and truncate-in-place output/state writes. Generated/state writes now use same-directory temporary replacement with stale-temp cleanup.
-- Public wording deliberately does not claim universal filesystem/crash safety or untested ENOSPC/platform-specific semantics.
-- Checkpoint 9 remains a separate n++ parser fuzz/resource-boundary campaign; Jsonic++ and Minify++ standalone fuzz/parser evidence should not be duplicated without an integration-specific reason.
+```html
+<main>
+    @content
+</main>
+```
 
-## Checkpoint 9 completed (2026-08-18)
+`@content` should execute exactly once across the rendered template/input graph
+for a tracked page. It is normally placed in the page's template; the tracked
+content file supplies the content inserted there.
 
-- Battle Tested now promotes parser fuzz/resource boundaries from CURRENT FRONTIER to scoped evidence and advances cross-platform behavioural equivalence to the final deliberate-hardening frontier.
-- At Nift commit `45d96ba`, the sanitizer build completed 1,217 n++ parser/resource cases: 1,200 grammar-aware mutations across three seeds plus 17 explicit depth/size boundaries.
-- Outcomes: 234 successful builds, 983 controlled errors, zero timeouts/crashes/signals and zero sanitizer findings.
-- The 64-level recursive parse guard was verified explicitly; its diagnostic was clarified to describe generic template parse depth rather than only `@input`.
-- Public wording remains scoped: this is evidence for the tested corpus, not a claim that arbitrary parser input can never expose a bug.
-- Checkpoint 10 remains necessary because Linux-local memory/filesystem/parser evidence does not establish behavioural equivalence on macOS or Windows.
+Content files may still use other Nift syntax when needed. If page text needs
+to display Nift syntax literally, prefix the active sigil with `\` rather than
+leaving it as template syntax:
 
-## Codex Checkpoint 10 handover prepared (2026-08-18)
+```html
+<code>\@content</code>
+<code>\@path('about')</code>
+<code>\$[title]</code>
+```
 
-- Nift now carries a dedicated Checkpoint 10/Codex execution brief covering the Linux/macOS/Windows GitHub Actions matrix, normalized evidence model, portable vs platform-specific contracts, retained evidence and documentation promotion rules.
-- Public Battle Tested wording is intentionally unchanged: cross-platform behavioural equivalence remains the final frontier until the required matrix and comparison job pass.
-- Checkpoints 7–9 remain regression constraints for any cross-platform product fix.
+This applies whenever `@...`, `$[...]`, or other Nift syntax is intended as
+literal output rather than something Nift should execute or resolve.
 
-## Checkpoint 10 completed and hardening plateau reached (2026-08-18)
+`@input(...)` inserts a reusable file and automatically makes it a dependency of the output using it.
 
-- Nift GitHub Actions run `32118334090` at commit `f1512bf` passed the same 18 portable behavioral cases on `ubuntu-latest`, `macos-latest` and `windows-latest`; the final artifact-consuming comparison reported zero normalized portable mismatches.
-- Battle Tested now describes the exact corpus, evidence model, limited normalization, two separately classified platform contracts and the Windows stale read-only output/metadata defect discovered and fixed by the campaign.
-- Keep the claim scoped to the tested runners/corpus. Do not replace it with “Nift behaves identically everywhere.”
-- The deliberate campaign is complete through Checkpoint 10. Do not invent Checkpoint 11 by default; prioritize distribution, dogfooding, field exposure and findings from real use.
+```html
+@input('templates/header.html')
 
-## Post-Checkpoint-12 site reconciliation (2026-08-19)
+<main>
+    @content
+</main>
 
-- Installation snippets now keep verification commands separate so each copy button copies only the requested install command.
-- The templating overview now presents the two `@for` forms and `@if` as a scannable list and reflects the complete `!` / `&&` / `||` / parentheses condition grammar.
-- The control-flow reference documents the new `$[condition ? true-branch]` shorthand, with the same lazy selected-branch semantics as the full ternary form.
-- Memory & Resource Safety was reconciled beyond the old Checkpoint-4 visual stopping point: it now shows the completed Checkpoint-6 integration gate and the broader completed Checkpoints 7–10 hardening progression.
-- A site-wide stale-content pass refreshed v4.0.3 language, pagination, memory-safety and installation content and rebuilt all affected pages. Local generated href/src validation reported zero missing targets.
+@input('templates/footer.html')
+```
 
-## Guarantee-durability campaign BH1 closed (2026-08-21)
+### Structured JSON and markup sources
 
-- Nift BH1 (Guarantee registry + baseline map) is **CLOSED / VERIFIED** after three independent review rounds. DeepSeek signed off exact candidate `8419cec`; the reconciled reviewer red-run is retained in the Nift repository.
-- The registry currently maps 20 guarantees, 27 significant public claims, 7 known discrepancies and 7 CI references. Its structural checker is now independently liveness-verified.
-- No public website reliability prose changed during BH1 closure. This is deliberate: BH1 inventories and pins the existing audited surfaces; BH10 owns semantic/public-claim reconciliation, while earlier checkpoints may fix functional/documentation defects they establish.
-- Do not casually edit the four BH1-pinned reliability surfaces (`battle-tested`, `memory-safety`, `production-readiness`, `platforms`) without reconciling the Nift guarantee registry hashes/claim mapping. A legitimate content change should make the registry check fail until it is consciously re-audited.
-- BH2 now owns deeper CI/enforcement integrity, including cross-platform workflow semantics; BH3 owns semantic guard/red-run binding.
+Use name-first `@json` when a template needs immutable structured data:
 
-## Agent-readiness and Lighthouse pass (2026-08-22)
+```text
+@json(name, path)
+@json(name, schema-path, path)
+@json(name, schema-name, path)
+@json(name){...}
+@json(name, schema-path){...}
+@json(name, schema-name){...}
+```
 
-- The homepage now uses `templates/home.html` so homepage-only performance hints do not leak into every documentation page. In particular, it preloads the hero logo from `<head>` while the shared template remains unchanged for pages that never render that asset.
-- The homepage carries a real semantic `<h1>` and useful raw HTML; keep the primary product description readable without JavaScript.
-- `llms.txt`, `agents.md`, `robots.txt`, `sitemap.xml`, and `404.html` are intentional agent/discovery surfaces. Do not invent OpenAPI, MCP, OAuth, or other interfaces merely to satisfy an external readiness rubric when nift.dev does not actually provide them.
-- `content/agents.md` is still Nift content: literal Nift directives such as `@content`, `@input(...)`, and `@path(...)` must be escaped in source so they render literally.
-- The global frontend script deliberately relies on the `(min-width: 761px)` media-query change event for mobile-menu cleanup; do not reintroduce a resize handler that reads layout state such as `window.innerWidth` after DOM mutations, because Lighthouse identified that path as a forced reflow.
-- Regenerate the site with the released Nift binary appropriate to the live website and keep the normal publication order: generated `public/` commit first, then source/stage including the submodule bump.
+Inline bodies are evaluated as Nift templates before JSON parsing. A schema
+name refers to an earlier JSON binding. Data and schema files are automatic
+dependencies and paths must stay inside the project.
 
+Use `@markup(format){...}` or `@markup(format, path)` for Markdown (`md`),
+AsciiDoc (`adoc`) or reStructuredText (`rst`). Nift evaluates template syntax in
+the source first, Markup++ converts it once, and the resulting HTML is appended
+without being parsed as Nift syntax again. File sources and host-resolved
+AsciiDoc/RST includes are automatic dependencies.
 
-## Nift v4.1 documentation checkpoint
+`@path(...)` creates project-aware links to tracked pages and local assets.
 
-The website now documents the v4.1 advanced template-language surface while keeping `@input`/`@content` as the beginner path. The independent regression suite owns black-box v4.1 language/operator/injection dependency modules. Keep these synchronized with `docs/handover/V4.1-TEMPLATE-LANGUAGE.md` in Nift.
+Nift has additional features including metadata, JSON data, loops, conditionals, pagination, contracts, and explicit dependencies. Use them when the project actually needs them; do not use advanced features merely because they exist.
 
-The independent v4.1 certification audit (2026-09-15) reconciled stale v4.0.x statements on the control-flow, templating and AI-opinion pages and verified every v4.1 syntax example against the actual v4.1 executable. One wording nuance: `const` prevents rebinding while `immut` establishes a recursively read-only binding/view contract. Because v4.1 does not yet expose member/container mutation syntax, much of that distinction is currently latent rather than independently observable — an `immut` view does not globally freeze storage reachable through a separate mutable binding.
+When writing expressions inside constructs such as `@if(...)`, refer to values directly rather than wrapping them in `$[...]`. For example:
+
+```html
+@if(name == 'about'){...}
+```
+
+Use `$[...]` when resolving or rendering a value into output, for example `$[title]`. Consult the expressions and control-flow documentation when using more advanced expression syntax.
+
+## Internal links: use `@path`
+
+Use `@path(...)` for internal links.
+
+This applies to:
+
+- links between pages;
+- stylesheets;
+- JavaScript;
+- images and other local assets where Nift should know the relationship.
+
+For pages, link to the **tracked page name**, not its generated file.
+
+```html
+<nav>
+    <a href="@path('/')">Home</a>
+    <a href="@path('about')">About</a>
+    <a href="@path('docs')">Docs</a>
+    <a href="@path('contact')">Contact</a>
+</nav>
+```
+
+Do this:
+
+```html
+<a href="@path('about')">About</a>
+```
+
+Do not do this:
+
+```html
+<a href="@path('about.html')">About</a>
+```
+
+and do not hard-code the generated output path:
+
+```html
+<a href="about.html">About</a>
+```
+
+The tracked page name is the stable project identity. Its output filename or location may change independently.
+
+CSS and JavaScript includes should also use `@path(...)`:
+
+```html
+<link rel="stylesheet" href="@path('public/assets/style.css')">
+<script src="@path('public/assets/app.js')"></script>
+```
+
+Do not calculate relative paths such as:
+
+```html
+<link rel="stylesheet" href="../../assets/style.css">
+```
+
+Using `@path` lets Nift resolve the correct output-relative path and check the project relationship during the build.
+
+## Project configuration
+
+`.nift/config.json` contains project-level Nift configuration.
+
+`.nift/tracked.json` describes tracked pages and their metadata, including things such as their content, template, and output relationships.
+
+By default, ordinary CSS, JavaScript, images, fonts and other static assets live
+directly in the configured output tree (normally `public/`) and do not have
+entries in `.nift/tracked.json`. Edit those files in place. This keeps Nift's
+tracked graph focused on content that Nift actually renders and avoids duplicate
+source/output copies for files that need no build-time transformation.
+
+Track an asset only when Nift genuinely needs to generate it from content,
+templates or build-time data. Template-less tracked entries remain available for
+that advanced case; they are not the default asset workflow.
+
+These files are part of the project and should evolve with its structure.
+
+If you add, remove, or reorganise pages, templates, outputs, deployment settings, or other Nift-managed structure, inspect the relevant `.nift` configuration and update it where necessary.
+
+Do not treat `.nift/` as disposable generated state.
+
+Do not invent `.nift/tracked.json` fields or assume arbitrary fields become
+`$[...]` metadata. When you need tracking behaviour or metadata that is not
+already demonstrated by the project, consult the tracked-files and metadata
+documentation rather than guessing.
+
+## Output directory
+
+Do not assume the generated website always lives in `public/`.
+
+A normal Nift project may use `public/`, but deployment targets can use a different output structure appropriate to the platform.
+
+Inspect `.nift/config.json` before making assumptions about output paths.
+
+Edit Nift-managed page sources rather than their generated output. Edit untracked
+static assets directly in the configured output tree, unless the project
+documents another tool or source directory as their owner.
+
+## Pagination
+
+Pagination has several related pieces across `.nift/tracked.json`, page
+content, pagination templates, and generated page links. Do not infer its full
+behaviour from this handover.
+
+If working with pagination, read the dedicated documentation first:
+
+https://nift.dev/docs/pagination.html
+
+Preserve the project's existing pagination structure unless the task actually
+requires changing it, and run `nift build` frequently while doing so.
+
+## Other stacks and tools
+
+Nift does not need to own the whole application.
+
+A project may use Nift alongside tools such as Vite, React, Vue, Svelte, TypeScript, Go, Node, Python, PHP, serverless functions, or other systems.
+
+Keep responsibilities separated:
+
+- use Nift for build-time composition, tracked relationships, and dependencies;
+- use the neighbouring tool for the job it is designed to do.
+
+Do not replace an existing stack with Nift-specific code simply to make more of the project use Nift.
+
+## Before finishing
+
+Run:
+
+```sh
+nift build
+nift status
+```
+
+The build should succeed and `nift status` should report the project up to date.
+Spot-check generated output when changes affect paths, templates, tracked
+relationships, or deployment structure.
+
+## Documentation
+
+Nift documentation:
+
+https://nift.dev/docs.html
+
+When unfamiliar with the project, prioritise:
+
+1. Getting started — https://nift.dev/docs/getting-started.html
+2. the three-primitives/template-language material;
+3. paths and tracked files, especially `@path`;
+4. project structure;
+5. `.nift/config.json` and `.nift/tracked.json`;
+6. incremental builds and CLI commands.
+
+Then read feature documentation only when the task requires it, for example:
+
+- JSON and control flow;
+- pagination;
+- contracts;
+- minification;
+- deployment targets;
+- integration with other application stacks.
+
+Prefer documented Nift behaviour and the existing project structure over guessing based on another website generator or framework.
