@@ -5,7 +5,7 @@
 		document.documentElement.dataset.themeMode = mode;
 		document.documentElement.dataset.theme = mode === 'system' ? (systemDark ? 'dark' : 'light') : mode;
 	})();
-	</script> <link rel="icon" type="image/png" href="../assets/images/favicon.png"> <link rel="stylesheet" href="../assets/css/style.css"> </head> <body class="docs-page"> <header class="site-header" data-header> <a class="brand" href="../" aria-label="Nift home"> <img src="../assets/images/nift-logo.webp" alt="Nift" width="420" height="162"> </a> <div class="header-actions"> <nav class="desktop-nav" aria-label="Primary navigation"> <a href="../">Home</a> <a href="../about.html">About</a> <a href="../docs.html">Docs</a> <a href="../templates.html">Templates</a> <a href="../examples.html">Examples</a> <a href="../showcase.html">Showcase</a> <a href="https://github.com/nift-dev/nift" target="_blank" rel="noreferrer">GitHub</a> </nav> <div class="theme-switcher desktop-theme-switcher" role="group" aria-label="Colour theme"> <button type="button" data-theme-choice="system" title="Use system theme">System</button> <button type="button" data-theme-choice="light" title="Use light theme">Light</button> <button type="button" data-theme-choice="dark" title="Use dark theme">Dark</button> </div> <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" data-menu-toggle> <span></span><span></span> </button> </div> </header> <div class="mobile-nav" data-mobile-nav> <a href="../">Home</a> <a href="../about.html">About</a> <a href="../docs.html">Documentation</a> <a href="../templates.html">Templates</a> <a href="../examples.html">Examples</a> <a href="../showcase.html">Showcase</a> <a href="https://github.com/nift-dev/nift" target="_blank" rel="noreferrer">GitHub</a> <div class="mobile-theme-row"> <span>Theme</span> <div class="theme-switcher" role="group" aria-label="Colour theme"> <button type="button" data-theme-choice="system">System</button> <button type="button" data-theme-choice="light">Light</button> <button type="button" data-theme-choice="dark">Dark</button> </div> </div> </div> <button class="docs-menu-toggle" type="button" aria-label="Open documentation navigation" aria-expanded="false" data-docs-menu-toggle> <span></span><span></span> </button> <div class="docs-mobile-nav" data-docs-mobile-nav> <aside class="docs-sidebar" data-docs-sidebar><div class="docs-sidebar-inner"><p class="sidebar-kicker">Documentation</p><nav aria-label="Documentation navigation"> <a class="sidebar-top" href="../docs.html">Overview</a> <details class="docs-nav-group" open><summary>Start here</summary><div class="docs-nav-links"><a href="./installing.html">Installing Nift</a><a href="./getting-started.html">Getting started</a><a href="./three-primitives.html">Start with three primitives</a><a href="./existing-sites.html">Existing websites</a><a href="./project-structure.html">Project structure</a></div></details> <details class="docs-nav-group"><summary>Core reference</summary><div class="docs-nav-links"><a href="./commands.html">CLI commands</a> <a href="./templating.html">Template language</a> <a href="./partials.html">Partials &amp; @input</a> <a href="./paths.html">Paths &amp; tracked files</a> <a href="./markup.html">Markup conversion</a> <a href="./comments.html">Comments</a> <a href="./metadata.html">$[...] &amp; metadata</a> <a href="./expressions.html">Expressions</a> <a href="./declarations-assignments.html">Declarations &amp; assignments</a> <a href="./copying-references.html">Copying &amp; references</a> <a href="./types-optionality-enums.html">Types, optionality &amp; enums</a> <a href="./control-flow.html">Loops &amp; conditions</a> <a href="./functions-fragments.html">Functions &amp; fragments</a> <a href="./lambdas-closures.html">Lambdas &amp; closures</a> <a href="./structs.html">Structs</a> <a href="./collections.html">Collection operations</a> <a href="./json.html">JSON data</a> <a href="./json-schema.html">JSON Schema validation</a> <a href="./escaping.html">Escaping &amp; encoding</a> <a href="./project-data.html">Project information</a> <a href="./hierarchy.html">Page hierarchy</a> <a href="./frontmatter.html">Front matter</a> <a href="./schemas.html">Schemas</a> <a href="./typed-content.html">Typed content</a> <a href="./taxonomies.html">Taxonomies</a> <a href="./pagination.html">Pagination</a> <a href="./routes.html">Route contracts</a> <a href="./project-contracts.html">Project contracts</a> <a href="./dep.html">@dep</a> <a href="./user-dependencies.html">*.deps.json</a> <a href="./incremental-builds.html">Incremental builds</a> <a href="./minification.html">Minification</a></div></details> <details class="docs-nav-group"><summary>Scripting &amp; runtime</summary><div class="docs-nav-links"><a href="./scripting.html">Script land</a><a href="./scripting-run-shell.html">Run scripts &amp; interactive shell</a><a href="./scripting-io.html">Console I/O</a><a href="./runtime-shell-jobs.html">Processes &amp; job control</a><a href="./runtime-concurrency.html">Threads, mutexes &amp; futures</a><a href="./runtime-atomics.html">Atomics</a><a href="./runtime-ffi.html">Native FFI</a><a href="./runtime-embedding.html">Embedding Nift</a><a href="./scripting-imports.html">Imports &amp; exports</a><a href="./scripting-filesystem.html">Filesystem</a><a href="./scripting-managed-files.html">Managed files</a><a href="./scripting-streams.html">File streams</a></div></details> <details class="docs-nav-group"><summary>Project files</summary><div class="docs-nav-links"><a href="./configuration.html">config.json</a><a href="./tracked-json.html">tracked.json</a></div></details> <details class="docs-nav-group"><summary>Workflows &amp; patterns</summary><div class="docs-nav-links"><a href="./ai-agents.html">AI agents</a><a href="./serverless.html">Serverless stacks</a><a href="use-cases/documentation.html">Documentation projects</a><a href="use-cases/web-apps.html">Full web applications</a><a href="use-cases/mobile-development.html">Mobile development</a><a href="use-cases/dashboards.html">Dashboards</a><a href="use-cases/react-islands.html">UI islands</a><a href="use-cases/text-assets.html">Text assets</a></div></details> <details class="docs-nav-group"><summary>Deployment</summary><div class="docs-nav-links"><a href="./platforms.html">Platform targets</a><a href="platforms/vercel.html">Vercel</a><a href="platforms/netlify.html">Netlify</a><a href="platforms/amplify.html">AWS Amplify</a><a href="platforms/azure.html">Azure</a><a href="platforms/firebase.html">Firebase</a><a href="platforms/render.html">Render</a><a href="platforms/cloudflare.html">Cloudflare</a><a href="platforms/github-pages.html">GitHub Pages</a><a href="platforms/supabase.html">Supabase</a><a href="./hosting.html">Hosting &amp; deployment</a></div></details> <details class="docs-nav-group"><summary>Design &amp; internals</summary><div class="docs-nav-links"><a href="./why-nift.html">Philosophy: Why Nift?</a><a href="./comparisons.html">Comparisons</a><a href="./contracts.html">Contracts</a><a href="./architectural-rules.html">Architectural rules</a><a href="./how-nift-works.html">Architecture: How Nift works</a><a href="./advanced.html">Nift &amp; the wider ecosystem</a></div></details> <details class="docs-nav-group"><summary>Evaluation &amp; quality</summary><div class="docs-nav-links"><a href="./developer-experience.html">Developer experience</a><a href="./battle-tested.html">Battle tested</a><a href="./memory-safety.html">Memory &amp; resource safety</a><a href="./production-readiness.html">Production readiness</a><a href="./ai-opinion.html">AI opinion: Nift vs other tools</a><a href="./ai-development.html">AI development</a></div></details> </nav></div></aside> </div> <div class="docs-layout"> <aside class="docs-sidebar" data-docs-sidebar><div class="docs-sidebar-inner"><p class="sidebar-kicker">Documentation</p><nav aria-label="Documentation navigation"> <a class="sidebar-top" href="../docs.html">Overview</a> <details class="docs-nav-group" open><summary>Start here</summary><div class="docs-nav-links"><a href="./installing.html">Installing Nift</a><a href="./getting-started.html">Getting started</a><a href="./three-primitives.html">Start with three primitives</a><a href="./existing-sites.html">Existing websites</a><a href="./project-structure.html">Project structure</a></div></details> <details class="docs-nav-group"><summary>Core reference</summary><div class="docs-nav-links"><a href="./commands.html">CLI commands</a> <a href="./templating.html">Template language</a> <a href="./partials.html">Partials &amp; @input</a> <a href="./paths.html">Paths &amp; tracked files</a> <a href="./markup.html">Markup conversion</a> <a href="./comments.html">Comments</a> <a href="./metadata.html">$[...] &amp; metadata</a> <a href="./expressions.html">Expressions</a> <a href="./declarations-assignments.html">Declarations &amp; assignments</a> <a href="./copying-references.html">Copying &amp; references</a> <a href="./types-optionality-enums.html">Types, optionality &amp; enums</a> <a href="./control-flow.html">Loops &amp; conditions</a> <a href="./functions-fragments.html">Functions &amp; fragments</a> <a href="./lambdas-closures.html">Lambdas &amp; closures</a> <a href="./structs.html">Structs</a> <a href="./collections.html">Collection operations</a> <a href="./json.html">JSON data</a> <a href="./json-schema.html">JSON Schema validation</a> <a href="./escaping.html">Escaping &amp; encoding</a> <a href="./project-data.html">Project information</a> <a href="./hierarchy.html">Page hierarchy</a> <a href="./frontmatter.html">Front matter</a> <a href="./schemas.html">Schemas</a> <a href="./typed-content.html">Typed content</a> <a href="./taxonomies.html">Taxonomies</a> <a href="./pagination.html">Pagination</a> <a href="./routes.html">Route contracts</a> <a href="./project-contracts.html">Project contracts</a> <a href="./dep.html">@dep</a> <a href="./user-dependencies.html">*.deps.json</a> <a href="./incremental-builds.html">Incremental builds</a> <a href="./minification.html">Minification</a></div></details> <details class="docs-nav-group"><summary>Scripting &amp; runtime</summary><div class="docs-nav-links"><a href="./scripting.html">Script land</a><a href="./scripting-run-shell.html">Run scripts &amp; interactive shell</a><a href="./scripting-io.html">Console I/O</a><a href="./runtime-shell-jobs.html">Processes &amp; job control</a><a href="./runtime-concurrency.html">Threads, mutexes &amp; futures</a><a href="./runtime-atomics.html">Atomics</a><a href="./runtime-ffi.html">Native FFI</a><a href="./runtime-embedding.html">Embedding Nift</a><a href="./scripting-imports.html">Imports &amp; exports</a><a href="./scripting-filesystem.html">Filesystem</a><a href="./scripting-managed-files.html">Managed files</a><a href="./scripting-streams.html">File streams</a></div></details> <details class="docs-nav-group"><summary>Project files</summary><div class="docs-nav-links"><a href="./configuration.html">config.json</a><a href="./tracked-json.html">tracked.json</a></div></details> <details class="docs-nav-group"><summary>Workflows &amp; patterns</summary><div class="docs-nav-links"><a href="./ai-agents.html">AI agents</a><a href="./serverless.html">Serverless stacks</a><a href="use-cases/documentation.html">Documentation projects</a><a href="use-cases/web-apps.html">Full web applications</a><a href="use-cases/mobile-development.html">Mobile development</a><a href="use-cases/dashboards.html">Dashboards</a><a href="use-cases/react-islands.html">UI islands</a><a href="use-cases/text-assets.html">Text assets</a></div></details> <details class="docs-nav-group"><summary>Deployment</summary><div class="docs-nav-links"><a href="./platforms.html">Platform targets</a><a href="platforms/vercel.html">Vercel</a><a href="platforms/netlify.html">Netlify</a><a href="platforms/amplify.html">AWS Amplify</a><a href="platforms/azure.html">Azure</a><a href="platforms/firebase.html">Firebase</a><a href="platforms/render.html">Render</a><a href="platforms/cloudflare.html">Cloudflare</a><a href="platforms/github-pages.html">GitHub Pages</a><a href="platforms/supabase.html">Supabase</a><a href="./hosting.html">Hosting &amp; deployment</a></div></details> <details class="docs-nav-group"><summary>Design &amp; internals</summary><div class="docs-nav-links"><a href="./why-nift.html">Philosophy: Why Nift?</a><a href="./comparisons.html">Comparisons</a><a href="./contracts.html">Contracts</a><a href="./architectural-rules.html">Architectural rules</a><a href="./how-nift-works.html">Architecture: How Nift works</a><a href="./advanced.html">Nift &amp; the wider ecosystem</a></div></details> <details class="docs-nav-group"><summary>Evaluation &amp; quality</summary><div class="docs-nav-links"><a href="./developer-experience.html">Developer experience</a><a href="./battle-tested.html">Battle tested</a><a href="./memory-safety.html">Memory &amp; resource safety</a><a href="./production-readiness.html">Production readiness</a><a href="./ai-opinion.html">AI opinion: Nift vs other tools</a><a href="./ai-development.html">AI development</a></div></details> </nav></div></aside> <main class="docs-main"> <article class="docs-article"> <p class="docs-kicker">Migration workflow</p> <h1>Add Nift to the website you already have.</h1> <p class="docs-lead">One of Nift's easiest adoption paths is not a rewrite at all. Keep the site's HTML, CSS, JavaScript, assets and runtime architecture; use Nift to extract the repetition and add a fast tracked build layer around it.</p> <div class="docs-callout"><strong>Keep your HTML. Keep your tools. Stop repeating yourself.</strong><p>If an existing site already works, Nift does not need you to translate it into a different component model before it can help.</p></div> <h2 id="the-kind-of-site-this-helps-immediately">The kind of site this helps immediately</h2> <pre><code class="language-plaintext">index.html
+	</script> <link rel="icon" type="image/png" href="../assets/images/favicon.png"> <link rel="stylesheet" href="../assets/css/style.css"> </head> <body class="docs-page"> <header class="site-header" data-header> <a class="brand" href="../" aria-label="Nift home"> <img src="../assets/images/nift-logo.webp" alt="Nift" width="420" height="162"> </a> <div class="header-actions"> <nav class="desktop-nav" aria-label="Primary navigation"> <a href="../">Home</a> <a href="../about.html">About</a> <a href="../docs.html">Docs</a> <a href="../templates.html">Templates</a> <a href="../examples.html">Examples</a> <a href="../showcase.html">Showcase</a> <a href="https://github.com/nift-dev/nift" target="_blank" rel="noreferrer">GitHub</a> </nav> <div class="theme-switcher desktop-theme-switcher" role="group" aria-label="Colour theme"> <button type="button" data-theme-choice="system" title="Use system theme">System</button> <button type="button" data-theme-choice="light" title="Use light theme">Light</button> <button type="button" data-theme-choice="dark" title="Use dark theme">Dark</button> </div> <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" data-menu-toggle> <span></span><span></span> </button> </div> </header> <div class="mobile-nav" data-mobile-nav> <a href="../">Home</a> <a href="../about.html">About</a> <a href="../docs.html">Documentation</a> <a href="../templates.html">Templates</a> <a href="../examples.html">Examples</a> <a href="../showcase.html">Showcase</a> <a href="https://github.com/nift-dev/nift" target="_blank" rel="noreferrer">GitHub</a> <div class="mobile-theme-row"> <span>Theme</span> <div class="theme-switcher" role="group" aria-label="Colour theme"> <button type="button" data-theme-choice="system">System</button> <button type="button" data-theme-choice="light">Light</button> <button type="button" data-theme-choice="dark">Dark</button> </div> </div> </div> <button class="docs-menu-toggle" type="button" aria-label="Open documentation navigation" aria-expanded="false" data-docs-menu-toggle> <span></span><span></span> </button> <div class="docs-mobile-nav" data-docs-mobile-nav> <aside class="docs-sidebar" data-docs-sidebar><div class="docs-sidebar-inner"><p class="sidebar-kicker">Documentation</p><nav aria-label="Documentation navigation"> <a class="sidebar-top" href="../docs.html">Overview</a> <details class="docs-nav-group" open><summary>Start here</summary><div class="docs-nav-links"><a href="./installing.html">Installing Nift</a><a href="./getting-started.html">Getting started</a><a href="./three-primitives.html">Start with three primitives</a><a href="./existing-sites.html">Existing websites</a><a href="./project-structure.html">Project structure</a></div></details> <details class="docs-nav-group"><summary>Core reference</summary><div class="docs-nav-links"><a href="./commands.html">CLI commands</a> <a href="./templating.html">Template language</a> <a href="./partials.html">Partials &amp; @input</a> <a href="./paths.html">Paths &amp; tracked files</a> <a href="./markup.html">Markup conversion</a> <a href="./comments.html">Comments</a> <a href="./metadata.html">$[...] &amp; metadata</a> <a href="./expressions.html">Expressions</a> <a href="./declarations-assignments.html">Declarations &amp; assignments</a> <a href="./copying-references.html">Copying &amp; references</a> <a href="./types-optionality-enums.html">Types, optionality &amp; enums</a> <a href="./control-flow.html">Loops &amp; conditions</a> <a href="./functions-fragments.html">Functions &amp; fragments</a> <a href="./lambdas-closures.html">Lambdas &amp; closures</a> <a href="./structs.html">Structs</a> <a href="./collections.html">Collection operations</a> <a href="./json.html">JSON data</a> <a href="./json-schema.html">JSON Schema validation</a> <a href="./escaping.html">Escaping &amp; encoding</a> <a href="./project-data.html">Project information</a> <a href="./hierarchy.html">Page hierarchy</a> <a href="./frontmatter.html">Front matter</a> <a href="./schemas.html">Schemas</a> <a href="./typed-content.html">Typed content</a> <a href="./taxonomies.html">Taxonomies</a> <a href="./pagination.html">Pagination</a> <a href="./routes.html">Route contracts</a> <a href="./project-contracts.html">Project contracts</a> <a href="./dep.html">@dep</a> <a href="./user-dependencies.html">*.deps.json</a> <a href="./incremental-builds.html">Incremental builds</a> <a href="./minification.html">Minification</a></div></details> <details class="docs-nav-group"><summary>Scripting &amp; runtime</summary><div class="docs-nav-links"><a href="./scripting.html">Script land</a><a href="./scripting-run-shell.html">Run scripts &amp; interactive shell</a><a href="./scripting-io.html">Console I/O</a><a href="./runtime-shell-jobs.html">Processes &amp; job control</a><a href="./runtime-concurrency.html">Threads, mutexes &amp; futures</a><a href="./runtime-atomics.html">Atomics</a><a href="./runtime-ffi.html">Native FFI</a><a href="./runtime-bytes.html">Bytes</a><a href="./runtime-errors.html">Recoverable errors</a><a href="./runtime-utilities.html">Runtime utilities</a><a href="./runtime-embedding.html">Embedding Nift</a><a href="./scripting-imports.html">Imports &amp; exports</a><a href="./scripting-filesystem.html">Filesystem</a><a href="./scripting-managed-files.html">Managed files</a><a href="./scripting-streams.html">File streams</a></div></details> <details class="docs-nav-group"><summary>Project files</summary><div class="docs-nav-links"><a href="./configuration.html">config.json</a><a href="./tracked-json.html">tracked.json</a></div></details> <details class="docs-nav-group"><summary>Workflows &amp; patterns</summary><div class="docs-nav-links"><a href="./ai-agents.html">AI agents</a><a href="./serverless.html">Serverless stacks</a><a href="use-cases/documentation.html">Documentation projects</a><a href="use-cases/web-apps.html">Full web applications</a><a href="use-cases/mobile-development.html">Mobile development</a><a href="use-cases/dashboards.html">Dashboards</a><a href="use-cases/react-islands.html">UI islands</a><a href="use-cases/text-assets.html">Text assets</a></div></details> <details class="docs-nav-group"><summary>Deployment</summary><div class="docs-nav-links"><a href="./platforms.html">Platform targets</a><a href="platforms/vercel.html">Vercel</a><a href="platforms/netlify.html">Netlify</a><a href="platforms/amplify.html">AWS Amplify</a><a href="platforms/azure.html">Azure</a><a href="platforms/firebase.html">Firebase</a><a href="platforms/render.html">Render</a><a href="platforms/cloudflare.html">Cloudflare</a><a href="platforms/github-pages.html">GitHub Pages</a><a href="platforms/supabase.html">Supabase</a><a href="./hosting.html">Hosting &amp; deployment</a></div></details> <details class="docs-nav-group"><summary>Design &amp; internals</summary><div class="docs-nav-links"><a href="./why-nift.html">Philosophy: Why Nift?</a><a href="./comparisons.html">Comparisons</a><a href="./contracts.html">Contracts</a><a href="./architectural-rules.html">Architectural rules</a><a href="./how-nift-works.html">Architecture: How Nift works</a><a href="./advanced.html">Nift &amp; the wider ecosystem</a></div></details> <details class="docs-nav-group"><summary>Evaluation &amp; quality</summary><div class="docs-nav-links"><a href="./developer-experience.html">Developer experience</a><a href="./battle-tested.html">Battle tested</a><a href="./memory-safety.html">Memory &amp; resource safety</a><a href="./production-readiness.html">Production readiness</a><a href="./ai-opinion.html">AI opinion: Nift vs other tools</a><a href="./ai-development.html">AI development</a></div></details> </nav></div></aside> </div> <div class="docs-layout"> <aside class="docs-sidebar" data-docs-sidebar><div class="docs-sidebar-inner"><p class="sidebar-kicker">Documentation</p><nav aria-label="Documentation navigation"> <a class="sidebar-top" href="../docs.html">Overview</a> <details class="docs-nav-group" open><summary>Start here</summary><div class="docs-nav-links"><a href="./installing.html">Installing Nift</a><a href="./getting-started.html">Getting started</a><a href="./three-primitives.html">Start with three primitives</a><a href="./existing-sites.html">Existing websites</a><a href="./project-structure.html">Project structure</a></div></details> <details class="docs-nav-group"><summary>Core reference</summary><div class="docs-nav-links"><a href="./commands.html">CLI commands</a> <a href="./templating.html">Template language</a> <a href="./partials.html">Partials &amp; @input</a> <a href="./paths.html">Paths &amp; tracked files</a> <a href="./markup.html">Markup conversion</a> <a href="./comments.html">Comments</a> <a href="./metadata.html">$[...] &amp; metadata</a> <a href="./expressions.html">Expressions</a> <a href="./declarations-assignments.html">Declarations &amp; assignments</a> <a href="./copying-references.html">Copying &amp; references</a> <a href="./types-optionality-enums.html">Types, optionality &amp; enums</a> <a href="./control-flow.html">Loops &amp; conditions</a> <a href="./functions-fragments.html">Functions &amp; fragments</a> <a href="./lambdas-closures.html">Lambdas &amp; closures</a> <a href="./structs.html">Structs</a> <a href="./collections.html">Collection operations</a> <a href="./json.html">JSON data</a> <a href="./json-schema.html">JSON Schema validation</a> <a href="./escaping.html">Escaping &amp; encoding</a> <a href="./project-data.html">Project information</a> <a href="./hierarchy.html">Page hierarchy</a> <a href="./frontmatter.html">Front matter</a> <a href="./schemas.html">Schemas</a> <a href="./typed-content.html">Typed content</a> <a href="./taxonomies.html">Taxonomies</a> <a href="./pagination.html">Pagination</a> <a href="./routes.html">Route contracts</a> <a href="./project-contracts.html">Project contracts</a> <a href="./dep.html">@dep</a> <a href="./user-dependencies.html">*.deps.json</a> <a href="./incremental-builds.html">Incremental builds</a> <a href="./minification.html">Minification</a></div></details> <details class="docs-nav-group"><summary>Scripting &amp; runtime</summary><div class="docs-nav-links"><a href="./scripting.html">Script land</a><a href="./scripting-run-shell.html">Run scripts &amp; interactive shell</a><a href="./scripting-io.html">Console I/O</a><a href="./runtime-shell-jobs.html">Processes &amp; job control</a><a href="./runtime-concurrency.html">Threads, mutexes &amp; futures</a><a href="./runtime-atomics.html">Atomics</a><a href="./runtime-ffi.html">Native FFI</a><a href="./runtime-bytes.html">Bytes</a><a href="./runtime-errors.html">Recoverable errors</a><a href="./runtime-utilities.html">Runtime utilities</a><a href="./runtime-embedding.html">Embedding Nift</a><a href="./scripting-imports.html">Imports &amp; exports</a><a href="./scripting-filesystem.html">Filesystem</a><a href="./scripting-managed-files.html">Managed files</a><a href="./scripting-streams.html">File streams</a></div></details> <details class="docs-nav-group"><summary>Project files</summary><div class="docs-nav-links"><a href="./configuration.html">config.json</a><a href="./tracked-json.html">tracked.json</a></div></details> <details class="docs-nav-group"><summary>Workflows &amp; patterns</summary><div class="docs-nav-links"><a href="./ai-agents.html">AI agents</a><a href="./serverless.html">Serverless stacks</a><a href="use-cases/documentation.html">Documentation projects</a><a href="use-cases/web-apps.html">Full web applications</a><a href="use-cases/mobile-development.html">Mobile development</a><a href="use-cases/dashboards.html">Dashboards</a><a href="use-cases/react-islands.html">UI islands</a><a href="use-cases/text-assets.html">Text assets</a></div></details> <details class="docs-nav-group"><summary>Deployment</summary><div class="docs-nav-links"><a href="./platforms.html">Platform targets</a><a href="platforms/vercel.html">Vercel</a><a href="platforms/netlify.html">Netlify</a><a href="platforms/amplify.html">AWS Amplify</a><a href="platforms/azure.html">Azure</a><a href="platforms/firebase.html">Firebase</a><a href="platforms/render.html">Render</a><a href="platforms/cloudflare.html">Cloudflare</a><a href="platforms/github-pages.html">GitHub Pages</a><a href="platforms/supabase.html">Supabase</a><a href="./hosting.html">Hosting &amp; deployment</a></div></details> <details class="docs-nav-group"><summary>Design &amp; internals</summary><div class="docs-nav-links"><a href="./why-nift.html">Philosophy: Why Nift?</a><a href="./comparisons.html">Comparisons</a><a href="./contracts.html">Contracts</a><a href="./architectural-rules.html">Architectural rules</a><a href="./how-nift-works.html">Architecture: How Nift works</a><a href="./advanced.html">Nift &amp; the wider ecosystem</a></div></details> <details class="docs-nav-group"><summary>Evaluation &amp; quality</summary><div class="docs-nav-links"><a href="./developer-experience.html">Developer experience</a><a href="./battle-tested.html">Battle tested</a><a href="./memory-safety.html">Memory &amp; resource safety</a><a href="./production-readiness.html">Production readiness</a><a href="./ai-opinion.html">AI opinion: Nift vs other tools</a><a href="./ai-development.html">AI development</a></div></details> </nav></div></aside> <main class="docs-main"> <article class="docs-article"> <p class="docs-kicker">Migration workflow</p> <h1>Add Nift to the website you already have.</h1> <p class="docs-lead">One of Nift's easiest adoption paths is not a rewrite at all. Keep the site's HTML, CSS, JavaScript, assets and runtime architecture; use Nift to extract the repetition and add a fast tracked build layer around it.</p> <div class="docs-callout"><strong>Keep your HTML. Keep your tools. Stop repeating yourself.</strong><p>If an existing site already works, Nift does not need you to translate it into a different component model before it can help.</p></div> <h2 id="the-kind-of-site-this-helps-immediately">The kind of site this helps immediately</h2> <pre><code class="language-plaintext">index.html
 about.html
 services.html
 work.html
@@ -87,4 +87,209 @@ after:
 Convert the repeated document structure into Nift templates and
 partials while preserving the existing HTML/CSS/JS architecture
 and visual output. Keep page-specific markup in content files.
-Use @path for project-owned page and asset references.</code></pre> <div class="docs-callout"><strong>The migration succeeds when the site becomes easier to maintain—not when it looks more like a framework.</strong><p>Nift should remove duplication, improve path/dependency awareness and speed up the edit/build loop while leaving the architecture you deliberately chose intact.</p></div> <div class="docs-next"><span>Related</span><a href="./paths.html">Project-aware paths →</a></div> </article> </main> </div> <footer class="site-footer"> <div class="footer-inner"> <div> <strong>Nift</strong> <p>Build the web without letting your build tool own it.</p> </div> <div class="footer-links"> <a href="../docs.html">Documentation</a> <a href="../templates.html">Templates</a> <a href="../examples.html">Examples</a> <a href="../developers.html">Developers</a> <a href="../about.html">About</a> <a href="https://github.com/nift-dev/nift" target="_blank" rel="noreferrer">GitHub</a> </div> </div> <div class="footer-bottom"> <span>Open source · MIT licensed · <a href="../privacy.html">Privacy</a> · <a href="../contact.html">Contact</a></span> <span>© <span data-current-year></span></span> </div> </footer> <script>document.querySelectorAll("[data-current-year]").forEach(function(el){el.textContent=String(new Date().getFullYear());});</script> <script defer src="../assets/js/script.js"></script> </body> </html>
+Use @path for project-owned page and asset references.</code></pre> <div class="docs-callout"><strong>The migration succeeds when the site becomes easier to maintain—not when it looks more like a framework.</strong><p>Nift should remove duplication, improve path/dependency awareness and speed up the edit/build loop while leaving the architecture you deliberately chose intact.</p></div> <div class="docs-next"><span>Related</span><a href="./paths.html">Project-aware paths →</a></div> </article> <h2 id="agent-ready-migrations">Agent-ready migrations of a whole site</h2> <p>The adoption path above extracts repetition from a site you are keeping. When the goal is a full migration into Nift, `nift init --migration` creates a normal Nift project plus an agent-ready migration playbook: canonical `MIGRATION.md`, `HANDOVER.md`, a Nift-managed `AGENTS.md` migration block, and an `investigation/` workspace.</p> <pre><code class="language-bash">git clone &lt;existing-site>
+cd &lt;working-copy-or-target>
+nift init --migration</code></pre> <p>Then give the project to a human or coding agent and follow `MIGRATION.md`. Nift does not automatically convert another framework; it provides the rails.</p> <p><code>nift init --migration</code> never silently overwrites existing `MIGRATION.md`/`HANDOVER.md` files. The default policy stops with a list of conflicts; `--migration-existing=keep`, `append`, and `replace` make the choice explicit. `AGENTS.md` is created, or safely augmented with Nift's managed migration block, using deterministic HTML-comment markers.</p> <h2 id="a-disciplined-migration-workflow">A disciplined migration workflow</h2> <p>The generated `MIGRATION.md` is designed for humans and agents across multiple sessions, and is parity-first, not architecture-first:</p> <ul> <li>Baseline: reproduce the source revision and build before changing anything.</li> <li>Inventory: content, routes, layouts, components, shortcodes/render hooks, assets, data, frontmatter, taxonomies, redirects, generated/listing pages.</li> <li>Parity fixtures: route/generated-file inventories, representative captures, a known-divergence ledger.</li> <li>Staged migration: shared shells first, then authored content, with reconciled counts.</li> <li>Compatibility handling: faithful stages are legitimate (for example Goldmark, Chroma, an MDX rendering stage, or source-specific shortcode adapters).</li> <li>Verification: route-set and file-set comparison, content parity, incremental-vs-full equivalence, clean-clone build.</li> <li>Benchmarking and handover: fair measurements, exact revisions, remaining work, and a maintenance recommendation.</li> </ul> <h2 id="migration-invariants">Migration invariants</h2> <ul> <li>Preserve route, content and behavioural parity unless divergence is explicitly approved.</li> <li>Do not modify Nift itself to solve a source-project compatibility gap without stopping and reporting the requirement.</li> <li>Maintain an explicit known-divergence list and do not declare completion while unexplained differences remain.</li> <li>Prefer faithful compatibility over speculative rewrites, and clean up only after the faithful baseline is established.</li> </ul> <p><strong>When Nift itself seems to need a change</strong>: stop, isolate the requirement with a narrow reproduction, and report it separately. Do not casually modify Nift core from inside the site migration.</p> <p><strong>What comes after migration</strong>: a faithful migration achieves source parity first. Once the constraints are understood, a later native-Nift evolution may simplify the architecture - but keep a compatibility stage until parity is proven and the simplification is explicitly authorized.</p> <p>The playbook roles are distinct: `MIGRATION.md` holds methodology and parity requirements; `HANDOVER.md` holds current operational state and the exact next action; `AGENTS.md` merges Nift's managed migration block into project instructions; `investigation/` holds baseline evidence and findings.</p> <ul> <li><a href="https://nift.dev/MIGRATION.md">Canonical MIGRATION.md</a> - generated by <code>nift init --migration</code></li> <li><a href="https://nift.dev/HANDOVER.md">Canonical HANDOVER.md</a> - generated by <code>nift init --handover</code> and <code>--migration</code></li> </ul> <h2 id="the-canonical-migration-md">The canonical MIGRATION.md</h2> <p><code>nift init --migration</code> writes this file to the project root, byte-for-byte:</p> <h3 id="the-canonical-migration-md-2">The canonical MIGRATION.md</h3> <pre><code class="language-plaintext"># MIGRATION.md
+
+A migration workbook for converting an existing site to Nift.
+
+This project was created with `nift init --migration`: a normal Nift project
+with an agent-ready migration playbook. It is **not** an automatic converter.
+Nift provides the rails; the human or coding agent understands the source
+framework. Parity comes before cleanup.
+
+Read this file first. Read `HANDOVER.md` second and keep it current after
+meaningful checkpoints. `AGENTS.md` (created or augmented by init) points
+agents here.
+
+## Operating contract
+
+These rules are the migration contract. Do not violate them without explicit
+authorization.
+
+- Preserve route, content and behavioural parity unless divergence is
+  explicitly approved.
+- Do not modify Nift itself to solve source-project compatibility problems
+  without stopping and reporting the requirement first.
+- Commit at meaningful migration checkpoints.
+- Maintain an explicit known-divergence list.
+- Do not classify the migration as complete while unexplained differences
+  remain.
+- Prefer faithful compatibility stages over speculative rewrites.
+- Do not optimize or redesign before the faithful baseline is established.
+- Do not destroy the upstream/reference implementation while it is still
+  needed for comparison.
+- Record exact source and migration revisions.
+- Keep `HANDOVER.md` current after meaningful checkpoints.
+
+## Workflow
+
+### Phase 1 - Understand the source project
+
+Before changing anything, establish and record:
+
+- source framework/generator and version;
+- upstream repository and exact source revision/commit;
+- source build command (and development command where relevant);
+- deployment architecture;
+- authored content inventory;
+- templates/layouts inventory;
+- components/shortcodes/render hooks inventory;
+- static asset inventory;
+- generated/index/listing pages;
+- redirects;
+- data files and schemas/taxonomies/frontmatter conventions;
+- special rendering behaviour;
+- the authoritative route set;
+- upstream build time and peak memory.
+
+Invariant: **DO NOT START MIGRATION UNTIL THE SOURCE BASELINE CAN BE
+REPRODUCED.**
+
+### Phase 2 - Establish parity fixtures
+
+Build appropriate reference evidence before broad migration. Use proportional
+fixtures; do not mandate browser testing where it is irrelevant. Candidate
+fixtures:
+
+- route inventory;
+- generated-file inventory;
+- representative browser captures;
+- content checks;
+- navigation checks;
+- keyboard/runtime behaviour where relevant;
+- mobile/desktop viewport coverage;
+- a known-divergence ledger.
+
+### Phase 3 - Establish the initial Nift structure
+
+Set up:
+
+- project initialization;
+- tracking;
+- source/output layout;
+- templates;
+- dependencies;
+- schemas/taxonomies where appropriate;
+- migration checkpoint structure.
+
+Do not prematurely redesign the source architecture.
+
+### Phase 4 - Migrate shared shells/templates first
+
+Identify and recover the largest common structure first:
+
+- common page shells;
+- shared heads;
+- headers/footers/navigation;
+- layouts;
+- repeated structural components.
+
+### Phase 5 - Migrate authored content
+
+Reconcile explicit corpus accounting:
+
+- expected authored inputs;
+- converted inputs;
+- remaining inputs;
+- generated/listing layouts;
+- route counts.
+
+Counts must be reconciled rather than guessed.
+
+### Phase 6 - Source-specific compatibility
+
+**MIGRATION SUPPORT DOES NOT MEAN NIFT MUST NATIVELY REIMPLEMENT EVERY SOURCE
+GENERATOR&#x27;S SEMANTICS.** Faithful compatibility stages are legitimate. For
+example, a Hugo source may require Goldmark or Chroma, MDX may use an
+external/package rendering stage, and special shortcodes may need adapters.
+
+Rule: **Prefer faithful compatibility over semantic rewrites unless the
+migration goal explicitly permits behavioural changes.** And: **DO NOT MODIFY
+NIFT CORE TO SOLVE A SOURCE-PROJECT COMPATIBILITY GAP WITHOUT STOPPING AND
+REPORTING THE REQUIREMENT FIRST.**
+
+### Phase 7 - Route/content/rendered parity
+
+Require:
+
+- an authoritative route-set comparison;
+- missing and extra route detection;
+- generated-file-set comparison where meaningful;
+- content/render parity checks;
+- explicit divergence classification.
+
+No migration is complete while unexplained differences remain.
+
+### Phase 8 - Incremental correctness
+
+Verify, as appropriate for the project:
+
+- single-page edits;
+- shared-template edits;
+- asset changes;
+- data changes;
+- dependencies;
+- targeted builds;
+- incremental-vs-full equivalence.
+
+A migration that only passes a full clean build is insufficient evidence.
+
+### Phase 9 - Benchmark
+
+Record proportionally:
+
+- source baseline build time;
+- Nift clean/full build time;
+- warm/full and targeted/single-page builds where useful;
+- peak RSS;
+- environment/hardware;
+- measurement methodology.
+
+Do not cherry-pick. Do not hide compatibility-stage cost. If an external
+renderer exists, measure and report its cost separately where useful.
+
+### Phase 10 - Clean-checkout verification
+
+Before completion verify on a fresh checkout:
+
+- fresh clone;
+- dependency acquisition;
+- build from scratch;
+- route/content checks;
+- no reliance on untracked local state;
+- no absolute developer-machine paths.
+
+### Phase 11 - Handover / final report
+
+Produce a final report containing at least:
+
+- source revision;
+- migration revision;
+- route counts;
+- content counts;
+- known divergences;
+- compatibility stages;
+- build measurements;
+- memory measurements;
+- clean-checkout result;
+- remaining work;
+- maintenance recommendation.
+
+## Document roles
+
+- `MIGRATION.md` - methodology, baseline, migration plan, parity
+  requirements, checkpoints, migration-specific evidence/state.
+- `HANDOVER.md` - current operational state, completed work, current blocker,
+  exact commands, important decisions, exact next action.
+- `AGENTS.md` - project instructions (Nift&#x27;s migration block is managed and
+  safe to augment).
+- `investigation/` - baseline evidence, reproductions, audit notes, route
+  inventories, browser-matrix metadata, benchmark data, compatibility findings.
+
+## What comes after migration
+
+A faithful migration achieves source parity first. Once the constraints are
+understood, a subsequent native-Nift evolution may simplify the architecture -
+but do not strip away a compatibility stage until parity is proven and the
+simplification is explicitly authorized.</code></pre> </article> </main> </div> <footer class="site-footer"> <div class="footer-inner"> <div> <strong>Nift</strong> <p>Build the web without letting your build tool own it.</p> </div> <div class="footer-links"> <a href="../docs.html">Documentation</a> <a href="../templates.html">Templates</a> <a href="../examples.html">Examples</a> <a href="../developers.html">Developers</a> <a href="../about.html">About</a> <a href="https://github.com/nift-dev/nift" target="_blank" rel="noreferrer">GitHub</a> </div> </div> <div class="footer-bottom"> <span>Open source · MIT licensed · <a href="../privacy.html">Privacy</a> · <a href="../contact.html">Contact</a></span> <span>© <span data-current-year></span></span> </div> </footer> <script>document.querySelectorAll("[data-current-year]").forEach(function(el){el.textContent=String(new Date().getFullYear());});</script> <script defer src="../assets/js/script.js"></script> </body> </html>
