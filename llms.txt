@@ -29,9 +29,9 @@ Nift is itself an official command-line tool. Install and run the `nift` executa
 - [GitHub repository](https://github.com/nift-dev/nift)
 
 
-## Nift 4.5 scripting/runtime
+## Nift scripting/runtime
 
-Nift 4.5 also provides a native scripting/runtime layer: direct `nift file.f` execution, the persistent `nift` shell, `-e`/`-c`/`-i`, stdin source via `nift -`, `cmd`/`args`, environment/OS/target inspection, POSIX job control, native threads, mutex-protected shared state, a bounded native async/await pool, an explicitly typed C-ABI FFI, and an embeddable C++/C-ABI runtime with maintained Go/Python/Node/C# bindings. These capabilities complement Nift's website build role; they do not turn nift.dev itself into a hosted application API.
+Nift also provides a native scripting/runtime layer: direct `nift file.f` execution, the persistent `nift` shell, `-e`/`-c`/`-i`, stdin source via `nift -`, `cmd`/`args`, environment/OS/target inspection, POSIX job control, native threads, mutex-protected shared state, a bounded native async/await pool, an explicitly typed C-ABI FFI, and an embeddable C++/C-ABI runtime with maintained Go/Python/Node/C# bindings. These capabilities complement Nift's website build role; they do not turn nift.dev itself into a hosted application API.
 
 - [Run scripts and use the interactive shell](https://nift.dev/docs/scripting-run-shell.html)
 - [Processes and POSIX job control](https://nift.dev/docs/runtime-shell-jobs.html)

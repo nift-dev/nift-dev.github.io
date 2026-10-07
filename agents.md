@@ -17,7 +17,7 @@ The three primitives to learn first are `@content`, `@input(...)` and `@path(...
 
 ## Native scripting and embedding
 
-For automation or reusable native tooling, Nift 4.5 can run `.f` files directly (`nift tool.f`), read a program from stdin (`nift -`), or start its persistent shell with plain `nift`. Script land includes native threads, mutexes, async/await, structured process execution, local packages and an explicitly typed C-ABI FFI. Native applications can embed the same parser/runtime through `nift::Engine` or C ABI 1.1; maintained Go/Python/Node/C# bindings remain adapters over that canonical runtime. Keep host `os()` separate from selected `platform()`.
+For automation or reusable native tooling, Nift can run `.f` files directly (`nift tool.f`), read a program from stdin (`nift -`), or start its persistent shell with plain `nift`. Script land includes native threads, mutexes, async/await, structured process execution, local packages and an explicitly typed C-ABI FFI. Native applications can embed the same parser/runtime through `nift::Engine` or C ABI 1.3; maintained Go/Python/Node/C# bindings remain adapters over that canonical runtime. Keep host `os()` separate from selected `platform()`.
 
 ## Important resources
 
