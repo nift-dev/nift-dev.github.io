@@ -451,3 +451,17 @@ single buried scripting page.
 The website now documents the v4.1 advanced template-language surface while keeping `@input`/`@content` as the beginner path. The independent regression suite owns black-box v4.1 language/operator/injection dependency modules. Keep these synchronized with `docs/handover/V4.1-TEMPLATE-LANGUAGE.md` in Nift.
 
 The independent v4.1 certification audit (2026-09-15) reconciled stale v4.0.x statements on the control-flow, templating and AI-opinion pages and verified every v4.1 syntax example against the actual v4.1 executable. One wording nuance: `const` prevents rebinding while `immut` establishes a recursively read-only binding/view contract. Because v4.1 does not yet expose member/container mutation syntax, much of that distinction is currently latent rather than independently observable — an `immut` view does not globally freeze storage reachable through a separate mutable binding.
+
+## Migration islands and performance-campaign guidance
+
+- The Migrations page and canonical MIGRATION.md now explain Nift generation
+  composed with independently prepared React/Vue/Svelte/Solid islands, Web
+  Components or vanilla controllers. Nift does not compile those frameworks.
+- The method now requires parity, profiling/general optimization, complete parity
+  revalidation, then final production-equivalent benchmarking. Generated STATUS
+  tracks these as separate resumable checkpoints.
+- Canonical ownership remains the Nift fixture/generated header/scaffold chain;
+  this site mirrors it and uses the existing display-equivalence checker.
+- Validated with the candidate executable: 104-file full build, immediate 104-file
+  incremental no-op, byte-identical MIGRATION/HANDOVER displays, and migration-page
+  guidance/order checks. This checkpoint adds documentation, not a runtime feature.

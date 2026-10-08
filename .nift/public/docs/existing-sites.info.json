@@ -1,6 +1,6 @@
 {
   "name": "docs/existing-sites",
-  "title": "Add Nift to an existing website",
+  "title": "Migrations",
   "template": "templates/docs.html",
   "content": "content/docs/existing-sites.html",
   "output": "public/docs/existing-sites.html",
