@@ -37,7 +37,7 @@ For a concrete Nift project, read its local `HANDOVER.md`, `.nift/config.json` a
 ## Existing-project transformation
 
 - [Migrations: faithful product/design/behaviour parity](https://nift.dev/docs/existing-sites.html) — `nift init --migration`.
-- [Rewrites: same product and design, new implementation](https://nift.dev/docs/rewrites.html) — experimental `nift init --rewrite`, v4.8 development.
-- [Redesigns: explicit requirements/content, new design and implementation](https://nift.dev/docs/redesigns.html) — experimental `nift init --redesign`, v4.8 development.
+- [Rewrites: same product and design, new implementation](https://nift.dev/docs/rewrites.html) — experimental `nift init --rewrite`, v4.8.
+- [Redesigns: explicit requirements/content, new design and implementation](https://nift.dev/docs/redesigns.html) — experimental `nift init --redesign`, v4.8.
 
 Canonical workbooks: [MIGRATION.md](https://nift.dev/MIGRATION.md), [REWRITE.md](https://nift.dev/REWRITE.md), [REDESIGN.md](https://nift.dev/REDESIGN.md). Source models and interactive islands are independent choices.

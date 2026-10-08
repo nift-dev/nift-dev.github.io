@@ -483,3 +483,9 @@ Current public release at this checkpoint is v4.7.2; v4.8 remains development.
 No new website feature tranche is queued: maintain correctness, stabilize and
 prepare release. Publish generated main before the stage gitlink, then verify live
 mode pages/canonical displays and clean synchronized repositories.
+
+## v4.8.0 release-status update — 8 October 2026
+
+v4.8.0 is now published at https://github.com/nift-dev/nift/releases/tag/v4.8.0.
+The install page and discovery/command version references describe released v4.8;
+rewrite and redesign remain experimental. Historical checkpoint wording above is retained.
