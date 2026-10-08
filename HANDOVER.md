@@ -489,3 +489,10 @@ mode pages/canonical displays and clean synchronized repositories.
 v4.8.0 is now published at https://github.com/nift-dev/nift/releases/tag/v4.8.0.
 The install page and discovery/command version references describe released v4.8;
 rewrite and redesign remain experimental. Historical checkpoint wording above is retained.
+
+## v4.9.0 release-status update — 9 October 2026
+
+v4.9.0 is published at https://github.com/nift-dev/nift/releases/tag/v4.9.0.
+The install page identifies the current performance/hardening release; rewrite
+and redesign remain experimental workflows introduced in v4.8. Historical
+performance measurements remain qualified and are not official v4.9 results.
