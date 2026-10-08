@@ -1,10 +1,11 @@
 <article class="docs-article architecture-page">
 <p class="docs-kicker">Performance · v4.2.0 comparison</p>
-<h1>Performance: what v4.3 costs.</h1>
+<h1>Historical performance: what v4.3 cost.</h1>
+<div class="docs-callout"><strong>Historical v4.2.0/v4.3 snapshot.</strong><p>These retained measurements are not a current v4.8 certification or release benchmark. Reproduce with the recorded revisions, fixtures and methodology. Current scaling gates and source-map costs are separate evidence.</p></div>
 <p class="docs-lead">Nift v4.3 added a substantially larger language/content surface: functions and fragments, structs, richer expressions, a project model with typed content, schemas, taxonomies and agent-facing functionality. The architecture deliberately follows pay-for-what-you-use: an ordinary project pays little for features it does not use, and project-aware builds pay only when project-wide facilities are actually requested.</p>
 
 <h2 id="the-benchmark">The released-v4.2.0 comparison</h2>
-<p>Both binaries were built from identical sources with identical release flags (<code>g++ -std=c++17 -O2</code>) and run on identical generated fixtures (front-matter pages, <code>\@content</code> template, parallel build, tmpfs, Linux x86-64). Ordinary full-build wall time is the median of three runs; output is byte-identical between versions.</p>
+<p>The two version-specific binaries were built from their respective sources with identical release flags (<code>g++ -std=c++17 -O2</code>) and run on identical generated fixtures (front-matter pages, <code>\@content</code> template, parallel build, tmpfs, Linux x86-64). Ordinary full-build wall time is the median of three runs; output is byte-identical between versions.</p>
 
 <div class="table-wrap"><table>
 <thead><tr><th>Pages</th><th>v4.2.0</th><th>v4.3</th><th>Ratio</th></tr></thead>

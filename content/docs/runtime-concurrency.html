@@ -8,8 +8,8 @@
 t := thread(add, 20, 22)
 print(t.join())
 print(t.join()) // replayable: 42 again</code></pre>
-<p><code>thread(callable, ...args)</code> accepts a named function or lambda and starts a native worker. <code>join()</code> waits and replays the same result on later calls; worker errors are rethrown at join. <code>done()</code> and <code>status()</code> inspect progress, and <code>hardware_concurrency()</code> reports the host hint. Thread handles own safe teardown: a runtime does not abandon work it created.</p>
-<p>Ordinary values and captured closures are copied into an isolated worker context. That makes accidental shared mutation impossible; pass a <code>mutex</code> or <code>atomic</code> handle when sharing is intentional.</p>
+<p><code>thread(callable, ...args)</code> accepts a supported callable value (including named functions and lambdas) and starts a native worker. <code>join()</code> waits and replays the same result on later calls; worker errors are rethrown at join. <code>done()</code> and <code>status()</code> inspect progress, and <code>hardware_concurrency()</code> reports the host hint. Thread handles own safe teardown: a runtime does not abandon work it created.</p>
+<p>Transferable ordinary values and closure bindings are copied into isolated worker contexts. Non-transferable resources, including timers, are rejected at the transfer boundary. Explicit mutex/atomic handles intentionally share state; isolation is not a proof against every misuse of native resources.</p>
 
 <h2 id="mutexes">Mutex-protected shared state</h2>
 <pre><code class="language-nift">fn(inc(m, count)) {

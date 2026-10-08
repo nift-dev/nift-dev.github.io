@@ -239,7 +239,7 @@ entry point.
 The v4.5 documentation completion added first-class navigation and dedicated
 public references for script invocation, job control, native concurrency,
 atomics, FFI and embedding. Keep these pages synchronized with the executable
-contracts and C ABI 1.1; do not collapse them back into release notes or a
+contracts and the current C ABI 1.3; do not collapse them back into release notes or a
 single buried scripting page.
 
 ## 2026-08-17 AI/HDAE and template-less documentation reconciliation
@@ -465,3 +465,21 @@ The independent v4.1 certification audit (2026-09-15) reconciled stale v4.0.x st
 - Validated with the candidate executable: 104-file full build, immediate 104-file
   incremental no-op, byte-identical MIGRATION/HANDOVER displays, and migration-page
   guidance/order checks. This checkpoint adds documentation, not a runtime feature.
+
+## Final v4.8 transformation / website tranche — October 2026
+
+Docs expose Migrations, Rewrites and Redesigns adjacently through the shared
+responsive sidebar. The latter two are experimental v4.8 workflows, not mature
+production-proven transformations. Core owns MIGRATION/REWRITE/REDESIGN/HANDOVER
+bytes; mirror the fixtures in public and run the generic canonical-display check.
+`check_transformation_docs.py` checks modes, both menus, metadata, mirrors and
+internal link/asset targets; `check_agent_readiness.py` checks discovery/sitemap.
+
+Battle Tested distinguishes completed production-corpus migration hardening from
+widespread independent production history. The AI opinion preserves September
+attribution and adds a separately reasoned October assessment with explicit
+judgement classifications. Historical performance/counts are labeled snapshots.
+Current public release at this checkpoint is v4.7.2; v4.8 remains development.
+No new website feature tranche is queued: maintain correctness, stabilize and
+prepare release. Publish generated main before the stage gitlink, then verify live
+mode pages/canonical displays and clean synchronized repositories.

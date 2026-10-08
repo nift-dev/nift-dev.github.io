@@ -342,4 +342,9 @@
   <url><loc>https://nift.dev/docs/runtime-atomics.html</loc><lastmod>2026-09-27</lastmod></url>
   <url><loc>https://nift.dev/docs/runtime-ffi.html</loc><lastmod>2026-09-27</lastmod></url>
   <url><loc>https://nift.dev/docs/runtime-embedding.html</loc><lastmod>2026-09-27</lastmod></url>
+  <url><loc>https://nift.dev/docs/rewrites.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://nift.dev/docs/redesigns.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://nift.dev/docs/runtime-bytes.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://nift.dev/docs/runtime-errors.html</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://nift.dev/docs/runtime-utilities.html</loc><lastmod>2026-10-08</lastmod></url>
 </urlset>

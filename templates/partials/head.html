@@ -1,7 +1,15 @@
 <title>Nift — $[title]</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+@if(name == "docs/existing-sites"){
+<meta name="description" content="Faithfully move an existing site to Nift with parity-first migration checkpoints.">
+}else if(name == "docs/rewrites"){
+<meta name="description" content="Rebuild the same product and design with a new Nift implementation. Experimental rewrite workflow.">
+}else if(name == "docs/redesigns"){
+<meta name="description" content="Use existing requirements and content for a new Nift implementation and design. Experimental redesign workflow.">
+}else{
 <meta name="description" content="Nift — $[title]. Documentation, examples and guidance for the fast, dependency-aware website templating and build system.">
+}
 @if(name != "/"){
 <link rel="canonical" href="https://nift.dev/$[name].html">
 }

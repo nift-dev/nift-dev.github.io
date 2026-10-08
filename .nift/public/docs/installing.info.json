@@ -82,6 +82,8 @@
     "public/docs/project-contracts.html",
     "public/docs/project-data.html",
     "public/docs/project-structure.html",
+    "public/docs/redesigns.html",
+    "public/docs/rewrites.html",
     "public/docs/routes.html",
     "public/docs/runtime-atomics.html",
     "public/docs/runtime-bytes.html",

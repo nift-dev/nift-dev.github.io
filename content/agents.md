@@ -33,3 +33,11 @@ For automation or reusable native tooling, Nift can run `.f` files directly (`ni
 - [AI agents and project handovers](https://nift.dev/docs/ai-agents.html)
 
 For a concrete Nift project, read its local `HANDOVER.md`, `.nift/config.json` and `.nift/tracked.json` before making structural changes.
+
+## Existing-project transformation
+
+- [Migrations: faithful product/design/behaviour parity](https://nift.dev/docs/existing-sites.html) — `nift init --migration`.
+- [Rewrites: same product and design, new implementation](https://nift.dev/docs/rewrites.html) — experimental `nift init --rewrite`, v4.8 development.
+- [Redesigns: explicit requirements/content, new design and implementation](https://nift.dev/docs/redesigns.html) — experimental `nift init --redesign`, v4.8 development.
+
+Canonical workbooks: [MIGRATION.md](https://nift.dev/MIGRATION.md), [REWRITE.md](https://nift.dev/REWRITE.md), [REDESIGN.md](https://nift.dev/REDESIGN.md). Source models and interactive islands are independent choices.

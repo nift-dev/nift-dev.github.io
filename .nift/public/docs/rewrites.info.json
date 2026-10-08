@@ -1,9 +1,9 @@
 {
-  "name": "docs/developer-experience",
-  "title": "Developer experience",
+  "name": "docs/rewrites",
+  "title": "Rewrites",
   "template": "templates/docs.html",
-  "content": "content/docs/developer-experience.html",
-  "output": "public/docs/developer-experience.html",
+  "content": "content/docs/rewrites.html",
+  "output": "public/docs/rewrites.html",
   "minify": true,
   "minify-version": 1,
   "pagination": false,
@@ -14,7 +14,7 @@
   "project-fingerprint": "",
   "hierarchy-fingerprint": "",
   "dependencies": [
-    "content/docs/developer-experience.html",
+    "content/docs/rewrites.html",
     "templates/docs.html",
     "templates/partials/docs-sidebar.html",
     "templates/partials/footer.html",

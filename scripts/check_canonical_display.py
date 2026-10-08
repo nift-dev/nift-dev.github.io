@@ -22,6 +22,8 @@ ROOT = Path(__file__).resolve().parent.parent
 CANONICAL_PAGES = {
     "HANDOVER": ROOT / "public" / "docs" / "ai-agents.html",
     "MIGRATION": ROOT / "public" / "docs" / "existing-sites.html",
+    "REWRITE": ROOT / "public" / "docs" / "rewrites.html",
+    "REDESIGN": ROOT / "public" / "docs" / "redesigns.html",
 }
 
 
@@ -85,10 +87,10 @@ def selftest(which: str) -> bool:
 
 def main() -> int:
     if len(sys.argv) == 2 and sys.argv[1] in ("--selftest", "--test"):
-        ok = selftest("HANDOVER") and selftest("MIGRATION")
+        ok = all(selftest(which) for which in CANONICAL_PAGES)
         return 0 if ok else 1
     if len(sys.argv) != 2:
-        print("usage: check_canonical_display.py HANDOVER|MIGRATION | --selftest", file=sys.stderr)
+        print("usage: check_canonical_display.py HANDOVER|MIGRATION|REWRITE|REDESIGN | --selftest", file=sys.stderr)
         return 2
     which = sys.argv[1].upper()
     if which not in CANONICAL_PAGES:

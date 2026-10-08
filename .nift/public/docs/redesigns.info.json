@@ -1,9 +1,9 @@
 {
-  "name": "docs/developer-experience",
-  "title": "Developer experience",
+  "name": "docs/redesigns",
+  "title": "Redesigns",
   "template": "templates/docs.html",
-  "content": "content/docs/developer-experience.html",
-  "output": "public/docs/developer-experience.html",
+  "content": "content/docs/redesigns.html",
+  "output": "public/docs/redesigns.html",
   "minify": true,
   "minify-version": 1,
   "pagination": false,
@@ -14,7 +14,7 @@
   "project-fingerprint": "",
   "hierarchy-fingerprint": "",
   "dependencies": [
-    "content/docs/developer-experience.html",
+    "content/docs/redesigns.html",
     "templates/docs.html",
     "templates/partials/docs-sidebar.html",
     "templates/partials/footer.html",
