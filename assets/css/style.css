@@ -395,3 +395,6 @@ html[data-theme="light"] .about-closing .button { background:var(--green); color
 html[data-theme="light"] .about-closing .button:hover { background:var(--green-2); }
 html[data-theme="light"] .about-closing .text-link { color:#238a4e; }
 html[data-theme="light"] .about-closing-art p { color:#596873; border-left-color:var(--line); }
+
+/* Keep mobile docs within the viewport; long code scrolls inside its pre. */
+@media(max-width:900px){.docs-layout{width:100%;min-width:0}}
