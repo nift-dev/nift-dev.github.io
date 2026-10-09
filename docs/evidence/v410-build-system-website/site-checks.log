@@ -1,0 +1,15 @@
+$ python3 scripts/check_transformation_docs.py
+check-canonical-display passed: displayed HANDOVER.md is byte-identical to public/HANDOVER.md
+check-canonical-display passed: displayed MIGRATION.md is byte-identical to public/MIGRATION.md
+check-canonical-display passed: displayed REWRITE.md is byte-identical to public/REWRITE.md
+check-canonical-display passed: displayed REDESIGN.md is byte-identical to public/REDESIGN.md
+PASS: transformation routes, metadata, two menus, canonical identity and 19840 local references
+
+$ python3 scripts/check_agent_readiness.py
+PASS: agent-readiness surfaces coherent (100 sitemap URLs)
+
+$ python3 scripts/check_syntax_highlight.py
+check-syntax-highlight passed: modern Nift + shell grammar recognized
+
+$ python3 scripts/check_script_extensions.py
+script extension gate: PASS
