@@ -1,0 +1,26 @@
+{
+  "docs_pages": 94,
+  "new_pages": [
+    "General build systems",
+    "Asset pipelines"
+  ],
+  "orphan_pages": 0,
+  "sitemap_urls": 100,
+  "site_search": "No site-wide search implementation/index exists; sitemap and navigation cover both pages",
+  "download_source_identity": "PASS",
+  "displayed_scripts_and_tracking_identity": "PASS",
+  "desktop_viewport": [
+    1280,
+    900
+  ],
+  "mobile_viewport": [
+    390,
+    844
+  ],
+  "document_widths": {
+    "desktop": 1265,
+    "mobile": 375
+  },
+  "mobile_menu": "PASS: both new links visible in expanded Workflows & patterns",
+  "native_runtime_head": "c46c36e78176"
+}

@@ -1,0 +1,44 @@
+{
+  "tracked": [
+    {
+      "name": "styles",
+      "title": "Styles",
+      "content-ext": ".css",
+      "output-ext": ".css",
+      "minify": true
+    },
+    {
+      "name": "frontend-js",
+      "title": "Frontend",
+      "output-ext": ".js",
+      "build": "scripts/js.f"
+    },
+    {
+      "name": "images",
+      "title": "Icon",
+      "content-ext": ".svg",
+      "output-ext": ".svg",
+      "minify": true
+    },
+    {
+      "name": "asset-manifest",
+      "title": "Assets",
+      "output-ext": ".json",
+      "build": "scripts/manifest.f",
+      "depends": [
+        "styles",
+        "frontend-js",
+        "images"
+      ]
+    },
+    {
+      "name": "home",
+      "title": "Home",
+      "content-ext": ".html",
+      "output-ext": ".html",
+      "depends": [
+        "asset-manifest"
+      ]
+    }
+  ]
+}

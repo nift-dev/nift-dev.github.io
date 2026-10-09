@@ -1,0 +1,1050 @@
+[
+  {
+    "page": "docs/advanced",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/getting-started.html",
+      "content/examples.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/ai-agents",
+    "menu": true,
+    "inbound": [
+      "content/about.html",
+      "content/contact.html",
+      "content/docs.html",
+      "content/docs/getting-started.html",
+      "content/docs/installing.html",
+      "content/docs/why-nift.html",
+      "content/index.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/ai-assistants",
+    "menu": false,
+    "inbound": [],
+    "sitemap": false,
+    "intentional_alias": true
+  },
+  {
+    "page": "docs/ai-development",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/ai-agents.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/ai-opinion",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/ai-development.html",
+      "content/docs/comparisons.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/architectural-rules",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/minification.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/asset-pipelines",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/build-scripts.html",
+      "content/docs/build-systems.html",
+      "content/docs/incremental-builds.html",
+      "content/docs/minification.html",
+      "content/docs/scripting.html",
+      "content/docs/use-cases/text-assets.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/battle-tested",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/ai-development.html",
+      "content/docs/ai-opinion.html",
+      "content/docs/comparisons.html",
+      "content/docs/developer-experience.html",
+      "content/docs/memory-safety.html",
+      "content/docs/production-readiness.html",
+      "content/docs/three-primitives.html",
+      "content/index.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/build-scripts",
+    "menu": true,
+    "inbound": [
+      "content/docs/asset-pipelines.html",
+      "content/docs/build-systems.html",
+      "content/docs/incremental-builds.html",
+      "content/docs/scripting.html",
+      "content/docs/tracked-json.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/build-systems",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/asset-pipelines.html",
+      "content/docs/build-scripts.html",
+      "content/docs/incremental-builds.html",
+      "content/docs/minification.html",
+      "content/docs/scripting.html",
+      "content/docs/use-cases/text-assets.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/collections",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/control-flow.html",
+      "content/docs/copying-references.html",
+      "content/docs/declarations-assignments.html",
+      "content/docs/escaping.html",
+      "content/docs/json.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/commands",
+    "menu": true,
+    "inbound": [
+      "content/developers.html",
+      "content/docs.html",
+      "content/docs/asset-pipelines.html",
+      "content/docs/build-systems.html",
+      "content/docs/getting-started.html",
+      "content/docs/incremental-builds.html",
+      "content/docs/metadata.html",
+      "content/docs/partials.html",
+      "content/docs/paths.html",
+      "content/docs/tracked-json.html",
+      "content/docs/use-cases/documentation.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/comments",
+    "menu": true,
+    "inbound": [
+      "content/docs.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/comparisons",
+    "menu": true,
+    "inbound": [
+      "content/docs.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/configuration",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/minification.html",
+      "content/docs/use-cases/documentation.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/contracts",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/battle-tested.html",
+      "content/docs/project-contracts.html",
+      "content/docs/routes.html",
+      "content/docs/why-nift.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/control-flow",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/expressions.html",
+      "content/docs/json-schema.html",
+      "content/docs/pagination.html",
+      "content/docs/templating.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/copying-references",
+    "menu": true,
+    "inbound": [
+      "content/docs.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/declarations-assignments",
+    "menu": true,
+    "inbound": [
+      "content/docs/copying-references.html",
+      "content/docs/expressions.html",
+      "content/docs/json.html",
+      "content/docs/structs.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/dep",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/templating.html",
+      "content/docs/user-dependencies.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/developer-experience",
+    "menu": true,
+    "inbound": [
+      "content/docs.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/escaping",
+    "menu": true,
+    "inbound": [
+      "content/docs/templating.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/existing-sites",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/ai-opinion.html",
+      "content/docs/commands.html",
+      "content/docs/getting-started.html",
+      "content/docs/redesigns.html",
+      "content/docs/rewrites.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/expressions",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/metadata.html",
+      "content/docs/templating.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/frontmatter",
+    "menu": true,
+    "inbound": [
+      "content/docs/project-data.html",
+      "content/docs/taxonomies.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/functions-fragments",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/structs.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/getting-started",
+    "menu": true,
+    "inbound": [
+      "content/about.html",
+      "content/docs.html",
+      "content/docs/battle-tested.html",
+      "content/docs/how-nift-works.html",
+      "content/docs/installing.html",
+      "content/docs/partials.html",
+      "content/docs/templating.html",
+      "content/docs/three-primitives.html",
+      "content/docs/use-cases/documentation.html",
+      "content/index.html",
+      "content/templates.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/hierarchy",
+    "menu": true,
+    "inbound": [],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/hosting",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/getting-started.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/how-nift-works",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/architectural-rules.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/incremental-builds",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/asset-pipelines.html",
+      "content/docs/build-systems.html",
+      "content/docs/commands.html",
+      "content/docs/dep.html",
+      "content/docs/getting-started.html",
+      "content/docs/how-nift-works.html",
+      "content/docs/paths.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/installing",
+    "menu": true,
+    "inbound": [
+      "content/developers.html",
+      "content/docs.html",
+      "content/docs/getting-started.html",
+      "content/index.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/json-schema",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/json.html",
+      "content/docs/project-contracts.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/json",
+    "menu": true,
+    "inbound": [
+      "content/about.html",
+      "content/docs.html",
+      "content/docs/collections.html",
+      "content/docs/escaping.html",
+      "content/docs/templating.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/lambdas-closures",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/collections.html",
+      "content/docs/functions-fragments.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/markdown",
+    "menu": false,
+    "inbound": [],
+    "sitemap": false,
+    "intentional_alias": true
+  },
+  {
+    "page": "docs/markup",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/templating.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/memory-safety",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/battle-tested.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/metadata",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/comments.html",
+      "content/docs/templating.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/minification",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/asset-pipelines.html",
+      "content/docs/build-systems.html",
+      "content/docs/commands.html",
+      "content/docs/configuration.html",
+      "content/docs/tracked-json.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/pagination",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/tracked-json.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/partials",
+    "menu": true,
+    "inbound": [
+      "content/docs/markup.html",
+      "content/docs/project-structure.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/paths",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/getting-started.html",
+      "content/docs/partials.html",
+      "content/docs/templating.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/performance",
+    "menu": false,
+    "inbound": [
+      "content/docs/how-nift-works.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/platforms/amplify",
+    "menu": true,
+    "inbound": [
+      "content/docs/platforms.html",
+      "content/docs/platforms/netlify.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/platforms/azure",
+    "menu": true,
+    "inbound": [
+      "content/docs/platforms.html",
+      "content/docs/platforms/amplify.html",
+      "content/docs/serverless.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/platforms/cloudflare",
+    "menu": true,
+    "inbound": [
+      "content/docs/platforms.html",
+      "content/docs/platforms/render.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/platforms/firebase",
+    "menu": true,
+    "inbound": [
+      "content/docs/platforms.html",
+      "content/docs/platforms/azure.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/platforms/github-pages",
+    "menu": true,
+    "inbound": [
+      "content/docs/platforms.html",
+      "content/docs/platforms/cloudflare.html",
+      "content/docs/serverless.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/platforms/netlify",
+    "menu": true,
+    "inbound": [
+      "content/docs/platforms.html",
+      "content/docs/platforms/vercel.html",
+      "content/docs/serverless.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/platforms/render",
+    "menu": true,
+    "inbound": [
+      "content/docs/platforms.html",
+      "content/docs/platforms/firebase.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/platforms/supabase",
+    "menu": true,
+    "inbound": [
+      "content/docs/platforms.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/platforms/vercel",
+    "menu": true,
+    "inbound": [
+      "content/docs/platforms.html",
+      "content/docs/serverless.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/platforms",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/commands.html",
+      "content/docs/hosting.html",
+      "content/docs/platforms/github-pages.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/production-readiness",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/comparisons.html",
+      "content/docs/memory-safety.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/project-contracts",
+    "menu": true,
+    "inbound": [
+      "content/developers.html",
+      "content/docs.html",
+      "content/docs/battle-tested.html",
+      "content/docs/configuration.html",
+      "content/docs/contracts.html",
+      "content/docs/routes.html",
+      "content/docs/three-primitives.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/project-data",
+    "menu": true,
+    "inbound": [
+      "content/docs/frontmatter.html",
+      "content/docs/hierarchy.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/project-structure",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/how-nift-works.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/redesigns",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/ai-opinion.html",
+      "content/docs/commands.html",
+      "content/docs/existing-sites.html",
+      "content/docs/rewrites.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/rewrites",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/ai-opinion.html",
+      "content/docs/commands.html",
+      "content/docs/existing-sites.html",
+      "content/docs/redesigns.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/routes",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/contracts.html",
+      "content/docs/platforms/vercel.html",
+      "content/docs/project-contracts.html",
+      "content/docs/serverless.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/runtime-atomics",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/runtime-concurrency.html",
+      "content/docs/types-optionality-enums.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/runtime-bytes",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/runtime-utilities.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/runtime-concurrency",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/functions-fragments.html",
+      "content/docs/runtime-atomics.html",
+      "content/docs/types-optionality-enums.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/runtime-embedding",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/ai-opinion.html",
+      "content/docs/runtime-ffi.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/runtime-errors",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/runtime-utilities.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/runtime-ffi",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/runtime-bytes.html",
+      "content/docs/runtime-errors.html",
+      "content/docs/types-optionality-enums.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/runtime-shell-jobs",
+    "menu": true,
+    "inbound": [
+      "content/docs.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/runtime-utilities",
+    "menu": true,
+    "inbound": [
+      "content/docs.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/schemas",
+    "menu": true,
+    "inbound": [],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/scripting-filesystem",
+    "menu": true,
+    "inbound": [
+      "content/docs/asset-pipelines.html",
+      "content/docs/build-systems.html",
+      "content/docs/scripting-io.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/scripting-imports",
+    "menu": true,
+    "inbound": [
+      "content/about.html",
+      "content/docs/lambdas-closures.html",
+      "content/docs/runtime-errors.html",
+      "content/docs/scripting.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/scripting-io",
+    "menu": true,
+    "inbound": [
+      "content/docs/runtime-bytes.html",
+      "content/docs/scripting-run-shell.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/scripting-managed-files",
+    "menu": true,
+    "inbound": [
+      "content/docs/scripting-filesystem.html",
+      "content/docs/scripting-streams.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/scripting-run-shell",
+    "menu": true,
+    "inbound": [
+      "content/about.html",
+      "content/docs.html",
+      "content/docs/runtime-shell-jobs.html",
+      "content/docs/scripting-imports.html",
+      "content/docs/scripting.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/scripting-streams",
+    "menu": true,
+    "inbound": [
+      "content/docs/scripting-managed-files.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/scripting",
+    "menu": true,
+    "inbound": [
+      "content/about.html",
+      "content/docs.html",
+      "content/docs/asset-pipelines.html",
+      "content/docs/build-scripts.html",
+      "content/docs/build-systems.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/serverless",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/platforms/supabase.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/structs",
+    "menu": true,
+    "inbound": [
+      "content/docs/declarations-assignments.html",
+      "content/docs/lambdas-closures.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/taxonomies",
+    "menu": true,
+    "inbound": [
+      "content/docs/typed-content.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/template_files",
+    "menu": false,
+    "inbound": [],
+    "sitemap": false,
+    "intentional_alias": true
+  },
+  {
+    "page": "docs/templating",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/escaping.html",
+      "content/docs/getting-started.html",
+      "content/docs/how-nift-works.html",
+      "content/docs/partials.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/three-primitives",
+    "menu": true,
+    "inbound": [
+      "content/developers.html",
+      "content/docs.html",
+      "content/docs/control-flow.html",
+      "content/docs/getting-started.html",
+      "content/docs/templating.html",
+      "content/docs/why-nift.html",
+      "content/showcase.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/tracked-json",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/asset-pipelines.html",
+      "content/docs/build-scripts.html",
+      "content/docs/build-systems.html",
+      "content/docs/configuration.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/typed-content",
+    "menu": true,
+    "inbound": [
+      "content/docs/schemas.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/types-optionality-enums",
+    "menu": true,
+    "inbound": [
+      "content/docs/declarations-assignments.html",
+      "content/docs/expressions.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/use-cases/dashboards",
+    "menu": true,
+    "inbound": [
+      "content/docs.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/use-cases/documentation",
+    "menu": true,
+    "inbound": [
+      "content/docs.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/use-cases/mobile-development",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/use-cases/web-apps.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/use-cases/react-islands",
+    "menu": true,
+    "inbound": [
+      "content/docs.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/use-cases/text-assets",
+    "menu": true,
+    "inbound": [],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/use-cases/web-apps",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/hosting.html",
+      "content/docs/use-cases/mobile-development.html",
+      "content/examples.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/user-dependencies",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/asset-pipelines.html",
+      "content/docs/build-scripts.html",
+      "content/docs/build-systems.html",
+      "content/docs/dep.html",
+      "content/docs/how-nift-works.html",
+      "content/docs/project-structure.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  },
+  {
+    "page": "docs/why-nift",
+    "menu": true,
+    "inbound": [
+      "content/docs.html",
+      "content/docs/advanced.html",
+      "content/docs/ai-opinion.html",
+      "content/docs/battle-tested.html",
+      "content/index.html",
+      "content/showcase.html"
+    ],
+    "sitemap": true,
+    "intentional_alias": false
+  }
+]

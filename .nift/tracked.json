@@ -544,6 +544,16 @@
       "name": "docs/build-scripts",
       "title": "Build Scripts",
       "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/build-systems",
+      "title": "General build systems",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/asset-pipelines",
+      "title": "Asset pipelines",
+      "template": "templates/docs.html"
     }
   ]
 }

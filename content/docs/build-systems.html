@@ -1,0 +1,114 @@
+<article class="docs-article">
+<p class="docs-kicker">Workflows &amp; patterns · unreleased v4.10</p>
+<h1>General build systems.</h1>
+<p class="docs-lead">Nift can act as a dependency-aware general build system alongside its website-generation role. Name the artifacts, describe how they are built, and keep specialist tools where they belong.</p>
+<div class="docs-callout"><strong>Development-version workflow.</strong><p>These examples require the unreleased v4.10 <code>build</code> / <code>depends</code> features. Stable v4.9 does not provide this tracked-item contract.</p></div>
+<h2 id="when">When this model fits</h2>
+<p>Use it when a project produces named files through a mix of native Nift processing and external commands: generated data, API descriptions, bundles, manifests, documentation or website pages. Nift can own the build graph without owning every transformation.</p>
+
+<h2 id="units">Tracked artifacts, not just arbitrary tasks</h2>
+<p>Each tracked name connects source/content and one declared output. It may carry a custom script, pre/post hooks, completion prerequisites, ordinary file dependencies, minification policy and incremental state. In a custom build, content can be a small recipe descriptor but must exist; the script must produce the tracked output.</p>
+<pre><code class="language-plaintext">tracked source / inputs
+         ↓
+     pre-build
+         ↓
+custom build OR Nift render
+         ↓
+     post-build
+         ↓
+successful output + metadata</code></pre><p>Prerequisite edges form a DAG around those units. Pre and post failures fail the item; failed prerequisites block descendants while independent branches can continue. Output must exist before post runs, and successful metadata is committed after post succeeds.</p>
+
+<h2 id="graph">Completion order and invalidation are different</h2>
+<pre><code class="language-plaintext">generated-api → app-js ─┐
+styles ────────────────┼→ manifest
+images ────────────────┘</code></pre><p><code>depends</code> says which tracked builds must finish first. It does not rebuild a consumer merely because a prerequisite changed. Record the prerequisite output as an ordinary dependency when its bytes affect the consumer. Independent ready branches can run concurrently within the configured worker count. No exact start order is promised.</p>
+<p>Normal projects do not need a manually declared DAG for every page. Use <code>depends</code> only where completion order matters; existing file/content dependency tracking continues to handle ordinary incremental builds.</p>
+
+<h2 id="example">Complete working example</h2>
+<p>Download the <a href="@path('public/examples/build-systems.zip')">small build-system project</a>. It contains all configuration, inputs, scripts and ordinary dependency sidecars. It uses only native Nift features, so no bundler installation is needed.</p>
+<pre><code class="language-bash">unzip build-systems.zip
+cd build-systems
+nift build --all
+nift status -p
+nift info --tracking
+nift build</code></pre><p>The graph is <code>generated-api → app-js → manifest</code>. Its tracked entries are:</p>
+<pre><code class="language-json">{
+  &quot;tracked&quot;: [
+    {
+      &quot;name&quot;: &quot;generated-api&quot;,
+      &quot;title&quot;: &quot;API&quot;,
+      &quot;content-ext&quot;: &quot;.json&quot;,
+      &quot;output-ext&quot;: &quot;.json&quot;
+    },
+    {
+      &quot;name&quot;: &quot;app-js&quot;,
+      &quot;title&quot;: &quot;App&quot;,
+      &quot;output-ext&quot;: &quot;.js&quot;,
+      &quot;build&quot;: &quot;scripts/app.f&quot;,
+      &quot;depends&quot;: [
+        &quot;generated-api&quot;
+      ]
+    },
+    {
+      &quot;name&quot;: &quot;manifest&quot;,
+      &quot;title&quot;: &quot;Manifest&quot;,
+      &quot;output-ext&quot;: &quot;.json&quot;,
+      &quot;build&quot;: &quot;scripts/manifest.f&quot;,
+      &quot;depends&quot;: [
+        &quot;app-js&quot;
+      ]
+    }
+  ]
+}</code></pre><p><code>scripts/app.f</code> generates a valid classic JavaScript file from the API JSON and explicitly minifies its final text:</p>
+<pre><code class="language-nift">fn(read_text(path)) {
+    input := file(path)
+    input.open(&quot;r&quot;)
+    text := input.read()
+    input.close()
+    return text
+}
+
+source := &quot;const api = &quot; + read_text(&quot;public/generated-api.json&quot;) + &quot;;\nconsole.log(api.message);\n&quot;
+result := minify(source, &quot;js&quot;)
+if(!result.ok) { throw error(result.error, &quot;build.minify_failed&quot;) }
+out := file(getenv(&quot;NIFT_HOOK_OUTPUT&quot;))
+out.open(&quot;w&quot;)
+out.write(result.output)
+out.save()
+out.close()
+</code></pre><p><code>scripts/manifest.f</code> serializes a manifest using the completed output:</p>
+<pre><code class="language-nift">fn(read_text(path)) {
+    input := file(path)
+    input.open(&quot;r&quot;)
+    text := input.read()
+    input.close()
+    return text
+}
+
+app := read_text(&quot;public/app-js.js&quot;)
+data := {&quot;app&quot;: &quot;app-js.js&quot;, &quot;length&quot;: app.length()}
+out := file(getenv(&quot;NIFT_HOOK_OUTPUT&quot;))
+out.open(&quot;w&quot;)
+out.write(data.stringify())
+out.save()
+out.close()
+</code></pre><p>The project includes <code>content/app-js.deps.json</code> with <code>public/generated-api.json</code> and <code>content/manifest.deps.json</code> with <code>public/app-js.js</code>. Change the API message, run <code>nift build</code>, and the byte-dependent consumers can rebuild in the same invocation. Targeted <code>nift build manifest</code> includes its prerequisite closure; clean prerequisites are checked without unnecessary rendering.</p>
+
+<h2 id="inspect">Explain what needs building</h2>
+<pre><code class="language-bash">nift status -p
+nift info --tracking
+nift info --all
+nift build -p</code></pre><p><code>status -p</code> reports incremental reasons without changing output or success metadata. <code>info</code> inspects tracked/project state; it is not a promised graphical DAG viewer. Named artifacts, paths, scripts and explicit edges give people and coding agents a structured configuration to inspect.</p>
+
+<h2 id="make-ninja">Moving a Make/Ninja workflow</h2>
+<p>Nift overlaps Make/Ninja in prerequisites, incremental checks, custom commands and parallel graph scheduling. For suitable file-producing project graphs it can fill that orchestration role while retaining Nift’s tracked-artifact and website-processing model. This is not a claim of complete feature parity or measured scheduling superiority.</p>
+<ol><li>Inventory the actual output artifacts and their source inputs.</li><li>Give each declared output a tracked name and appropriate extensions.</li><li>Move its command into a native custom build script; retain the compiler or bundler.</li><li>Translate completion edges into <code>depends</code> and byte invalidation into ordinary file dependencies.</li><li>Check failure propagation, clean/incremental/target builds and output equivalence.</li><li>Measure the real project before choosing a replacement.</li></ol><p>There is no automatic arbitrary-Makefile converter. Phony tasks, dynamic dependency files, implicit rules, tool-specific caching and multiple-output rules need individual assessment; not every Make/Ninja semantic has a direct equivalent.</p>
+
+<h2 id="npm">From npm scripts and shell sequencing</h2>
+<p>Keep npm, pnpm or Bun as package managers and tool launchers. A tracked script can call a project’s existing compiler command while <code>depends</code> expresses sequencing between its file outputs. Replace hidden <code>build-css &amp;&amp; build-js &amp;&amp; make-manifest</code> sequencing with named output units when that makes the project easier to inspect. A package-manager invocation does not automatically expose all of its imported files to Nift: record the real inputs and tool configuration as ordinary dependencies.</p>
+
+<h2 id="next">Build the asset workflow</h2>
+<p>See <a href="@path('docs/asset-pipelines')">Asset pipelines</a> for CSS, JavaScript, image outputs, explicit final minification and a complete parallel example.</p>
+<p>Use <a href="@path('docs/tracked-json')">tracked.json</a>, <a href="@path('docs/build-scripts')">Build Scripts</a>, <a href="@path('docs/scripting')">native scripting</a>, <a href="@path('docs/user-dependencies')">ordinary file dependencies</a>, <a href="@path('docs/incremental-builds')">incremental state</a>, <a href="@path('docs/commands')">build/status/info commands</a>, <a href="@path('docs/scripting-filesystem')">filesystem APIs</a> and <a href="@path('docs/minification')">minification</a> for the exact mechanics.</p>
+
+</article>

@@ -57,4 +57,5 @@ output.close()</code></pre>
 <pre><code class="language-nift">if(!file(getenv(&quot;NIFT_HOOK_OUTPUT&quot;)).exists()) { throw error(&quot;Output missing&quot;) }
 print(&quot;Finished &quot; + getenv(&quot;NIFT_HOOK_TARGET&quot;))</code></pre>
 <p>Run <code>nift build search-index</code> to build/validate API first, then run all three search phases. Pre, build and post errors all propagate to the command status.</p>
-<p>See <a href="@path('docs/tracked-json')">tracked.json</a>, <a href="@path('docs/user-dependencies')">file dependencies</a> and <a href="@path('docs/scripting')">native scripting</a>.</p></article>
+<p>See <a href="@path('docs/tracked-json')">tracked.json</a>, <a href="@path('docs/user-dependencies')">file dependencies</a> and <a href="@path('docs/scripting')">native scripting</a>.</p><h2 id="build-workflows">Practical build workflows</h2><p>For unreleased v4.10 workflow examples, see <a href="@path('docs/build-systems')">General build systems</a> and <a href="@path('docs/asset-pipelines')">Asset pipelines</a>. This page retains the reference mechanics.</p>
+</article>

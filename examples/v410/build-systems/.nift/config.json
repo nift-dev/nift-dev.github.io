@@ -1,0 +1,12 @@
+{
+  "config": {
+    "content-dir": "content/",
+    "content-ext": ".txt",
+    "output-dir": "public/",
+    "output-ext": ".txt",
+    "default-template": "",
+    "build-threads": 4,
+    "incremental-mode": "hash",
+    "minify-exts": []
+  }
+}

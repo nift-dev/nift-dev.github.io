@@ -1,0 +1,141 @@
+<article class="docs-article">
+<p class="docs-kicker">Workflows &amp; patterns · unreleased v4.10</p>
+<h1>Asset pipelines.</h1>
+<p class="docs-lead">Put styles, scripts, images and generated data in one tracked build graph. Nift owns orchestration; specialist compilers and encoders can own each transformation.</p>
+<div class="docs-callout"><strong>Development-version workflow.</strong><p>These examples require the unreleased v4.10 <code>build</code> / <code>depends</code> features. Stable v4.9 does not provide this tracked-item contract.</p></div>
+<h2 id="model">One graph, several kinds of transformation</h2>
+<pre><code class="language-plaintext">styles ────────┐
+frontend-js ───┼→ asset-manifest → home
+images ────────┘</code></pre><p>The three asset branches are independent and can build concurrently. The manifest waits for them; the page waits for the manifest. Order-only edges do not replace file dependencies for invalidation. Use this pattern for icons, fonts, downloadable archives, search indexes, feeds/RSS, sitemaps and generated data as well as CSS and JavaScript. Format correctness still belongs to the appropriate serializer, compiler or encoder.</p>
+
+<h2 id="example">Complete native example</h2>
+<p>Download the <a href="@path('public/examples/asset-pipelines.zip')">complete asset-pipeline project</a>. It runs without external packages: CSS/SVG follow normal render/minification, two classic scripts are composed and explicitly minified, a JSON manifest records completed assets, and a page includes that manifest.</p>
+<pre><code class="language-bash">unzip asset-pipelines.zip
+cd asset-pipelines
+nift build --all
+nift status -p
+nift build home
+nift build</code></pre><pre><code class="language-plaintext">content/styles.css
+content/frontend-js.txt
+content/images.svg
+content/asset-manifest.txt
+content/home.html
+src/js/base.js
+src/js/app.js
+scripts/js.f
+scripts/manifest.f
+.nift/config.json
+.nift/tracked.json</code></pre><pre><code class="language-json">{
+  &quot;tracked&quot;: [
+    {
+      &quot;name&quot;: &quot;styles&quot;,
+      &quot;title&quot;: &quot;Styles&quot;,
+      &quot;content-ext&quot;: &quot;.css&quot;,
+      &quot;output-ext&quot;: &quot;.css&quot;,
+      &quot;minify&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;frontend-js&quot;,
+      &quot;title&quot;: &quot;Frontend&quot;,
+      &quot;output-ext&quot;: &quot;.js&quot;,
+      &quot;build&quot;: &quot;scripts/js.f&quot;
+    },
+    {
+      &quot;name&quot;: &quot;images&quot;,
+      &quot;title&quot;: &quot;Icon&quot;,
+      &quot;content-ext&quot;: &quot;.svg&quot;,
+      &quot;output-ext&quot;: &quot;.svg&quot;,
+      &quot;minify&quot;: true
+    },
+    {
+      &quot;name&quot;: &quot;asset-manifest&quot;,
+      &quot;title&quot;: &quot;Assets&quot;,
+      &quot;output-ext&quot;: &quot;.json&quot;,
+      &quot;build&quot;: &quot;scripts/manifest.f&quot;,
+      &quot;depends&quot;: [
+        &quot;styles&quot;,
+        &quot;frontend-js&quot;,
+        &quot;images&quot;
+      ]
+    },
+    {
+      &quot;name&quot;: &quot;home&quot;,
+      &quot;title&quot;: &quot;Home&quot;,
+      &quot;content-ext&quot;: &quot;.html&quot;,
+      &quot;output-ext&quot;: &quot;.html&quot;,
+      &quot;depends&quot;: [
+        &quot;asset-manifest&quot;
+      ]
+    }
+  ]
+}</code></pre><p>Every input, script and <code>.deps.json</code> sidecar is included in the archive. Change a CSS declaration or the JavaScript source and run an incremental build; the manifest and page consume the changed bytes. The SVG branch is a text pass-through/minification example, not an image encoder.</p>
+
+<h2 id="css">CSS: orchestrate a specialist or compose plain CSS</h2>
+<p>For authored CSS, normal Nift text composition and final CSS minification may be enough. Sass, PostCSS, Tailwind and Lightning CSS remain specialist transformations where the project needs them. For Sass, a custom build may use this script after the compiler is installed:</p>
+<pre><code class="language-nift">result := cmd(&quot;sass&quot;, &quot;src/styles/main.scss&quot;, getenv(&quot;NIFT_HOOK_OUTPUT&quot;)).cwd(getenv(&quot;NIFT_HOOK_ROOT&quot;)).run()
+if(!result.launched || result.exit_code != 0) {
+    throw error(&quot;Sass failed: &quot; + result.stderr, &quot;build.tool_failed&quot;)
+}
+optimized := minify(getenv(&quot;NIFT_HOOK_OUTPUT&quot;), {&quot;in_place&quot;: true})
+if(!optimized.ok) { throw error(optimized.error, &quot;build.minify_failed&quot;) }
+</code></pre><p>Use a <code>.css</code> tracked output, an existing content/recipe input, and ordinary dependencies for the stylesheet sources, imported files and compiler configuration. Nift does not infer a specialist’s import graph from its command. Ensure destination directories exist before invoking a compiler that does not create them; a custom build owns that preparation as well. Consult the <a href="https://sass-lang.com/documentation/cli/dart-sass/">Sass CLI reference</a> for its input/output contract.</p>
+
+<h2 id="javascript">JavaScript: composition and bundling have different jobs</h2>
+<p>The native example concatenates two deliberately compatible classic scripts in a fixed order. It does not resolve ES-module imports, compile TypeScript, split code, tree-shake, generate source maps or implement module semantics. For those jobs, orchestrate a specialist such as esbuild, Rollup or a Vite project build. Nift can own the bundling workflow even when a specialist performs the transformation.</p>
+<pre><code class="language-nift">result := cmd(&quot;./node_modules/.bin/esbuild&quot;, &quot;src/js/app.ts&quot;,
+              &quot;--bundle&quot;, &quot;--outfile=&quot; + getenv(&quot;NIFT_HOOK_OUTPUT&quot;)).cwd(getenv(&quot;NIFT_HOOK_ROOT&quot;)).run()
+if(!result.launched || result.exit_code != 0) {
+    throw error(&quot;Bundler failed: &quot; + result.stderr, &quot;build.tool_failed&quot;)
+}
+</code></pre><p>This example assumes a locally installed esbuild executable on a POSIX-style project. Use the appropriate executable path for your host. Keep source imports, configuration and relevant lockfiles in ordinary dependency metadata. Bundlers that emit chunks, maps or an asset directory need an explicit ownership/cleanup strategy; one tracked output does not automatically own every extra file. See <a href="https://esbuild.github.io/getting-started/">esbuild’s installation and bundling reference</a>.</p>
+
+<h2 id="images">Images and multiple formats</h2>
+<pre><code class="language-plaintext">src/images/hero.png
+   ├→ hero-webp (tracked .webp output)
+   └→ hero-avif (tracked .avif output)</code></pre><p>Use two tracked items when two formats should have separate declared outputs. Each can call the same image-encoding script, which takes the tracked output path from its item context:</p>
+<pre><code class="language-json">{
+  &quot;tracked&quot;: [
+    {
+      &quot;name&quot;: &quot;hero-webp&quot;,
+      &quot;title&quot;: &quot;Hero WebP&quot;,
+      &quot;build&quot;: &quot;scripts/image.f&quot;,
+      &quot;output-ext&quot;: &quot;.webp&quot;
+    },
+    {
+      &quot;name&quot;: &quot;hero-avif&quot;,
+      &quot;title&quot;: &quot;Hero AVIF&quot;,
+      &quot;build&quot;: &quot;scripts/image.f&quot;,
+      &quot;output-ext&quot;: &quot;.avif&quot;
+    }
+  ]
+}</code></pre><pre><code class="language-nift">result := cmd(&quot;magick&quot;, &quot;src/images/hero.png&quot;, getenv(&quot;NIFT_HOOK_OUTPUT&quot;)).cwd(getenv(&quot;NIFT_HOOK_ROOT&quot;)).run()
+if(!result.launched || result.exit_code != 0) {
+    throw error(&quot;Image encoding failed: &quot; + result.stderr, &quot;build.tool_failed&quot;)
+}
+</code></pre><p>Both items need content descriptors and ordinary dependencies for <code>src/images/hero.png</code>. ImageMagick must have the required <a href="https://imagemagick.org/formats/">format delegates</a>. Nift schedules the work; the encoder creates the pixels. The current tracked model declares one output per item. It has no <code>outputs: [...]</code> syntax. Scripts may create extra files, but Nift does not thereby promise individual tracking, cleanup or missing-output checks for an asset set.</p>
+
+<h2 id="minification">Final minification: opt in at the actual artifact boundary</h2>
+<p>For normal Nift rendering, project <code>minify-exts</code> selects formats and a tracked boolean <code>minify</code> overrides that choice. This small example uses no project-wide minification and opts styles/SVG in individually:</p>
+<pre><code class="language-json">{
+  &quot;config&quot;: {
+    &quot;content-dir&quot;: &quot;content/&quot;,
+    &quot;content-ext&quot;: &quot;.txt&quot;,
+    &quot;output-dir&quot;: &quot;public/&quot;,
+    &quot;output-ext&quot;: &quot;.txt&quot;,
+    &quot;default-template&quot;: &quot;&quot;,
+    &quot;build-threads&quot;: 4,
+    &quot;incremental-mode&quot;: &quot;hash&quot;,
+    &quot;minify-exts&quot;: []
+  }
+}</code></pre><p><code>minify: true</code> forces supported normal output minification; <code>false</code> disables it; omission follows the project array. Supported final formats include HTML, CSS, JS/JSX, JSON, XML and SVG. Nift does not compile SCSS or TypeScript by minifying them.</p>
+<p><strong>A custom <code>build</code> bypasses normal render and automatic minification, even if <code>minify: true</code> or the output extension is selected.</strong> Explicitly call <code>minify(...)</code> in the script or post-build phase when wanted, check <code>ok</code>, and fail the phase on error. If the specialist already optimizes its output, another pass is a project choice. The Sass recipe above shows an explicit in-place final pass; the native JavaScript example minifies before saving.</p>
+<p>The exact format behavior and configuration are in <a href="@path('docs/minification')">Minification</a>.</p>
+
+<h2 id="hooks">Hooks around real outputs</h2>
+<p>Use pre-build for preparation and post-build for validation or a deliberate final pass. Each phase has a fresh native scope; use files for cross-phase state. Check every specialist exit status—printing an error or returning a process-result object alone does not fail a script. <a href="@path('docs/build-scripts')">Build Scripts</a> defines precedence, context, output invariants and failure behavior.</p>
+
+<h2 id="inspect">Inspect and evolve the graph</h2>
+<p>Use <code>nift status -p</code> for incremental reasons, <code>nift info --tracking</code> for tracked state and <code>nift build -p</code> for build detail. Explicit names, scripts, outputs and prerequisites make automation inspectable without treating every tool as part of Nift. <a href="@path('docs/build-systems')">General build systems</a> explains migration from Make/Ninja and npm-script sequencing. This is an orchestration alternative, not a measured Make/Ninja performance claim.</p>
+<p>Use <a href="@path('docs/tracked-json')">tracked.json</a>, <a href="@path('docs/build-scripts')">Build Scripts</a>, <a href="@path('docs/scripting')">native scripting</a>, <a href="@path('docs/user-dependencies')">ordinary file dependencies</a>, <a href="@path('docs/incremental-builds')">incremental state</a>, <a href="@path('docs/commands')">build/status/info commands</a>, <a href="@path('docs/scripting-filesystem')">filesystem APIs</a> and <a href="@path('docs/minification')">minification</a> for the exact mechanics.</p>
+
+</article>

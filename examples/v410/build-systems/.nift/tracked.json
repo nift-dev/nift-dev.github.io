@@ -1,0 +1,28 @@
+{
+  "tracked": [
+    {
+      "name": "generated-api",
+      "title": "API",
+      "content-ext": ".json",
+      "output-ext": ".json"
+    },
+    {
+      "name": "app-js",
+      "title": "App",
+      "output-ext": ".js",
+      "build": "scripts/app.f",
+      "depends": [
+        "generated-api"
+      ]
+    },
+    {
+      "name": "manifest",
+      "title": "Manifest",
+      "output-ext": ".json",
+      "build": "scripts/manifest.f",
+      "depends": [
+        "app-js"
+      ]
+    }
+  ]
+}
