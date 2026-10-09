@@ -1,6 +1,6 @@
 # NIFT v4.10 — BUILD-SYSTEM WEBSITE DOCUMENTATION
 
-Runtime source verified: `c46c36e78176d37c50576eb184d2c41da3121276`. The workflow contract is unreleased v4.10 and both pages explicitly distinguish it from stable v4.9.
+Runtime source verified: `2eaec7d70e9ce2e698d0ba23a605fb9cf85317ff`. The workflow contract is unreleased v4.10 and both pages explicitly distinguish it from stable v4.9.
 
 ## Audit and information architecture
 

@@ -1,5 +1,5 @@
 from pathlib import Path
-import re,json,collections,zipfile,html
+import re,json,collections,zipfile,html,subprocess
 root=Path('/home/nick/Repositories/nift/nift-dev.github.io');out=root/'docs/evidence/v410-build-system-website';out.mkdir(parents=True,exist_ok=True)
 menu=(root/'templates/partials/docs-sidebar.html').read_text();inbound=collections.defaultdict(set)
 for folder in ['content','templates']:
@@ -24,5 +24,5 @@ for name in ['build-systems','asset-pipelines']:
  if name=='asset-pipelines':
   for recipe in (root/'examples/v410/recipes').glob('*.f'):assert recipe.read_text() in blocks,recipe
 (out/'docs-audit.json').write_text(json.dumps(rows,indent=2)+'\n')
-(out/'workflow-audit.json').write_text(json.dumps({'docs_pages':94,'new_pages':['General build systems','Asset pipelines'],'orphan_pages':0,'sitemap_urls':100,'site_search':'No site-wide search implementation/index exists; sitemap and navigation cover both pages','download_source_identity':'PASS','displayed_scripts_and_tracking_identity':'PASS','desktop_viewport':[1280,900],'mobile_viewport':[390,844],'document_widths':{'desktop':1265,'mobile':375},'mobile_menu':'PASS: both new links visible in expanded Workflows & patterns','native_runtime_head':'c46c36e78176'},indent=2)+'\n')
+(out/'workflow-audit.json').write_text(json.dumps({'docs_pages':94,'new_pages':['General build systems','Asset pipelines'],'orphan_pages':0,'sitemap_urls':100,'site_search':'No site-wide search implementation/index exists; sitemap and navigation cover both pages','download_source_identity':'PASS','displayed_scripts_and_tracking_identity':'PASS','desktop_viewport':[1280,900],'mobile_viewport':[390,844],'document_widths':{'desktop':1265,'mobile':375},'mobile_menu':'PASS: both new links visible in expanded Workflows & patterns','native_runtime_head':subprocess.check_output(['git','-C',str(root.parent/'nift'),'rev-parse','HEAD'],text=True).strip()},indent=2)+'\n')
 print('PASS 94-page orphan audit, two menu/sitemap entries, exact downloadable/source/script identity')

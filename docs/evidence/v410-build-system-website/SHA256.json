@@ -1,12 +1,12 @@
 {
-  "audit.py": "d93e0eec819535b3ae8a8e2f41ddb22e639c3de351e9b3450ebd692e604cc28d",
+  "audit.py": "3b68ebb164311a91480191e693c43a55dff4d2712fd3cd612fd0eca720a2c819",
   "check-examples.py": "cf625f72879ba400a0509825f218000f29864b6fa0472c6c9ce6caa36a5e3a55",
   "desktop-build-systems.jpg": "917014e7c3badb9d6ca7039f4f314889c7d48348fbc02e2ca1f12cc19c1ea2c1",
   "docs-audit.json": "79af36ddffcb9c0c4089f3be791a28db75d0a4cc7ac8ed80d701ba7a52a57943",
   "examples.log": "c7632c74c28258320c0e2be7559aa825af015e137e60b2a0c0739a3aca353af1",
   "mobile-asset-pipelines.jpg": "d263dc59ce84ecbbcd8c7a52aac859d091b42f0a911e0f53e2240e0b90b9d4ae",
-  "report.md": "0a7bc4294e1128fab8b0709d886c03b89bcacd13d287bdf0d5f9fe25f594b79e",
+  "report.md": "3bae1fbabac8469915d022bdf3b964dd9ec33f3a89cadd6eac9ade4aca1d1960",
   "site-build.log": "2b684384eee1c6a8be789e91d560e32f0e0c70e284098114f7a6d163db41e661",
   "site-checks.log": "a9173a57fd8280247eab80364aa14a4a48a29624ad00baa3d9f647d2b6c47f4f",
-  "workflow-audit.json": "f7fc3051c29c4317b3618fdcca76c97184514be22f2f50d8bcae850ca545903b"
+  "workflow-audit.json": "f9603c020d380070570adbbfbed9376d20fdb56ac075b7910e206f5a8f6e9032"
 }
