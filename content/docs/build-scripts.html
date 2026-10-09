@@ -1,0 +1,60 @@
+<article class="docs-article">
+<p class="docs-kicker">Project workflows · unreleased v4.10</p>
+<h1>Build Scripts</h1>
+<p>These features are part of unreleased v4.10 development.</p>
+<p>Per-item scripts run <code>pre-build</code> → custom <code>build</code> or normal render → <code>post-build</code>. A failed phase stops that item and all its later phases. A post failure fails the invocation; successful metadata is committed only after post succeeds. Independent DAG branches continue. Interrupted/partially written builds require <code>build --repair</code>.</p>
+<h2>Configuration and discovery</h2>
+<p><code>pre-build</code>, <code>build</code>, and <code>post-build</code> are optional non-empty project-local <code>.f</code> path strings in <code>.nift/tracked.json</code>. <code>build</code> replaces normal template/content rendering and minification. Its script must leave a regular file at the tracked output path; a missing output fails. It owns the output bytes. Content still exists and participates in incremental tracking.</p>
+<p>For <code>content/about.html</code>, canonical sidecars are:</p>
+<ul>
+<li><code>content/about.pre-build.f</code></li>
+<li><code>content/about.build.f</code></li>
+<li><code>content/about.post-build.f</code></li>
+</ul>
+<p>The content extension is replaced by the lifecycle suffix, including nested paths. An explicit field wins over discovery. Deprecated hyphenated pre/post sidecars remain a fallback. If dotted and hyphenated sidecars both exist without an explicit choice, loading fails with a diagnostic. Both are never executed automatically.</p>
+<p>Existing space-separated keys (<code>pre build</code>, <code>post build</code> and their mode-specific variants) remain supported with their existing additive matching. Configuring both spellings of one generic tracked hook is an error. Legacy hooks retain standalone process environment behavior and serialize affected builds. Project-level hooks in config.json retain their existing behavior.</p>
+<h2>Item script context</h2>
+<p>New fields and discovered sidecars use the existing native Parser with tracked item/project context. They may read/write project-local paths, import scripts and use the normal runtime. They cannot change process-global cwd/environment through standalone-only functions. Independent item scripts can therefore execute in parallel. Each phase has a fresh script scope; communicate across phases through files. <code>getenv()</code> and <code>env()</code> provide invocation-local values:</p>
+<div class="reference-table-wrap"><table class="reference-table">
+<tr><th>Variable</th><th>Value</th></tr>
+<tr><td>NIFT_HOOK_PHASE</td><td>pre-build, build or post-build</td></tr>
+<tr><td>NIFT_HOOK_MODE</td><td>all, updated, auto, repair or names</td></tr>
+<tr><td>NIFT_HOOK_TARGET</td><td>tracked name</td></tr>
+<tr><td>NIFT_HOOK_CONTENT</td><td>project-relative content path</td></tr>
+<tr><td>NIFT_HOOK_OUTPUT</td><td>project-relative output path</td></tr>
+<tr><td>NIFT_HOOK_TEMPLATE</td><td>configured template path, possibly empty</td></tr>
+<tr><td>NIFT_HOOK_ROOT</td><td>absolute project root</td></tr>
+</table></div>
+<p>Filesystem paths in these scripts resolve against the project root. The invoking process cwd is unchanged; external commands can select their cwd explicitly with <code>cmd(...).cwd(getenv(&quot;NIFT_HOOK_ROOT&quot;))</code>. Returned text does not become the output.</p>
+<h2>Completion dependencies</h2>
+<p><code>depends</code> is an optional array of exact tracked names. Missing names, self edges, duplicates and cycles are rejected before a build; cycle diagnostics show the path.</p>
+<p><code>nift build search-index</code> includes its prerequisite closure. Requested targets retain the existing forced targeted-build behavior; clean prerequisites are validated without rebuilding. Stale prerequisites build first. <code>build --all</code> builds the full graph; incremental and build-auto use the same scheduling path. Workers execute independent ready items concurrently with O(V+E) planning and no polling. Projects without depends use the existing atomic-index worker path with zero dependency-graph allocations.</p>
+<p><code>depends</code> orders completion; it does not invalidate a dependent when a prerequisite changes. Add the prerequisite output as an ordinary file dependency (for example with <code>\@dep</code> or <code>.deps.json</code>) when its bytes affect your output. Clean dependents are rechecked after prerequisites execute, so generated file changes can rebuild them in the same invocation. Renaming a prerequisite updates its references; removing one is rejected while retained tracked items depend on it. Failed prerequisites block descendants with an explicit diagnostic and do not commit descendant metadata.</p>
+<p>Scripts, content, script-import/file dependencies and structural script selection are recorded in incremental metadata. Added/removed sidecars, changed scripts, content, relevant tracked metadata and normal file/config dependencies can rebuild an item. Discovery is refreshed on each load, including build-auto passes.</p>
+<h2>Complete example</h2>
+<p>Tracked entries:</p>
+<pre><code class="language-json">{&quot;tracked&quot;:[
+  {&quot;name&quot;:&quot;api-index&quot;,&quot;title&quot;:&quot;API&quot;,&quot;build&quot;:&quot;scripts/api.f&quot;},
+  {&quot;name&quot;:&quot;search-index&quot;,&quot;title&quot;:&quot;Search&quot;, &quot;depends&quot;:[&quot;api-index&quot;],
+   &quot;pre-build&quot;:&quot;scripts/search-pre.f&quot;, &quot;build&quot;:&quot;scripts/search.f&quot;,
+   &quot;post-build&quot;:&quot;scripts/search-post.f&quot;}
+]}</code></pre>
+<p>Keep <code>content/api-index.html</code> and <code>content/search-index.html</code> as source inputs. The API script writes its tracked output using the same FileValue pattern below.</p>
+<p><code>scripts/search-pre.f</code>:</p>
+<pre><code class="language-nift">print(&quot;Preparing &quot; + getenv(&quot;NIFT_HOOK_TARGET&quot;))</code></pre>
+<p><code>scripts/search.f</code>:</p>
+<pre><code class="language-nift">input := file(&quot;public/api-index.html&quot;)
+input.open(&quot;r&quot;)
+api := input.read()
+input.close()
+output := file(getenv(&quot;NIFT_HOOK_OUTPUT&quot;))
+output.open(&quot;w&quot;)
+output.write(&quot;Search data: &quot; + api)
+output.save()
+output.close()</code></pre>
+<p>If API output bytes should invalidate search, add <code>public/api-index.html</code> to <code>content/search-index.deps.json</code> using the normal user-dependency format.</p>
+<p><code>scripts/search-post.f</code>:</p>
+<pre><code class="language-nift">if(!file(getenv(&quot;NIFT_HOOK_OUTPUT&quot;)).exists()) { throw error(&quot;Output missing&quot;) }
+print(&quot;Finished &quot; + getenv(&quot;NIFT_HOOK_TARGET&quot;))</code></pre>
+<p>Run <code>nift build search-index</code> to build/validate API first, then run all three search phases. Pre, build and post errors all propagate to the command status.</p>
+<p>See <a href="@path('docs/tracked-json')">tracked.json</a>, <a href="@path('docs/user-dependencies')">file dependencies</a> and <a href="@path('docs/scripting')">native scripting</a>.</p></article>

@@ -539,6 +539,11 @@
       "name": "docs/redesigns",
       "title": "Redesigns",
       "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/build-scripts",
+      "title": "Build Scripts",
+      "template": "templates/docs.html"
     }
   ]
 }

@@ -12,7 +12,7 @@
   "pagination-separator": "",
   "pagination-pages": 0,
   "project-fingerprint": "",
-  "hierarchy-fingerprint": "f84a2c5532726386",
+  "hierarchy-fingerprint": "b47b3219b937ce30",
   "dependencies": [
     ".nift/hierarchy.fingerprint",
     "content/docs/hierarchy.html",
@@ -37,6 +37,7 @@
     "public/docs/ai-opinion.html",
     "public/docs/architectural-rules.html",
     "public/docs/battle-tested.html",
+    "public/docs/build-scripts.html",
     "public/docs/collections.html",
     "public/docs/commands.html",
     "public/docs/comments.html",
