@@ -1,7 +1,7 @@
 <article class="docs-article">
-<p class="docs-kicker">Project workflows · unreleased v4.10</p>
+<p class="docs-kicker">Project workflows · v4.10</p>
 <h1>Build Scripts</h1>
-<p>These features are part of unreleased v4.10 development.</p>
+<p>These features are part of Nift v4.10.</p>
 <p>Per-item scripts run <code>pre-build</code> → custom <code>build</code> or normal render → <code>post-build</code>. A failed phase stops that item and all its later phases. A post failure fails the invocation; successful metadata is committed only after post succeeds. Independent DAG branches continue. Interrupted/partially written builds require <code>build --repair</code>.</p>
 <h2>Configuration and discovery</h2>
 <p><code>pre-build</code>, <code>build</code>, and <code>post-build</code> are optional non-empty project-local <code>.f</code> path strings in <code>.nift/tracked.json</code>. <code>build</code> replaces normal template/content rendering and minification. Its script must leave a regular file at the tracked output path; a missing output fails. It owns the output bytes. Content still exists and participates in incremental tracking.</p>
@@ -57,5 +57,5 @@ output.close()</code></pre>
 <pre><code class="language-nift">if(!file(getenv(&quot;NIFT_HOOK_OUTPUT&quot;)).exists()) { throw error(&quot;Output missing&quot;) }
 print(&quot;Finished &quot; + getenv(&quot;NIFT_HOOK_TARGET&quot;))</code></pre>
 <p>Run <code>nift build search-index</code> to build/validate API first, then run all three search phases. Pre, build and post errors all propagate to the command status.</p>
-<p>See <a href="@path('docs/tracked-json')">tracked.json</a>, <a href="@path('docs/user-dependencies')">file dependencies</a> and <a href="@path('docs/scripting')">native scripting</a>.</p><h2 id="build-workflows">Practical build workflows</h2><p>For unreleased v4.10 workflow examples, see <a href="@path('docs/build-systems')">General build systems</a> and <a href="@path('docs/asset-pipelines')">Asset pipelines</a>. This page retains the reference mechanics.</p>
+<p>See <a href="@path('docs/tracked-json')">tracked.json</a>, <a href="@path('docs/user-dependencies')">file dependencies</a> and <a href="@path('docs/scripting')">native scripting</a>.</p><h2 id="build-workflows">Practical build workflows</h2><p>For v4.10 workflow examples, see <a href="@path('docs/build-systems')">General build systems</a> and <a href="@path('docs/asset-pipelines')">Asset pipelines</a>. This page retains the reference mechanics.</p>
 </article>
