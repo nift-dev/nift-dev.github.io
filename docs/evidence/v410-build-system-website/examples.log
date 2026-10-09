@@ -4,4 +4,4 @@ PASS real external recipe sass .css
 PASS real external recipe magick .webp
 PASS real external recipe magick .avif
 PASS compiler exit failure propagation
-esbuild recipe: CLI syntax checked against official reference; executable unavailable locally, no bundler execution claim
+PASS real esbuild 0.28.2 TypeScript/module bundle, incremental import change, Node execution, compiler failure

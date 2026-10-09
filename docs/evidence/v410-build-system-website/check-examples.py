@@ -24,4 +24,14 @@ with tempfile.TemporaryDirectory(prefix='nift-workflow-example-') as tmp:
   run(p,'build','--all');assert (p/'public'/('asset'+ext)).stat().st_size>0;print('PASS real external recipe',tool,ext)
  # A process failure must fail the build and leave no successful item metadata.
  p=base/'sass.css';(p/'src/styles/main.scss').write_text('body { color: ; BROKEN');run(p,'build','--repair',ok=False);print('PASS compiler exit failure propagation')
-print('esbuild recipe: CLI syntax checked against official reference; executable unavailable locally, no bundler execution claim')
+ # Run the exact published local-executable recipe with the installed esbuild.
+ p=base/'esbuild';p.mkdir();(p/'.nift').mkdir();(p/'content').mkdir();(p/'scripts').mkdir();(p/'public').mkdir();(p/'node_modules/.bin').mkdir(parents=True);(p/'src/js').mkdir(parents=True)
+ (p/'node_modules/.bin/esbuild').symlink_to(shutil.which('esbuild'))
+ (p/'.nift/config.json').write_text(json.dumps({'config':{'content-dir':'content/','content-ext':'.txt','output-dir':'public/','output-ext':'.js','default-template':'','minify-exts':[]}}))
+ (p/'.nift/tracked.json').write_text(json.dumps({'tracked':[{'name':'app','title':'App','build':'scripts/build.f'}]}));(p/'content/app.txt').write_text('bundle recipe');(p/'content/app.deps.json').write_text(json.dumps({'dependencies':['src/js/app.ts','src/js/message.ts']}))
+ shutil.copyfile(root/'examples/v410/recipes/esbuild.f',p/'scripts/build.f')
+ (p/'src/js/message.ts').write_text('export const message: string = "bundled";\n');(p/'src/js/app.ts').write_text('import { message } from "./message"; console.log(message);\n')
+ run(p,'build','--all');bundle=p/'public/app.js';subprocess.run(['node','--check',str(bundle)],check=True,capture_output=True);assert subprocess.check_output(['node',str(bundle)],text=True).strip()=='bundled'
+ before=bundle.read_bytes();(p/'src/js/message.ts').write_text('export const message: string = "updated";\n');run(p,'build');assert bundle.read_bytes()!=before;assert subprocess.check_output(['node',str(bundle)],text=True).strip()=='updated'
+ (p/'src/js/app.ts').write_text('import { broken } from "./missing"; console.log(broken);');run(p,'build',ok=False)
+ print('PASS real esbuild',subprocess.check_output(['esbuild','--version'],text=True).strip(),'TypeScript/module bundle, incremental import change, Node execution, compiler failure')
