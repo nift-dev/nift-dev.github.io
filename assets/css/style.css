@@ -398,3 +398,9 @@ html[data-theme="light"] .about-closing-art p { color:#596873; border-left-color
 
 /* Keep mobile docs within the viewport; long code scrolls inside its pre. */
 @media(max-width:900px){.docs-layout{width:100%;min-width:0}}
+
+/* Keep the expanded primary navigation clear of the brand on narrow desktops. */
+@media (min-width:761px) and (max-width:1100px) {
+  .desktop-nav { display:none; }
+  .menu-toggle { display:block; }
+}
