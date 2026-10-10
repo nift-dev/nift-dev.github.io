@@ -38,7 +38,7 @@ public/contact.html left alone</code></pre>
       <thead><tr><th>Mode</th><th>Change signal</th><th>Best fit</th></tr></thead>
       <tbody>
         <tr><td><code>modified</code></td><td>A dependency's modification time is at or after the stored page-build metadata. Equal timestamps are treated as potentially stale and trigger a rebuild: coarse filesystem timestamp resolution can give an immediate edit the same mtime as the metadata write, and Nift must not report success while a source change went unnoticed.</td><td>Persistent local working trees where mtimes are cheap and meaningful.</td></tr>
-        <tr><td><code>hash</code></td><td>The dependency's current content hash differs from Nift's stored successful-build hash.</td><td>Fresh checkouts, CI/deployment runners, containers, restored workspaces and copied trees.</td></tr>
+        <tr><td><code>hash</code></td><td>The dependency's current content hash differs from this consumer's stored successful-build snapshot.</td><td>Fresh checkouts, CI/deployment runners, containers, restored workspaces and copied trees.</td></tr>
         <tr><td><code>hybrid</code></td><td>Rebuild when either the mtime check or content-hash check reports a change.</td><td>Workflows that want both signals and accept the cost of hashing dependencies.</td></tr>
       </tbody>
     </table>
@@ -68,6 +68,11 @@ checkout hash = Y  → content changed</code></pre>
 
   <h3 id="hash-state-is-build-state">Hash state is build state</h3>
   <p>Hash mode is strongest when the stored hashes from the last successful build cross the environment boundary too. If they are absent, Nift conservatively treats dependencies as changed and establishes fresh state during a successful build. In ephemeral CI, cache or restore the relevant <code>.nift</code> state when you want unchanged builds to retain their incremental advantage.</p>
+
+  <h3 id="per-consumer-snapshots">Per-consumer snapshots — v4.11</h3>
+  <p>Each hash/hybrid consumer retains the dependency state from its own successful build. Building one target after a shared dependency changes does not erase the older state of omitted targets: those consumers still rebuild when next selected. Nift-native dependency reads record the exact bytes consumed. Generated dependencies and targeted prerequisite closure retain the same tracking.</p>
+  <p>Old v4.10 metadata upgrades conservatively: hash/hybrid consumers rebuild once where a compatible snapshot is missing, then return to normal no-op behavior. <code>modified</code> remains timestamp-based. Preserve the relevant <code>.nift</code> consumer state when restoring caches; shared global hash files alone do not represent every consumer's history.</p>
+  <p>Keep declared inputs stable while an external command consumes them. Opaque external commands cannot report their exact read buffers; a dependency that changes and changes back during such a command is outside that contract. FileValue reads do not automatically declare dependencies: use <code>\@dep</code> or <code>.deps.json</code> when file bytes influence an output. These hashes detect changes in trusted projects; they are not cryptographic integrity checks.</p>
 
   <h2 id="why-it-feels-good-during-development">Why it feels good during development</h2>
   <div class="advanced-doc-grid">

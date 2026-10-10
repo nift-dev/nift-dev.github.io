@@ -210,8 +210,9 @@ benchmark evidence, testing claims, AI guidance, or downloads, reconcile this
 source before considering the product checkpoint complete. Internal refactors
 with no public effect normally require only a compatibility self-build.
 
-Current public product status is **Nift v4.5.0 released**, with the native
-scripting/runtime, concurrency, FFI, Engine and C ABI 1.1 supported. The
+Current public product status is **Nift v4.11.0 released**, including per-consumer
+incremental snapshots and cross-platform process hardening. Native scripting,
+concurrency, FFI, Engine and C ABI 1.3 are supported. The
 deliberate Checkpoints 0–10 hardening campaign remains the maintained baseline,
 with later language/runtime work covered by focused, sanitizer and
 cross-platform evidence. Current priorities are keeping command/version-sensitive
@@ -496,3 +497,16 @@ v4.9.0 is published at https://github.com/nift-dev/nift/releases/tag/v4.9.0.
 The install page identifies the current performance/hardening release; rewrite
 and redesign remain experimental workflows introduced in v4.8. Historical
 performance measurements remain qualified and are not official v4.9 results.
+
+
+## v4.11.0 release-status update — 10 October 2026
+
+v4.11.0 is published at https://github.com/nift-dev/nift/releases/tag/v4.11.0.
+The homepage metadata and install page identify that release. Incremental/build
+script docs describe per-consumer hash/hybrid history, conservative migration,
+explicit FileValue dependencies and the stable external-input contract. Process
+docs describe child-only overrides, fail-closed redirects, Unicode/capture fixes
+and platform limits. Commands are verified without introducing syntax changes.
+Trusted code wording remains explicit; no external ABA or sandbox claim is made.
+Frozen benchmark claims and performance evidence labels are unchanged. Build and
+publish generated main first, then authoritative stage with its matching gitlink.

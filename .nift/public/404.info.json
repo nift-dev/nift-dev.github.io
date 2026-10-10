@@ -25,5 +25,7 @@
     "public/index.html",
     "public/llms.txt",
     "public/sitemap.xml"
-  ]
+  ],
+  "dependency-hashes": {
+  }
 }

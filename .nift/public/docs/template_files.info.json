@@ -17,5 +17,7 @@
     "content/docs/template_files.html",
     "templates/legacy-template_files.html"
   ],
-  "reqs": []
+  "reqs": [],
+  "dependency-hashes": {
+  }
 }

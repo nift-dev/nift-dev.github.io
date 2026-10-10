@@ -17,5 +17,7 @@
     "content/agents.md",
     "templates/asset.txt"
   ],
-  "reqs": []
+  "reqs": [],
+  "dependency-hashes": {
+  }
 }

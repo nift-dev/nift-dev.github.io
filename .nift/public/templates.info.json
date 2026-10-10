@@ -60,5 +60,7 @@
     "public/templates/Pulse/index.html",
     "public/templates/Signal/index.html",
     "public/templates/Vault/index.html"
-  ]
+  ],
+  "dependency-hashes": {
+  }
 }

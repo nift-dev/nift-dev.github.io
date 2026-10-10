@@ -17,5 +17,7 @@
     "content/docs/ai-assistants.html",
     "templates/legacy-ai-assistants.html"
   ],
-  "reqs": []
+  "reqs": [],
+  "dependency-hashes": {
+  }
 }

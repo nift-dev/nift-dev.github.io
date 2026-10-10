@@ -34,5 +34,7 @@
     "public/privacy.html",
     "public/showcase.html",
     "public/templates.html"
-  ]
+  ],
+  "dependency-hashes": {
+  }
 }

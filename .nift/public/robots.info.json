@@ -17,5 +17,7 @@
     "content/robots.txt",
     "templates/asset.txt"
   ],
-  "reqs": []
+  "reqs": [],
+  "dependency-hashes": {
+  }
 }

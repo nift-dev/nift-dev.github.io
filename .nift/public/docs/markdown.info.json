@@ -17,5 +17,7 @@
     "content/docs/markdown.html",
     "templates/legacy-markdown.html"
   ],
-  "reqs": []
+  "reqs": [],
+  "dependency-hashes": {
+  }
 }

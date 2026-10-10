@@ -26,6 +26,9 @@
 <tr><td>NIFT_HOOK_ROOT</td><td>absolute project root</td></tr>
 </table></div>
 <p>Filesystem paths in these scripts resolve against the project root. The invoking process cwd is unchanged; external commands can select their cwd explicitly with <code>cmd(...).cwd(getenv(&quot;NIFT_HOOK_ROOT&quot;))</code>. Returned text does not become the output.</p>
+<h2>Dependency snapshots and trusted code — v4.11</h2>
+<p>Hash/hybrid consumers keep their own successful dependency snapshots, including declared generated inputs; a targeted build leaves omitted consumers' history intact. Declare FileValue inputs with <code>\@dep</code> or <code>.deps.json</code>: reading a FileValue does not automatically register a dependency. Keep declared external-command inputs stable during consumption. Old metadata without compatible snapshots rebuilds conservatively once; <code>modified</code> remains timestamp-based. See <a href="@path('docs/incremental-builds')">Incremental builds</a> for the contract.</p>
+<p>Templates, scripts, packages, imports and hooks are trusted project code running with the user's authority. Invocation-local API restrictions do not make Nift a sandbox for hostile repositories.</p>
 <h2>Completion dependencies</h2>
 <p><code>depends</code> is an optional array of exact tracked names. Missing names, self edges, duplicates and cycles are rejected before a build; cycle diagnostics show the path.</p>
 <p><code>nift build search-index</code> includes its prerequisite closure. Requested targets retain the existing forced targeted-build behavior; clean prerequisites are validated without rebuilding. Stale prerequisites build first. <code>build --all</code> builds the full graph; incremental and build-auto use the same scheduling path. Workers execute independent ready items concurrently with O(V+E) planning and no polling. Projects without depends use the existing atomic-index worker path with zero dependency-graph allocations.</p>

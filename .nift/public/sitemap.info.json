@@ -17,5 +17,7 @@
     "content/sitemap.xml",
     "templates/asset.txt"
   ],
-  "reqs": []
+  "reqs": [],
+  "dependency-hashes": {
+  }
 }
