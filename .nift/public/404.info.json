@@ -27,5 +27,6 @@
     "public/sitemap.xml"
   ],
   "dependency-hashes": {
-  }
+  },
+  "sidecar-state": {"version":1,"platform":"posix-lexical-v1","present":false,"bytes-hex":"","declaration-indices":[]}
 }

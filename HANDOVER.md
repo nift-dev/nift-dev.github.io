@@ -210,8 +210,9 @@ benchmark evidence, testing claims, AI guidance, or downloads, reconcile this
 source before considering the product checkpoint complete. Internal refactors
 with no public effect normally require only a compatibility self-build.
 
-Current public product status is **Nift v4.11.0 released**, including per-consumer
-incremental snapshots and cross-platform process hardening. Native scripting,
+Current public product status is **Nift v4.12.0 released**, including the
+prepared filesystem entry pipeline, a Linux single-snapshot statx metadata fast
+path and shrink-safety for prepared iterations. Native scripting,
 concurrency, FFI, Engine and C ABI 1.3 are supported. The
 deliberate Checkpoints 0–10 hardening campaign remains the maintained baseline,
 with later language/runtime work covered by focused, sanitizer and
@@ -509,4 +510,19 @@ docs describe child-only overrides, fail-closed redirects, Unicode/capture fixes
 and platform limits. Commands are verified without introducing syntax changes.
 Trusted code wording remains explicit; no external ABA or sandbox claim is made.
 Frozen benchmark claims and performance evidence labels are unchanged. Build and
+publish generated main first, then authoritative stage with its matching gitlink.
+
+
+## v4.12.0 release-status update — 15 October 2026
+
+v4.12.0 is published at https://github.com/nift-dev/nift/releases/tag/v4.12.0.
+The homepage metadata and install page identify that release. Filesystem and
+build docs describe the prepared entry pipeline and the Linux single-snapshot
+statx metadata fast path; compatibility wording records that public filesystem
+APIs, fresh-observation semantics and project/root path authority are unchanged,
+with portable fallbacks on other platforms. Correctness docs describe
+shrink-safety for prepared iterations and single completion of evaluated
+operands. Commands are verified without introducing syntax changes. Trusted code
+wording remains explicit; no external ABA or sandbox claim is made. Frozen
+benchmark claims and performance evidence labels are unchanged. Build and
 publish generated main first, then authoritative stage with its matching gitlink.
